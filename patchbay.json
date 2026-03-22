@@ -56,20 +56,31 @@
       "bottom": "Wing LCL In 18",
       "chain": "guitar",
       "active": true
-    },
+    }
   ],
   "chains": {
     "vocal": {
       "color": "blue",
-      "send": {"wing_out": 1, "source": "Bus 1"},
+      "pre_insert": {"fx_slot": 9, "model": "TAPE", "path": "/ch/1/preins/ins"},
+      "send": {"wing_out": 1, "source": "Bus 1", "io_out_in_index": 1},
       "return": {"wing_in": 17, "channel": 17},
       "gear": ["HA73 A", "WA76 A", "Opto"]
     },
     "guitar": {
       "color": "red",
-      "send": {"wing_out": 2, "source": "Bus 2"},
+      "pre_insert": {"fx_slot": 10, "model": "TAPE", "path": "/ch/2/preins/ins"},
+      "bus_pre_insert": {"fx_slot": 1, "model": "RACKAMP", "path": "/bus/2/preins/ins", "settings": {"pre": 7, "buzz": 2, "punch": 3, "crunch": 1, "drive": 1, "output": 8, "eq": "flat", "cab": "on"}},
+      "send": {"wing_out": 2, "source": "Bus 2", "io_out_in_index": 3},
       "return": {"wing_in": 18, "channel": 18},
       "gear": ["HA73 B", "WA76 B", "Distressor"]
     },
+    "reverb": {
+      "color": "green",
+      "bus": 3,
+      "pre_insert": {"fx_slot": 2, "model": "PLATE", "path": "/bus/3/preins/ins"},
+      "sources": ["Bus 1", "Bus 2"],
+      "destination": "Main 1",
+      "notes": "Shared reverb return. Bus 1 and Bus 2 send to Bus 3. Bus 3 assigned to Main 1."
+    }
   }
 }

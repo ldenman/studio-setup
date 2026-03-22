@@ -335,8 +335,9 @@ details table { font-size: 12px; }
   <h4>Model 12 Track Assignments (per project, via USB/Loopback)</h4>
   <table>
     <tr><th>Track</th><th>Source</th><th>Format</th></tr>
-    <tr><td>1</td><td>Current instrument dry (Wing USB Out 1 or 2)</td><td>Mono</td></tr>
-    <tr><td>2–6</td><td>Open for overdubs / alternate takes</td><td>Mono</td></tr>
+    <tr><td>1</td><td>Vocal Dry (Wing USB Out 1 / USR/1)</td><td>Mono</td></tr>
+    <tr><td>2</td><td>Guitar Dry (Wing USB Out 2 / USR/2)</td><td>Mono</td></tr>
+    <tr><td>3–6</td><td>Open for overdubs / alternate takes</td><td>Mono</td></tr>
     <tr><td>7/8</td><td>Open</td><td>Stereo</td></tr>
     <tr><td>9/10</td><td>Open</td><td>Stereo</td></tr>
     <tr><td>11/12</td><td>Rough mix (Wing USB Out 17/18 — Main L/R)</td><td>Stereo (always recording)</td></tr>
@@ -366,7 +367,7 @@ details table { font-size: 12px; }
   <details>
     <summary>Distressor — Compressor (Empirical Labs EL8)</summary>
     <div class="content">
-      <p>Single-channel compressor. Not in the default chain — patch via patchbay. Transformerless balanced I/O.</p>
+      <p>Single-channel compressor. In the default guitar chain after the WA76 B (P7–P8). Transformerless balanced I/O.</p>
       <p><strong>Controls:</strong> Input, Output, Attack, Release, Ratio (1:1 to NUKE), Detector HP, Dist 2 (tape), Dist 3 (tube)</p>
       <p><strong>I/O:</strong> XLR + 1/4" TRS input, XLR + 1/4" TRS output, 1/4" TRS stereo link</p>
     </div>
@@ -447,6 +448,8 @@ details table { font-size: 12px; }
         <div class="flow-arrow"></div>
         <div class="flow-node wing"><div class="name">Wing Ch 1</div><div class="detail">Vocal Dry — preamp gain stage</div></div>
         <div class="flow-arrow"></div>
+        <div class="flow-node wing"><div class="name">FX9 / TAPE</div><div class="detail">Pre-insert — tape saturation</div></div>
+        <div class="flow-arrow"></div>
         <div class="flow-node wing"><div class="name">Bus 1 → Out 1</div><div class="detail">Pre-fader send to patchbay</div></div>
         <div class="flow-arrow"></div>
         <div class="flow-node pb"><div class="name">P1</div></div>
@@ -472,6 +475,8 @@ details table { font-size: 12px; }
         <div class="flow-node"><div class="name">Guitar DI</div><div class="detail">Instrument in</div></div>
         <div class="flow-arrow"></div>
         <div class="flow-node wing"><div class="name">Wing Ch 2</div><div class="detail">Guitar Dry — preamp gain stage</div></div>
+        <div class="flow-arrow"></div>
+        <div class="flow-node wing"><div class="name">FX10 / TAPE</div><div class="detail">Pre-insert — tape saturation</div></div>
         <div class="flow-arrow"></div>
         <div class="flow-node wing"><div class="name">Bus 2 → Out 2</div><div class="detail">Pre-fader send to patchbay</div></div>
         <div class="flow-arrow"></div>

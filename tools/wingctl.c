@@ -231,15 +231,18 @@ static int cmd_node(const char *path) {
 // Channel meter data layout per channel: inL, inR, outL, outR, gateKey, gateGain, dynKey, dynGain
 // Each value is signed 16-bit big-endian, in 1/256th dB
 static int cmd_meter(const char *path) {
-    // Parse channel number from path like /ch/17
+    // Parse channel number from path like /ch/17 or "all"
     int ch = 0;
-    if (strncmp(path, "/ch/", 4) == 0) {
+    int show_all = 0;
+    if (strcmp(path, "all") == 0) {
+        show_all = 1;
+    } else if (strncmp(path, "/ch/", 4) == 0) {
         ch = atoi(path + 4);
     } else {
         ch = atoi(path);
     }
-    if (ch < 1 || ch > 40) {
-        fprintf(stderr, "error: channel must be 1-40, got %d\n", ch);
+    if (!show_all && (ch < 1 || ch > 40)) {
+        fprintf(stderr, "error: channel must be 1-40 or 'all', got %s\n", path);
         return 1;
     }
 
@@ -254,11 +257,16 @@ static int cmd_meter(const char *path) {
     }
 
     // Build meter request bitmap (30 bytes)
-    // Bytes 0-4 = channels 1-40 (5 bytes, 8 channels per byte)
     unsigned char mbits[30] = {0};
-    int byte_idx = (ch - 1) / 8;
-    int bit_idx = (ch - 1) % 8;
-    mbits[byte_idx] = (unsigned char)(1 << bit_idx);
+    if (show_all) {
+        // Request all 40 channels
+        mbits[0] = 0xFF; mbits[1] = 0xFF; mbits[2] = 0xFF;
+        mbits[3] = 0xFF; mbits[4] = 0xFF;
+    } else {
+        int byte_idx = (ch - 1) / 8;
+        int bit_idx = (ch - 1) % 8;
+        mbits[byte_idx] = (unsigned char)(1 << bit_idx);
+    }
 
     rc = wSetMetersRequest(1, mbits);
     if (rc != WSUCCESS) {
@@ -277,36 +285,40 @@ static int cmd_meter(const char *path) {
         return 1;
     }
 
+    fprintf(stderr, "received %d bytes\n", got);
+
     // Data format: <4 byte reqID> <meter data groups>
-    // Each channel has 8 x 16-bit values: inL, inR, outL, outR, gateKey, gateGain, dynKey, dynGain
-    // Skip 4-byte reqID
+    // Each channel: 8 x 16-bit big-endian signed (inL, inR, outL, outR, gateKey, gateGain, dynKey, dynGain)
     if (got < 4 + 16) {
         fprintf(stderr, "error: meter data too short (%d bytes)\n", got);
         wClose();
         return 1;
     }
 
-    // Dump raw bytes for debugging
-    fprintf(stderr, "raw (%d bytes):", got);
-    for (int i = 0; i < got && i < 40; i++) {
-        fprintf(stderr, " %02x", buf[i]);
-    }
-    fprintf(stderr, "\n");
-
     unsigned char *mdata = buf + 4; // skip reqID
-    // Each meter is 2 bytes big-endian signed
-    int16_t inL  = (int16_t)((mdata[0] << 8) | mdata[1]);
-    int16_t inR  = (int16_t)((mdata[2] << 8) | mdata[3]);
-    int16_t outL = (int16_t)((mdata[4] << 8) | mdata[5]);
-    int16_t outR = (int16_t)((mdata[6] << 8) | mdata[7]);
+    int num_channels = (got - 4) / 16;
 
-    float inL_dB  = inL / 256.0f;
-    float inR_dB  = inR / 256.0f;
-    float outL_dB = outL / 256.0f;
-    float outR_dB = outR / 256.0f;
-
-    printf("ch%d inL=%.1fdB inR=%.1fdB outL=%.1fdB outR=%.1fdB\n",
-           ch, inL_dB, inR_dB, outL_dB, outR_dB);
+    if (show_all) {
+        int ch_num = 1;
+        for (int i = 0; i < num_channels && i < 40; i++) {
+            int off = i * 16;
+            int16_t inL  = (int16_t)((mdata[off] << 8) | mdata[off+1]);
+            int16_t outL = (int16_t)((mdata[off+4] << 8) | mdata[off+5]);
+            float inL_dB  = inL / 256.0f;
+            float outL_dB = outL / 256.0f;
+            // Show all channels, mark ones with signal
+            char marker = (inL_dB > -90 || outL_dB > -90) ? '*' : ' ';
+            printf("%c ch%-2d  in=%.1fdB  out=%.1fdB\n", marker, ch_num, inL_dB, outL_dB);
+            ch_num++;
+        }
+    } else {
+        int16_t inL  = (int16_t)((mdata[0] << 8) | mdata[1]);
+        int16_t inR  = (int16_t)((mdata[2] << 8) | mdata[3]);
+        int16_t outL = (int16_t)((mdata[4] << 8) | mdata[5]);
+        int16_t outR = (int16_t)((mdata[6] << 8) | mdata[7]);
+        printf("ch%d inL=%.1fdB inR=%.1fdB outL=%.1fdB outR=%.1fdB\n",
+               ch, inL / 256.0f, inR / 256.0f, outL / 256.0f, outR / 256.0f);
+    }
 
     wClose();
     return 0;

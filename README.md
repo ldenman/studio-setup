@@ -95,10 +95,10 @@ The mixer where everything flows. Low-latency effects processing, always-on oper
 | 4   | XLR            | Analog Out 4   | Open       |                       |
 | 5   | XLR            | Analog Out 5   | Open       |                       |
 | 6   | XLR            | Analog Out 6   | Open       |                       |
-| 7   | XLR            | Analog Out 7   | Open       |                       |
-| 8   | XLR            | Analog Out 8   | Open       |                       |
-| L   | XLR            | Main 1 L       | **In use** | Speakers (L)          |
-| R   | XLR            | Main 1 R       | **In use** | Speakers (R)          |
+| 7   | XLR            | Analog Out 7   | **In use** | Speakers (L) — sourced from MX1 (monitor phones output) |
+| 8   | XLR            | Analog Out 8   | **In use** | Speakers (R) — sourced from MX1 (monitor phones output) |
+| L   | XLR            | Main 1 L       | Open       | (not connected to speakers — see Out 7/8) |
+| R   | XLR            | Main 1 R       | Open       | (not connected to speakers — see Out 7/8) |
 | 1-8 | 1/4" TRS       | AUX Out 1-8    | Open       |                       |
 
 #### Digital / Network (Back Panel)
@@ -250,8 +250,9 @@ Digital tape machine, mixer, and USB audio interface. 12-in/10-out USB interface
 
 | Track | Source                                   | Format  |
 | ----- | ---------------------------------------- | ------- |
-| 1     | Current instrument dry (Wing USB Out 1 or 2) | Mono |
-| 2-6   | Open for overdubs / alternate takes      | Mono    |
+| 1     | Vocal Dry (Wing USB Out 1 / USR/1)       | Mono    |
+| 2     | Guitar Dry (Wing USB Out 2 / USR/2)      | Mono    |
+| 3-6   | Open for overdubs / alternate takes      | Mono    |
 | 7/8   | Open                                     | Stereo  |
 | 9/10  | Open                                     | Stereo  |
 | 11/12 | Rough mix (Wing USB Out 17/18, Main L/R) | Stereo (always recording) |
@@ -270,8 +271,8 @@ Digital tape machine, mixer, and USB audio interface. 12-in/10-out USB interface
 
 | From                                     | To                              |
 | ---------------------------------------- | ------------------------------- |
-| Wing USB Out 1 (USR/1 — Vocal Dry)       | Model 12 Track 1 (when tracking vocals) |
-| Wing USB Out 2 (USR/2 — Guitar Dry)      | Model 12 Track 1 (when tracking guitar) |
+| Wing USB Out 1 (USR/1 — Vocal Dry)       | Model 12 Track 1 (dry vocal)    |
+| Wing USB Out 2 (USR/2 — Guitar Dry)      | Model 12 Track 2 (dry guitar)   |
 | Wing USB Out 17 (Main 1 L)               | Model 12 Track 11 (rough mix L) |
 | Wing USB Out 18 (Main 1 R)               | Model 12 Track 12 (rough mix R) |
 | Model 12 USB Stereo Out L                | Wing Rack USB (Monitoring L)    |
@@ -281,9 +282,9 @@ Digital tape machine, mixer, and USB audio interface. 12-in/10-out USB interface
 
 ## Signal Chains (Default/Normalled)
 
-**Vocal:** Mic → Wing LCL/1 (ch1 dry, preamp gain) → Bus 1 → Wing Out 1 → P1 → HA73 A → P2 → WA76 A → P3 → Opto → P4 → Wing LCL/17 → Ch17 (Vocal Processed)
+**Vocal:** Mic → Wing LCL/1 (ch1 dry, preamp gain) → FX9/TAPE (pre-insert) → Bus 1 → Wing Out 1 → P1 → HA73 A → P2 → WA76 A → P3 → Opto → P4 → Wing LCL/17 → Ch17 (Vocal Processed)
 
-**Guitar:** DI → Wing LCL/2 (ch2 dry, preamp gain) → Bus 2 → Wing Out 2 → P5 → HA73 B → P6 → WA76 B → P7 → Distressor → P8 → Wing LCL/18 → Ch18 (Guitar Processed)
+**Guitar:** DI → Wing LCL/2 (ch2 dry, preamp gain) → FX10/TAPE (pre-insert) → Bus 2 → FX1/RACKAMP (Bus 2 pre-insert) → Wing Out 2 → P5 → HA73 B → P6 → WA76 B → P7 → Distressor → P8 → Wing LCL/18 → Ch18 (Guitar Processed)
 
 ## Gear Notes
 

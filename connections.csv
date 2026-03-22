@@ -17,10 +17,15 @@ Wing Rack Channels,WR-15,,,Wing Rack,Channel 15,,,Open
 Wing Rack Channels,WR-16,,,Wing Rack,Channel 16,,,Open
 Wing Rack Channels,WR-17,Patchbay,Point 4 bottom (Opto Out),Wing Rack,Channel 17 (Vocal Processed),Local,,LCL/17 — outboard return
 Wing Rack Channels,WR-18,Patchbay,Point 8 bottom (Distressor Out),Wing Rack,Channel 18 (Guitar Processed),Local,,LCL/18 — outboard return
-Wing Rack Buses,BUS-1,Wing Ch1 (Vocal Dry),Pre-fader send,Wing Out 1,Bus 1 send,Internal,,Pre-fader at 0dB — feeds vocal outboard chain
-Wing Rack Buses,BUS-2,Wing Ch2 (Guitar Dry),Pre-fader send,Wing Out 2,Bus 2 send,Internal,,Pre-fader at 0dB — feeds guitar outboard chain
-Wing Rack USR,USR-1,Wing Ch1,PRE tap,USR/1 (Vocal Dry),Wing USB Out 1,Internal,,Dry vocal to USB for recording
-Wing Rack USR,USR-2,Wing Ch2,PRE tap,USR/2 (Guitar Dry),Wing USB Out 2,Internal,,Dry guitar to USB for recording
+Wing Rack Buses,BUS-1,Wing Ch1 (Vocal Dry),Pre-fader send,Wing Out 1,Bus 1 send (io/out/LCL/1 in=1),Internal,,Pre-fader at 0dB — feeds vocal outboard chain; out `in` index=1 (Bus 1L)
+Wing Rack Buses,BUS-2,Wing Ch2 (Guitar Dry),Pre-fader send,Wing Out 2,Bus 2 send (io/out/LCL/2 in=3),Internal,,Pre-fader at 0dB — feeds guitar outboard chain; out `in` index=3 (Bus 2L)
+Wing Rack Buses,BUS-3,Bus 1 + Bus 2 sends,Verb return,Bus 3 (Main only),FX2/PLATE pre-insert,Internal,,Shared reverb bus; Bus 1 and Bus 2 send to Bus 3; assigned to Main 1
+Wing Rack FX,FX-1,Bus 2,Pre-insert,FX1 (RACKAMP),Bus 2 pre-insert,Internal,,Acoustic guitar amp sim on guitar send — pre 7 buzz 2 punch 3 crunch 1 drive 1 output 8 cab on
+Wing Rack FX,FX-9,Wing Ch1,Pre-insert,FX9 (TAPE),Ch1 pre-insert,Internal,,Tape saturation on dry vocal before outboard send
+Wing Rack FX,FX-10,Wing Ch2,Pre-insert,FX10 (TAPE),Ch2 pre-insert,Internal,,Tape saturation on dry guitar before outboard send
+Wing Rack FX,FX-2,Bus 3,Pre-insert,FX2 (PLATE),Bus 3 pre-insert,Internal,,Shared plate reverb return
+Wing Rack USR,USR-1,Wing Ch1,PRE tap,USR/1 (Vocal Dry),Wing USB Out 1,Internal,,Dry vocal to USB Out 1 — records to Model 12 Track 1
+Wing Rack USR,USR-2,Wing Ch2,PRE tap,USR/2 (Guitar Dry),Wing USB Out 2,Internal,,Dry guitar to USB Out 2 — records to Model 12 Track 2
 Patchbay,PB-1,Wing Rack,LCL Out 1 (Bus 1),HA73-EQX2,Channel A Input,Normalled,,Vocal chain
 Patchbay,PB-2,HA73-EQX2,Channel A Output,WA76,Channel A Input,Normalled,,Vocal chain
 Patchbay,PB-3,WA76,Channel A Output,Audioscape Opto,Input,Normalled,,Vocal chain
@@ -45,12 +50,13 @@ Patchbay,PB-21,,,,,,,Open
 Patchbay,PB-22,,,,,,,Open
 Patchbay,PB-23,,,,,,,Open
 Patchbay,PB-24,,,,,,,Open
-USB Routing,USB-1,Wing Rack,USB Out 1 (USR/1 Vocal Dry),Model 12,Track 1,Software,,Via Loopback — use when tracking vocals
-USB Routing,USB-2,Wing Rack,USB Out 2 (USR/2 Guitar Dry),Model 12,Track 1,Software,,Via Loopback — use when tracking guitar
+USB Routing,USB-1,Wing Rack,USB Out 1 (USR/1 Vocal Dry),Model 12,Track 1,Software,,Via Loopback — dry vocal (simultaneous with USB-2)
+USB Routing,USB-2,Wing Rack,USB Out 2 (USR/2 Guitar Dry),Model 12,Track 2,Software,,Via Loopback — dry guitar (simultaneous with USB-1)
 USB Routing,USB-17,Wing Rack,USB Out 17 (Main 1 L),Model 12,Track 11,Software,,Via Loopback — rough mix L always recording
 USB Routing,USB-18,Wing Rack,USB Out 18 (Main 1 R),Model 12,Track 12,Software,,Via Loopback — rough mix R always recording
 USB Routing,USB-MON-L,Model 12,Stereo Out L,Wing Rack,USB (Monitoring L),Software,,Via Loopback
 USB Routing,USB-MON-R,Model 12,Stereo Out R,Wing Rack,USB (Monitoring R),Software,,Via Loopback
+Wing Rack Routing,MX1-MON,Wing Monitor Section (MON.PH),Direct input,MX1 (Matrix 1),,Internal,,/mtx/1/dir/in=MON.PH — enables solo through speakers; Main 1 send to MX1 is OFF
 Physical Cables,PHY-1,Wing Rack,Analog Out 1 (XLR),Patchbay,Point 1 Top,XLR,,Back-of-rack — permanent
 Physical Cables,PHY-2,Wing Rack,Analog Out 2 (XLR),Patchbay,Point 5 Top,XLR,,Back-of-rack — permanent
 Physical Cables,PHY-3,HA73-EQX2,Channel A Input (XLR),Patchbay,Point 1 Bottom,XLR,,Back-of-rack — permanent
@@ -69,5 +75,5 @@ Physical Cables,PHY-15,Distressor,Output (XLR),Patchbay,Point 8 Top,XLR,,Back-of
 Physical Cables,PHY-16,Wing Rack,LCL In 18 (TRS),Patchbay,Point 8 Bottom,TRS,,Back-of-rack — permanent
 Physical Cables,PHY-17,Wing Rack,Input 1 (XLR/TRS),Vocal Mic,,XLR,,Direct — no patchbay
 Physical Cables,PHY-18,Wing Rack,Input 2 (XLR/TRS),Guitar DI,,XLR/TS,,Direct — no patchbay
-Physical Cables,PHY-19,Wing Rack,Main L (XLR),Speakers,L,XLR,,Control room monitors
-Physical Cables,PHY-20,Wing Rack,Main R (XLR),Speakers,R,XLR,,Control room monitors
+Physical Cables,PHY-19,Wing Rack,Analog Out 7 (XLR — MTX/1 L),Speakers,L,XLR,,Control room monitors — sourced from MX1 (MON.PH direct input) not Main 1
+Physical Cables,PHY-20,Wing Rack,Analog Out 8 (XLR — MTX/1 R),Speakers,R,XLR,,Control room monitors — sourced from MX1 (MON.PH direct input) not Main 1

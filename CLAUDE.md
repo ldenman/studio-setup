@@ -32,7 +32,7 @@ You are Lake's studio engineer. You know the studio inside and out — every pie
 | Bus | Name        | Output    | Output `in` | Purpose |
 |-----|-------------|-----------|-------------|---------|
 | 1   | Vocal Send  | Wing Out 1 | 1 (Bus 1L) | Pre-fader send from Ch1 → outboard vocal chain (P1-P4) |
-| 2   | Guitar Send | Wing Out 2 | 3 (Bus 2L) | Pre-fader send from Ch2 → outboard guitar chain (P5-P8), Deluxe amp sim on pre-insert |
+| 2   | Guitar Send | Wing Out 2 | 3 (Bus 2L) | Pre-fader send from Ch2 → outboard guitar chain (P5-P8), RACKAMP amp sim on pre-insert |
 | 3-16 | Open       |           |             |         |
 
 ## USR Routing (Virtual Patchbay)
@@ -101,7 +101,7 @@ Patchbay (normalled, P1-P4):
 
 Wing routing:
 - Ch2: LCL/2, pre-insert FX10 (TAPE), send to Bus 2 (pre-fader, 0dB), NOT assigned to main (dry monitoring off by default)
-- Bus 2: fader 0dB, unmuted, pre-insert FX1 (DELUXE amp sim)
+- Bus 2: fader 0dB, unmuted, pre-insert FX1 (RACKAMP — acoustic guitar amp sim: pre 7, buzz 2, punch 3, crunch 1, drive 1, output 8, EQ flat, cab on)
 - Wing Out 2: sourced from Bus 2 (in=3, Bus 2L)
 - Ch18: LCL/18 (outboard return), fader -12dB, assigned to Main 1
 
@@ -230,6 +230,10 @@ tools/wingctl set /io/in/USR/1/user/grp CH
 tools/wingctl node /io/in/USR/1
 # → .mode=M,mute=0,col=2,name=Vocal LA2A,...,user.grp=CH,in=3,tap=PRE,lr=L+R,
 
+# Read live meter levels
+tools/wingctl meter all          # → all channels, e.g. ch(1)=-18.3 ch(2)=-inf ...
+tools/wingctl meter /ch/17       # → single channel (may show stale data — use `all` for reliable reads)
+
 # Connection info
 tools/wingctl info
 ```
@@ -248,6 +252,7 @@ tools/wingctl info
 - **Read dynamics state:** `wingctl gets /ch/5/dyn/mdl` + `wingctl geti /ch/5/dyn/on` to confirm plugin and enable state
 - **Discover parameters:** `wingctl node /ch/1` dumps every parameter on the channel — useful when you're not sure what path controls something
 - **Set user signal routing:** `wingctl set /io/in/USR/N/user/grp CH` — the wapi path works where OSC doesn't expose the `/io/out/user` tree
+- **Read live levels:** `wingctl meter all` — real-time output levels across all channels via the wapi meter API. Use this for level matching A/B paths. `wingctl meter /ch/N` works but may return stale data; always prefer `all`.
 
 **Environment:** Set `WING_IP` to override the default `192.168.2.2`.
 
@@ -426,6 +431,30 @@ Channel Strips: \*EVEN\* (Neve), \*SOUL\* (SSL), \*VINTAGE\*, \*BUS\*, \*MASTER\
 - "compare dry vs processed guitar" → alternate muting ch1 and ch2 on a timer (every 2s)
 - "compare dry vs processed vocals" → same for ch3 and ch4
 - "stop comparing" → restore both channels to previous state
+
+#### A/B Testing Hardware vs Plugin (e.g., Opto vs Wing LA-2A)
+
+The key challenge: both paths must receive the **same clean source** and be **level matched**. If the plugin is on the source channel, it colors the signal feeding the hardware too.
+
+**Setup (using bass → Opto as example):**
+1. **Source channel (Ch9)**: receives USB/9 (bass). Dynamics OFF. Sends to Bus 1 pre-fader for hardware path. NOT assigned to main.
+2. **Hardware return (Ch17)**: receives from outboard chain via Bus 1 → Out 1 → patchbay → outboard → LCL/17. Assigned to main.
+3. **Plugin channel (Ch19)**: receives same USB/9 source directly (`/ch/19/in/conn/grp s "USB"`, `/ch/19/in/conn/in i 9`). Wing LA-2A enabled (`/ch/19/dyn/mdl s "LA"`, `/ch/19/dyn/on i 1`). Assigned to main.
+4. **Kill crosstalk**: turn off Bus 1 → Bus 3 send so bass doesn't leak through the reverb bus to main.
+
+**Why not use USR routing?** USR works but gives you less control. Having both Ch9 and Ch19 on USB/9 directly means independent trim/gain on each.
+
+**Why not put the plugin on Ch9?** The pre-fader send tap (`ptap`) is after dynamics processing on the Wing. Any plugin on Ch9 colors the signal going to the hardware — not a fair test.
+
+**Level matching:**
+- Use `wingctl meter all` to read output levels on both channels
+- Adjust faders until outputs are within 0.5dB
+- Re-check multiple times — dynamic material fluctuates
+- Louder always sounds "better" so this step is critical
+
+**A/B by soloing:** Solo Ch17 for hardware, solo Ch19 for plugin. Requires monitor section routed through MX1 (see Monitor Section docs) so solo works through speakers.
+
+**Blind test:** Use a Python script to randomly solo one channel, save the answer to a file, then check after guessing.
 
 ### DCA Groups (/dca/N/...)
 8 DCAs available for group volume control without affecting processing.
@@ -754,6 +783,8 @@ Trigger Wing scenes from scripts for setlist-based workflows.
 Critical for honest comparisons — louder always sounds "better."
 - "level match dry and processed guitar" → query fader levels on ch1 and ch2, adjust so they produce the same perceived volume (processed is usually louder due to compression — drop ch2 a few dB)
 - "level match the reference" → when A/B-ing against a reference track, match RMS levels before comparing
+- Use `wingctl meter all` to get live output levels across all channels — adjust faders until matched within 0.5dB
+- Take multiple readings (dynamic material fluctuates) — `for i in 1 2 3; do wingctl meter all | grep "ch(17|19)"; sleep 1; done`
 
 ### Metering and Analysis
 - "how hot is the vocal?" → query the channel fader and trim, report the gain structure
@@ -844,9 +875,18 @@ Control room monitoring with dedicated controls.
 - "change monitor source" → `/cfg/mon/1/src s "MAIN.1"` — or route from a bus/matrix
 - "monitor delay" → `/cfg/mon/1/dly/on i 1`, `/cfg/mon/1/dly/m f 3.0` — 3 meters delay for time-aligned monitors
 - "solo mode" → `/cfg/solo/mode s "LIVE"`, `/cfg/solo/chtap s "PFL"` or `"AFL"`
-- "mute speakers, keep headphones" → `/mtx/1/mute i 1`. Speakers are routed through Matrix 1 (Main 1 → MX1 → Out 7/8). Muting the matrix kills speakers without affecting headphones (which tap from the monitor section internally).
+- "mute speakers, keep headphones" → `/mtx/1/mute i 1`. Muting the matrix kills speakers without affecting headphones.
 - "restore speakers" → `/mtx/1/mute i 0`
-- Speaker routing: Main 1 send → MX1 (fader 0dB) → Wing Out 7 + Out 8 (both from MTX/1) → Speakers (direct wired, not through patchbay)
+
+**Speaker routing (current):** Monitor section (MON.PH) → MX1 direct input → Wing Out 7 + Out 8 (both from MTX/1) → Speakers (direct wired, not through patchbay)
+
+MX1 sources from the monitor phone output via direct input (`/mtx/1/dir/on i 1`, `/mtx/1/dir/in s "MON.PH"`). The Main 1 → MX1 send is **off**. This ensures solo works through speakers — when you solo a channel, the monitor section switches to the solo bus, and MX1 follows.
+
+**Monitor direct input source values:**
+- `MON.SPK` — monitor speaker output
+- `MON.PH` — monitor phones output (current setting — needed for solo to work through speakers)
+
+**Note:** `/cfg/mon/...` and `/cfg/solo/...` paths are not accessible via wapi (TCP). Use oscsend for fire-and-forget, or configure on the Wing touchscreen.
 
 ### Mute Groups (/mgrp/N/...)
 8 mute groups for instant muting of assigned channels.
