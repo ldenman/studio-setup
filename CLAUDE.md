@@ -85,6 +85,21 @@ The Wing handles:
 
 The Model 12 always records 11/12 as the stereo mixdown. Each new project imports the previous mixdown and layers the next instrument on top.
 
+## Transport Sync (Model 12 → Logic)
+
+The Model 12 is the **master**. It sends MTC (MIDI Timecode) and MIDI clock to Logic Pro via USB MIDI. Logic slaves to the Model 12's transport — press play on the Model 12 and Logic follows.
+
+**Why this matters:** The Model 12 is the tape machine. It controls when recording starts and stops. Logic just provides the session players (bass, keys, synth, drums) as a backing track. The Model 12 owns the timeline.
+
+**Critical Logic setting:** File → Project Settings → Synchronization → General → **"Bar Position 1 1 1 1 plays at SMPTE"** must be set to **`00:00:00:00.00`**. The default is `01:00:00:00` (1-hour offset, an old SMPTE convention). The Model 12 sends MTC starting at `00:00:00:00`, so if Logic has the 1-hour offset, it calculates the incoming timecode as negative bars (e.g., bar -9) because it thinks bar 1 hasn't happened yet. Setting it to `00:00:00:00.00` aligns them.
+
+**Other Logic sync settings (File → Project Settings → Synchronization → MIDI tab):**
+- Listen to MMC input: ON
+- Clock Start at position: 1 1 1 1
+- Sync button in transport: Auto Sync In enabled
+
+**If Logic jumps to negative bars when Model 12 starts:** Check the SMPTE offset — it's almost certainly drifted from `00:00:00:00.00`.
+
 ## Model 12 Track Assignments (per project)
 
 | Track | Source | Format |
