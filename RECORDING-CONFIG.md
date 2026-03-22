@@ -4,38 +4,47 @@ All gear is permanently wired into the patchbay. Default guitar and vocal chains
 
 ## Behringer Wing Rack -- Channel Assignments
 
-| Channel | Name             | Source          |
-| ------- | ---------------- | --------------- |
-| 1       | Guitar Dry       | Local           |
-| 2       | Guitar Processed | Local           |
-| 3       | Vocal Dry        | Local           |
-| 4       | Vocal Processed  | Local           |
-| 5       |                  | Local           |
-| 6       |                  | Local           |
-| 7       |                  | Local           |
-| 8       |                  | Local           |
-| 9       | Bass             | DAW / Session   |
-| 10      | Keyboard         | DAW / Session   |
-| 11      | Synth/Piano L    | DAW / Session   |
-| 12      | Synth/Piano R    | DAW / Session   |
-| 13      | Drums L          | DAW / Session   |
-| 14      | Drums R          | DAW / Session   |
-| 15      |                  | DAW / Session   |
-| 16      |                  | DAW / Session   |
+| Channel | Name             | Color | Source                            |
+| ------- | ---------------- | ----- | --------------------------------- |
+| 1       | Vocal Dry        | Blue  | LCL/1 (mic)                       |
+| 2       | Guitar Dry       | Red   | LCL/2 (DI)                        |
+| 3-8     | Open             |       | Local                             |
+| 9       | Bass             | Green | USB/9-10 (Logic, stereo pair)     |
+| 10      | Keyboard         | Green | USB/11-12 (Logic, stereo pair)    |
+| 11      | Synth/Piano      | Green | USB/13-14 (Logic, stereo pair)    |
+| 12      | Drums            | Green | USB/15-16 (Logic, stereo pair)    |
+| 13-16   | Open             |       |                                   |
+| 17      | Vocal Processed  | Blue  | LCL/17 (outboard return)          |
+| 18      | Guitar Processed | Red   | LCL/18 (outboard return)          |
+| 19-40   | Open             |       |                                   |
 
-## Tascam Model 12 -- Track Assignments
+## USB Output Routing (Wing → Loopback → Model 12)
 
-| Track | Source       | Format |
-| ----- | ------------ | ------ |
-| 1     | Guitar Dry   | Mono   |
-| 2     | Vocal Dry    | Mono   |
-| 3     | Bass         | Mono   |
-| 4     | Keyboard     | Mono   |
-| 5     |              | Mono   |
-| 6     |              | Mono   |
-| 7/8   | Synth/Piano  | Stereo |
-| 9/10  | Drums        | Stereo |
-| 11/12 | Main L/R     | Stereo |
+| USB Out | Source                | Model 12 Track            |
+| ------- | --------------------- | ------------------------- |
+| 1       | USR/1 (Vocal Dry)     | Track 1 (dry recording)   |
+| 2       | USR/2 (Guitar Dry)    | Track 1 (dry recording)   |
+| 17      | Main 1 L              | Track 11 (rough mix L)    |
+| 18      | Main 1 R              | Track 12 (rough mix R)    |
+
+USB 1 or 2 depending on which instrument is being tracked — only one at a time.
+
+## USR Routing (Virtual Patchbay)
+
+| USR | Name       | Source | Tap | Purpose                             |
+| --- | ---------- | ------ | --- | ----------------------------------- |
+| 1   | Vocal Dry  | Ch1    | PRE | Clean vocal for dry recording via USB |
+| 2   | Guitar Dry | Ch2    | PRE | Clean guitar for dry recording via USB |
+
+## Tascam Model 12 -- Track Assignments (per project)
+
+| Track | Source                                     | Format |
+| ----- | ------------------------------------------ | ------ |
+| 1     | Current instrument (dry via USB 1 or 2)    | Mono   |
+| 2-6   | Open for overdubs / alternate takes        | Mono   |
+| 7/8   | Open                                       | Stereo |
+| 9/10  | Open                                       | Stereo |
+| 11/12 | Rough mix (Main 1 L/R via USB 17/18)       | Stereo |
 
 ## Patchbay -- Samson 48-Point TRS
 
@@ -51,64 +60,47 @@ Each patchbay point has a top jack and a bottom jack. In a normalled configurati
 
 This allows the default recording chains (guitar, vocal) to work without patching any cables, while still giving full flexibility to reroute through different outboard gear when needed.
 
-### Default Guitar Chain (Points 1-3)
-
-Signal flows through these three normalled points without any cables patched:
-
-1. Wing Rack analog out 1 -> HA73-EQX2 channel 1 input
-2. HA73-EQX2 channel 1 output -> 1176 channel 1 input
-3. 1176 channel 1 output -> Wing Rack channel 2 input (Guitar Processed)
-
-### Default Vocal Chain (Points 4-7)
+### Default Vocal Chain (Points 1-4)
 
 Signal flows through these four normalled points without any cables patched:
 
-1. Wing Rack analog out 2 -> HA73-EQX2 channel 2 input
-2. HA73-EQX2 channel 2 output -> 1176 channel 2 input
-3. 1176 channel 2 output -> Audioscape Opto input
-4. Audioscape Opto output -> Wing Rack channel 4 input (Vocal Processed)
+1. Wing Rack analog out 1 (Bus 1) -> HA73-EQX2 channel A input
+2. HA73-EQX2 channel A output -> WA76 channel A input
+3. WA76 channel A output -> Audioscape Opto input
+4. Audioscape Opto output -> Wing Rack LCL input 17 (Vocal Processed, ch17)
+
+### Default Guitar Chain (Points 5-8)
+
+Signal flows through these four normalled points without any cables patched:
+
+1. Wing Rack analog out 2 (Bus 2) -> HA73-EQX2 channel B input
+2. HA73-EQX2 channel B output -> WA76 channel B input
+3. WA76 channel B output -> Distressor input
+4. Distressor output -> Wing Rack LCL input 18 (Guitar Processed, ch18)
 
 ### Patch Points
 
-| Point | Top (Output From)           | Bottom (Input To)          |
-| ----- | --------------------------- | -------------------------- |
-| 1     | Wing Rack analog out 1      | HA73-EQX2 channel 1 input  |
-| 2     | HA73-EQX2 channel 1 output  | 1176 channel 1 input       |
-| 3     | 1176 channel 1 output       | Wing Rack channel 2 input  |
-| 4     | Wing Rack analog out 2      | HA73-EQX2 channel 2 input  |
-| 5     | HA73-EQX2 channel 2 output  | 1176 channel 2 input       |
-| 6     | 1176 channel 2 output       | Audioscape Opto input      |
-| 7     | Audioscape Opto output      | Wing Rack channel 4 input  |
-| 7     |                             |                            |
-| 8     |                             |                            |
-| 9     |                             |                            |
-| 10    |                             |                            |
-| 11    |                             |                            |
-| 12    |                             |                            |
-| 13    |                             |                            |
-| 14    |                             |                            |
-| 15    |                             |                            |
-| 16    |                             |                            |
-| 17    |                             |                            |
-| 18    |                             |                            |
-| 19    |                             |                            |
-| 20    |                             |                            |
-| 21    |                             |                            |
-| 22    |                             |                            |
-| 23    |                             |                            |
-| 24    |                             |                            |
+| Point | Top (Output From)           | Bottom (Input To)              | Chain  |
+| ----- | --------------------------- | ------------------------------ | ------ |
+| 1     | Wing LCL Out 1 (Bus 1)      | HA73 A In                      | Vocal  |
+| 2     | HA73 A Out                  | WA76 A In                      | Vocal  |
+| 3     | WA76 A Out                  | Opto In                        | Vocal  |
+| 4     | Opto Out                    | Wing LCL In 17                 | Vocal  |
+| 5     | Wing LCL Out 2 (Bus 2)      | HA73 B In                      | Guitar |
+| 6     | HA73 B Out                  | WA76 B In                      | Guitar |
+| 7     | WA76 B Out                  | Distressor In                  | Guitar |
+| 8     | Distressor Out              | Wing LCL In 18                 | Guitar |
+| 9-24  |                             |                                | Open   |
 
 ## Loopback Software Routing
 
-| From                        | To                         |
-| --------------------------- | -------------------------- |
-| Wing Rack channel 1 (Guitar Dry) | Model 12 track 1           |
-| Wing Rack channel 3 (Vocal Dry)  | Model 12 track 2           |
-| Wing Rack channel 9 (Bass)    | Model 12 track 3           |
-| Wing Rack channel 10 (Keyboard)| Model 12 track 4           |
-| Wing Rack channel 11 (Synth/Piano L)| Model 12 track 7 (stereo L)|
-| Wing Rack channel 12 (Synth/Piano R)| Model 12 track 8 (stereo R)|
-| Wing Rack channel 13 (Drums L)| Model 12 track 9 (stereo L)|
-| Wing Rack channel 14 (Drums R)| Model 12 track 10 (stereo R)|
-| Model 12 stereo out L       | Wing Rack (monitoring L)   |
-| Model 12 stereo out R       | Wing Rack (monitoring R)   |
+| From                              | To                              |
+| --------------------------------- | ------------------------------- |
+| Wing USB Out 1 (USR/1 Vocal Dry)  | Model 12 Track 1 (dry)          |
+| Wing USB Out 2 (USR/2 Guitar Dry) | Model 12 Track 1 (dry)          |
+| Wing USB Out 17 (Main 1 L)        | Model 12 Track 11 (rough mix L) |
+| Wing USB Out 18 (Main 1 R)        | Model 12 Track 12 (rough mix R) |
+| Model 12 stereo out L             | Wing Rack (monitoring L)        |
+| Model 12 stereo out R             | Wing Rack (monitoring R)        |
+
+Note: USB 1 or 2 is used depending on which instrument is being tracked — only one at a time.

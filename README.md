@@ -75,22 +75,22 @@ The mixer where everything flows. Low-latency effects processing, always-on oper
 
 | #   | Connector      | Label         | Status     | Connected To          |
 | --- | -------------- | ------------- | ---------- | --------------------- |
-| 1   | XLR/TRS combo  | Input 1       | **In use** | Guitar DI             |
-| 2   | XLR/TRS combo  | Input 2       | **In use** | Patchbay return (Guitar Processed) |
-| 3   | XLR/TRS combo  | Input 3       | **In use** | Vocal Mic             |
-| 4   | XLR/TRS combo  | Input 4       | **In use** | Patchbay return (Vocal Processed) |
+| 1   | XLR/TRS combo  | Input 1       | **In use** | Vocal Mic (LCL/1 → Ch1) |
+| 2   | XLR/TRS combo  | Input 2       | **In use** | Guitar DI (LCL/2 → Ch2) |
+| 3   | XLR/TRS combo  | Input 3       | Open       |                       |
+| 4   | XLR/TRS combo  | Input 4       | Open       |                       |
 | 5   | XLR/TRS combo  | Input 5       | Open       |                       |
 | 6   | XLR/TRS combo  | Input 6       | Open       |                       |
 | 7   | XLR/TRS combo  | Input 7       | Open       |                       |
 | 8   | XLR/TRS combo  | Input 8       | Open       |                       |
-| 1-8 | 1/4" TRS       | AUX In 1-8    | Open       |                       |
+| 1-8 | 1/4" TRS       | AUX In 1-8    | **Partial** | AUX 1 → LCL/17 → Ch17 (Vocal Processed, from Patchbay P4); AUX 2 → LCL/18 → Ch18 (Guitar Processed, from Patchbay P8) |
 
 #### Outputs (Back Panel)
 
 | #   | Connector      | Label          | Status     | Connected To          |
 | --- | -------------- | -------------- | ---------- | --------------------- |
-| 1   | XLR            | Analog Out 1   | **In use** | Patchbay Point 1 top (→ HA73 ch1) |
-| 2   | XLR            | Analog Out 2   | **In use** | Patchbay Point 4 top (→ HA73 ch2) |
+| 1   | XLR            | Analog Out 1   | **In use** | Patchbay Point 1 top (Bus 1 → HA73 A, vocal chain) |
+| 2   | XLR            | Analog Out 2   | **In use** | Patchbay Point 5 top (Bus 2 → HA73 B, guitar chain) |
 | 3   | XLR            | Analog Out 3   | Open       |                       |
 | 4   | XLR            | Analog Out 4   | Open       |                       |
 | 5   | XLR            | Analog Out 5   | Open       |                       |
@@ -137,14 +137,14 @@ Dual-channel transformer-balanced preamp and 3-band EQ. Carnhill transformers. U
 
 | Direction | # | Connector | Label       | Location   | Status     | Connected To          |
 | --------- | - | --------- | ----------- | ---------- | ---------- | --------------------- |
-| Input     | 1 | XLR       | Mic In 1    | Back       | Open       |                       |
-| Input     | 1 | XLR       | Line In 1   | Back       | **In use** | Patchbay Point 1 bottom (from Wing Out 1) |
-| Input     | 1 | 1/4" TS   | Hi-Z / DI 1 | Front      | Open       | (instrument DI)       |
-| Input     | 2 | XLR       | Mic In 2    | Back       | Open       |                       |
-| Input     | 2 | XLR       | Line In 2   | Back       | **In use** | Patchbay Point 4 bottom (from Wing Out 2) |
-| Input     | 2 | 1/4" TS   | Hi-Z / DI 2 | Front      | Open       | (instrument DI)       |
-| Output    | 1 | XLR       | Output 1    | Back       | **In use** | Patchbay Point 2 top (→ 1176 ch1) |
-| Output    | 2 | XLR       | Output 2    | Back       | **In use** | Patchbay Point 5 top (→ 1176 ch2) |
+| Input     | A | XLR       | Mic In A    | Back       | Open       |                       |
+| Input     | A | XLR       | Line In A   | Back       | **In use** | Patchbay Point 1 bottom (from Wing Out 1, Bus 1 — vocal chain) |
+| Input     | A | 1/4" TS   | Hi-Z / DI A | Front      | Open       | (instrument DI)       |
+| Input     | B | XLR       | Mic In B    | Back       | Open       |                       |
+| Input     | B | XLR       | Line In B   | Back       | **In use** | Patchbay Point 5 bottom (from Wing Out 2, Bus 2 — guitar chain) |
+| Input     | B | 1/4" TS   | Hi-Z / DI B | Front      | Open       | (instrument DI)       |
+| Output    | A | XLR       | Output A    | Back       | **In use** | Patchbay Point 2 top (→ WA76 ch A) |
+| Output    | B | XLR       | Output B    | Back       | **In use** | Patchbay Point 6 top (→ WA76 ch B) |
 
 ---
 
@@ -154,26 +154,26 @@ Dual-channel FET compressor with parallel compression (dry/wet knob). CineMag tr
 
 | Direction | # | Connector | Label       | Status     | Connected To          |
 | --------- | - | --------- | ----------- | ---------- | --------------------- |
-| Input     | 1 | XLR       | Input 1     | **In use** | Patchbay Point 2 bottom (from HA73 ch1) |
-| Input     | 1 | 1/4" TRS  | Input 1     | Open       |                       |
-| Input     | 2 | XLR       | Input 2     | **In use** | Patchbay Point 5 bottom (from HA73 ch2) |
-| Input     | 2 | 1/4" TRS  | Input 2     | Open       |                       |
-| Output    | 1 | XLR       | Output 1    | **In use** | Patchbay Point 3 top (→ Wing ch2) |
-| Output    | 1 | 1/4" TRS  | Output 1    | Open       |                       |
-| Output    | 2 | XLR       | Output 2    | **In use** | Patchbay Point 6 top (→ Opto) |
-| Output    | 2 | 1/4" TRS  | Output 2    | Open       |                       |
+| Input     | A | XLR       | Input A     | **In use** | Patchbay Point 2 bottom (from HA73 A out — vocal chain) |
+| Input     | A | 1/4" TRS  | Input A     | Open       |                       |
+| Input     | B | XLR       | Input B     | **In use** | Patchbay Point 6 bottom (from HA73 B out — guitar chain) |
+| Input     | B | 1/4" TRS  | Input B     | Open       |                       |
+| Output    | A | XLR       | Output A    | **In use** | Patchbay Point 3 top (→ Opto in — vocal chain) |
+| Output    | A | 1/4" TRS  | Output A    | Open       |                       |
+| Output    | B | XLR       | Output B    | **In use** | Patchbay Point 7 top (→ Distressor in — guitar chain) |
+| Output    | B | 1/4" TRS  | Output B    | Open       |                       |
 
 ---
 
 ### Distressor (Empirical Labs — Compressor)
 
-Single-channel compressor. Transformerless balanced I/O. Not in the default normalled chain — patch in via patchbay when needed.
+Single-channel compressor. Transformerless balanced I/O. In the default guitar chain (after the WA76 B).
 
 | Direction | # | Connector | Label       | Status     | Connected To          |
 | --------- | - | --------- | ----------- | ---------- | --------------------- |
-| Input     | 1 | XLR       | Input       | Open       | (patch via patchbay)  |
+| Input     | 1 | XLR       | Input       | **In use** | Patchbay Point 7 bottom (from WA76 B out — guitar chain) |
 | Input     | 1 | 1/4" TRS  | Input       | Open       |                       |
-| Output    | 1 | XLR       | Output      | Open       | (patch via patchbay)  |
+| Output    | 1 | XLR       | Output      | **In use** | Patchbay Point 8 top (→ Wing LCL In 18 → Ch18 Guitar Processed) |
 | Output    | 1 | 1/4" TRS  | Output      | Open       |                       |
 | Link      |   | 1/4" TRS  | Stereo Link | Open       | (for linking two Distressors) |
 
@@ -181,12 +181,12 @@ Single-channel compressor. Transformerless balanced I/O. Not in the default norm
 
 ### Audioscape Opto (LA-2A Compressor Clone)
 
-Single-channel optical compressor. Electronically balanced +4dBu. Part of the default vocal chain (after the 1176).
+Single-channel optical compressor. Electronically balanced +4dBu. In the default vocal chain (after the WA76 A).
 
 | Direction | # | Connector | Label       | Status     | Connected To          |
 | --------- | - | --------- | ----------- | ---------- | --------------------- |
-| Input     | 1 | XLR       | Input       | **In use** | Patchbay Point 6 bottom (from 1176 ch2) |
-| Output    | 1 | XLR       | Output      | **In use** | Patchbay Point 7 top (→ Wing ch4 in) |
+| Input     | 1 | XLR       | Input       | **In use** | Patchbay Point 3 bottom (from WA76 A out — vocal chain) |
+| Output    | 1 | XLR       | Output      | **In use** | Patchbay Point 4 top (→ Wing LCL In 17 → Ch17 Vocal Processed) |
 | Link      |   | 1/4" TRS  | Stereo Link | Open       | (for linking two units) |
 
 ---
@@ -195,16 +195,17 @@ Single-channel optical compressor. Electronically balanced +4dBu. Part of the de
 
 24 normalled pairs (top = output, bottom = input). 1/4" TRS front and back. Signal flows top → bottom when no cable is inserted (normalled). Inserting a cable on the front breaks the normal.
 
-| Point | Back Top (Output From)      | Back Bottom (Input To)     | Status     |
-| ----- | --------------------------- | -------------------------- | ---------- |
-| 1     | Wing Rack Analog Out 1      | HA73 Channel 1 Line In     | **Normalled** — Guitar chain |
-| 2     | HA73 Channel 1 Output       | 1176 Channel 1 Input       | **Normalled** — Guitar chain |
-| 3     | 1176 Channel 1 Output       | Wing Rack Input 2          | **Normalled** — Guitar chain |
-| 4     | Wing Rack Analog Out 2      | HA73 Channel 2 Line In     | **Normalled** — Vocal chain |
-| 5     | HA73 Channel 2 Output       | 1176 Channel 2 Input       | **Normalled** — Vocal chain |
-| 6     | 1176 Channel 2 Output       | Audioscape Opto Input      | **Normalled** — Vocal chain |
-| 7     | Audioscape Opto Output      | Wing Rack Input 4          | **Normalled** — Vocal chain |
-| 8-24  |                             |                            | Open        |
+| Point | Back Top (Output From)      | Back Bottom (Input To)          | Status     |
+| ----- | --------------------------- | ------------------------------- | ---------- |
+| 1     | Wing LCL Out 1 (Bus 1)      | HA73 A Line In                  | **Normalled** — Vocal chain |
+| 2     | HA73 A Output               | WA76 A Input                    | **Normalled** — Vocal chain |
+| 3     | WA76 A Output               | Audioscape Opto Input           | **Normalled** — Vocal chain |
+| 4     | Audioscape Opto Output      | Wing LCL In 17 (→ Ch17)        | **Normalled** — Vocal chain |
+| 5     | Wing LCL Out 2 (Bus 2)      | HA73 B Line In                  | **Normalled** — Guitar chain |
+| 6     | HA73 B Output               | WA76 B Input                    | **Normalled** — Guitar chain |
+| 7     | WA76 B Output               | Distressor Input                | **Normalled** — Guitar chain |
+| 8     | Distressor Output           | Wing LCL In 18 (→ Ch18)        | **Normalled** — Guitar chain |
+| 9-24  |                             |                                 | Open        |
 
 ---
 
@@ -245,19 +246,15 @@ Digital tape machine, mixer, and USB audio interface. 12-in/10-out USB interface
 | 1/4" TRS       | Footswitch     | Open       | (remote transport control) |
 | Bluetooth 5.0  | BT Audio In    | Open       | (playback to ch 9/10) |
 
-#### Track Assignments (via Loopback Software)
+#### Track Assignments (per project, via USB/Loopback)
 
-| Track | Source              | Format  |
-| ----- | ------------------- | ------- |
-| 1     | Guitar Dry (Wing ch1) | Mono  |
-| 2     | Vocal Dry (Wing ch3)  | Mono  |
-| 3     | Bass (Wing ch9)       | Mono  |
-| 4     | Keyboard (Wing ch10)  | Mono  |
-| 5     |                       | Mono  |
-| 6     |                       | Mono  |
-| 7/8   | Synth/Piano (Wing ch11/12) | Stereo |
-| 9/10  | Drums (Wing ch13/14)  | Stereo |
-| 11/12 | Main L/R              | Stereo (always recording) |
+| Track | Source                                   | Format  |
+| ----- | ---------------------------------------- | ------- |
+| 1     | Current instrument dry (Wing USB Out 1 or 2) | Mono |
+| 2-6   | Open for overdubs / alternate takes      | Mono    |
+| 7/8   | Open                                     | Stereo  |
+| 9/10  | Open                                     | Stereo  |
+| 11/12 | Rough mix (Wing USB Out 17/18, Main L/R) | Stereo (always recording) |
 
 ---
 
@@ -271,24 +268,22 @@ Digital tape machine, mixer, and USB audio interface. 12-in/10-out USB interface
 
 #### Software Audio Routing (Loopback)
 
-| From                              | To                            |
-| --------------------------------- | ----------------------------- |
-| Wing Rack USB ch1 (Guitar Dry)    | Model 12 USB Track 1          |
-| Wing Rack USB ch3 (Vocal Dry)     | Model 12 USB Track 2          |
-| Wing Rack USB ch9 (Bass)          | Model 12 USB Track 3          |
-| Wing Rack USB ch10 (Keyboard)     | Model 12 USB Track 4          |
-| Wing Rack USB ch11/12 (Synth/Piano) | Model 12 USB Track 7/8      |
-| Wing Rack USB ch13/14 (Drums)     | Model 12 USB Track 9/10       |
-| Model 12 USB Stereo Out L         | Wing Rack USB (Monitoring L)  |
-| Model 12 USB Stereo Out R         | Wing Rack USB (Monitoring R)  |
+| From                                     | To                              |
+| ---------------------------------------- | ------------------------------- |
+| Wing USB Out 1 (USR/1 — Vocal Dry)       | Model 12 Track 1 (when tracking vocals) |
+| Wing USB Out 2 (USR/2 — Guitar Dry)      | Model 12 Track 1 (when tracking guitar) |
+| Wing USB Out 17 (Main 1 L)               | Model 12 Track 11 (rough mix L) |
+| Wing USB Out 18 (Main 1 R)               | Model 12 Track 12 (rough mix R) |
+| Model 12 USB Stereo Out L                | Wing Rack USB (Monitoring L)    |
+| Model 12 USB Stereo Out R                | Wing Rack USB (Monitoring R)    |
 
 ---
 
 ## Signal Chains (Default/Normalled)
 
-**Guitar:** DI → Wing In 1 (ch1 dry) → Bus 1 → Analog Out 1 → Patchbay 1 → HA73 ch1 → Patchbay 2 → 1176 ch1 → Patchbay 3 → Wing In 2 (ch2 processed)
+**Vocal:** Mic → Wing LCL/1 (ch1 dry, preamp gain) → Bus 1 → Wing Out 1 → P1 → HA73 A → P2 → WA76 A → P3 → Opto → P4 → Wing LCL/17 → Ch17 (Vocal Processed)
 
-**Vocal:** Mic → Wing In 3 (ch3 dry) → Bus 2 → Analog Out 2 → Patchbay 4 → HA73 ch2 → Patchbay 5 → 1176 ch2 → Patchbay 6 → Opto → Patchbay 7 → Wing In 4 (ch4 processed)
+**Guitar:** DI → Wing LCL/2 (ch2 dry, preamp gain) → Bus 2 → Wing Out 2 → P5 → HA73 B → P6 → WA76 B → P7 → Distressor → P8 → Wing LCL/18 → Ch18 (Guitar Processed)
 
 ## Gear Notes
 
@@ -299,10 +294,10 @@ Neve 1073 clone, dual channel. Transistor preamp with 3-band EQ. Guitar and voca
 1176 clone, dual channel FET compressor. DRY/WET knob for parallel compression. In recording, tames transient peaks. In mastering, dual channels for stereo bus compression.
 
 ### Distressor
-Single-channel compressor. Not in the default chain — available via patchbay. General purpose, works on anything.
+Single-channel compressor. In the default guitar chain (P7-P8, after the WA76 B). Patch via patchbay to use elsewhere or remove from the chain.
 
 ### Audioscape Opto
-LA-2A clone. Optical compressor. Smooth, musical compression. In the default vocal chain after the 1176. Great for vocals and bass guitar.
+LA-2A clone. Optical compressor. Smooth, musical compression. In the default vocal chain (P3-P4, after the WA76 A). Great for vocals and bass guitar.
 
 ### Tascam Model 12
 Digital tape machine — 12 tracks (1-6 mono, 7/8 and 9/10 stereo, 11/12 main L/R always recording). Connected via USB, audio routed through Loopback software. Records everything DRY.
