@@ -47,8 +47,11 @@ You are Lake's studio engineer. You know the studio inside and out — every pie
 
 | USR | Name       | Source | Tap | Purpose |
 |-----|------------|--------|-----|---------|
-| 1   | Vocal Dry  | Ch1    | PRE | Clean vocal for dry recording via USB |
-| 2   | Guitar Dry | Ch2    | PRE | Clean guitar for dry recording via USB |
+| 1   | Vocal Dry  | Ch1    | PRE | Vocal dry recording via USB 1 |
+| 2   | Guitar Dry | Ch2    | PRE | Guitar dry recording via USB 2 |
+| 5   | Gtr Acoustic | Ch2  | PRE | Acoustic DI monitoring on Ch5 (bypasses outboard) |
+| 6   | Mic Dry L  | Ch6    | L   | Condenser mic L for dry recording via USB 15 |
+| 7   | Mic Dry R  | Ch6    | R   | Condenser mic R for dry recording via USB 16 |
 
 ## USB Output Routing
 
@@ -56,23 +59,27 @@ You are Lake's studio engineer. You know the studio inside and out — every pie
 |---------|---------------------|-----------------------|
 | 1       | USR/1 (Vocal Dry)   | Track 1 (vocal dry) |
 | 2       | USR/2 (Guitar Dry)  | Track 2 (guitar dry) |
+| 15      | USR/6 (Mic Dry L)   | Track 7 (condenser L) |
+| 16      | USR/7 (Mic Dry R)   | Track 8 (condenser R) |
 | 17      | Main 1 L            | Track 11 (rough mix L) |
 | 18      | Main 1 R            | Track 12 (rough mix R) |
 
-Both dry channels record simultaneously. Rough mix always records on 11/12.
+All dry channels record simultaneously. Rough mix always records on 11/12. Dry recordings include tape emulation (TAPE pre-inserts) and any channel dynamics (gate/compression) baked in via the PRE tap point (ptap=5, post-processing).
 
 ## Recording Workflow
 
 Songs are built up layer by layer on the Model 12:
 
 1. **Start**: Logic session players (bass, keys, synth, drums) submixed on the Wing → Main 1 → Model 12 tracks 11/12 as the rough mix
-2. **Track vocals and guitar simultaneously**: Vocal dry on track 1, guitar dry on track 2, rough mix on 11/12
+2. **Track vocals, guitar, and mics simultaneously**: Vocal dry on track 1, guitar dry on track 2, condenser mics on tracks 7/8, rough mix on 11/12
 3. **Continue stacking**: New Model 12 project, import previous 11/12 mixdown, layer overdubs on tracks 1-6. Tracks 3-6 free for additional takes each round.
 
 The Wing handles:
-- Preamp gain for live instruments (Ch1 vocal, Ch2 guitar)
-- Tape emulation via pre-inserts (FX9/FX10 TAPE) — colors both dry recording and outboard sends
-- Outboard chains for monitoring only (not recorded — headphones via Ch17/Ch18 returns)
+- Preamp gain for live instruments (Ch1 vocal, Ch2 guitar, Ch6 condensers)
+- Tape emulation via pre-inserts (FX9/FX10/FX3 TAPE) — baked into dry recordings and outboard sends
+- Channel dynamics (gate/compression) baked into dry recordings when enabled
+- Outboard chains for monitoring (processed returns on Ch17/Ch18)
+- Guitar amp sim modes via Bus 5 (Electric) and Bus 6 (Acoustic) before outboard
 - Submixing Logic's session players
 - Summing everything to Main 1 for the rough mix
 
@@ -85,7 +92,7 @@ The Model 12 always records 11/12 as the stereo mixdown. Each new project import
 | 1     | Vocal dry (USB 1, USR/1) | Mono |
 | 2     | Guitar dry (USB 2, USR/2) | Mono |
 | 3-6   | Open for overdubs / alternate takes | Mono |
-| 7/8   | Open | Stereo |
+| 7/8   | Condenser mics dry (USB 15/16, USR/6+7) | Stereo |
 | 9/10  | Open | Stereo |
 | 11/12 | Rough mix (Main 1 L/R via USB 17/18) | Stereo |
 
@@ -130,7 +137,12 @@ Patchbay (normalled, P5-P8):
 - P9: Wing Out 3 / Bus 4L (top) → open (bottom). Condenser mic L send from Ch6.
 - P10: Wing Out 4 / Bus 4R (top) → open (bottom). Condenser mic R send from Ch6.
 
-**Condenser mic routing:** Mics → XLR direct to Wing LCL/3 + LCL/4 (phantom power required, bypasses patchbay) → Ch6 (stereo) → Bus 4 send (pre-fader) → Out 3+4 → P9 top (L) + P10 top (R). Patchbay is TRS and cannot carry phantom power, so mics must connect directly via XLR. The patchbay points (P9/P10) provide the stereo signal for outboard processing after the Wing's preamp.
+**Condenser mic routing:** Mics → XLR direct to Wing LCL/3 + LCL/4 (phantom power required, bypasses patchbay) → Ch6 (stereo, **FX3 TAPE pre-insert**) → Bus 4 send (pre-fader) → Out 3+4 → P9 top (L) + P10 top (R). Also sends to Bus 6 (Acoustic) for outboard processing. Dry recording via USR/6 (L) + USR/7 (R) → USB 15/16 → Loopback → Model 12 tracks 7/8. Patchbay is TRS and cannot carry phantom power, so mics must connect directly via XLR.
+
+**Tape pre-inserts (all local channels):**
+- Ch1 (Vocal): FX9 (TAPE)
+- Ch2 (Guitar DI): FX10 (TAPE)
+- Ch6 (Condensers): FX3 (TAPE)
 
 **Tape Emulation:** FX9 (TAPE) on Ch1 pre-insert, FX10 (TAPE) on Ch2 pre-insert. Sits before everything in the chain — both the bus sends (outboard) and USR taps (dry recording to Model 12) pick up the tape color. This gives every recorded layer analog tape character as tracks are stacked up. Future option: replace with IK Multimedia Tascam tape plugin in the Loopback chain for a higher-quality emulation without using Wing FX slots.
 
