@@ -313,8 +313,8 @@ details table { font-size: 12px; }
     <div class="ch-sep"></div>
     <div class="ch-strip dim"><div class="ch-num">3</div><div class="ch-color" style="background:#8a6d3b"></div><div class="fader"></div><div class="ch-name">Open</div><div class="ch-src">Local</div></div>
     <div class="ch-strip dim"><div class="ch-num">4</div><div class="ch-color" style="background:#8a6d3b"></div><div class="fader"></div><div class="ch-name">Open</div><div class="ch-src">Local</div></div>
-    <div class="ch-strip dim"><div class="ch-num">5</div><div class="ch-color" style="background:#8a6d3b"></div><div class="fader"></div><div class="ch-name">Open</div><div class="ch-src">Local</div></div>
-    <div class="ch-strip dim"><div class="ch-num">6</div><div class="ch-color" style="background:#8a6d3b"></div><div class="fader"></div><div class="ch-name">Open</div><div class="ch-src">Local</div></div>
+    <div class="ch-strip dim"><div class="ch-num">5</div><div class="ch-color" style="background:var(--yellow)"></div><div class="fader"></div><div class="ch-name">Gtr Ac DI</div><div class="ch-src">USR/5</div></div>
+    <div class="ch-strip dim"><div class="ch-num">6</div><div class="ch-color" style="background:var(--yellow)"></div><div class="fader"></div><div class="ch-name">Gtr Ac Mics</div><div class="ch-src">Local</div></div>
     <div class="ch-strip dim"><div class="ch-num">7</div><div class="ch-color" style="background:#8a6d3b"></div><div class="fader"></div><div class="ch-name">Open</div><div class="ch-src">Local</div></div>
     <div class="ch-strip dim"><div class="ch-num">8</div><div class="ch-color" style="background:#8a6d3b"></div><div class="fader"></div><div class="ch-name">Open</div><div class="ch-src">Local</div></div>
     <div class="ch-sep"></div>
@@ -407,8 +407,10 @@ details table { font-size: 12px; }
       {point:6, top:"HA73 B Out", bottom:"WA76 B In", chain:"guitar", active:true},
       {point:7, top:"WA76 B Out", bottom:"Distressor In", chain:"guitar", active:true},
       {point:8, top:"Distressor Out", bottom:"Wing LCL In 18", chain:"guitar", active:true},
+      {point:9, top:"Wing LCL Out 3 (Bus 4L)", bottom:"Condenser Mic L", chain:"acoustic", active:true},
+      {point:10, top:"Wing LCL Out 4 (Bus 4R)", bottom:"Condenser Mic R", chain:"acoustic", active:true},
     ];
-    const colors = {vocal:'var(--blue)',guitar:'var(--red)',monitors:'var(--green)'};
+    const colors = {vocal:'var(--blue)',guitar:'var(--red)',monitors:'var(--green)',acoustic:'var(--yellow)'};
     const rack = document.getElementById('patchbay-rack');
 
     let topRow = '<div class="pb-row-label">Top row (outputs)</div><div class="pb-row top">';
@@ -478,7 +480,9 @@ details table { font-size: 12px; }
         <div class="flow-arrow"></div>
         <div class="flow-node wing"><div class="name">FX10 / TAPE</div><div class="detail">Pre-insert — tape saturation</div></div>
         <div class="flow-arrow"></div>
-        <div class="flow-node wing"><div class="name">Bus 2 → Out 2</div><div class="detail">Pre-fader send to patchbay</div></div>
+        <div class="flow-node wing"><div class="name">Bus 5 (Electric) / Bus 6 (Acoustic)</div><div class="detail">Mode bus — amp sim pre-insert; mute one to switch modes</div></div>
+        <div class="flow-arrow"></div>
+        <div class="flow-node wing"><div class="name">Bus 2 → Out 2</div><div class="detail">Guitar send to patchbay (receives from Bus 5 or 6)</div></div>
         <div class="flow-arrow"></div>
         <div class="flow-node pb"><div class="name">P5</div></div>
         <div class="flow-arrow"></div>
@@ -549,7 +553,7 @@ details table { font-size: 12px; }
       <p class="sound-desc">Wing preamp for gain, then Neve color, 1176 transient control, Distressor for harmonic character.</p>
       <table>
         <tr><th>#</th><th>Gear</th><th>Settings</th></tr>
-        <tr><td>1</td><td>Wing Ch 2</td><td>Preamp gain on DI, pre-fader send to Bus 2</td></tr>
+        <tr><td>1</td><td>Wing Ch 2</td><td>Preamp gain on DI, pre-fader send to Bus 5 (Electric) or Bus 6 (Acoustic) — mute one to switch modes</td></tr>
         <tr><td>2</td><td>HA73 B</td><td>Neve EQ/color — warmth and body</td></tr>
         <tr><td>3</td><td>WA76 B (1176)</td><td>Medium attack, fast release, 4:1–8:1</td></tr>
         <tr><td>4</td><td>Distressor</td><td>Leveling + Dist 2 (warm) or Dist 3 (edge)</td></tr>

@@ -77,8 +77,8 @@ The mixer where everything flows. Low-latency effects processing, always-on oper
 | --- | -------------- | ------------- | ---------- | --------------------- |
 | 1   | XLR/TRS combo  | Input 1       | **In use** | Vocal Mic (LCL/1 → Ch1) |
 | 2   | XLR/TRS combo  | Input 2       | **In use** | Guitar DI (LCL/2 → Ch2) |
-| 3   | XLR/TRS combo  | Input 3       | Open       |                       |
-| 4   | XLR/TRS combo  | Input 4       | Open       |                       |
+| 3   | XLR/TRS combo  | Input 3       | **In use** | Condenser Mic L (LCL/3 → Ch6 L) |
+| 4   | XLR/TRS combo  | Input 4       | **In use** | Condenser Mic R (LCL/4 → Ch6 R) |
 | 5   | XLR/TRS combo  | Input 5       | Open       |                       |
 | 6   | XLR/TRS combo  | Input 6       | Open       |                       |
 | 7   | XLR/TRS combo  | Input 7       | Open       |                       |
@@ -91,8 +91,8 @@ The mixer where everything flows. Low-latency effects processing, always-on oper
 | --- | -------------- | -------------- | ---------- | --------------------- |
 | 1   | XLR            | Analog Out 1   | **In use** | Patchbay Point 1 top (Bus 1 → HA73 A, vocal chain) |
 | 2   | XLR            | Analog Out 2   | **In use** | Patchbay Point 5 top (Bus 2 → HA73 B, guitar chain) |
-| 3   | XLR            | Analog Out 3   | Open       |                       |
-| 4   | XLR            | Analog Out 4   | Open       |                       |
+| 3   | XLR            | Analog Out 3   | **In use** | Patchbay Point 9 top (Bus 4L → Condenser Mic L send) |
+| 4   | XLR            | Analog Out 4   | **In use** | Patchbay Point 10 top (Bus 4R → Condenser Mic R send) |
 | 5   | XLR            | Analog Out 5   | Open       |                       |
 | 6   | XLR            | Analog Out 6   | Open       |                       |
 | 7   | XLR            | Analog Out 7   | **In use** | Speakers (L) — sourced from MX1 (monitor phones output) |
@@ -205,7 +205,9 @@ Single-channel optical compressor. Electronically balanced +4dBu. In the default
 | 6     | HA73 B Output               | WA76 B Input                    | **Normalled** — Guitar chain |
 | 7     | WA76 B Output               | Distressor Input                | **Normalled** — Guitar chain |
 | 8     | Distressor Output           | Wing LCL In 18 (→ Ch18)        | **Normalled** — Guitar chain |
-| 9-24  |                             |                                 | Open        |
+| 9     | Wing LCL Out 3 (Bus 4L)     | Condenser Mic L                 | **Normalled** — Acoustic mic send L |
+| 10    | Wing LCL Out 4 (Bus 4R)     | Condenser Mic R                 | **Normalled** — Acoustic mic send R |
+| 11-24 |                             |                                 | Open        |
 
 ---
 
@@ -284,7 +286,11 @@ Digital tape machine, mixer, and USB audio interface. 12-in/10-out USB interface
 
 **Vocal:** Mic → Wing LCL/1 (ch1 dry, preamp gain) → FX9/TAPE (pre-insert) → Bus 1 → Wing Out 1 → P1 → HA73 A → P2 → WA76 A → P3 → Opto → P4 → Wing LCL/17 → Ch17 (Vocal Processed)
 
-**Guitar:** DI → Wing LCL/2 (ch2 dry, preamp gain) → FX10/TAPE (pre-insert) → Bus 2 → FX1/RACKAMP (Bus 2 pre-insert) → Wing Out 2 → P5 → HA73 B → P6 → WA76 B → P7 → Distressor → P8 → Wing LCL/18 → Ch18 (Guitar Processed)
+**Guitar (Electric):** DI → Wing LCL/2 (ch2 dry, preamp gain) → FX10/TAPE (pre-insert) → Bus 5 → FX1/DELUXE (Bus 5 pre-insert) → Bus 2 → Wing Out 2 → P5 → HA73 B → P6 → WA76 B → P7 → Distressor → P8 → Wing LCL/18 → Ch18 (Guitar Processed)
+
+**Guitar (Acoustic):** DI → Wing LCL/2 (ch2 dry, preamp gain) → FX10/TAPE (pre-insert) → Bus 6 → FX11/RACKAMP (Bus 6 pre-insert) → Bus 2 → Wing Out 2 → P5 → HA73 B → P6 → WA76 B → P7 → Distressor → P8 → Wing LCL/18 → Ch18 (Guitar Processed)
+
+**Acoustic Mics:** Condensers → Wing LCL/3+4 → Ch6 → Bus 6 → FX11/RACKAMP → Bus 2 → outboard chain (above)
 
 ## Gear Notes
 

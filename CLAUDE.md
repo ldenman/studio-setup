@@ -17,7 +17,11 @@ You are Lake's studio engineer. You know the studio inside and out — every pie
 |---------|------------------|-------|--------------|
 | 1       | Vocal Dry        | Blue  | LCL/1 (mic)  |
 | 2       | Guitar Dry       | Red   | LCL/2 (DI)   |
-| 3-8     | Open             |       | Local        |
+| 3       | (planned: Gtr Rhythm) |   |              |
+| 4       | (planned: Gtr Lead)   |   |              |
+| 5       | Gtr Acoustic DI  | Yellow | USR/5 (from Ch2, PRE tap). Clean DI, bypasses outboard. Muted by default. |
+| 6       | Gtr Ac Mics      | Yellow | LCL/3+4 (stereo condensers, phantom power, XLR direct). Sends to Bus 6 (Acoustic), NOT on main. Mute kills pre-fader sends on the Wing — must be unmuted for signal to flow. |
+| 7-8     | Open             |       | Local        |
 | 9       | Bass             | Green | USB/9-10 (Logic, stereo pair) |
 | 10      | Keyboard         | Green | USB/11-12 (Logic, stereo pair) |
 | 11      | Synth/Piano      | Green | USB/13-14 (Logic, stereo pair) |
@@ -32,8 +36,12 @@ You are Lake's studio engineer. You know the studio inside and out — every pie
 | Bus | Name        | Output    | Output `in` | Purpose |
 |-----|-------------|-----------|-------------|---------|
 | 1   | Vocal Send  | Wing Out 1 | 1 (Bus 1L) | Pre-fader send from Ch1 → outboard vocal chain (P1-P4) |
-| 2   | Guitar Send | Wing Out 2 | 3 (Bus 2L) | Pre-fader send from Ch2 → outboard guitar chain (P5-P8), RACKAMP amp sim on pre-insert |
-| 3-16 | Open       |           |             |         |
+| 2   | Guitar Send | Wing Out 2 | 3 (Bus 2L) | Receives from Bus 5 (Electric) and Bus 6 (Acoustic) → outboard guitar chain (P5-P8). No pre-insert — amp sims are on Bus 5/6. |
+| 3   | Reverb      | —          | —           | FX2 (PLATE) on pre-insert, assigned to main. Receives from Bus 1 and Bus 2. |
+| 4   | Mic Send    | Wing Out 3+4 | 7/8 (Bus 4L/R) | Pre-fader stereo send from Ch6 (condenser mics) → P9 top (L) + P10 top (R). Available for stereo outboard routing via patchbay. |
+| 5   | Electric    | —          | —           | FX1 (DELUXE) on pre-insert. Receives from Ch2 pre-fader. Sends to Bus 2 (outboard). Muted by default. |
+| 6   | Acoustic    | —          | —           | FX11 (RACKAMP, clean/bright) on pre-insert. Receives from Ch2 + Ch6 pre-fader. Sends to Bus 2 (outboard). |
+| 7-16 | Open       |           |             |         |
 
 ## USR Routing (Virtual Patchbay)
 
@@ -97,11 +105,20 @@ Patchbay (normalled, P1-P4):
 - P3: WA76 A Out (top) → Opto In (bottom)
 - P4: Opto Out (top) → Wing LCL 17 (bottom)
 
-**Guitar:** DI → Wing ch2 (dry, preamp gain) → **FX10 TAPE (pre-insert)** → Bus 2 send (pre-fader, unity) → Wing Out 2 → P5 → HA73 B (EQ/color) → P6 → WA76 B (1176) → P7 → Distressor → P8 → Wing LCL 18 → Ch18 (processed)
+**Guitar:** DI → Wing ch2 (dry, preamp gain) → **FX10 TAPE (pre-insert)** → Bus 5 or Bus 6 (amp sim) → Bus 2 (outboard send) → Wing Out 2 → P5 → HA73 B (EQ/color) → P6 → WA76 B (1176) → P7 → Distressor → P8 → Wing LCL 18 → Ch18 (processed)
+
+**Guitar modes** — Ch2 sends to two amp sim buses. Mute/unmute to switch modes:
+- **Electric**: Ch2 → Bus 5 (FX1 DELUXE pre-insert) → Bus 2 → outboard → Ch18
+- **Acoustic DI**: Ch2 → Bus 6 (FX11 RACKAMP clean/bright pre-insert) → Bus 2 → outboard → Ch18
+- **Acoustic Mics**: Ch6 (LCL/3+4 stereo condensers) → Bus 6 (RACKAMP) → Bus 2 → outboard → Ch18
+- **Acoustic DI direct** (no outboard): Ch5 via USR/5, clean, assigned to main
 
 Wing routing:
-- Ch2: LCL/2, pre-insert FX10 (TAPE), send to Bus 2 (pre-fader, 0dB), NOT assigned to main (dry monitoring off by default)
-- Bus 2: fader 0dB, unmuted, pre-insert FX1 (RACKAMP — acoustic guitar amp sim: pre 7, buzz 2, punch 3, crunch 1, drive 1, output 8, EQ flat, cab on)
+- Ch2: LCL/2, pre-insert FX10 (TAPE), sends to Bus 5 + Bus 6 (pre-fader, 0dB), NOT assigned to main
+- Ch6: LCL/3+4 (stereo condensers, phantom power), sends to Bus 6 (pre-fader, 0dB), NOT assigned to main. Must be unmuted for signal to flow.
+- Bus 5 (Electric): FX1 (DELUXE) pre-insert, sends to Bus 2. Muted by default.
+- Bus 6 (Acoustic): FX11 (RACKAMP, clean/bright: pre 7, buzz 1, punch 2, crunch 1, drive 1, output 8, leq 3, heq 7.5) pre-insert, sends to Bus 2.
+- Bus 2: fader 0dB, unmuted, NO pre-insert (amp sims are on Bus 5/6)
 - Wing Out 2: sourced from Bus 2 (in=3, Bus 2L)
 - Ch18: LCL/18 (outboard return), fader -12dB, assigned to Main 1
 
@@ -110,6 +127,10 @@ Patchbay (normalled, P5-P8):
 - P6: HA73 B Out (top) → WA76 B In (bottom)
 - P7: WA76 B Out (top) → Distressor In (bottom)
 - P8: Distressor Out (top) → Wing LCL 18 (bottom)
+- P9: Wing Out 3 / Bus 4L (top) → open (bottom). Condenser mic L send from Ch6.
+- P10: Wing Out 4 / Bus 4R (top) → open (bottom). Condenser mic R send from Ch6.
+
+**Condenser mic routing:** Mics → XLR direct to Wing LCL/3 + LCL/4 (phantom power required, bypasses patchbay) → Ch6 (stereo) → Bus 4 send (pre-fader) → Out 3+4 → P9 top (L) + P10 top (R). Patchbay is TRS and cannot carry phantom power, so mics must connect directly via XLR. The patchbay points (P9/P10) provide the stereo signal for outboard processing after the Wing's preamp.
 
 **Tape Emulation:** FX9 (TAPE) on Ch1 pre-insert, FX10 (TAPE) on Ch2 pre-insert. Sits before everything in the chain — both the bus sends (outboard) and USR taps (dry recording to Model 12) pick up the tape color. This gives every recorded layer analog tape character as tracks are stacked up. Future option: replace with IK Multimedia Tascam tape plugin in the Loopback chain for a higher-quality emulation without using Wing FX slots.
 
@@ -155,6 +176,10 @@ Three tools are registered in `.mcp.json` and available as native Claude tools:
 | Batch mute/unmute 16 channels in a script | `oscsend` in a bash loop |
 | Set channel names and colors at startup | `scripts/set-channel-names.sh` (oscsend) |
 | Configure User Signal routing | `wing_set` (wapi can reach `/io/in/USR/N/user/...` where OSC can't) |
+
+### Key Rule: Mute Kills Pre-Fader Sends
+
+On the Wing, muting a channel kills **all** signal from that channel — including pre-fader bus sends. This is different from some consoles where pre-fader sends are independent of mute. If a channel needs to feed a bus but not go to main, remove it from main (`/ch/N/main/1/on i 0`) instead of muting it.
 
 ### Key Rule: Names and Colors
 
@@ -654,6 +679,20 @@ Build separate mixes for different monitoring needs using bus sends.
 - Each bus has independent send levels per channel — fully separate from the main mix
 
 ### Stereo Pair Management
+
+**Wing channels are inherently stereo.** Each channel strip handles a stereo pair of inputs. When a channel's input source is a stereo group (e.g., USB/9-10, LCL/3+4), both L and R are received on that single channel — no need for two channels. The channel's pan and width controls manage the stereo image.
+
+Two ways to handle stereo sources:
+1. **Single channel (preferred):** One channel receives both L+R. Set input source to the group (e.g., `USB`, `LCL`), and the Wing automatically pairs consecutive inputs (9+10, 3+4, etc.). Pan/width controls manage stereo image. Simpler routing, one fader controls both sides.
+2. **Two channels:** Use two mono channels panned L/R for independent L/R processing. More flexible but uses two channel strips.
+
+Current stereo sources on single channels:
+- Ch9 (Bass): USB/9-10
+- Ch10 (Keyboard): USB/11-12
+- Ch11 (Synth/Piano): USB/13-14
+- Ch12 (Drums): USB/15-16
+
+Commands:
 - "link drums" → ensure ch13 panned hard left, ch14 hard right, faders matched
 - "check stereo pairs" → query pan and fader on ch11/12 (synth) and ch13/14 (drums), flag if mismatched
 - "swap drum L/R" → swap pan positions on ch13 and ch14 (audience vs drummer perspective)

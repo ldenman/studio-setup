@@ -4,19 +4,26 @@ All gear is permanently wired into the patchbay. Default guitar and vocal chains
 
 ## Behringer Wing Rack -- Channel Assignments
 
-| Channel | Name             | Color | Source                            |
-| ------- | ---------------- | ----- | --------------------------------- |
-| 1       | Vocal Dry        | Blue  | LCL/1 (mic)                       |
-| 2       | Guitar Dry       | Red   | LCL/2 (DI)                        |
-| 3-8     | Open             |       | Local                             |
-| 9       | Bass             | Green | USB/9-10 (Logic, stereo pair)     |
-| 10      | Keyboard         | Green | USB/11-12 (Logic, stereo pair)    |
-| 11      | Synth/Piano      | Green | USB/13-14 (Logic, stereo pair)    |
-| 12      | Drums            | Green | USB/15-16 (Logic, stereo pair)    |
-| 13-16   | Open             |       |                                   |
-| 17      | Vocal Processed  | Blue  | LCL/17 (outboard return)          |
-| 18      | Guitar Processed | Red   | LCL/18 (outboard return)          |
-| 19-40   | Open             |       |                                   |
+Wing channels are inherently stereo — a single channel receives an L+R pair.
+
+| Channel | Name              | Color  | Source                                        | Notes |
+| ------- | ----------------- | ------ | --------------------------------------------- | ----- |
+| 1       | Vocal Dry         | Blue   | LCL/1 (mic)                                   | Pre-fader send to Bus 1 (vocal outboard) |
+| 2       | Guitar Dry        | Red    | LCL/2 (DI)                                    | Pre-fader send to Bus 5 (Electric) and Bus 6 (Acoustic); NOT on main |
+| 3-4     | Open              |        | Local                                         |       |
+| 5       | Gtr Acoustic DI   | Yellow | USR/5 (from Ch2, PRE tap)                     | Clean DI signal bypassing outboard; assigned to main; muted by default |
+| 6       | Gtr Ac Mics       | Yellow | LCL/3+4 (stereo condensers, XLR direct)       | Sends to Bus 6 (Acoustic); NOT on main; muted by default |
+| 7-8     | Open              |        | Local                                         |       |
+| 9       | Bass              | Green  | USB/9-10 (Logic, stereo pair)                 | Assigned to main |
+| 10      | Keyboard          | Green  | USB/11-12 (Logic, stereo pair)                |       |
+| 11      | Synth/Piano       | Green  | USB/13-14 (Logic, stereo pair)                |       |
+| 12      | Drums             | Green  | USB/15-16 (Logic, stereo pair)                |       |
+| 13-16   | Open              |        |                                               |       |
+| 17      | Vocal Processed   | Blue   | LCL/17 (outboard return)                      |       |
+| 18      | Guitar Processed  | Red    | LCL/18 (outboard return)                      |       |
+| 19-40   | Open              |        |                                               |       |
+
+**Mute behavior note:** Muting a channel kills its pre-fader sends. To keep sends flowing (e.g. for monitoring a silent channel), use main assign off instead of mute.
 
 ## USB Output Routing (Wing → Loopback → Model 12)
 
@@ -31,10 +38,13 @@ USB 1 and 2 record simultaneously — vocal on track 1, guitar on track 2.
 
 ## USR Routing (Virtual Patchbay)
 
-| USR | Name       | Source | Tap | Purpose                             |
-| --- | ---------- | ------ | --- | ----------------------------------- |
-| 1   | Vocal Dry  | Ch1    | PRE | Clean vocal for dry recording via USB |
-| 2   | Guitar Dry | Ch2    | PRE | Clean guitar for dry recording via USB |
+| USR | Name              | Source | Tap | Purpose                                          |
+| --- | ----------------- | ------ | --- | ------------------------------------------------ |
+| 1   | Vocal Dry         | Ch1    | PRE | Clean vocal for dry recording via USB Out 1      |
+| 2   | Guitar Dry        | Ch2    | PRE | Clean guitar for dry recording via USB Out 2     |
+| 3   | (free)            | —      | —   | Previously used for Bass LA2A test; now cleared  |
+| 4   | (free)            | —      | —   | Open                                             |
+| 5   | Gtr Acoustic DI   | Ch2    | PRE | Clean DI tap for Ch5; bypasses outboard          |
 
 ## Tascam Model 12 -- Track Assignments (per project)
 
@@ -81,36 +91,44 @@ Signal flows through these four normalled points without any cables patched:
 
 ### Patch Points
 
-| Point | Top (Output From)           | Bottom (Input To)              | Chain  |
-| ----- | --------------------------- | ------------------------------ | ------ |
-| 1     | Wing LCL Out 1 (Bus 1)      | HA73 A In                      | Vocal  |
-| 2     | HA73 A Out                  | WA76 A In                      | Vocal  |
-| 3     | WA76 A Out                  | Opto In                        | Vocal  |
-| 4     | Opto Out                    | Wing LCL In 17                 | Vocal  |
-| 5     | Wing LCL Out 2 (Bus 2)      | HA73 B In                      | Guitar |
-| 6     | HA73 B Out                  | WA76 B In                      | Guitar |
-| 7     | WA76 B Out                  | Distressor In                  | Guitar |
-| 8     | Distressor Out              | Wing LCL In 18                 | Guitar |
-| 9-24  |                             |                                | Open   |
+| Point | Top (Output From)           | Bottom (Input To)              | Chain        |
+| ----- | --------------------------- | ------------------------------ | ------------ |
+| 1     | Wing LCL Out 1 (Bus 1)      | HA73 A In                      | Vocal        |
+| 2     | HA73 A Out                  | WA76 A In                      | Vocal        |
+| 3     | WA76 A Out                  | Opto In                        | Vocal        |
+| 4     | Opto Out                    | Wing LCL In 17                 | Vocal        |
+| 5     | Wing LCL Out 2 (Bus 2)      | HA73 B In                      | Guitar       |
+| 6     | HA73 B Out                  | WA76 B In                      | Guitar       |
+| 7     | WA76 B Out                  | Distressor In                  | Guitar       |
+| 8     | Distressor Out              | Wing LCL In 18                 | Guitar       |
+| 9     | Wing LCL Out 3 (Bus 4L)     | Condenser Mic L                | Acoustic Mic |
+| 10    | Wing LCL Out 4 (Bus 4R)     | Condenser Mic R                | Acoustic Mic |
+| 11-24 |                             |                                | Open         |
 
 ## Bus Layout
 
-| Bus | Name         | Output       | `/io/out/LCL/N/in` index | Purpose |
-| --- | ------------ | ------------ | ------------------------ | ------- |
-| 1   | Vocal Send   | Wing Out 1   | 1 (Bus 1L)               | Pre-fader send from Ch1 → vocal outboard chain (P1–P4) |
-| 2   | Guitar Send  | Wing Out 2   | 3 (Bus 2L)               | Pre-fader send from Ch2 → guitar outboard chain (P5–P8); FX1 (RACKAMP) on pre-insert |
-| 3   | Verb Return  | (Main only)  | —                        | Shared reverb bus — receives sends from Bus 1 and Bus 2; FX2 (PLATE) on pre-insert |
+| Bus | Name         | Color  | Output         | `/io/out/LCL/N/in` index | Purpose |
+| --- | ------------ | ------ | -------------- | ------------------------ | ------- |
+| 1   | Vocal Send   | Blue   | Wing Out 1     | 1 (Bus 1L)               | Pre-fader send from Ch1 → vocal outboard chain (P1–P4) |
+| 2   | Guitar Send  | Red    | Wing Out 2     | 3 (Bus 2L)               | Receives from Bus 5 + Bus 6; sends to guitar outboard chain (P5–P8); no pre-insert |
+| 3   | Verb Return  | Green  | (Main only)    | —                        | Shared reverb bus — receives sends from Bus 1 and Bus 2; FX2 (PLATE) on pre-insert |
+| 4   | Mic Send     | —      | Wing Out 3+4   | 5/6 (Bus 4L/R)           | Stereo condenser mic send to P9 (L) + P10 (R) |
+| 5   | Electric     | Red    | → Bus 2 send   | —                        | FX1 (DELUXE) pre-insert; receives from Ch2; sends to Bus 2; muted by default |
+| 6   | Acoustic     | Yellow | → Bus 2 send   | —                        | FX11 (RACKAMP, clean/bright) pre-insert; receives from Ch2 + Ch6; sends to Bus 2 |
 
-Bus output `in` parameter uses stereo channel indices, not bus numbers: Bus 1L = 1, Bus 1R = 2, Bus 2L = 3, Bus 2R = 4, etc.
+Bus output `in` parameter uses stereo channel indices, not bus numbers: Bus 1L = 1, Bus 1R = 2, Bus 2L = 3, Bus 2R = 4, Bus 4L = 7, Bus 4R = 8, etc.
+
+**Guitar mode switching:** Bus 5 (Electric) and Bus 6 (Acoustic) both feed into Bus 2 (outboard send). Mute Bus 5 for acoustic mode, mute Bus 6 for electric mode. Ch2 sends pre-fader to both buses simultaneously — the muted bus is silenced before it reaches Bus 2.
 
 ## Wing FX Pre-Insert Assignments
 
 | FX Slot | Model   | Insert Location    | Purpose |
 | ------- | ------- | ------------------ | ------- |
-| FX1     | RACKAMP | Bus 2 pre-insert   | Acoustic guitar amp sim on guitar send (pre 7, buzz 2, punch 3, crunch 1, drive 1, output 8, EQ flat, cab on) |
+| FX1     | DELUXE  | Bus 5 pre-insert   | Electric guitar amp sim (Fender Deluxe) on Electric bus |
 | FX2     | PLATE   | Bus 3 pre-insert   | Shared plate reverb return — Bus 1 and Bus 2 send to Bus 3 |
 | FX9     | TAPE    | Ch1 pre-insert     | Tape saturation/warmth on dry vocal before outboard send |
 | FX10    | TAPE    | Ch2 pre-insert     | Tape saturation/warmth on dry guitar before outboard send |
+| FX11    | RACKAMP | Bus 6 pre-insert   | Acoustic amp sim (clean/bright: pre 7, buzz 1, punch 2, crunch 1, drive 1, output 8, leq 3, heq 7.5) |
 
 Pre-inserts are assigned at `/ch/N/preins/ins` and `/bus/N/preins/ins`, enabled at `.../preins/on i 1`.
 
@@ -118,7 +136,15 @@ Pre-inserts are assigned at `/ch/N/preins/ins` and `/bus/N/preins/ins`, enabled 
 
 **Vocal:** Mic → Wing LCL/1 → Ch1 (preamp gain) → FX9/TAPE (pre-insert) → Bus 1 send (pre-fader, 0dB) → Wing Out 1 → P1 → HA73 A → P2 → WA76 A → P3 → Opto → P4 → Wing LCL/17 → Ch17 (Vocal Processed)
 
-**Guitar:** DI → Wing LCL/2 → Ch2 (preamp gain) → FX10/TAPE (pre-insert) → Bus 2 send (pre-fader, 0dB) → FX1/RACKAMP (Bus 2 pre-insert) → Wing Out 2 → P5 → HA73 B → P6 → WA76 B → P7 → Distressor → P8 → Wing LCL/18 → Ch18 (Guitar Processed)
+**Guitar (Electric mode — Bus 5 unmuted, Bus 6 muted):** DI → Wing LCL/2 → Ch2 (preamp gain) → FX10/TAPE (pre-insert) → Bus 5 send (pre-fader) → FX1/DELUXE (Bus 5 pre-insert) → Bus 5 → Bus 2 send → Wing Out 2 → P5 → HA73 B → P6 → WA76 B → P7 → Distressor → P8 → Wing LCL/18 → Ch18 (Guitar Processed)
+
+**Guitar (Acoustic mode — Bus 6 unmuted, Bus 5 muted):** DI → Wing LCL/2 → Ch2 (preamp gain) → FX10/TAPE (pre-insert) → Bus 6 send (pre-fader) → FX11/RACKAMP (Bus 6 pre-insert) → Bus 6 → Bus 2 send → Wing Out 2 → P5 → HA73 B → P6 → WA76 B → P7 → Distressor → P8 → Wing LCL/18 → Ch18 (Guitar Processed)
+
+**Acoustic Mic path (Ch6 unmuted):** Condensers → Wing LCL/3+4 → Ch6 → Bus 6 send → FX11/RACKAMP (Bus 6 pre-insert) → Bus 6 → Bus 2 → outboard chain
+
+**Acoustic DI bypass (Ch5):** DI → Ch2 → USR/5 (PRE tap) → Ch5 → Main 1 (clean DI, no outboard; muted by default)
+
+**Shared Reverb:** Ch1/Ch2 → Bus 3 send → FX2/PLATE (Bus 3 pre-insert) → Bus 3 → Main 1
 
 **Shared Reverb:** Ch1/Ch2 → Bus 3 send → FX2/PLATE (Bus 3 pre-insert) → Bus 3 → Main 1
 

@@ -56,6 +56,20 @@
       "bottom": "Wing LCL In 18",
       "chain": "guitar",
       "active": true
+    },
+    {
+      "point": 9,
+      "top": "Wing LCL Out 3 (Bus 4L)",
+      "bottom": "Condenser Mic L",
+      "chain": "acoustic",
+      "active": true
+    },
+    {
+      "point": 10,
+      "top": "Wing LCL Out 4 (Bus 4R)",
+      "bottom": "Condenser Mic R",
+      "chain": "acoustic",
+      "active": true
     }
   ],
   "chains": {
@@ -69,10 +83,30 @@
     "guitar": {
       "color": "red",
       "pre_insert": {"fx_slot": 10, "model": "TAPE", "path": "/ch/2/preins/ins"},
-      "bus_pre_insert": {"fx_slot": 1, "model": "RACKAMP", "path": "/bus/2/preins/ins", "settings": {"pre": 7, "buzz": 2, "punch": 3, "crunch": 1, "drive": 1, "output": 8, "eq": "flat", "cab": "on"}},
-      "send": {"wing_out": 2, "source": "Bus 2", "io_out_in_index": 3},
+      "modes": {
+        "electric": {
+          "bus": 5,
+          "bus_pre_insert": {"fx_slot": 1, "model": "DELUXE", "path": "/bus/5/preins/ins"},
+          "default_state": "muted",
+          "notes": "Bus 5 muted by default; unmute Bus 5 and mute Bus 6 to enable electric mode"
+        },
+        "acoustic": {
+          "bus": 6,
+          "bus_pre_insert": {"fx_slot": 11, "model": "RACKAMP", "path": "/bus/6/preins/ins", "settings": {"pre": 7, "buzz": 1, "punch": 2, "crunch": 1, "drive": 1, "output": 8, "leq": 3, "heq": 7.5}},
+          "default_state": "active",
+          "notes": "Bus 6 active by default; receives from Ch2 and Ch6 (condenser mics)"
+        }
+      },
+      "send": {"wing_out": 2, "source": "Bus 2", "io_out_in_index": 3, "notes": "Bus 2 receives from Bus 5 + Bus 6; no pre-insert on Bus 2"},
       "return": {"wing_in": 18, "channel": 18},
       "gear": ["HA73 B", "WA76 B", "Distressor"]
+    },
+    "acoustic_mic": {
+      "color": "yellow",
+      "bus": 4,
+      "send": {"wing_out_l": 3, "wing_out_r": 4, "source": "Bus 4 L/R", "io_out_in_index_l": 7, "io_out_in_index_r": 8},
+      "patchbay_points": [9, 10],
+      "notes": "Bus 4 sends stereo condenser mics to P9 (L) and P10 (R). Ch6 (Gtr Ac Mics) receives LCL/3+4 and sends to Bus 6. Muted by default."
     },
     "reverb": {
       "color": "green",
@@ -81,6 +115,26 @@
       "sources": ["Bus 1", "Bus 2"],
       "destination": "Main 1",
       "notes": "Shared reverb return. Bus 1 and Bus 2 send to Bus 3. Bus 3 assigned to Main 1."
+    }
+  },
+  "channels": {
+    "5": {
+      "name": "Gtr Acoustic DI",
+      "color": "yellow",
+      "source": "USR/5",
+      "usr_tap": {"usr": 5, "from_channel": 2, "tap": "PRE"},
+      "on_main": true,
+      "default_state": "muted",
+      "notes": "Clean DI tap from Ch2 via USR/5 PRE. Bypasses all outboard. Muted by default — unmute when a clean DI reference or direct blend is needed."
+    },
+    "6": {
+      "name": "Gtr Ac Mics",
+      "color": "yellow",
+      "source": "LCL/3+4",
+      "on_main": false,
+      "sends_to": "Bus 6",
+      "default_state": "muted",
+      "notes": "Stereo condensers via XLR direct (phantom power on). NOT on main — signal flows through Bus 6 to Bus 2 to outboard. Must be unmuted for mic signal to flow."
     }
   }
 }
