@@ -1,0 +1,75 @@
+{
+  "description": "Samson S-Patch Plus 48-point TRS patchbay. Half-normalled: top flows to bottom when no cable inserted.",
+  "points": [
+    {
+      "point": 1,
+      "top": "Wing LCL Out 1 (Bus 1)",
+      "bottom": "HA73 A In",
+      "chain": "vocal",
+      "active": true
+    },
+    {
+      "point": 2,
+      "top": "HA73 A Out",
+      "bottom": "WA76 A In",
+      "chain": "vocal",
+      "active": true
+    },
+    {
+      "point": 3,
+      "top": "WA76 A Out",
+      "bottom": "Opto In",
+      "chain": "vocal",
+      "active": true
+    },
+    {
+      "point": 4,
+      "top": "Opto Out",
+      "bottom": "Wing LCL In 17",
+      "chain": "vocal",
+      "active": true
+    },
+    {
+      "point": 5,
+      "top": "Wing LCL Out 2 (Bus 2)",
+      "bottom": "HA73 B In",
+      "chain": "guitar",
+      "active": true
+    },
+    {
+      "point": 6,
+      "top": "HA73 B Out",
+      "bottom": "WA76 B In",
+      "chain": "guitar",
+      "active": true
+    },
+    {
+      "point": 7,
+      "top": "WA76 B Out",
+      "bottom": "Distressor In",
+      "chain": "guitar",
+      "active": true
+    },
+    {
+      "point": 8,
+      "top": "Distressor Out",
+      "bottom": "Wing LCL In 18",
+      "chain": "guitar",
+      "active": true
+    },
+  ],
+  "chains": {
+    "vocal": {
+      "color": "blue",
+      "send": {"wing_out": 1, "source": "Bus 1"},
+      "return": {"wing_in": 17, "channel": 17},
+      "gear": ["HA73 A", "WA76 A", "Opto"]
+    },
+    "guitar": {
+      "color": "red",
+      "send": {"wing_out": 2, "source": "Bus 2"},
+      "return": {"wing_in": 18, "channel": 18},
+      "gear": ["HA73 B", "WA76 B", "Distressor"]
+    },
+  }
+}

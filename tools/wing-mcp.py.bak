@@ -1,0 +1,201 @@
+#!/usr/bin/env python3
+"""
+MCP server that exposes wingctl as Claude Code tools.
+
+Tools:
+  wing_get  — Read a Wing parameter
+  wing_set  — Set a Wing parameter
+  wing_node — Dump all children of a node
+"""
+
+import json
+import subprocess
+import sys
+import os
+
+WINGCTL = os.path.join(os.path.dirname(os.path.abspath(__file__)), "wingctl")
+
+TOOLS = [
+    {
+        "name": "wing_get",
+        "description": "Read a parameter from the Behringer Wing mixer. Returns the current value. Use OSC-style paths like /ch/1/fdr, /ch/5/dyn/mdl, /io/in/USR/1/user/grp. Use this before modifying a value to know the baseline.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "description": "OSC path to the parameter (e.g. /ch/1/fdr, /ch/5/dyn/mdl, /io/in/USR/1/name)"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": ["auto", "string", "int", "float"],
+                    "description": "Value type. Default 'auto' detects from Wing. Use 'string' for names/models, 'int' for mutes/on-off, 'float' for faders/levels.",
+                    "default": "auto"
+                }
+            },
+            "required": ["path"]
+        }
+    },
+    {
+        "name": "wing_set",
+        "description": "Set a parameter on the Behringer Wing mixer. Use OSC-style paths. Returns OK on success.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "description": "OSC path to the parameter (e.g. /ch/1/fdr, /ch/5/dyn/mdl)"
+                },
+                "value": {
+                    "type": "string",
+                    "description": "Value to set. Strings for names/models (e.g. 'LA'), numbers for faders/levels (e.g. '-10.0'), integers for on/off (e.g. '1')"
+                }
+            },
+            "required": ["path", "value"]
+        }
+    },
+    {
+        "name": "wing_node",
+        "description": "Dump all parameters under a Wing node. Returns a comma-separated list of key=value pairs. Use for troubleshooting, discovering parameters, or checking full channel/source state at once.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "description": "OSC path to the node (e.g. /ch/5, /io/in/USR/1, /fx/1)"
+                }
+            },
+            "required": ["path"]
+        }
+    }
+]
+
+
+def run_wingctl(*args):
+    try:
+        result = subprocess.run(
+            [WINGCTL] + list(args),
+            capture_output=True, text=True, timeout=10
+        )
+        if result.returncode == 0:
+            return result.stdout.strip()
+        else:
+            return f"error: {result.stderr.strip()}"
+    except subprocess.TimeoutExpired:
+        return "error: wingctl timed out"
+    except FileNotFoundError:
+        return f"error: wingctl not found at {WINGCTL}"
+
+
+def handle_tool_call(name, arguments):
+    if name == "wing_get":
+        path = arguments["path"]
+        typ = arguments.get("type", "auto")
+        cmd = {"auto": "get", "string": "gets", "int": "geti", "float": "getf"}[typ]
+        return run_wingctl(cmd, path)
+
+    elif name == "wing_set":
+        return run_wingctl("set", arguments["path"], arguments["value"])
+
+    elif name == "wing_node":
+        return run_wingctl("node", arguments["path"])
+
+    return f"error: unknown tool {name}"
+
+
+# --- MCP stdio protocol (binary I/O) ---
+
+stdin = sys.stdin.buffer
+stdout = sys.stdout.buffer
+
+
+def send(msg):
+    body = json.dumps(msg).encode("utf-8")
+    header = f"Content-Length: {len(body)}\r\n\r\n".encode("ascii")
+    stdout.write(header + body)
+    stdout.flush()
+
+
+def recv():
+    # Read headers until we find Content-Length, then blank line
+    headers = {}
+    while True:
+        line = stdin.readline()
+        if not line:
+            return None
+        line = line.decode("utf-8").strip()
+        if line == "":
+            if headers:
+                break
+            continue
+        if ":" in line:
+            key, val = line.split(":", 1)
+            headers[key.strip()] = val.strip()
+
+    length = int(headers.get("Content-Length", 0))
+    if length == 0:
+        return None
+
+    body = b""
+    while len(body) < length:
+        chunk = stdin.read(length - len(body))
+        if not chunk:
+            return None
+        body += chunk
+
+    return json.loads(body.decode("utf-8"))
+
+
+def main():
+    while True:
+        msg = recv()
+        if msg is None:
+            break
+
+        method = msg.get("method", "")
+        msg_id = msg.get("id")
+
+        if method == "initialize":
+            send({
+                "jsonrpc": "2.0",
+                "id": msg_id,
+                "result": {
+                    "protocolVersion": "2024-11-05",
+                    "capabilities": {"tools": {}},
+                    "serverInfo": {"name": "wing-mcp", "version": "1.0.0"}
+                }
+            })
+
+        elif method == "notifications/initialized":
+            pass  # no response needed
+
+        elif method == "tools/list":
+            send({
+                "jsonrpc": "2.0",
+                "id": msg_id,
+                "result": {"tools": TOOLS}
+            })
+
+        elif method == "tools/call":
+            params = msg.get("params", {})
+            tool_name = params.get("name", "")
+            arguments = params.get("arguments", {})
+            result = handle_tool_call(tool_name, arguments)
+            send({
+                "jsonrpc": "2.0",
+                "id": msg_id,
+                "result": {
+                    "content": [{"type": "text", "text": result}]
+                }
+            })
+
+        elif msg_id is not None:
+            send({
+                "jsonrpc": "2.0",
+                "id": msg_id,
+                "error": {"code": -32601, "message": f"Unknown method: {method}"}
+            })
+
+
+if __name__ == "__main__":
+    main()

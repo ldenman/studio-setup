@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "wing": {
+      "type": "stdio",
+      "command": "python3",
+      "args": ["tools/wing-mcp.py"],
+      "cwd": "/Users/lake/src/studio-setup"
+    }
+  }
+}

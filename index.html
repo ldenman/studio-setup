@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lake's Studio</title>
+<style>
+:root {
+  --bg: #0c0c0b;
+  --surface: #151513;
+  --surface-hover: #1c1c19;
+  --border: rgba(237, 233, 225, 0.07);
+  --border-hover: rgba(237, 233, 225, 0.14);
+  --text: #ede9e1;
+  --text-dim: #8a8578;
+  --accent: #c8a55a;
+  --accent-dim: rgba(200, 165, 90, 0.15);
+  --red: #c45a4a;
+  --blue: #5a8fb4;
+  --green: #6aaa6a;
+  --yellow: #c8a55a;
+  --mono: "SF Mono", "Menlo", "Consolas", monospace;
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 60px; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--bg);
+  background-image:
+    radial-gradient(ellipse at 15% 10%, rgba(200, 165, 90, 0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 85% 60%, rgba(90, 143, 180, 0.03) 0%, transparent 50%);
+  color: var(--text);
+  line-height: 1.65;
+  font-size: 15px;
+}
+/* Film grain */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  opacity: 0.025;
+  pointer-events: none;
+  z-index: 9999;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+  mix-blend-mode: overlay;
+}
+a { color: var(--accent); text-decoration: none; transition: opacity 0.2s var(--ease); }
+a:hover { opacity: 0.8; }
+
+/* NAV */
+nav { position: sticky; top: 0; z-index: 100; background: rgba(12,12,11,0.85); backdrop-filter: blur(16px) saturate(1.2); -webkit-backdrop-filter: blur(16px) saturate(1.2); border-bottom: 1px solid var(--border); padding: 0 clamp(16px, 3vw, 32px); display: flex; align-items: center; height: 56px; gap: 32px; }
+nav .logo { font-family: var(--serif); font-weight: 600; font-size: 15px; letter-spacing: 1.5px; white-space: nowrap; cursor: pointer; color: var(--text); text-transform: uppercase; }
+nav .links { display: flex; gap: 2px; overflow-x: auto; }
+nav .links a { padding: 8px 14px; border-radius: 6px; font-size: 12px; color: var(--text-dim); white-space: nowrap; transition: background 0.25s var(--ease), color 0.25s var(--ease); letter-spacing: 0.3px; }
+nav .links a:hover, nav .links a.active { color: var(--text); background: var(--surface-hover); opacity: 1; }
+
+/* LAYOUT */
+main { max-width: 1100px; margin: 0 auto; padding: clamp(20px, 4vw, 40px); }
+section { margin-bottom: clamp(64px, 10vw, 96px); }
+h1 { font-family: var(--serif); font-size: clamp(32px, 5vw, 48px); font-weight: 400; margin-bottom: 8px; letter-spacing: 0.5px; }
+h2 { font-family: var(--serif); font-size: clamp(20px, 3vw, 26px); font-weight: 400; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border); letter-spacing: 0.3px; }
+h3 { font-size: 11px; font-weight: 600; margin: clamp(28px, 4vw, 40px) 0 12px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1.5px; }
+h4 { font-size: 15px; font-weight: 600; margin: 24px 0 8px; }
+p { color: var(--text-dim); margin-bottom: 14px; font-size: 14px; line-height: 1.7; }
+code { font-family: var(--mono); font-size: 12px; background: rgba(237, 233, 225, 0.06); padding: 2px 7px; border-radius: 4px; }
+
+/* HERO */
+.hero { text-align: center; padding: clamp(72px, 12vw, 120px) 24px clamp(56px, 10vw, 96px); background: radial-gradient(ellipse at 50% 0%, rgba(200, 165, 90, 0.08) 0%, transparent 50%); }
+.hero h1 { font-size: clamp(36px, 6vw, 56px); font-weight: 300; letter-spacing: 1px; margin-bottom: 24px; }
+.hero-tagline { font-size: clamp(14px, 1.5vw, 16px); font-weight: 400; color: var(--text-dim); margin-bottom: 20px; max-width: 520px; margin-left: auto; margin-right: auto; line-height: 1.8; }
+.hero-sub { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 3px; color: var(--text-dim); opacity: 0.45; }
+.net-badge { display: inline-block; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 5px 14px; font-family: var(--mono); font-size: 12px; color: var(--accent); }
+
+/* STATS */
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; margin: 24px 0; }
+.stat { background: var(--surface); border-radius: 10px; padding: 18px 16px; text-align: center; border: 1px solid var(--border); transition: border-color 0.3s var(--ease); }
+.stat:hover { border-color: var(--border-hover); }
+.stat .num { font-family: var(--serif); font-size: 32px; font-weight: 400; color: var(--accent); }
+.stat .label { font-family: var(--mono); font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+/* SERVICES */
+.services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 16px; }
+.service-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 24px; transition: border-color 0.3s var(--ease), transform 0.3s var(--ease); }
+.service-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+.service-card h4 { margin-top: 0; margin-bottom: 8px; font-size: 14px; color: var(--text); letter-spacing: 0.3px; }
+.service-card p { font-size: 13px; margin-bottom: 0; line-height: 1.6; color: var(--text-dim); }
+
+/* SIGNAL FLOW */
+.flow-container { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+@media (max-width: 800px) { .flow-container { grid-template-columns: 1fr; } }
+.flow { background: var(--surface); border-radius: 12px; padding: 28px; border: 1px solid var(--border); }
+.flow h3 { margin-top: 0; }
+.flow-chain { display: flex; flex-direction: column; align-items: center; gap: 0; }
+.flow-node { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 10px 20px; text-align: center; width: 100%; max-width: 280px; position: relative; }
+.flow-node .name { font-weight: 600; font-size: 13px; }
+.flow-node .detail { font-size: 11px; color: var(--text-dim); }
+.flow-node.gear { border-color: rgba(200, 165, 90, 0.35); }
+.flow-node.wing { border-color: rgba(106, 170, 106, 0.35); }
+.flow-node.pb { border-color: var(--border-hover); background: transparent; padding: 5px 14px; border-style: dashed; max-width: 200px; }
+.flow-node.pb .name { font-family: var(--mono); font-size: 11px; color: var(--text-dim); }
+.flow-arrow { width: 1px; height: 18px; background: rgba(237, 233, 225, 0.12); position: relative; }
+.flow-arrow::after { content: ""; position: absolute; bottom: -3px; left: -3px; width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 5px solid rgba(237, 233, 225, 0.12); }
+.flow.guitar .flow-node.wing { border-color: rgba(196, 90, 74, 0.4); }
+.flow.guitar .flow-arrow { background: rgba(196, 90, 74, 0.3); }
+.flow.guitar .flow-arrow::after { border-top-color: rgba(196, 90, 74, 0.3); }
+.flow.vocal .flow-node.wing { border-color: rgba(90, 143, 180, 0.4); }
+.flow.vocal .flow-arrow { background: rgba(90, 143, 180, 0.3); }
+.flow.vocal .flow-arrow::after { border-top-color: rgba(90, 143, 180, 0.3); }
+
+/* CHANNEL STRIPS */
+.channels-grid { display: flex; gap: 4px; overflow-x: auto; padding-bottom: 8px; }
+.ch-strip { flex: 0 0 66px; background: var(--surface); border-radius: 8px; padding: 10px 6px; text-align: center; border: 1px solid var(--border); min-height: 155px; display: flex; flex-direction: column; justify-content: space-between; transition: border-color 0.3s var(--ease); }
+.ch-strip:hover { border-color: var(--border-hover); }
+.ch-strip .ch-num { font-family: var(--mono); font-size: 10px; color: var(--text-dim); }
+.ch-strip .ch-color { width: 100%; height: 3px; border-radius: 2px; margin: 6px 0; opacity: 0.7; }
+.ch-strip .ch-name { font-size: 10px; font-weight: 600; line-height: 1.3; min-height: 28px; display: flex; align-items: center; justify-content: center; }
+.ch-strip .ch-src { font-family: var(--mono); font-size: 9px; color: var(--text-dim); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+.ch-strip .fader { width: 3px; height: 36px; background: rgba(237, 233, 225, 0.08); border-radius: 2px; margin: 6px auto; position: relative; }
+.ch-strip .fader::after { content: ""; position: absolute; bottom: 14px; left: -3px; width: 9px; height: 3px; background: var(--text-dim); border-radius: 1px; }
+.ch-strip.dim { opacity: .35; }
+.ch-sep { flex: 0 0 1px; background: var(--border); border-radius: 1px; align-self: stretch; margin: 0 5px; }
+
+/* PATCHBAY */
+.pb-rack { margin: 20px 0; }
+.pb-row { display: flex; gap: 0; }
+.pb-row.top .pb-jack { border-radius: 8px 8px 0 0; border-bottom: none; }
+.pb-row.bottom .pb-jack { border-radius: 0 0 8px 8px; }
+.pb-jack { flex: 1; background: var(--surface); border: 1px solid var(--border); padding: 10px 8px; text-align: center; min-width: 0; transition: border-color 0.3s var(--ease); }
+.pb-jack.active { border-color: rgba(106, 170, 106, 0.25); }
+.pb-jack.inactive { opacity: .3; }
+.pb-jack .pb-num { font-family: var(--mono); font-size: 10px; color: var(--text-dim); font-weight: 600; margin-bottom: 4px; }
+.pb-jack .pb-conn { font-size: 11px; line-height: 1.4; min-height: 28px; display: flex; align-items: center; justify-content: center; }
+.pb-row-label { font-family: var(--mono); font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: .5px; padding: 6px 0 2px 4px; }
+.pb-normal { display: flex; gap: 0; }
+.pb-normal .pb-arrow { flex: 1; text-align: center; font-size: 10px; color: var(--text-dim); padding: 2px 0; }
+.pb-normal .pb-arrow.active { color: var(--accent); }
+
+/* Legacy compat */
+.pb-grid { display: none; }
+
+/* SOUNDS */
+.sounds-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 12px; margin-top: 16px; }
+.sound-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 24px; transition: border-color 0.3s var(--ease); }
+.sound-card:hover { border-color: var(--border-hover); }
+.sound-card h4 { font-family: var(--serif); margin-top: 0; margin-bottom: 4px; font-weight: 400; font-size: 16px; }
+.sound-desc { font-style: italic; color: var(--text-dim); font-size: 13px; margin-bottom: 14px; }
+
+/* TABLES */
+table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
+th { text-align: left; padding: 8px 12px; background: var(--surface); border-bottom: 1px solid var(--border-hover); font-family: var(--mono); font-weight: 500; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); position: sticky; top: 56px; z-index: 1; }
+td { padding: 8px 12px; border-bottom: 1px solid var(--border); }
+tr:hover td { background: var(--surface-hover); }
+td code { font-size: 11px; }
+td.model { font-family: var(--mono); font-weight: 600; color: var(--accent); }
+
+/* TABS */
+.tabs { display: flex; gap: 4px; margin-bottom: 20px; flex-wrap: wrap; }
+.tabs input[type="radio"] { display: none; }
+.tabs label { padding: 8px 16px; border-radius: 6px; font-size: 12px; cursor: pointer; color: var(--text-dim); background: var(--surface); border: 1px solid var(--border); transition: all 0.25s var(--ease); letter-spacing: 0.3px; }
+.tabs label:hover { border-color: var(--border-hover); }
+.tabs input:checked + label { color: var(--text); background: var(--surface-hover); border-color: var(--border-hover); }
+.tab-content { display: none; }
+#tab-wing-ch:checked ~ .tc-wing-ch,
+#tab-wing-fx:checked ~ .tc-wing-fx,
+#tab-outboard:checked ~ .tc-outboard,
+#tab-software:checked ~ .tc-software { display: block; }
+
+/* GEAR CARDS */
+details { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 8px; transition: border-color 0.3s var(--ease); }
+details:hover { border-color: var(--border-hover); }
+details[open] { border-color: var(--border-hover); }
+summary { padding: 16px 20px; cursor: pointer; font-weight: 500; font-size: 14px; list-style: none; display: flex; justify-content: space-between; align-items: center; transition: color 0.2s var(--ease); }
+summary:hover { color: var(--accent); }
+summary::after { content: "+"; color: var(--text-dim); font-size: 16px; font-weight: 300; }
+details[open] summary::after { content: "−"; }
+summary::-webkit-details-marker { display: none; }
+details .content { padding: 0 20px 20px; }
+details .content p { font-size: 13px; }
+details table { font-size: 12px; }
+
+/* QUICK REF */
+.bpm-calc { display: flex; gap: 12px; align-items: center; margin: 14px 0; }
+.bpm-calc input { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; font-size: 18px; font-family: var(--mono); color: var(--text); width: 100px; text-align: center; transition: border-color 0.2s var(--ease); }
+.bpm-calc input:focus { outline: none; border-color: var(--accent); }
+.bpm-results { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; margin: 14px 0; }
+.bpm-results .item { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px; text-align: center; }
+.bpm-results .item .val { font-family: var(--mono); font-size: 20px; font-weight: 600; color: var(--accent); }
+.bpm-results .item .subdiv { font-family: var(--mono); font-size: 10px; color: var(--text-dim); letter-spacing: 0.5px; }
+
+/* SEARCH */
+.search-box { width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; font-size: 14px; color: var(--text); margin-bottom: 20px; transition: border-color 0.2s var(--ease); }
+.search-box:focus { outline: none; border-color: var(--accent); }
+.search-box::placeholder { color: var(--text-dim); }
+
+/* COLOR SWATCHES */
+.color-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); gap: 6px; }
+.color-swatch { display: flex; align-items: center; gap: 8px; padding: 7px 10px; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; font-size: 11px; font-family: var(--mono); }
+.color-swatch .dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
+
+/* OSC REF */
+.osc-cmd { font-family: var(--mono); font-size: 11px; background: rgba(200, 165, 90, 0.06); padding: 4px 8px; border-radius: 4px; display: block; margin: 3px 0; color: var(--accent); }
+
+/* CONTACT */
+.contact-block { text-align: center; padding: clamp(40px, 8vw, 64px) 24px; }
+.contact-block p { font-family: var(--serif); font-size: 18px; font-weight: 400; margin-bottom: 24px; color: var(--text); }
+.contact-link { display: inline-block; background: transparent; border: 1px solid var(--accent); border-radius: 8px; padding: 14px 36px; font-size: 15px; font-weight: 500; color: var(--accent); letter-spacing: 0.5px; transition: background 0.3s var(--ease), color 0.3s var(--ease); }
+.contact-link:hover { background: var(--accent); color: var(--bg); opacity: 1; }
+
+@media (max-width: 600px) {
+  nav { padding: 0 12px; gap: 16px; }
+  nav .links a { padding: 6px 10px; font-size: 11px; }
+  main { padding: 16px; }
+  .hero { padding: 56px 16px 44px; }
+  .flow-container { grid-template-columns: 1fr; }
+  .ch-strip { flex: 0 0 54px; }
+  .services-grid { grid-template-columns: 1fr; }
+  .sounds-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="#">LAKE'S STUDIO</a>
+  <div class="links">
+    <a href="#about">About</a>
+    <a href="#gear">Gear</a>
+    <a href="#signal-flow">Signal Flow</a>
+    <a href="#sounds">Sounds</a>
+    <a href="#effects">Effects</a>
+    <a href="#tools">Tools</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="hero">
+  <h1>Lake's Studio</h1>
+  <p class="hero-tagline">Neve preamp, 1176 compressor, LA-2A leveling amp — normalled through a 48-point patchbay. Wing preamp for gain, outboard for color.</p>
+  <p class="hero-sub">Analog &middot; Digital &middot; Automated</p>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <h2>The Studio</h2>
+  <p>The studio should never get in the way of the music. Every input runs through a permanently wired analog chain — normalled, gain-staged, ready. Plug in and hit record. The outboard is already in the path.</p>
+  <p>The Wing Rack handles routing, monitoring, and 16 slots of classic effect emulations, all controllable via OSC. Logic Pro session players route through the console alongside live instruments. Everything records dry to the Tascam Model 12 — clean multitracks, analog monitoring.</p>
+  <div class="stats">
+    <div class="stat"><div class="num">16</div><div class="label">Channels</div></div>
+    <div class="stat"><div class="num">4</div><div class="label">Outboard</div></div>
+    <div class="stat"><div class="num">12</div><div class="label">Tracks</div></div>
+    <div class="stat"><div class="num">16</div><div class="label">FX Slots</div></div>
+  </div>
+  <h3>What happens here</h3>
+  <div class="services-grid">
+    <div class="service-card">
+      <h4>Recording</h4>
+      <p>Live instruments through Neve preamp, 1176, and LA-2A. Dry capture to multitrack. Analog monitoring.</p>
+    </div>
+    <div class="service-card">
+      <h4>Production</h4>
+      <p>Logic Pro session players — bass, keyboard, synth, drums — alongside live instruments through the console.</p>
+    </div>
+    <div class="service-card">
+      <h4>Mixing</h4>
+      <p>Hybrid analog/digital. Outboard processing, Neve and SSL channel strip emulations, 16 FX slots.</p>
+    </div>
+    <div class="service-card">
+      <h4>Sound Design</h4>
+      <p>Amp sims, tape saturation, pitch shifting, modulation. AmpliTube, TONEX, and MixBox in the DAW.</p>
+    </div>
+  </div>
+</section>
+
+<!-- GEAR -->
+<section id="gear">
+  <h2>Gear</h2>
+
+  <h3>Console</h3>
+  <p>Behringer Wing Rack. 48 channels, 28 buses, 16 FX slots, OSC automation. The brain of the studio.</p>
+
+  <details>
+    <summary>Behringer Wing Rack — Digital Mixer / FX / Monitor Controller</summary>
+    <div class="content">
+      <p>48-channel, 28-bus digital mixer. 8 MIDAS PRO preamps. 16 FX slots (8 premium). OSC controllable. 40-bit floating point DSP, 1ms round-trip latency.</p>
+      <table>
+        <tr><th>I/O</th><th>Count</th><th>Connector</th></tr>
+        <tr><td>Mic/Line Inputs</td><td>8</td><td>XLR/TRS combo</td></tr>
+        <tr><td>Analog Outputs</td><td>8</td><td>XLR</td></tr>
+        <tr><td>Main Outputs</td><td>1 pair (L/R)</td><td>XLR</td></tr>
+        <tr><td>AUX In/Out</td><td>8 in / 8 out</td><td>1/4" TRS</td></tr>
+        <tr><td>AES/EBU</td><td>1 in / 1 out</td><td>XLR</td></tr>
+        <tr><td>AES50</td><td>3 ports</td><td>etherCON</td></tr>
+        <tr><td>USB Audio</td><td>48 in / 48 out</td><td>USB-B</td></tr>
+        <tr><td>Headphone</td><td>1 (front)</td><td>1/4" TRS</td></tr>
+        <tr><td>MIDI</td><td>In + Out</td><td>5-pin DIN</td></tr>
+        <tr><td>Network</td><td>2 ports</td><td>Ethernet</td></tr>
+        <tr><td>SD Cards</td><td>2 slots</td><td>SD/SDHC</td></tr>
+      </table>
+    </div>
+  </details>
+
+  <h4>Channel Layout</h4>
+  <div class="channels-grid">
+    <div class="ch-strip"><div class="ch-num">1</div><div class="ch-color" style="background:var(--red)"></div><div class="fader"></div><div class="ch-name">Guitar Dry</div><div class="ch-src">Local</div></div>
+    <div class="ch-strip"><div class="ch-num">2</div><div class="ch-color" style="background:var(--red)"></div><div class="fader"></div><div class="ch-name">Guitar Proc</div><div class="ch-src">Local</div></div>
+    <div class="ch-strip"><div class="ch-num">3</div><div class="ch-color" style="background:var(--blue)"></div><div class="fader"></div><div class="ch-name">Vocal Dry</div><div class="ch-src">Local</div></div>
+    <div class="ch-strip"><div class="ch-num">4</div><div class="ch-color" style="background:var(--blue)"></div><div class="fader"></div><div class="ch-name">Vocal Proc</div><div class="ch-src">Local</div></div>
+    <div class="ch-sep"></div>
+    <div class="ch-strip dim"><div class="ch-num">5</div><div class="ch-color" style="background:#8a6d3b"></div><div class="fader"></div><div class="ch-name">Open</div><div class="ch-src">Local</div></div>
+    <div class="ch-strip dim"><div class="ch-num">6</div><div class="ch-color" style="background:#8a6d3b"></div><div class="fader"></div><div class="ch-name">Open</div><div class="ch-src">Local</div></div>
+    <div class="ch-strip dim"><div class="ch-num">7</div><div class="ch-color" style="background:#8a6d3b"></div><div class="fader"></div><div class="ch-name">Open</div><div class="ch-src">Local</div></div>
+    <div class="ch-strip dim"><div class="ch-num">8</div><div class="ch-color" style="background:#8a6d3b"></div><div class="fader"></div><div class="ch-name">Open</div><div class="ch-src">Local</div></div>
+    <div class="ch-sep"></div>
+    <div class="ch-strip"><div class="ch-num">9</div><div class="ch-color" style="background:var(--green)"></div><div class="fader"></div><div class="ch-name">Bass</div><div class="ch-src">DAW</div></div>
+    <div class="ch-strip"><div class="ch-num">10</div><div class="ch-color" style="background:var(--green)"></div><div class="fader"></div><div class="ch-name">Keyboard</div><div class="ch-src">DAW</div></div>
+    <div class="ch-strip"><div class="ch-num">11</div><div class="ch-color" style="background:var(--green)"></div><div class="fader"></div><div class="ch-name">Synth L</div><div class="ch-src">DAW</div></div>
+    <div class="ch-strip"><div class="ch-num">12</div><div class="ch-color" style="background:var(--green)"></div><div class="fader"></div><div class="ch-name">Synth R</div><div class="ch-src">DAW</div></div>
+    <div class="ch-strip"><div class="ch-num">13</div><div class="ch-color" style="background:var(--green)"></div><div class="fader"></div><div class="ch-name">Drums L</div><div class="ch-src">DAW</div></div>
+    <div class="ch-strip"><div class="ch-num">14</div><div class="ch-color" style="background:var(--green)"></div><div class="fader"></div><div class="ch-name">Drums R</div><div class="ch-src">DAW</div></div>
+    <div class="ch-sep"></div>
+    <div class="ch-strip dim"><div class="ch-num">15</div><div class="ch-color" style="background:var(--green)"></div><div class="fader"></div><div class="ch-name">Open</div><div class="ch-src">DAW</div></div>
+    <div class="ch-strip dim"><div class="ch-num">16</div><div class="ch-color" style="background:var(--green)"></div><div class="fader"></div><div class="ch-name">Open</div><div class="ch-src">DAW</div></div>
+  </div>
+
+  <h4>Model 12 Track Assignments (via Loopback)</h4>
+  <table>
+    <tr><th>Track</th><th>Source</th><th>Format</th></tr>
+    <tr><td>1</td><td>Guitar Dry (Wing ch1)</td><td>Mono</td></tr>
+    <tr><td>2</td><td>Vocal Dry (Wing ch3)</td><td>Mono</td></tr>
+    <tr><td>3</td><td>Bass (Wing ch9)</td><td>Mono</td></tr>
+    <tr><td>4</td><td>Keyboard (Wing ch10)</td><td>Mono</td></tr>
+    <tr><td>5-6</td><td>Open</td><td>Mono</td></tr>
+    <tr><td>7/8</td><td>Synth/Piano (Wing ch11/12)</td><td>Stereo</td></tr>
+    <tr><td>9/10</td><td>Drums (Wing ch13/14)</td><td>Stereo</td></tr>
+    <tr><td>11/12</td><td>Main L/R</td><td>Stereo (always recording)</td></tr>
+  </table>
+
+  <h3>Outboard</h3>
+  <p>Four units, permanently wired. Neve preamp for color and EQ shaping. 1176 for fast transient control. Opto for smooth vocal leveling. Distressor available via patchbay when you want something different.</p>
+
+  <details>
+    <summary>HA73-EQX2 — Neve 1073 Preamp/EQ Clone (Heritage Audio)</summary>
+    <div class="content">
+      <p>Dual-channel transistor preamp with 3-band EQ. Carnhill transformers. In the default guitar and vocal chains.</p>
+      <p><strong>EQ:</strong> Low shelf (35/60/110/220 Hz), Mid peak (360/700/1.6k/3.2k/4.8k/7.2k Hz), High shelf (10k/12k/16k Hz), HPF (50/80/160/300 Hz)</p>
+      <p><strong>I/O per channel:</strong> XLR mic in, XLR line in, 1/4" Hi-Z DI (front), XLR output</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>WA76-D2 — 1176 FET Compressor Clone (Warm Audio)</summary>
+    <div class="content">
+      <p>Dual-channel FET compressor. CineMag transformers. Dry/wet knob for parallel compression. Three stereo modes: Linked, Primary/Secondary, Dual Mono.</p>
+      <p><strong>Controls:</strong> Input (threshold), Output (makeup), Attack (20μs–800μs), Release (50ms–1.1s), Ratio (4:1, 8:1, 12:1, 20:1, ALL buttons)</p>
+      <p><strong>I/O per channel:</strong> XLR + 1/4" TRS input, XLR + 1/4" TRS output</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Distressor — Compressor (Empirical Labs EL8)</summary>
+    <div class="content">
+      <p>Single-channel compressor. Not in the default chain — patch via patchbay. Transformerless balanced I/O.</p>
+      <p><strong>Controls:</strong> Input, Output, Attack, Release, Ratio (1:1 to NUKE), Detector HP, Dist 2 (tape), Dist 3 (tube)</p>
+      <p><strong>I/O:</strong> XLR + 1/4" TRS input, XLR + 1/4" TRS output, 1/4" TRS stereo link</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Audioscape Opto — LA-2A Optical Compressor Clone</summary>
+    <div class="content">
+      <p>Single-channel optical compressor. In the default vocal chain after the 1176. Smooth, musical, set-and-forget.</p>
+      <p><strong>Controls:</strong> Peak Reduction, Gain, Mode (Compress/Limit)</p>
+      <p><strong>I/O:</strong> XLR input, XLR output, 1/4" TRS stereo link</p>
+    </div>
+  </details>
+
+  <h3>Recorder</h3>
+  <p>Tascam Model 12. 12 tracks to SD card via Loopback — no physical audio cables. Dry capture while you monitor through the analog chain.</p>
+
+  <details>
+    <summary>Tascam Model 12 — Multitrack Recorder / Interface</summary>
+    <div class="content">
+      <p>12-track recorder, 12-in/10-out USB-C audio interface. Connected via Loopback software — no physical audio cables. Records to SD card.</p>
+      <p><strong>Physical I/O (unused):</strong> 10x XLR/TRS combo inputs (all with phantom), XLR main outs, sub outs, 2 AUX sends, 2 headphone outs, click out, footswitch, MIDI in/out, Bluetooth</p>
+    </div>
+  </details>
+
+  <h3>Patchbay</h3>
+  <p>Samson S-Patch Plus. 48 points, half-normalled. Default chains are always connected — insert a cable to re-route.</p>
+  <div class="pb-rack" id="patchbay-rack"></div>
+  <script>
+  (function(){
+    const points = [
+      {point:1, top:"Wing LCL Out 1 (Bus 1)", bottom:"HA73 A In", chain:"vocal", active:true},
+      {point:2, top:"HA73 A Out", bottom:"WA76 A In", chain:"vocal", active:true},
+      {point:3, top:"WA76 A Out", bottom:"Opto In", chain:"vocal", active:true},
+      {point:4, top:"Opto Out", bottom:"Wing LCL In 17", chain:"vocal", active:true},
+      {point:5, top:"Wing LCL Out 2 (Bus 2)", bottom:"HA73 B In", chain:"guitar", active:true},
+      {point:6, top:"HA73 B Out", bottom:"WA76 B In", chain:"guitar", active:true},
+      {point:7, top:"WA76 B Out", bottom:"Distressor In", chain:"guitar", active:true},
+      {point:8, top:"Distressor Out", bottom:"Wing LCL In 18", chain:"guitar", active:true},
+    ];
+    const colors = {vocal:'var(--blue)',guitar:'var(--red)',monitors:'var(--green)'};
+    const rack = document.getElementById('patchbay-rack');
+
+    let topRow = '<div class="pb-row-label">Top row (outputs)</div><div class="pb-row top">';
+    let arrows = '<div class="pb-normal">';
+    let botRow = '<div class="pb-row bottom">';
+
+    points.forEach(p=>{
+      const color = colors[p.chain]||'';
+      const cls = p.active ? 'active' : 'inactive';
+      const style = p.active && color ? ` style="border-color:${color}"` : '';
+      const top = p.top || '—';
+      const bot = p.bottom || '—';
+
+      topRow += `<div class="pb-jack ${cls}"${style}><div class="pb-num">${p.point}</div><div class="pb-conn">${top}</div></div>`;
+      arrows += `<div class="pb-arrow${p.active?' active':''}">↓</div>`;
+      botRow += `<div class="pb-jack ${cls}"${style}><div class="pb-num">${p.point}</div><div class="pb-conn">${bot}</div></div>`;
+    });
+
+    topRow += '</div>';
+    arrows += '</div>';
+    botRow += '</div><div class="pb-row-label">Bottom row (inputs)</div>';
+
+    rack.innerHTML = topRow + arrows + botRow;
+  })();
+  </script>
+</section>
+
+<!-- SIGNAL FLOW -->
+<section id="signal-flow">
+  <h2>Signal Flow</h2>
+  <p>Vocal mic hits the Wing preamp for gain, then sends out to the outboard chain via a bus. No patching required — it's all normalled. Swap gear by inserting a cable.</p>
+  <div class="flow-container">
+    <div class="flow vocal">
+      <h3 style="color:var(--blue)">Vocal Chain</h3>
+      <div class="flow-chain">
+        <div class="flow-node"><div class="name">Vocal Mic</div><div class="detail">Microphone in</div></div>
+        <div class="flow-arrow"></div>
+        <div class="flow-node wing"><div class="name">Wing Ch 1</div><div class="detail">Vocal Dry — preamp gain stage</div></div>
+        <div class="flow-arrow"></div>
+        <div class="flow-node wing"><div class="name">Bus 1 → Out 1</div><div class="detail">Pre-fader send to patchbay</div></div>
+        <div class="flow-arrow"></div>
+        <div class="flow-node pb"><div class="name">P1</div></div>
+        <div class="flow-arrow"></div>
+        <div class="flow-node gear"><div class="name">HA73 A</div><div class="detail">Neve color + EQ shaping</div></div>
+        <div class="flow-arrow"></div>
+        <div class="flow-node pb"><div class="name">P2</div></div>
+        <div class="flow-arrow"></div>
+        <div class="flow-node gear"><div class="name">WA76 A</div><div class="detail">1176 — fast transient control</div></div>
+        <div class="flow-arrow"></div>
+        <div class="flow-node pb"><div class="name">P3</div></div>
+        <div class="flow-arrow"></div>
+        <div class="flow-node gear"><div class="name">Opto</div><div class="detail">LA-2A — smooth optical leveling</div></div>
+        <div class="flow-arrow"></div>
+        <div class="flow-node pb"><div class="name">P4</div></div>
+        <div class="flow-arrow"></div>
+        <div class="flow-node wing"><div class="name">Wing Ch 17</div><div class="detail">Vocal Processed — LCL 17 return</div></div>
+      </div>
+    </div>
+    <div class="flow guitar">
+      <h3 style="color:var(--red)">Guitar Chain</h3>
+      <div class="flow-chain">
+        <div class="flow-node"><div class="name">Guitar DI</div><div class="detail">Instrument in</div></div>
+        <div class="flow-arrow"></div>
+        <div class="flow-node wing"><div class="name">Wing Ch 2</div><div class="detail">Guitar Dry — preamp gain stage</div></div>
+        <div class="flow-arrow"></div>
+        <div class="flow-node wing"><div class="name">Bus 2 → Out 2</div><div class="detail">Pre-fader send to patchbay</div></div>
+        <div class="flow-arrow"></div>
+        <div class="flow-node pb"><div class="name">P5</div></div>
+        <div class="flow-arrow"></div>
+        <div class="flow-node gear"><div class="name">HA73 B</div><div class="detail">Neve color + EQ shaping</div></div>
+        <div class="flow-arrow"></div>
+        <div class="flow-node pb"><div class="name">P6</div></div>
+        <div class="flow-arrow"></div>
+        <div class="flow-node gear"><div class="name">WA76 B</div><div class="detail">1176 — fast transient control</div></div>
+        <div class="flow-arrow"></div>
+        <div class="flow-node pb"><div class="name">P7</div></div>
+        <div class="flow-arrow"></div>
+        <div class="flow-node gear"><div class="name">Distressor</div><div class="detail">Compression + harmonic color</div></div>
+        <div class="flow-arrow"></div>
+        <div class="flow-node pb"><div class="name">P8</div></div>
+        <div class="flow-arrow"></div>
+        <div class="flow-node wing"><div class="name">Wing Ch 18</div><div class="detail">Guitar Processed — LCL 18 return</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOUNDS -->
+<section id="sounds">
+  <h2>Sounds</h2>
+  <p>Starting points. Every session gets dialed to taste.</p>
+
+  <div class="sounds-grid">
+    <div class="sound-card">
+      <h4>Vocal Recording (Outboard)</h4>
+      <p class="sound-desc">Wing preamp for gain, then out through the analog chain for color and control.</p>
+      <table>
+        <tr><th>#</th><th>Gear</th><th>Settings</th></tr>
+        <tr><td>1</td><td>Wing Ch 1</td><td>Preamp gain on dynamic mic, pre-fader send to Bus 1</td></tr>
+        <tr><td>2</td><td>HA73 A</td><td>Neve EQ/color — not used as preamp, just tone shaping</td></tr>
+        <tr><td>3</td><td>WA76 A (1176)</td><td>Fast attack, medium release, 4:1, catching peaks</td></tr>
+        <tr><td>4</td><td>Opto (LA-2A)</td><td>Slow optical compression, 3-4dB GR, smoothing</td></tr>
+        <tr><td>5</td><td>Wing Ch 17</td><td>Processed return via LCL 17, routed to Main 1</td></tr>
+      </table>
+    </div>
+
+    <div class="sound-card">
+      <h4>Vocal Mix (Wing + Software)</h4>
+      <p class="sound-desc">Polished, spacious, sits-in-the-mix vocal treatment.</p>
+      <table>
+        <tr><th>#</th><th>Processor</th><th>Settings</th></tr>
+        <tr><td>1</td><td>Wing ch4 EQ → <code>E84</code></td><td>HPF 80Hz, cut 300Hz, boost 3kHz, air at 12kHz</td></tr>
+        <tr><td>2</td><td>Wing ch4 Dyn → <code>ECL33</code></td><td>Neve 33609: gentle comp + limiter</td></tr>
+        <tr><td>3</td><td>Wing FX → <code>PLATE</code></td><td>1.2s decay, 20ms pre-delay, via send</td></tr>
+        <tr><td>4</td><td>Wing FX → <code>ST-DL</code></td><td>BPM-synced 1/4 note delay, via send</td></tr>
+        <tr><td>5</td><td>MixBox (DAW)</td><td>Black 76 parallel comp + Tape Cassette warmth</td></tr>
+      </table>
+    </div>
+
+    <div class="sound-card">
+      <h4>Neve Vocal Sound (Wing)</h4>
+      <p class="sound-desc">Classic Neve console tone — warm, full, musical.</p>
+      <table>
+        <tr><th>#</th><th>Step</th><th>Settings</th></tr>
+        <tr><td>1</td><td><code>/ch/4/eq/mdl s "E84"</code></td><td>Neve 1084 EQ</td></tr>
+        <tr><td>2</td><td>EQ settings</td><td>Low 110Hz +2dB, Mid 3k2 +1.5dB, High 12k +1dB</td></tr>
+        <tr><td>3</td><td><code>/ch/4/dyn/mdl s "ECL33"</code></td><td>Neve 33609 compressor</td></tr>
+        <tr><td>4</td><td>Or: <code>/fx/12/mdl s "*EVEN*"</code></td><td>Full Neve channel strip on insert</td></tr>
+      </table>
+    </div>
+
+    <div class="sound-card">
+      <h4>Guitar Recording (Outboard)</h4>
+      <p class="sound-desc">Wing preamp for gain, then Neve color, 1176 transient control, Distressor for harmonic character.</p>
+      <table>
+        <tr><th>#</th><th>Gear</th><th>Settings</th></tr>
+        <tr><td>1</td><td>Wing Ch 2</td><td>Preamp gain on DI, pre-fader send to Bus 2</td></tr>
+        <tr><td>2</td><td>HA73 B</td><td>Neve EQ/color — warmth and body</td></tr>
+        <tr><td>3</td><td>WA76 B (1176)</td><td>Medium attack, fast release, 4:1–8:1</td></tr>
+        <tr><td>4</td><td>Distressor</td><td>Leveling + Dist 2 (warm) or Dist 3 (edge)</td></tr>
+        <tr><td>5</td><td>Wing Ch 18</td><td>Processed return via LCL 18, routed to Main 1</td></tr>
+      </table>
+    </div>
+
+    <div class="sound-card">
+      <h4>Mix Bus (Wing)</h4>
+      <p class="sound-desc">Subtle glue and sheen on the master. Just enough to tie the mix together.</p>
+      <table>
+        <tr><th>#</th><th>Processor</th><th>Settings</th></tr>
+        <tr><td>1</td><td>Main 1 EQ → <code>STD</code></td><td>+1dB high shelf at 12kHz, low cut at 30Hz</td></tr>
+        <tr><td>2</td><td>Main 1 Dyn → <code>SBUS</code></td><td>SSL G Bus: 2:1, slow attack, auto release, 1-2dB GR</td></tr>
+      </table>
+    </div>
+
+    <div class="sound-card">
+      <h4>Parallel Compression (Wing)</h4>
+      <p class="sound-desc">Keep the transients, add density. Blend to taste.</p>
+      <table>
+        <tr><th>#</th><th>Step</th><th>Settings</th></tr>
+        <tr><td>1</td><td><code>/ch/N/dyn/mdl s "76LA"</code></td><td>Load 1176 model</td></tr>
+        <tr><td>2</td><td>Slam it</td><td>Ratio ALL, low threshold</td></tr>
+        <tr><td>3</td><td><code>/ch/N/dyn/mix f 20.0</code></td><td>20% wet — keeps transients, adds density</td></tr>
+      </table>
+    </div>
+
+    <div class="sound-card">
+      <h4>Lo-Fi / Vintage</h4>
+      <p class="sound-desc">Tape hiss, wobble, warmth. Instant time travel.</p>
+      <table>
+        <tr><th>#</th><th>Processor</th><th>Settings</th></tr>
+        <tr><td>1</td><td>MixBox</td><td>Tape Cassette → Lo-Fi → Phonograph</td></tr>
+        <tr><td>2</td><td>T-RackS Tape Machine</td><td>Medium drive, slow speed</td></tr>
+        <tr><td>3</td><td>Wing FX → <code>TAPE</code></td><td>Tape saturation, roll off highs</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- EFFECTS -->
+<section id="effects">
+  <h2>Effects Catalog</h2>
+  <input type="text" class="search-box" placeholder="Search effects... (e.g. 'neve', 'reverb', '1176')" id="fx-search">
+
+  <div class="tabs">
+    <input type="radio" name="fx-tab" id="tab-wing-ch" checked><label for="tab-wing-ch">Wing Channel</label>
+    <input type="radio" name="fx-tab" id="tab-wing-fx"><label for="tab-wing-fx">Wing FX Slots</label>
+    <input type="radio" name="fx-tab" id="tab-outboard"><label for="tab-outboard">Outboard</label>
+    <input type="radio" name="fx-tab" id="tab-software"><label for="tab-software">Software</label>
+
+    <!-- WING CHANNEL PLUGINS -->
+    <div class="tab-content tc-wing-ch">
+      <h3>EQ Plugins <code>/ch/N/eq/mdl</code></h3>
+      <table class="fx-table">
+        <tr><th>Model</th><th>Name</th><th>Based On</th><th>Character</th></tr>
+        <tr><td class="model">STD</td><td>Wing Standard EQ</td><td>—</td><td>4-band parametric + shelves</td></tr>
+        <tr><td class="model">SOUL</td><td>Soul Analogue</td><td>SSL 4000 E</td><td>Musical, smooth</td></tr>
+        <tr><td class="model">E88</td><td>Even 88 Formant</td><td>Neve 1088</td><td>Warm, full, bell/shelf select</td></tr>
+        <tr><td class="model">E84</td><td>Even 84</td><td>Neve 1084</td><td>Classic Neve, fixed freqs</td></tr>
+        <tr><td class="model">F110</td><td>Fortissimo 110</td><td>Focusrite ISA 110</td><td>Clean, precise</td></tr>
+        <tr><td class="model">PULSAR</td><td>Pulsar P1a/M5</td><td>Pultec EQP-1A/MEQ-5</td><td>Musical boost/atten curves</td></tr>
+        <tr><td class="model">MACH4</td><td>Mach EQ4</td><td>Manley Massive Passive</td><td>Broad, gentle, hi-fi</td></tr>
+      </table>
+
+      <h3>Dynamics Plugins <code>/ch/N/dyn/mdl</code></h3>
+      <table class="fx-table">
+        <tr><th>Model</th><th>Name</th><th>Based On</th><th>Character</th></tr>
+        <tr><td class="model">COMP</td><td>Wing Compressor</td><td>—</td><td>Full-featured, versatile</td></tr>
+        <tr><td class="model">EXP</td><td>Wing Expander</td><td>—</td><td>Downward expansion</td></tr>
+        <tr><td class="model">76LA</td><td>76 Limiter Amp</td><td>UREI 1176</td><td>Fast FET, aggressive</td></tr>
+        <tr><td class="model">LA</td><td>Leveling Amp 2A</td><td>LA-2A</td><td>Smooth optical</td></tr>
+        <tr><td class="model">ECL33</td><td>Even Comp/Limiter</td><td>Neve 33609</td><td>Punchy, musical</td></tr>
+        <tr><td class="model">9000C</td><td>Soul 9000 Channel</td><td>SSL 9000</td><td>Clean, transparent</td></tr>
+        <tr><td class="model">SBUS</td><td>Soul G Bus Comp</td><td>SSL G Bus</td><td>Mix glue</td></tr>
+        <tr><td class="model">RED3</td><td>Red 3 Compressor</td><td>Focusrite Red 3</td><td>Smooth VCA</td></tr>
+        <tr><td class="model">B160</td><td>BDX 160</td><td>DBX 160</td><td>Hard knee, punchy</td></tr>
+        <tr><td class="model">B560</td><td>BDX 560 Easy</td><td>DBX 560A</td><td>Simple, effective</td></tr>
+        <tr><td class="model">F670</td><td>Fairkid 670</td><td>Fairchild 670</td><td>Warm tube, slow</td></tr>
+        <tr><td class="model">BLISS</td><td>Eternal Bliss</td><td>Elysia mPressor</td><td>Creative, aggressive</td></tr>
+        <tr><td class="model">NSTR</td><td>No Stressor</td><td>Distressor</td><td>Versatile, all ratios + NUKE</td></tr>
+        <tr><td class="model">D241C</td><td>DrawMore Comp</td><td>Drawmer 241</td><td>Comp + limiter</td></tr>
+        <tr><td class="model">WAVE</td><td>Wave Designer</td><td>SPL Transient</td><td>Transient shaping</td></tr>
+        <tr><td class="model">RIDE</td><td>Auto Rider</td><td>—</td><td>Automatic level riding</td></tr>
+      </table>
+
+      <h3>Gate Plugins <code>/ch/N/gate/mdl</code></h3>
+      <table class="fx-table">
+        <tr><th>Model</th><th>Name</th><th>Based On</th><th>Use</th></tr>
+        <tr><td class="model">GATE</td><td>Standard Gate</td><td>—</td><td>General gating</td></tr>
+        <tr><td class="model">DUCK</td><td>Standard Ducker</td><td>—</td><td>Ducking / sidechain</td></tr>
+        <tr><td class="model">E88</td><td>Even 88 Gate</td><td>Neve 1088</td><td>Musical gating</td></tr>
+        <tr><td class="model">9000G</td><td>Soul 9000 Gate</td><td>SSL 9000</td><td>Clean gating</td></tr>
+        <tr><td class="model">DS902</td><td>BDX 902 DeEsser</td><td>DBX 902</td><td>De-essing</td></tr>
+        <tr><td class="model">DEQ</td><td>Dynamic EQ</td><td>—</td><td>Frequency-dependent dynamics</td></tr>
+        <tr><td class="model">WAVE</td><td>Wave Designer</td><td>SPL Transient</td><td>Transient shaping</td></tr>
+        <tr><td class="model">WARM</td><td>Soul Warmth Pre</td><td>—</td><td>Drive / saturation</td></tr>
+        <tr><td class="model">76LA</td><td>76 Limiter Amp</td><td>UREI 1176</td><td>Fast limiting</td></tr>
+        <tr><td class="model">LA</td><td>Leveling Amp 2A</td><td>LA-2A</td><td>Smooth compression</td></tr>
+        <tr><td class="model">RIDE</td><td>Auto Rider</td><td>—</td><td>Auto level</td></tr>
+        <tr><td class="model">D241G</td><td>DrawMore 241</td><td>Drawmer 241</td><td>Gate/expander</td></tr>
+      </table>
+
+      <h3>Filter Plugins <code>/ch/N/flt/mdl</code></h3>
+      <table class="fx-table">
+        <tr><th>Model</th><th>Name</th><th>Use</th></tr>
+        <tr><td class="model">TILT</td><td>Tilt EQ</td><td>Broad tonal tilt bright/dark</td></tr>
+        <tr><td class="model">MAXER</td><td>Sound Maxer</td><td>Low contour + high process</td></tr>
+        <tr><td class="model">AP1</td><td>All-Pass 90°</td><td>Phase alignment</td></tr>
+        <tr><td class="model">AP2</td><td>All-Pass 180°</td><td>Phase alignment with Q</td></tr>
+      </table>
+    </div>
+
+    <!-- WING FX SLOTS -->
+    <div class="tab-content tc-wing-fx">
+      <p>16 slots: 1-8 premium, 9-16 standard. Premium slots can run standard effects.</p>
+
+      <h3>Reverbs (Premium)</h3>
+      <table class="fx-table">
+        <tr><th>Model</th><th>Name</th><th>Character</th></tr>
+        <tr><td class="model">HALL</td><td>Hall Reverb</td><td>Large, lush</td></tr>
+        <tr><td class="model">ROOM</td><td>Room Reverb</td><td>Natural room</td></tr>
+        <tr><td class="model">CHAMBER</td><td>Chamber Reverb</td><td>Tight, focused</td></tr>
+        <tr><td class="model">PLATE</td><td>Plate Reverb</td><td>Bright, smooth — great for vocals</td></tr>
+        <tr><td class="model">CONCERT</td><td>Concert Reverb</td><td>Grand, spacious</td></tr>
+        <tr><td class="model">AMBI</td><td>Ambience</td><td>Subtle, short</td></tr>
+        <tr><td class="model">V-ROOM</td><td>Vintage Room / VSS3</td><td>TC Electronic character</td></tr>
+        <tr><td class="model">V-REV</td><td>Vintage Reverb</td><td>Lexicon-style</td></tr>
+        <tr><td class="model">V-PLATE</td><td>Vintage Plate</td><td>Classic plate</td></tr>
+        <tr><td class="model">GATED</td><td>Gated Reverb</td><td>80s gated snare</td></tr>
+        <tr><td class="model">REVERSE</td><td>Reverse Reverb</td><td>Reversed tail</td></tr>
+        <tr><td class="model">SHIMMER</td><td>Shimmer Reverb</td><td>Ethereal, octave-up</td></tr>
+        <tr><td class="model">SPRING</td><td>Spring Reverb</td><td>Surf, vintage</td></tr>
+        <tr><td class="model">DEL/REV</td><td>Delay/Reverb</td><td>Combined delay + reverb</td></tr>
+      </table>
+
+      <h3>Delays (Premium)</h3>
+      <table class="fx-table">
+        <tr><th>Model</th><th>Name</th><th>Character</th></tr>
+        <tr><td class="model">ST-DL</td><td>Stereo Delay</td><td>Clean, precise, BPM-syncable</td></tr>
+        <tr><td class="model">TAP-DL</td><td>Ultratap Delay</td><td>Multi-tap rhythmic</td></tr>
+        <tr><td class="model">TAPE-DL</td><td>Tape Delay</td><td>Warm, saturated, flutter</td></tr>
+        <tr><td class="model">OILCAN</td><td>Oil Can Delay</td><td>Vintage warble (time in seconds)</td></tr>
+        <tr><td class="model">BBD-DL</td><td>BBD Delay</td><td>Analog bucket brigade</td></tr>
+      </table>
+
+      <h3>Modulation & Pitch (Premium)</h3>
+      <table class="fx-table">
+        <tr><th>Model</th><th>Name</th><th>Character</th></tr>
+        <tr><td class="model">DIMCRS</td><td>Dimension CRS</td><td>Roland Dimension D — subtle widening</td></tr>
+        <tr><td class="model">CHORUS</td><td>Stereo Chorus</td><td>Classic chorus</td></tr>
+        <tr><td class="model">FLANGER</td><td>Stereo Flanger</td><td>Jet flanging</td></tr>
+        <tr><td class="model">PITCH</td><td>Stereo Pitch</td><td>Pitch shift + delay</td></tr>
+        <tr><td class="model">D-PITCH</td><td>Dual Pitch</td><td>Two independent pitch shifts</td></tr>
+      </table>
+
+      <h3>Standard FX (Utilities)</h3>
+      <table class="fx-table">
+        <tr><th>Model</th><th>Name</th><th>Use</th></tr>
+        <tr><td class="model">GEQ</td><td>31-Band Graphic EQ</td><td>Room correction, feedback control</td></tr>
+        <tr><td class="model">PIA</td><td>PIA 560 GEQ</td><td>10-band graphic</td></tr>
+        <tr><td class="model">C5-CMB</td><td>5-Band Combinator</td><td>Multiband compression</td></tr>
+        <tr><td class="model">LIMITER</td><td>Precision Limiter</td><td>Brickwall limiting</td></tr>
+        <tr><td class="model">DE-S2</td><td>2-Band DeEsser</td><td>Vocal de-essing</td></tr>
+        <tr><td class="model">ENHANCE</td><td>Ultra Enhancer</td><td>Stereo/frequency enhancement</td></tr>
+        <tr><td class="model">EXCITER</td><td>Exciter</td><td>Harmonic excitement</td></tr>
+        <tr><td class="model">DOUBLE</td><td>Vocal Doubler</td><td>Vocal thickening</td></tr>
+        <tr><td class="model">PCORR</td><td>Pitch Fix</td><td>Auto-tune / pitch correction</td></tr>
+        <tr><td class="model">TAPE</td><td>Tape Machine</td><td>Tape saturation</td></tr>
+        <tr><td class="model">MOOD</td><td>Mood Filter</td><td>Synth-style filter</td></tr>
+        <tr><td class="model">ROTARY</td><td>Rotary Speaker</td><td>Leslie sim</td></tr>
+        <tr><td class="model">PHASER</td><td>Phaser</td><td>Phase shifting</td></tr>
+        <tr><td class="model">PANNER</td><td>Tremolo/Panner</td><td>Volume/pan modulation</td></tr>
+        <tr><td class="model">P-BASS</td><td>Psycho Bass</td><td>Sub-harmonic bass enhancement</td></tr>
+        <tr><td class="model">SUB</td><td>Sub Octaver</td><td>Octave-down generation</td></tr>
+        <tr><td class="model">BODY</td><td>Bodyrez</td><td>Acoustic body resonance</td></tr>
+      </table>
+
+      <h3>Guitar Amps</h3>
+      <table class="fx-table">
+        <tr><th>Model</th><th>Name</th><th>Style</th></tr>
+        <tr><td class="model">RACKAMP</td><td>Rack Amp</td><td>Preamp sim — buzz, punch, crunch, drive</td></tr>
+        <tr><td class="model">UKROCK</td><td>UK Rock Amp</td><td>Marshall-style</td></tr>
+        <tr><td class="model">ANGEL</td><td>Angel Amp</td><td>Mesa-style high gain</td></tr>
+        <tr><td class="model">JAZZC</td><td>Jazz Clean Amp</td><td>Fender-style clean</td></tr>
+        <tr><td class="model">DELUXE</td><td>Deluxe Amp</td><td>Fender Deluxe</td></tr>
+      </table>
+
+      <h3>Channel Strip FX</h3>
+      <table class="fx-table">
+        <tr><th>Model</th><th>Name</th><th>Emulation</th></tr>
+        <tr><td class="model">*EVEN*</td><td>Even Channel</td><td>Neve console strip (gate + EQ + comp)</td></tr>
+        <tr><td class="model">*SOUL*</td><td>Soul Channel</td><td>SSL console strip</td></tr>
+        <tr><td class="model">*VINTAGE*</td><td>Vintage Channel</td><td>Vintage console strip</td></tr>
+        <tr><td class="model">*BUS*</td><td>Bus Channel</td><td>Bus compressor channel</td></tr>
+        <tr><td class="model">*MASTER*</td><td>Master Channel</td><td>Mastering strip</td></tr>
+      </table>
+      <p style="font-size:13px;margin-top:8px">Load into FX slot → insert on channel. Each channel needs its own FX slot instance.</p>
+    </div>
+
+    <!-- OUTBOARD -->
+    <div class="tab-content tc-outboard">
+      <h3>HA73-EQX2 (Neve 1073 Clone)</h3>
+      <table class="fx-table">
+        <tr><th>Section</th><th>Controls</th></tr>
+        <tr><td>Preamp</td><td>Gain, impedance, phantom, polarity, Hi-Z DI</td></tr>
+        <tr><td>Low Shelf</td><td>35 / 60 / 110 / 220 Hz, ±16dB</td></tr>
+        <tr><td>Mid Peak</td><td>360 / 700 / 1.6k / 3.2k / 4.8k / 7.2k Hz, ±16dB, Q</td></tr>
+        <tr><td>High Shelf</td><td>10k / 12k / 16k Hz, ±16dB</td></tr>
+        <tr><td>HPF</td><td>50 / 80 / 160 / 300 Hz, 18dB/oct</td></tr>
+      </table>
+
+      <h3>WA76-D2 (1176 Clone)</h3>
+      <table class="fx-table">
+        <tr><th>Control</th><th>Range</th></tr>
+        <tr><td>Input (threshold)</td><td>Higher = more compression</td></tr>
+        <tr><td>Output (makeup)</td><td>Makeup gain</td></tr>
+        <tr><td>Attack</td><td>20μs – 800μs (reversed knob)</td></tr>
+        <tr><td>Release</td><td>50ms – 1.1s (reversed knob)</td></tr>
+        <tr><td>Ratio</td><td>4:1, 8:1, 12:1, 20:1, ALL</td></tr>
+        <tr><td>Dry/Wet</td><td>Parallel compression blend</td></tr>
+      </table>
+
+      <h3>Distressor (Empirical Labs)</h3>
+      <table class="fx-table">
+        <tr><th>Control</th><th>Range</th></tr>
+        <tr><td>Ratio</td><td>1:1, 2:1, 3:1, 4:1, 6:1, 10:1, 20:1, NUKE</td></tr>
+        <tr><td>Attack</td><td>0.1ms – 20ms</td></tr>
+        <tr><td>Release</td><td>50ms – 2.5s</td></tr>
+        <tr><td>Dist 2</td><td>2nd harmonic (tape warmth)</td></tr>
+        <tr><td>Dist 3</td><td>3rd harmonic (tube grit)</td></tr>
+      </table>
+
+      <h3>Audioscape Opto (LA-2A Clone)</h3>
+      <table class="fx-table">
+        <tr><th>Control</th><th>Notes</th></tr>
+        <tr><td>Peak Reduction</td><td>Compression amount</td></tr>
+        <tr><td>Gain</td><td>Makeup gain</td></tr>
+        <tr><td>Mode</td><td>Compress / Limit</td></tr>
+      </table>
+    </div>
+
+    <!-- SOFTWARE -->
+    <div class="tab-content tc-software">
+      <h3>IK Multimedia MixBox (70+ modules)</h3>
+      <p>Channel strip plugin — up to 8 rack slots per instance.</p>
+      <table class="fx-table">
+        <tr><th>Category</th><th>Modules</th></tr>
+        <tr><td>Dynamics</td><td>Black 76 (1176), White 2A (LA-2A), Model 670 (Fairchild), Bus Compressor (SSL), British Dynamics, Compressor, De-Esser, Limiter</td></tr>
+        <tr><td>EQ</td><td>British EQ (SSL/Neve), Vintage EQ-1A (1073), EQ PG, Parametric EQ</td></tr>
+        <tr><td>Reverb</td><td>Hall, Room, Plate, Spring, Digital, Inverse, Ambience, ConvoRoom, Stereo Imager, 5x Sunset Sound rooms</td></tr>
+        <tr><td>Delay</td><td>Digital Delay, Reverb Delay, Tape Echo</td></tr>
+        <tr><td>Modulation</td><td>Chorus, Chorus C1, Flanger, Electric Flanger, Phaser, Small Phazer, Tremolo, Opto Tremolo, Rotary, Uni-V, Ensemble, Slicer, AutoPan, AM/FM Mod, Multi Chorus</td></tr>
+        <tr><td>Filter</td><td>Env Filter, Formant, Wah 47, LFO Filter, Multi Filter, Filter-C/M/O/R, Filter Phaser</td></tr>
+        <tr><td>Distortion</td><td>Overdrive, Overscream (TS808), Distortion, Crusher, Lo-Fi</td></tr>
+        <tr><td>Saturation</td><td>Saturator-X, Tape Cassette, Phonograph</td></tr>
+        <tr><td>Amps</td><td>American Vintage T (Fender), British Tube Lead (Marshall), Jazz Amp 120 (JC-120), SVT Classic, Modern Tube Lead, Flexi Amp, Cabinet, Preamp, Tone Control</td></tr>
+        <tr><td>Channel Strip</td><td>Channel Strip, EQ 81 (Neve 1081), EQ Comp, EQ-PA</td></tr>
+      </table>
+
+      <h3>IK Multimedia AmpliTube 5</h3>
+      <p>Guitar/bass amp and effects sim. MAX v2: 111 amps, 106 cabs, 111 stomps, 48 rack FX.</p>
+      <table class="fx-table">
+        <tr><th>Category</th><th>Highlights</th></tr>
+        <tr><td>Fender Amps</td><td>'59 Bassman, '65 Twin Reverb, '65 Super Reverb, Deluxe, Pro Junior, Vibro-King</td></tr>
+        <tr><td>Marshall Amps</td><td>JCM 800, JCM 900, Silver Jubilee, JTM 45, JMP 100, Slash AFD/JCM</td></tr>
+        <tr><td>Mesa Amps</td><td>Mark III, Mark IV, Dual Rectifier, Triple Rectifier</td></tr>
+        <tr><td>Orange Amps</td><td>OR-120, Tiny Terror, Rockerverb 50, Thunderverb 200</td></tr>
+        <tr><td>Bass Amps</td><td>SVT Classic, SVT 2 PRO, B-15, Aguilar</td></tr>
+        <tr><td>Stomp Pedals</td><td>Overscream (TS808), EP Tape Echo, Fender '63 Reverb, Analog Chorus/Flanger, X-DRIVE/TIME/SPACE/VIBE</td></tr>
+        <tr><td>Rack FX</td><td>Black 76, White 2A, Model 670, EQ 81, Vintage EQ-1A, Plate/Hall/Shimmer Reverb</td></tr>
+        <tr><td>Cabs & Mics</td><td>106 VIR cabs, 33 speakers, 18 mics, 8 rooms</td></tr>
+      </table>
+
+      <h3>IK Multimedia TONEX</h3>
+      <p>AI tone modeling — captures real amp/cab/pedal tone. 1,250+ factory models (MAX). Access to 56,000+ community models on ToneNET.</p>
+      <table class="fx-table">
+        <tr><th>Feature</th><th>Details</th></tr>
+        <tr><td>Factory Models</td><td>Fender, Marshall, Dumble, Vox, Mesa, Diezel, Bogner, Two Rock, Hiwatt, and more</td></tr>
+        <tr><td>Built-in FX</td><td>Gate, EQ, Comp, 2x Delay, Chorus, Flanger, Tremolo, Phaser, Rotary, 6x Reverb</td></tr>
+        <tr><td>Premium Collections</td><td>MESA/Boogie, Brown Sound, Metal Gems, Joe Satriani, ENGL, ODS Legends</td></tr>
+        <tr><td>Custom Capture</td><td>Model your own gear in ~5 minutes with Machine Modeling™</td></tr>
+      </table>
+
+      <h3>T-RackS Tape Machine</h3>
+      <p>Tascam 388 tape emulation. Adds tape compression, harmonic saturation, and subtle frequency shaping.</p>
+      <table class="fx-table">
+        <tr><th>Control</th><th>Effect</th></tr>
+        <tr><td>Input / Drive</td><td>More = more saturation</td></tr>
+        <tr><td>Speed</td><td>Slower = warmer/darker</td></tr>
+        <tr><td>Low Bump</td><td>Tape head low-frequency bump</td></tr>
+        <tr><td>High Shelf</td><td>High-frequency rolloff</td></tr>
+        <tr><td>Output</td><td>Output gain</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section id="tools">
+  <h2>Tools</h2>
+  <div class="net-badge" style="margin-bottom:20px">Wing Rack &middot; 192.168.2.2:2223 &middot; OSC/UDP</div>
+
+  <h3>BPM → Delay Calculator</h3>
+  <div class="bpm-calc">
+    <label style="color:var(--text-dim)">BPM:</label>
+    <input type="number" id="bpm-input" value="120" min="40" max="300">
+  </div>
+  <div class="bpm-results" id="bpm-results">
+    <div class="item"><div class="val" id="bpm-quarter">500</div><div class="subdiv">1/4 note</div></div>
+    <div class="item"><div class="val" id="bpm-dotted8">375</div><div class="subdiv">Dotted 1/8</div></div>
+    <div class="item"><div class="val" id="bpm-eighth">250</div><div class="subdiv">1/8 note</div></div>
+    <div class="item"><div class="val" id="bpm-sixteenth">125</div><div class="subdiv">1/16 note</div></div>
+    <div class="item"><div class="val" id="bpm-triplet">333</div><div class="subdiv">1/4 triplet</div></div>
+    <div class="item"><div class="val" id="bpm-mod">2.00</div><div class="subdiv">1/4 Hz (mod rate)</div></div>
+  </div>
+
+  <h3>Wing Color Map</h3>
+  <div class="color-grid">
+    <div class="color-swatch"><div class="dot" style="background:#7088a0"></div><span>1 Gray Blue</span></div>
+    <div class="color-swatch"><div class="dot" style="background:#4a90d9"></div><span>2 Medium Blue</span></div>
+    <div class="color-swatch"><div class="dot" style="background:#2c3e6e"></div><span>3 Dark Blue</span></div>
+    <div class="color-swatch"><div class="dot" style="background:#1abc9c"></div><span>4 Turquoise</span></div>
+    <div class="color-swatch"><div class="dot" style="background:#27ae60"></div><span>5 Green</span></div>
+    <div class="color-swatch"><div class="dot" style="background:#6b8e23"></div><span>6 Olive Green</span></div>
+    <div class="color-swatch"><div class="dot" style="background:#f1c40f"></div><span>7 Yellow</span></div>
+    <div class="color-swatch"><div class="dot" style="background:#e67e22"></div><span>8 Orange</span></div>
+    <div class="color-swatch"><div class="dot" style="background:#c0392b"></div><span>9 Red</span></div>
+    <div class="color-swatch"><div class="dot" style="background:#e8a090"></div><span>10 Coral</span></div>
+    <div class="color-swatch"><div class="dot" style="background:#e07098"></div><span>11 Pink</span></div>
+    <div class="color-swatch"><div class="dot" style="background:#9b59b6"></div><span>12 Mauve</span></div>
+  </div>
+
+  <h3>Common OSC Commands</h3>
+  <table>
+    <tr><th>Action</th><th>Command</th></tr>
+    <tr><td>Mute channel</td><td><code class="osc-cmd">oscsend 192.168.2.2 2223 /ch/N/mute i 1</code></td></tr>
+    <tr><td>Set fader (dB)</td><td><code class="osc-cmd">oscsend 192.168.2.2 2223 /ch/N/fdr f -10.0</code></td></tr>
+    <tr><td>Set channel name</td><td><code class="osc-cmd">oscsend 192.168.2.2 2223 /io/in/LCL/N/name s "Name"</code></td></tr>
+    <tr><td>Set channel color</td><td><code class="osc-cmd">oscsend 192.168.2.2 2223 /io/in/LCL/N/col i 9</code></td></tr>
+    <tr><td>Load FX model</td><td><code class="osc-cmd">oscsend 192.168.2.2 2223 /fx/N/mdl s "PLATE"</code></td></tr>
+    <tr><td>Set EQ model</td><td><code class="osc-cmd">oscsend 192.168.2.2 2223 /ch/N/eq/mdl s "E84"</code></td></tr>
+    <tr><td>Set comp model</td><td><code class="osc-cmd">oscsend 192.168.2.2 2223 /ch/N/dyn/mdl s "76LA"</code></td></tr>
+    <tr><td>Set delay time</td><td><code class="osc-cmd">oscsend 192.168.2.2 2223 /fx/N/time f 500.0</code></td></tr>
+    <tr><td>Channel insert</td><td><code class="osc-cmd">oscsend 192.168.2.2 2223 /ch/N/postins/ins s "FX12"</code></td></tr>
+    <tr><td>Process order</td><td><code class="osc-cmd">oscsend 192.168.2.2 2223 /ch/N/proc s "GDEI"</code></td></tr>
+    <tr><td>Query any value</td><td><code class="osc-cmd">oscsend 192.168.2.2 2223 /ch/N/fdr</code></td></tr>
+  </table>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <h2>Get In Touch</h2>
+  <div class="contact-block">
+    <p>Want to make a record?</p>
+    <a class="contact-link" href="mailto:studio@lake.fm">studio@lake.fm</a>
+  </div>
+</section>
+
+</main>
+
+<script>
+// Scroll spy
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('nav .links a');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const link = document.querySelector(`nav .links a[href="#${e.target.id}"]`);
+      if (link) link.classList.add('active');
+    }
+  });
+}, { rootMargin: '-60px 0px -70% 0px' });
+sections.forEach(s => observer.observe(s));
+
+// BPM calculator
+const bpmInput = document.getElementById('bpm-input');
+function updateBPM() {
+  const bpm = parseFloat(bpmInput.value) || 120;
+  const q = 60000 / bpm;
+  document.getElementById('bpm-quarter').textContent = Math.round(q);
+  document.getElementById('bpm-dotted8').textContent = Math.round(q * 0.75);
+  document.getElementById('bpm-eighth').textContent = Math.round(q / 2);
+  document.getElementById('bpm-sixteenth').textContent = Math.round(q / 4);
+  document.getElementById('bpm-triplet').textContent = Math.round(q * 2 / 3);
+  document.getElementById('bpm-mod').textContent = (bpm / 60).toFixed(2);
+}
+bpmInput.addEventListener('input', updateBPM);
+
+// Effects search — scoped to #effects section only
+const searchBox = document.getElementById('fx-search');
+searchBox.addEventListener('input', () => {
+  const q = searchBox.value.toLowerCase();
+  document.querySelectorAll('#effects .fx-table tr').forEach(row => {
+    if (row.querySelector('th')) return;
+    row.style.display = !q || row.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+});
+</script>
+</body>
+</html>
