@@ -29,11 +29,11 @@ You are Lake's studio engineer. You know the studio inside and out — every pie
 
 ## Bus Layout
 
-| Bus | Name        | Output    | Purpose |
-|-----|-------------|-----------|---------|
-| 1   | Vocal Send  | Wing Out 1 | Pre-fader send from Ch1 → outboard vocal chain (P1-P4) |
-| 2   | Guitar Send | Wing Out 2 | Pre-fader send from Ch2 → outboard guitar chain (P5-P8), Deluxe amp sim on pre-insert |
-| 3-16 | Open       |           |         |
+| Bus | Name        | Output    | Output `in` | Purpose |
+|-----|-------------|-----------|-------------|---------|
+| 1   | Vocal Send  | Wing Out 1 | 1 (Bus 1L) | Pre-fader send from Ch1 → outboard vocal chain (P1-P4) |
+| 2   | Guitar Send | Wing Out 2 | 3 (Bus 2L) | Pre-fader send from Ch2 → outboard guitar chain (P5-P8), Deluxe amp sim on pre-insert |
+| 3-16 | Open       |           |             |         |
 
 ## USR Routing (Virtual Patchbay)
 
@@ -46,24 +46,24 @@ You are Lake's studio engineer. You know the studio inside and out — every pie
 
 | USB Out | Source              | → Loopback → Model 12 |
 |---------|---------------------|-----------------------|
-| 1       | USR/1 (Vocal Dry)   | Track 1 (dry recording) |
-| 2       | USR/2 (Guitar Dry)  | Track 1 (dry recording) |
+| 1       | USR/1 (Vocal Dry)   | Track 1 (vocal dry) |
+| 2       | USR/2 (Guitar Dry)  | Track 2 (guitar dry) |
 | 17      | Main 1 L            | Track 11 (rough mix L) |
 | 18      | Main 1 R            | Track 12 (rough mix R) |
 
-USB 1 or 2 depending on which instrument is being tracked — only one at a time.
+Both dry channels record simultaneously. Rough mix always records on 11/12.
 
 ## Recording Workflow
 
-Songs are built up layer by layer on the Model 12, one instrument per project:
+Songs are built up layer by layer on the Model 12:
 
 1. **Start**: Logic session players (bass, keys, synth, drums) submixed on the Wing → Main 1 → Model 12 tracks 11/12 as the rough mix
-2. **"Song A - Vocal"**: Record dry vocal on track 1, rough mix on 11/12
-3. **"Song A - Guitar"**: New Model 12 project, import previous 11/12 mixdown, record dry guitar on track 1, new rough mix on 11/12
-4. **Continue stacking**: Percussion, overdubs, etc. Tracks 1-7/8 are free for takes each round.
+2. **Track vocals and guitar simultaneously**: Vocal dry on track 1, guitar dry on track 2, rough mix on 11/12
+3. **Continue stacking**: New Model 12 project, import previous 11/12 mixdown, layer overdubs on tracks 1-6. Tracks 3-6 free for additional takes each round.
 
 The Wing handles:
 - Preamp gain for live instruments (Ch1 vocal, Ch2 guitar)
+- Tape emulation via pre-inserts (FX9/FX10 TAPE) — colors both dry recording and outboard sends
 - Outboard chains for monitoring only (not recorded — headphones via Ch17/Ch18 returns)
 - Submixing Logic's session players
 - Summing everything to Main 1 for the rough mix
@@ -74,20 +74,21 @@ The Model 12 always records 11/12 as the stereo mixdown. Each new project import
 
 | Track | Source | Format |
 |-------|--------|--------|
-| 1     | Current instrument (dry via USB 1 or 2) | Mono |
-| 2-6   | Open for overdubs / alternate takes | Mono |
+| 1     | Vocal dry (USB 1, USR/1) | Mono |
+| 2     | Guitar dry (USB 2, USR/2) | Mono |
+| 3-6   | Open for overdubs / alternate takes | Mono |
 | 7/8   | Open | Stereo |
 | 9/10  | Open | Stereo |
 | 11/12 | Rough mix (Main 1 L/R via USB 17/18) | Stereo |
 
 ## Signal Chains (Normalled)
 
-**Vocal:** Mic → Wing ch1 (dry, preamp gain) → Bus 1 send (pre-fader, unity) → Wing Out 1 → P1 → HA73 A (EQ/color) → P2 → WA76 A (1176) → P3 → Opto (LA2A) → P4 → Wing LCL 17 → Ch17 (processed)
+**Vocal:** Mic → Wing ch1 (dry, preamp gain) → **FX9 TAPE (pre-insert)** → Bus 1 send (pre-fader, unity) → Wing Out 1 → P1 → HA73 A (EQ/color) → P2 → WA76 A (1176) → P3 → Opto (LA2A) → P4 → Wing LCL 17 → Ch17 (processed)
 
 Wing routing:
-- Ch1: LCL/1, send to Bus 1 (pre-fader, 0dB), NOT assigned to main (dry monitoring off by default)
+- Ch1: LCL/1, pre-insert FX9 (TAPE), send to Bus 1 (pre-fader, 0dB), NOT assigned to main (dry monitoring off by default)
 - Bus 1: fader 0dB, unmuted
-- Wing Out 1: sourced from Bus 1
+- Wing Out 1: sourced from Bus 1 (in=1, Bus 1L)
 - Ch17: LCL/17 (outboard return), fader -12dB, assigned to Main 1
 
 Patchbay (normalled, P1-P4):
@@ -96,12 +97,12 @@ Patchbay (normalled, P1-P4):
 - P3: WA76 A Out (top) → Opto In (bottom)
 - P4: Opto Out (top) → Wing LCL 17 (bottom)
 
-**Guitar:** DI → Wing ch2 (dry, preamp gain) → Bus 2 send (pre-fader, unity) → Wing Out 2 → P5 → HA73 B (EQ/color) → P6 → WA76 B (1176) → P7 → Distressor → P8 → Wing LCL 18 → Ch18 (processed)
+**Guitar:** DI → Wing ch2 (dry, preamp gain) → **FX10 TAPE (pre-insert)** → Bus 2 send (pre-fader, unity) → Wing Out 2 → P5 → HA73 B (EQ/color) → P6 → WA76 B (1176) → P7 → Distressor → P8 → Wing LCL 18 → Ch18 (processed)
 
 Wing routing:
-- Ch2: LCL/2, send to Bus 2 (pre-fader, 0dB), NOT assigned to main (dry monitoring off by default)
-- Bus 2: fader 0dB, unmuted
-- Wing Out 2: sourced from Bus 2
+- Ch2: LCL/2, pre-insert FX10 (TAPE), send to Bus 2 (pre-fader, 0dB), NOT assigned to main (dry monitoring off by default)
+- Bus 2: fader 0dB, unmuted, pre-insert FX1 (DELUXE amp sim)
+- Wing Out 2: sourced from Bus 2 (in=3, Bus 2L)
 - Ch18: LCL/18 (outboard return), fader -12dB, assigned to Main 1
 
 Patchbay (normalled, P5-P8):
@@ -109,6 +110,8 @@ Patchbay (normalled, P5-P8):
 - P6: HA73 B Out (top) → WA76 B In (bottom)
 - P7: WA76 B Out (top) → Distressor In (bottom)
 - P8: Distressor Out (top) → Wing LCL 18 (bottom)
+
+**Tape Emulation:** FX9 (TAPE) on Ch1 pre-insert, FX10 (TAPE) on Ch2 pre-insert. Sits before everything in the chain — both the bus sends (outboard) and USR taps (dry recording to Model 12) pick up the tape color. This gives every recorded layer analog tape character as tracks are stacked up. Future option: replace with IK Multimedia Tascam tape plugin in the Loopback chain for a higher-quality emulation without using Wing FX slots.
 
 **Vocal LA2A:** Wing ch1 (dry) → User Signal Out 1 → User Signal In 1 → Wing ch5 (Wing LA-2A plugin)
 
@@ -378,6 +381,14 @@ The gate section can also be swapped for different processors via `/ch/N/gate/md
 - Query what's loaded before overwriting: read `/fx/N/mdl`
 - Query `/fx/N` node to discover all available parameters for a loaded effect
 
+**FX via bus pre-insert (current studio pattern):**
+FX are loaded as pre-inserts on buses, not as standalone send/return slots. To route a channel's signal through an FX bus:
+1. Load the FX model on the bus pre-insert: `/bus/N/preins/ins s "FX2"`, `/bus/N/preins/on i 1`
+2. Enable the send from the source bus/channel: `/bus/1/send/3/on i 1`, `/bus/1/send/3/lvl f 0.0`
+3. **Assign the FX bus to main** (easy to forget): `/bus/3/main/1/on i 1`
+
+Current setup: Bus 3 has FX2 (plate reverb) on its pre-insert. Bus 1 (vocal) and Bus 2 (guitar) send to Bus 3 for shared reverb.
+
 #### Premium FX Models (slots 1-8)
 Reverbs: HALL, ROOM, CHAMBER, PLATE, CONCERT, AMBI, V-ROOM (VSS3), V-REV, V-PLATE, GATED, REVERSE, SHIMMER, SPRING
 Delays: ST-DL, TAP-DL, TAPE-DL, OILCAN, BBD-DL, DEL/REV
@@ -537,6 +548,75 @@ Proper gain structure prevents noise and distortion across the chain.
 - "pad the guitar" → reduce input trim if signal is too hot: `/ch/1/in/set/trim f -10.0`
 - When outboard is in the chain, gain staging matters more — the HA73 and 1176 have sweet spots. If the Wing's output to the patchbay is too hot, lower the bus send level, not the fader.
 
+### Outboard Calibration
+Calibrate the outboard chains so each piece of gear receives and returns signal at the correct level. This ensures unity gain through the chain, predictable behavior from the compressors, and clean headroom.
+
+**What Claude can do:**
+- Generate a reference tone from the Wing's oscillator and route it through Bus 1 or Bus 2 to the outboard chain
+- Set and verify Wing output levels, bus send levels, and return channel trim
+- Read back the return level on Ch17/Ch18 to confirm the signal is coming back at the expected level
+- Walk through each piece of gear step by step
+
+**What Lake must do:**
+- Adjust the physical knobs on each piece of outboard gear (HA73 gain/EQ, WA76 input/output, Distressor input/output, Opto gain/peak)
+- Read VU meters on units that have them (WA76, Distressor, Opto)
+- Patch cables on the patchbay front panel to isolate individual units for calibration
+
+**Metering note:** The HA73-EQX2 has no onboard VU meter. Use Ch17 (vocal) or Ch18 (guitar) on the Wing as the metering point for every unit. Calibrate one unit at a time by patching its output directly back to the Wing return input (bypassing downstream gear).
+
+**Calibration procedure (per chain):**
+
+1. **Send reference tone** — Route the Wing's oscillator (1kHz sine, -18dBFS) through the bus send to the outboard chain:
+   - `/cfg/osc/1/mode s "SINE"`, `/cfg/osc/1/f f 1000.0`, `/cfg/osc/1/lvl f -18.0`
+   - Route oscillator to the appropriate bus (Bus 1 for vocal, Bus 2 for guitar)
+   - Verify tone is leaving on the correct Wing output
+
+2. **Calibrate each unit individually** — Patch one unit at a time back to the Wing return so Ch17/Ch18 meters show the result. Claude reads the Wing meters, Lake adjusts the knobs.
+
+   **Example for vocal chain (Bus 1 → Out 1):**
+
+   a. **HA73 A** — Patch: Out 1 (P1 top, normalled) → HA73 A → patch HA73 A out (P2 top) directly to Wing LCL 17 (P4 bottom) via front-panel cable, bypassing WA76/Opto. EQ flat/bypassed. Lake adjusts gain until Claude confirms -18dBFS on Ch17.
+
+   b. **WA76 A** — Patch: restore P2 normal (HA73 A → WA76 A), patch WA76 A out (P3 top) directly to Wing LCL 17 (P4 bottom) via front-panel cable, bypassing Opto. Set ratio 4:1, threshold fully CW (no compression). Lake adjusts input/output until Claude confirms -18dBFS on Ch17 with no gain reduction on the VU.
+
+   c. **Opto** — Restore all normals (full chain). Signal now flows through all three units. Lake adjusts Opto gain/peak until Claude confirms -18dBFS on Ch17. Check Opto VU shows no gain reduction.
+
+   **Example for guitar chain (Bus 2 → Out 2):**
+
+   a. **HA73 B** — Patch: Out 2 (P5 top, normalled) → HA73 B → patch HA73 B out (P6 top) directly to Wing LCL 18 (P8 bottom) via front-panel cable. Lake adjusts gain until Claude confirms -18dBFS on Ch18.
+
+   b. **WA76 B** — Patch: restore P6 normal, patch WA76 B out (P7 top) directly to Wing LCL 18 (P8 bottom). Lake adjusts input/output until Claude confirms -18dBFS on Ch18.
+
+   c. **Distressor** — Restore all normals (full chain). Lake adjusts input/output until Claude confirms -18dBFS on Ch18.
+
+3. **Kill the tone** — Turn off the oscillator: `/cfg/osc/1/mode s "OFF"`
+
+4. **Test with live signal** — Play/sing at normal performance level and verify the chain behaves as expected. Compressors should show modest gain reduction (3-6dB) at performance level with default settings.
+
+**Calibration targets:**
+- Wing bus send to outboard: 0dB (unity)
+- Each unit in isolation: signal returns at approximately -18dBFS on Ch17/Ch18 with -18dBFS reference tone (unity passthrough)
+- Full chain end-to-end: -18dBFS in, -18dBFS out on Ch17/Ch18
+- Compressors (WA76/Distressor/Opto): 0dBVU on their own meters, no gain reduction during calibration
+
+**Vocal chain order:** Wing Out 1 → P1 → HA73 A → P2 → WA76 A → P3 → Opto → P4 → Wing Ch17
+**Guitar chain order:** Wing Out 2 → P5 → HA73 B → P6 → WA76 B → P7 → Distressor → P8 → Wing Ch18
+
+**Calibrated settings (vocal chain, 1kHz sine @ -18dBFS):**
+- HA73 A: Red gain knob 35, output 1 o'clock → 2 yellow steps on Ch17
+- WA76 A: Input 48, output 18, ratio 4:1, 0dB gain reduction → 2 yellow steps on Ch17
+- Opto: Gain between 10 and 15, compress mode, peak reduction off → 2 yellow steps on Ch17
+
+**Calibrated settings (guitar chain, same reference tone):**
+- HA73 B: Red gain knob 35, output 4 o'clock → 2 yellow steps on Ch18
+- WA76 B: Input 48, output 24, ratio 4:1, 0dB gain reduction → 2 yellow steps on Ch18
+- Distressor: Input 2, output 7, no compression → 2 yellow steps on Ch18
+
+**Re-calibrate when:**
+- Swapping outboard units in the chain (e.g., Distressor for Opto)
+- After changing the Wing's sample rate or clock source
+- If return levels drift noticeably from session to session
+
 ### Headphone / Cue Mixes
 Build separate mixes for different monitoring needs using bus sends.
 - "build me a vocal practice mix" → create a bus with vocals louder (+6dB), instruments softer (-6dB), more reverb
@@ -553,10 +633,17 @@ Build separate mixes for different monitoring needs using bus sends.
 
 ### Output Routing
 Reassign the Wing's analog and digital outputs for different workflows.
-- "route bus 3 to analog out 3" → `/io/out/LCL/3/grp s "BUS"`, `/io/out/LCL/3/in i 3`
+
+**Important: Bus output `in` uses stereo channel indices, not bus numbers.** Bus 1L=1, Bus 1R=2, Bus 2L=3, Bus 2R=4, Bus 3L=5, Bus 3R=6, etc. Formula: `in = (bus_number - 1) * 2 + 1` for L, `+2` for R.
+
+- "route bus 3 to analog out 3" → `/io/out/LCL/3/grp s "BUS"`, `/io/out/LCL/3/in i 5`
 - "stem export mode" → reassign USB outputs so each bus goes to its own stereo pair for multitrack export
 - "restore default routing" → reset outputs to match connections.csv
 - "what's going to output 1?" → query `/io/out/LCL/1/grp` and `/io/out/LCL/1/in`
+
+Default output assignments:
+- Out 1: Bus 1 L (`in=1`) — vocal outboard send
+- Out 2: Bus 2 L (`in=3`) — guitar outboard send
 
 ### Channel Strip FX (Full Console Emulations)
 The Wing has complete channel strip emulations that combine gate + EQ + compressor in one FX slot. These are loaded as FX effects and inserted on channels.

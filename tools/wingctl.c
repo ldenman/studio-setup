@@ -21,12 +21,15 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <unistd.h>
 #include "../lib/wapi/wapi.h"
 #include "../lib/wapi/wext.h"
 
 #define WING_DEFAULT_IP "192.168.2.2"
 #define STR_BUF 256
 #define NODE_BUF 65536
+#define METER_BUF 4096
+#define METER_UDP_PORT 14135
 
 // Convert OSC path to wapi dot notation: /ch/1/fdr → ch.1.fdr (case-preserved)
 static void path_to_token_name(const char *path, char *out, int maxlen) {
@@ -73,6 +76,7 @@ static void usage(void) {
         "  getf <path>       Get parameter as float\n"
         "  set  <path> <val> Set parameter (auto-detect type)\n"
         "  node <path>       Dump node children\n"
+        "  meter <ch>        Read live input/output levels (e.g. /ch/17 or 17)\n"
         "\n"
         "Paths: /ch/1/fdr, /io/in/USR/1/user/grp, etc.\n"
         "Env:   WING_IP (default: 192.168.2.2)\n"
@@ -223,6 +227,91 @@ static int cmd_node(const char *path) {
     return (rc == WSUCCESS) ? 0 : 1;
 }
 
+// Meter command: read input level for a channel
+// Channel meter data layout per channel: inL, inR, outL, outR, gateKey, gateGain, dynKey, dynGain
+// Each value is signed 16-bit big-endian, in 1/256th dB
+static int cmd_meter(const char *path) {
+    // Parse channel number from path like /ch/17
+    int ch = 0;
+    if (strncmp(path, "/ch/", 4) == 0) {
+        ch = atoi(path + 4);
+    } else {
+        ch = atoi(path);
+    }
+    if (ch < 1 || ch > 40) {
+        fprintf(stderr, "error: channel must be 1-40, got %d\n", ch);
+        return 1;
+    }
+
+    if (wing_open() < 0) return 1;
+
+    // Set up meter UDP port
+    int rc = wMeterUDPPort(METER_UDP_PORT);
+    if (rc != WSUCCESS) {
+        fprintf(stderr, "error: wMeterUDPPort failed (%d)\n", rc);
+        wClose();
+        return 1;
+    }
+
+    // Build meter request bitmap (30 bytes)
+    // Bytes 0-4 = channels 1-40 (5 bytes, 8 channels per byte)
+    unsigned char mbits[30] = {0};
+    int byte_idx = (ch - 1) / 8;
+    int bit_idx = (ch - 1) % 8;
+    mbits[byte_idx] = (unsigned char)(1 << bit_idx);
+
+    rc = wSetMetersRequest(1, mbits);
+    if (rc != WSUCCESS) {
+        fprintf(stderr, "error: wSetMetersRequest failed (%d)\n", rc);
+        wClose();
+        return 1;
+    }
+
+    // Read meter data — Wing sends every ~50ms after a valid request
+    unsigned char buf[METER_BUF] = {0};
+    int got = wGetMeters(buf, METER_BUF, 500000);
+
+    if (got <= 0) {
+        fprintf(stderr, "error: no meter data received (got=%d)\n", got);
+        wClose();
+        return 1;
+    }
+
+    // Data format: <4 byte reqID> <meter data groups>
+    // Each channel has 8 x 16-bit values: inL, inR, outL, outR, gateKey, gateGain, dynKey, dynGain
+    // Skip 4-byte reqID
+    if (got < 4 + 16) {
+        fprintf(stderr, "error: meter data too short (%d bytes)\n", got);
+        wClose();
+        return 1;
+    }
+
+    // Dump raw bytes for debugging
+    fprintf(stderr, "raw (%d bytes):", got);
+    for (int i = 0; i < got && i < 40; i++) {
+        fprintf(stderr, " %02x", buf[i]);
+    }
+    fprintf(stderr, "\n");
+
+    unsigned char *mdata = buf + 4; // skip reqID
+    // Each meter is 2 bytes big-endian signed
+    int16_t inL  = (int16_t)((mdata[0] << 8) | mdata[1]);
+    int16_t inR  = (int16_t)((mdata[2] << 8) | mdata[3]);
+    int16_t outL = (int16_t)((mdata[4] << 8) | mdata[5]);
+    int16_t outR = (int16_t)((mdata[6] << 8) | mdata[7]);
+
+    float inL_dB  = inL / 256.0f;
+    float inR_dB  = inR / 256.0f;
+    float outL_dB = outL / 256.0f;
+    float outR_dB = outR / 256.0f;
+
+    printf("ch%d inL=%.1fdB inR=%.1fdB outL=%.1fdB outR=%.1fdB\n",
+           ch, inL_dB, inR_dB, outL_dB, outR_dB);
+
+    wClose();
+    return 0;
+}
+
 int main(int argc, char *argv[]) {
     if (argc < 2) { usage(); return 1; }
 
@@ -248,6 +337,9 @@ int main(int argc, char *argv[]) {
     }
     if (strcmp(cmd, "node") == 0 && argc >= 3) {
         return cmd_node(argv[2]);
+    }
+    if (strcmp(cmd, "meter") == 0 && argc >= 3) {
+        return cmd_meter(argv[2]);
     }
 
     usage();

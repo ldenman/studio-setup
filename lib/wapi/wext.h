@@ -67,9 +67,9 @@ int wSendEscapes(unsigned char* buf, int len);
 int wRecvEscapes(unsigned char* buf, int len);
 int wMRecv(unsigned char* buf, int len);
 int wMeterUDPPort(int port);
-int wGetMeters(unsigned char* buf);
-int wRenewMeters();
-int wSetMetersRequest(unsigned char* buf, int len);
+int wGetMeters(unsigned char* buf, int maxlen, int timeout);
+int wRenewMeters(int reqID);
+int wSetMetersRequest(int reqID, unsigned char* wMid);
 void wDumpBuffer(unsigned char* buf, int len);
 
 #endif /* WEXT_H_ */
