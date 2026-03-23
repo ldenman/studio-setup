@@ -151,6 +151,8 @@ Patchbay (normalled, P5-P8):
 - P8: Distressor Out (top) → Wing LCL 18 (bottom)
 - P9: Wing Out 3 / Bus 4L (top) → open (bottom). Condenser mic L send from Ch6.
 - P10: Wing Out 4 / Bus 4R (top) → open (bottom). Condenser mic R send from Ch6.
+- P23: Wing Out 7 / MX1 L (top) → Right Speaker (bottom). Normalled. Break normal with Model 12 main R for playback monitoring.
+- P24: Wing Out 8 / MX1 R (top) → Left Speaker (bottom). Normalled. Break normal with Model 12 main L for playback monitoring.
 
 **Condenser mic routing:** Mics → XLR direct to Wing LCL/3 + LCL/4 (phantom power required, bypasses patchbay) → Ch6 (stereo, **FX3 TAPE pre-insert**) → Bus 4 send (pre-fader) → Out 3+4 → P9 top (L) + P10 top (R). Also sends to Bus 6 (Acoustic) for outboard processing. Dry recording via USR/6 (L) + USR/7 (R) → USB 15/16 → Loopback → Model 12 tracks 7/8. Patchbay is TRS and cannot carry phantom power, so mics must connect directly via XLR.
 
@@ -944,9 +946,13 @@ Control room monitoring with dedicated controls.
 - "mute speakers, keep headphones" → `/mtx/1/mute i 1`. Muting the matrix kills speakers without affecting headphones.
 - "restore speakers" → `/mtx/1/mute i 0`
 
-**Speaker routing (current):** Monitor section (MON.PH) → MX1 direct input → Wing Out 7 + Out 8 (both from MTX/1) → Speakers (direct wired, not through patchbay)
+**Speaker routing (current):** Monitor section (MON.PH) → MX1 direct input → Wing Out 7 (MTX/1 L, `in=1`) + Out 8 (MTX/1 R, `in=2`) → P23 top + P24 top (patchbay, normalled) → P23 bottom + P24 bottom → Speakers
+
+Out 7 = MX1 L (`/io/out/LCL/7`: grp=MTX, in=1). Out 8 = MX1 R (`/io/out/LCL/8`: grp=MTX, in=2). Note the stereo indexing — both must NOT be `in=1` or you get mono.
 
 MX1 sources from the monitor phone output via direct input (`/mtx/1/dir/on i 1`, `/mtx/1/dir/in s "MON.PH"`). The Main 1 → MX1 send is **off**. This ensures solo works through speakers — when you solo a channel, the monitor section switches to the solo bus, and MX1 follows.
+
+**Speakers on patchbay (P23/P24):** Speakers are normalled through the patchbay, not direct-wired. This allows switching speaker sources without repatching the Wing. To monitor the Model 12 playback: plug Model 12 main outs into P23 top + P24 top on the front panel — this breaks the Wing normal and sends Model 12 directly to speakers. Pull the cables to restore Wing monitoring. This keeps Model 12 playback completely outside the Wing's signal path, eliminating any feedback risk from open mics.
 
 **Monitor direct input source values:**
 - `MON.SPK` — monitor speaker output

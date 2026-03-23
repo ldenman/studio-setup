@@ -46,3 +46,9 @@ To make solo work through speakers (not just headphones), MX1 must source from t
 
 ### Model 12 Tracks 11/12 Are Internal Only
 Model 12 tracks 11/12 capture the internal main L/R mix and cannot receive external USB input. The rough mix from the Wing must go to tracks 9/10 via USB/Loopback.
+
+### Speakers on Patchbay for Source Switching
+Speakers routed through patchbay (P23/P24) instead of direct-wired from Wing outputs. This allows switching between Wing monitoring and Model 12 playback by plugging Model 12 main outs into the patchbay front panel — breaks the Wing normal, sends Model 12 directly to speakers. No feedback risk because Model 12 playback never enters the Wing's signal path. Critical for a studio with open condenser mics.
+
+### Output Stereo Indexing Strikes Again
+Wing Out 7 and Out 8 were both set to MTX `in=1` — both carrying MX1 Left. Out 8 needed `in=2` for MX1 Right. Same stereo indexing pattern as buses. Always check both sides of a stereo output pair.
