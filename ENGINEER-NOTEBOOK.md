@@ -52,3 +52,9 @@ Speakers routed through patchbay (P23/P24) instead of direct-wired from Wing out
 
 ### Output Stereo Indexing Strikes Again
 Wing Out 7 and Out 8 were both set to MTX `in=1` — both carrying MX1 Left. Out 8 needed `in=2` for MX1 Right. Same stereo indexing pattern as buses. Always check both sides of a stereo output pair.
+
+### Loopback Feedback Loop = White Noise
+If the Wing is set as both a Source AND Monitor (output) in Loopback, it creates a digital feedback loop: Wing USB out → Loopback → Wing USB in → Wing USB out → ... This manifests as white noise on USB input channels, louder on one side. Fix: remove the Wing as a Monitor in Loopback. Wing should only be a Source. The Model 12 is the destination/monitor device.
+
+### Mac Audio Through Wing (Ch7)
+Mac system audio routed to Wing via USB 1/2 on Ch7. Use `SwitchAudioSource -s "WING" -t output` to switch Mac audio to Wing. Keep Ch7 at -12dB — 0dB is painfully loud for system sounds. Mute Ch7 when not actively listening to Mac audio.
