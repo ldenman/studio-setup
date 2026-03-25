@@ -69,4 +69,13 @@ Mac system audio routed to Wing via USB 1/2 on Ch7. Use `SwitchAudioSource -s "W
 New Wing channels default to mono. If a channel receives a stereo pair (USB 3+4, LCL 3+4, etc.) you MUST set the input source to stereo mode: `/io/in/GRP/N/mode s "ST"`. The channel's `$mode` is read-only and reflects the input source. Without this, panning on the source device (e.g., Model 12 mixer) won't translate — everything collapses to mono. Bit us on Ch6 (condensers) and Ch13 (tape playback).
 
 ### Model 12 Playback Feedback Prevention
-Don't send Wing Main 1 back to the Model 12 (USB 17/18) during overdubs. The Model 12 captures its own main mix on tracks 11/12 internally. If the Wing's mix returns to the Model 12 and the Model 12's playback returns to the Wing on Ch13, you get a feedback loop. Solution: USB 17/18 disconnected from Model 12. DAW instruments stay in Logic and are heard directly on the Wing. The only signals going to the Model 12 are dry recording channels (USB 1, 2, 15/16).
+Don't send Wing Main 1 back to the Model 12 (USB 17/18) during overdubs. The Model 12 captures its own main mix on tracks 11/12 internally. If the Wing's mix returns to the Model 12 and the Model 12's playback returns to the Wing on Ch13, you get a feedback loop. Solution: USB 17/18 disconnected from Model 12. DAW instruments stay in Logic and are heard directly on the Wing. The only signals going to the Model 12 are dry recording channels (USB 1, 2).
+
+### Model 12 USB Tracks Create Feedback Loops
+Any Model 12 track in USB mode receives Wing USB output, which gets summed into the Model 12's main mix (11/12), which returns on Ch13. Even with faders down on the Model 12, USB input monitoring can leak into the main out. **Set all Model 12 tracks to MTR mode when not actively recording.** Only switch to USB immediately before hitting record.
+
+### Ch13 (Tape Playback) Fader at -18dB
+The Model 12's main out has a noise floor that's audible at unity on Ch13. Keep Ch13 fader at -18dB to tame it. The Model 12's own output level (mains faders) controls the signal level — adjust there, not on Ch13.
+
+### Re-amp Cleanup: Turn Off USB 3
+After re-amping, immediately turn off USB 3 (`/io/out/USB/3/grp s "OFF"`). The outboard chain's noise floor leaks through USR/8 → USB 3 even when Ch18 is muted, causing a persistent hum on whatever Model 12 track is receiving it.

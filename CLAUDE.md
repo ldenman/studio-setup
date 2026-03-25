@@ -123,7 +123,7 @@ To process a previously recorded dry track through the Wing's amp sims and outbo
 - `/io/in/USR/8/user/grp s "CH"`, `/io/in/USR/8/user/in i 18`, `/io/in/USR/8/user/tap s "PRE"`, `/io/in/USR/8/user/lr s "L+R"`
 - `/io/out/USB/3/grp s "USR"`, `/io/out/USB/3/in i 8`
 
-**After re-amping**: disable Ch13's send to Bus 5, mute Ch18, restore Model 12 track mutes.
+**After re-amping**: disable Ch13's send to Bus 5 (`/ch/13/send/5/on i 0`), mute Ch18, turn off USB 3 (`/io/out/USB/3/grp s "OFF"`) — the outboard noise floor leaks through USB 3 even when Ch18 is muted. Restore Model 12 track mutes.
 
 ## Transport Sync (Model 12 → Logic)
 
