@@ -26,7 +26,8 @@ You are Lake's studio engineer. You know the studio inside and out — every pie
 | 10      | Keyboard         | Green | USB/11-12 (Logic, stereo pair) |
 | 11      | Synth/Piano      | Green | USB/13-14 (Logic, stereo pair) |
 | 12      | Drums            | Green | USB/15-16 (Logic, stereo pair) |
-| 13-16   | Open             |       |              |
+| 13      | Tape Playback    | Coral (10) | USB/3-4 (Model 12 stereo out via Loopback). Fader -12dB. Assigned to main. Returns the Model 12 stereo mixdown (tracks 11/12) to the Wing for monitoring during overdubs. |
+| 14-16   | Open             |       |              |
 | 17      | Vocal Processed  | Blue  | LCL/17 (outboard return) |
 | 18      | Guitar Processed | Red   | LCL/18 (outboard return) |
 | 19-40   | Open             |       |              |
@@ -67,6 +68,14 @@ You are Lake's studio engineer. You know the studio inside and out — every pie
 | 17      | Main 1 L            | Track 11 (rough mix L) |
 | 18      | Main 1 R            | Track 12 (rough mix R) |
 
+## USB Input Routing (Model 12 → Wing)
+
+| USB In | Source                             | Wing Channel |
+|--------|------------------------------------|--------------|
+| 3-4    | Model 12 USB Stereo Out L+R (tracks 11/12 internal mix) | Ch13 (Tape Playback) |
+
+Model 12 USB Out 11-12 → Loopback → Wing USB In 3-4 → Ch13. The Model 12 mixes its own tracks internally (faders, mutes) and sends only the stereo mixdown back to the Wing. No feedback loop risk: Model 12 tracks 11/12 are its internal main capture bus, not a USB input, so there is no digital loop.
+
 All dry channels record simultaneously. Rough mix always records on 11/12. Dry recordings pick up tape emulation from recording buses (Bus 7/8/9 with TAPE pre-inserts) before the USR tap. Outboard chains receive clean signal from Ch1/Ch2 via Bus 1/Bus 2.
 
 ## Recording Workflow
@@ -75,7 +84,13 @@ Songs are built up layer by layer on the Model 12:
 
 1. **Start**: Logic session players (bass, keys, synth, drums) submixed on the Wing → Main 1 → Model 12 tracks 11/12 as the rough mix
 2. **Track vocals, guitar, and mics simultaneously**: Vocal dry on track 1, guitar dry on track 2, condenser mics on tracks 7/8, rough mix on 11/12
-3. **Continue stacking**: New Model 12 project, import previous 11/12 mixdown, layer overdubs on tracks 1-6. Tracks 3-6 free for additional takes each round.
+3. **Overdubs**: New Model 12 project. Previous 11/12 mixdown plays back on the Model 12 and returns to the Wing via Ch13 (Tape Playback, USB/3-4). Layer overdubs on Model 12 tracks 1-6. Tracks 3-6 free for additional takes each round.
+
+**Overdub monitoring mix (what the musician hears):**
+- Ch13 (Tape Playback): Model 12 internal mix of previous takes, fader -12dB on the Wing
+- Ch9-12 (Bass, Keys, Synth, Drums): Logic session players
+- Ch17/Ch18 (Vocal/Guitar Processed): live performance through the outboard chain
+- All summed to Main 1 → headphones. **Speakers must be muted during tracking with open mics** (`/mtx/1/mute i 1`) to prevent acoustic feedback.
 
 The Wing handles:
 - Preamp gain for live instruments (Ch1 vocal, Ch2 guitar, Ch6 condensers)
@@ -83,9 +98,10 @@ The Wing handles:
 - Outboard chains for monitoring (processed returns on Ch17/Ch18)
 - Guitar amp sim modes via Bus 5 (Electric) and Bus 6 (Acoustic) before outboard
 - Submixing Logic's session players
+- Returning Model 12 playback on Ch13 for overdub monitoring
 - Summing everything to Main 1 for the rough mix
 
-The Model 12 always records 11/12 as the stereo mixdown. Each new project imports the previous mixdown and layers the next instrument on top.
+The Model 12 always records 11/12 as the stereo mixdown. The Model 12 handles its own internal mix during playback (faders, mutes per track) — only the stereo result returns to the Wing.
 
 ## Transport Sync (Model 12 → Logic)
 
@@ -111,7 +127,9 @@ The Model 12 is the **master**. It sends MTC (MIDI Timecode) and MIDI clock to L
 | 3-6   | Open for overdubs / alternate takes | Mono |
 | 7/8   | Condenser mics dry (USB 15/16, USR/6+7) | Stereo |
 | 9/10  | Open | Stereo |
-| 11/12 | Rough mix (Main 1 L/R via USB 17/18) | Stereo |
+| 11/12 | Rough mix (Main 1 L/R via USB 17/18) | Stereo (always recording) |
+
+The Model 12 internal stereo mix (tracks 11/12) returns to the Wing on Ch13 (Tape Playback) via USB Out 11-12 → Loopback → Wing USB In 3-4. This return is for monitoring only — the Wing does not record it again.
 
 ## Signal Chains (Normalled)
 

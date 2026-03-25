@@ -257,7 +257,7 @@ Digital tape machine, mixer, and USB audio interface. 12-in/10-out USB interface
 | 3-6   | Open for overdubs / alternate takes                 | Mono    |
 | 7/8   | Condenser mics + TAPE (USB Out 15/16 / USR/6+7 / Bus 9) | Stereo  |
 | 9/10  | Open                                                | Stereo  |
-| 11/12 | Rough mix (Wing USB Out 17/18, Main L/R)            | Stereo (always recording) |
+| 11/12 | Rough mix (Wing USB Out 17/18, Main L/R) — returns to Wing Ch13 (Tape Playback) for overdub monitoring | Stereo (always recording) |
 
 ---
 
@@ -279,8 +279,8 @@ Digital tape machine, mixer, and USB audio interface. 12-in/10-out USB interface
 | Wing USB Out 16 (USR/7 — Bus 9R, Condenser R + TAPE)  | Model 12 Track 8 (condenser R w/ tape)|
 | Wing USB Out 17 (Main 1 L)                            | Model 12 Track 11 (rough mix L)       |
 | Wing USB Out 18 (Main 1 R)                            | Model 12 Track 12 (rough mix R)       |
-| Model 12 USB Stereo Out L                             | Wing Rack USB (Monitoring L)          |
-| Model 12 USB Stereo Out R                             | Wing Rack USB (Monitoring R)          |
+| Model 12 USB Stereo Out L (tracks 11/12 internal mix) | Wing USB In 3 → Ch13 L (Tape Playback)|
+| Model 12 USB Stereo Out R (tracks 11/12 internal mix) | Wing USB In 4 → Ch13 R (Tape Playback)|
 
 ---
 

@@ -18,7 +18,8 @@ Wing channels are inherently stereo — a single channel receives an L+R pair.
 | 10      | Keyboard          | Green  | USB/11-12 (Logic, stereo pair)                |       |
 | 11      | Synth/Piano       | Green  | USB/13-14 (Logic, stereo pair)                |       |
 | 12      | Drums             | Green  | USB/15-16 (Logic, stereo pair)                |       |
-| 13-16   | Open              |        |                                               |       |
+| 13      | Tape Playback     | Coral (10) | USB/3-4 (Model 12 stereo out via Loopback) | Fader -12dB; assigned to main; returns Model 12 internal mix for overdub monitoring. Speakers must be muted during open-mic tracking. |
+| 14-16   | Open              |        |                                               |       |
 | 17      | Vocal Processed   | Blue   | LCL/17 (outboard return)                      |       |
 | 18      | Guitar Processed  | Red    | LCL/18 (outboard return)                      |       |
 | 19-40   | Open              |        |                                               |       |
@@ -37,6 +38,15 @@ Wing channels are inherently stereo — a single channel receives an L+R pair.
 | 18      | Main 1 R                    | Track 12 (rough mix R)    |
 
 All dry channels record simultaneously. Tape emulation is baked in via recording buses (7/8/9) before the USR tap.
+
+## USB Input Routing (Model 12 → Loopback → Wing)
+
+| Model 12 USB Out | → Loopback → | Wing USB In | Wing Channel |
+| ---------------- | ------------ | ----------- | ------------ |
+| Stereo Out L (track 11/12 internal mix L) | → | USB In 3 | Ch13 L (Tape Playback) |
+| Stereo Out R (track 11/12 internal mix R) | → | USB In 4 | Ch13 R (Tape Playback) |
+
+Ch13 receives the Model 12 stereo mixdown for overdub monitoring. The Model 12 handles its own internal mixing per track (faders, mutes) before the stereo out. No feedback loop: tracks 11/12 on the Model 12 are the internal main capture bus, not a USB input.
 
 ## USR Routing (Virtual Patchbay)
 
@@ -59,7 +69,9 @@ All dry channels record simultaneously. Tape emulation is baked in via recording
 | 3-6   | Open for overdubs / alternate takes                 | Mono   |
 | 7/8   | Condenser mics + TAPE (USB Out 15/16 / USR/6+7 / Bus 9) | Stereo |
 | 9/10  | Open                                                | Stereo |
-| 11/12 | Rough mix (Main 1 L/R via USB 17/18)                | Stereo |
+| 11/12 | Rough mix (Main 1 L/R via USB 17/18) — always recording | Stereo |
+
+The Model 12 internal stereo mix (its own tracks 11/12) routes back to the Wing via USB Stereo Out → Loopback → Wing USB In 3-4 → Ch13 (Tape Playback). This is the return path for overdub monitoring — the musician hears previous takes through Ch13 on the Wing.
 
 ## Patchbay -- Samson 48-Point TRS
 
@@ -195,8 +207,8 @@ Calibrated settings for both chains. Do not adjust without retesting.
 | Wing USB Out 16 (USR/7 — Bus 9R, Mic R+TAPE) | Model 12 Track 8 (condenser R w/ tape)|
 | Wing USB Out 17 (Main 1 L)                   | Model 12 Track 11 (rough mix L)       |
 | Wing USB Out 18 (Main 1 R)                   | Model 12 Track 12 (rough mix R)       |
-| Model 12 stereo out L                        | Wing Rack (monitoring L)              |
-| Model 12 stereo out R                        | Wing Rack (monitoring R)              |
+| Model 12 USB Stereo Out L (tracks 11/12 mix) | Wing USB In 3 → Ch13 L (Tape Playback)|
+| Model 12 USB Stereo Out R (tracks 11/12 mix) | Wing USB In 4 → Ch13 R (Tape Playback)|
 
 ## Monitor / Speaker Routing
 
