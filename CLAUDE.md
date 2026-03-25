@@ -107,6 +107,24 @@ The Wing handles:
 
 The Model 12 always captures its internal mix on tracks 11/12. The Model 12 handles its own per-track faders and mutes — only the stereo result returns to the Wing.
 
+### Re-amping / Re-processing Tracks
+
+To process a previously recorded dry track through the Wing's amp sims and outboard chain:
+
+1. **Solo the track on the Model 12** — mute all other tracks so only the dry recording plays back
+2. **Model 12 playback** → Ch13 (Tape Playback) on the Wing
+3. **Route Ch13 to an amp sim bus**: `/ch/13/send/5/on i 1`, `/ch/13/send/5/lvl f 0.0`, `/ch/13/send/5/mode s "PRE"` (Bus 5 = Electric amp sim)
+4. **Signal path**: Ch13 → Bus 5 (amp sim) → Bus 2 → Out 2 → outboard (HA73 B → WA76 B → Distressor) → Ch18 (processed return)
+5. **Record the processed signal back**: USR/8 taps Ch18 → USB 3 → Loopback → Model 12 (any free track in USB mode)
+6. **Unmute Ch18** to monitor the processed signal during the pass
+7. **Adjust levels**: Ch13 send level controls what hits the amp sim, outboard input gain may need adjusting. Target under -12dB on the Model 12's recording meter.
+
+**USR/8 setup** (re-amp output):
+- `/io/in/USR/8/user/grp s "CH"`, `/io/in/USR/8/user/in i 18`, `/io/in/USR/8/user/tap s "PRE"`, `/io/in/USR/8/user/lr s "L+R"`
+- `/io/out/USB/3/grp s "USR"`, `/io/out/USB/3/in i 8`
+
+**After re-amping**: disable Ch13's send to Bus 5, mute Ch18, restore Model 12 track mutes.
+
 ## Transport Sync (Model 12 → Logic)
 
 The Model 12 is the **master**. It sends MTC (MIDI Timecode) and MIDI clock to Logic Pro via USB MIDI. Logic slaves to the Model 12's transport — press play on the Model 12 and Logic follows.
