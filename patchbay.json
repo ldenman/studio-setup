@@ -70,23 +70,37 @@
       "bottom": "Condenser Mic R",
       "chain": "acoustic",
       "active": true
+    },
+    {
+      "point": 23,
+      "top": "Wing LCL Out 7 (MTX/1 L)",
+      "bottom": "Speakers L",
+      "chain": "monitors",
+      "active": true
+    },
+    {
+      "point": 24,
+      "top": "Wing LCL Out 8 (MTX/1 R)",
+      "bottom": "Speakers R",
+      "chain": "monitors",
+      "active": true
     }
   ],
   "chains": {
     "vocal": {
       "color": "blue",
-      "recording_bus": {"bus": 7, "name": "Vocal Rec", "pre_insert": {"fx_slot": 9, "model": "TAPE", "path": "/bus/7/preins/ins"}, "usr": 1, "usr_grp": "BUS", "usr_in": 13, "usb_out": 1},
+      "recording_bus": {"bus": 7, "name": "Vocal Rec", "pre_insert": {"fx_slot": 9, "model": "TAPE", "path": "/bus/7/preins/ins"}, "usr": 1, "usr_grp": "BUS", "usr_in": 7, "usb_out": 1},
       "send": {"wing_out": 1, "source": "Bus 1", "io_out_in_index": 1, "notes": "Clean signal — no TAPE"},
       "return": {"wing_in": 17, "channel": 17},
       "gear": ["HA73 A", "WA76 A", "Opto"]
     },
     "guitar": {
       "color": "red",
-      "recording_bus": {"bus": 8, "name": "Guitar Rec", "pre_insert": {"fx_slot": 10, "model": "TAPE", "path": "/bus/8/preins/ins"}, "usr": 2, "usr_grp": "BUS", "usr_in": 15, "usb_out": 2},
+      "recording_bus": {"bus": 8, "name": "Guitar Rec", "pre_insert": {"fx_slot": 10, "model": "TAPE", "path": "/bus/8/preins/ins"}, "usr": 2, "usr_grp": "BUS", "usr_in": 8, "usb_out": 2},
       "modes": {
         "electric": {
           "bus": 5,
-          "bus_pre_insert": {"fx_slot": 1, "model": "DELUXE", "path": "/bus/5/preins/ins"},
+          "bus_pre_insert": {"fx_slot": 6, "model": "ANGEL", "path": "/bus/5/preins/ins", "notes": "FX6 ANGEL (Mesa-style) for lead; FX1 DELUXE (Fender) available for rhythm"},
           "default_state": "muted",
           "notes": "Bus 5 muted by default; unmute Bus 5 and mute Bus 6 to enable electric mode"
         },
@@ -104,10 +118,21 @@
     "acoustic_mic": {
       "color": "yellow",
       "bus": 4,
-      "recording_bus": {"bus": 9, "name": "Mic Rec", "pre_insert": {"fx_slot": 3, "model": "TAPE", "path": "/bus/9/preins/ins"}, "usr_l": 6, "usr_r": 7, "usr_grp": "BUS", "usr_in": 17, "usb_out_l": 15, "usb_out_r": 16},
+      "recording_bus": {"bus": 9, "name": "Mic Rec", "pre_insert": {"fx_slot": 3, "model": "TAPE", "path": "/bus/9/preins/ins"}, "usr_l": 6, "usr_r": 7, "usr_grp": "BUS", "usr_in": 9, "usb_out_l": 5, "usb_out_r": 6, "default_state": "off", "notes": "USB 5/6 OFF by default — enable when recording condensers"},
       "send": {"wing_out_l": 3, "wing_out_r": 4, "source": "Bus 4 L/R", "io_out_in_index_l": 7, "io_out_in_index_r": 8},
       "patchbay_points": [9, 10],
       "notes": "Bus 4 sends stereo condenser mics to P9 (L) and P10 (R). Ch6 (Gtr Ac Mics) receives LCL/3+4 and sends to Bus 6. Muted by default."
+    },
+    "reamp": {
+      "usr": 8,
+      "name": "Re-amp Out",
+      "source": "Ch18",
+      "usr_grp": "CH",
+      "usr_in": 18,
+      "lr": "L",
+      "usb_out": 3,
+      "default_state": "off",
+      "notes": "Re-amp output: Ch18 (Guitar Processed) → USR/8 → USB Out 3 → Loopback → Model 12 Track 3. MUST be turned OFF after re-amping to prevent feedback loop."
     },
     "reverb": {
       "color": "green",
@@ -126,9 +151,9 @@
       "source": "USB/3-4",
       "source_detail": "Model 12 USB Stereo Out L+R (internal main mix) → Loopback → Wing USB In 3-4",
       "on_main": true,
-      "fader_db": -12,
+      "fader_db": -18,
       "default_state": "active",
-      "notes": "Returns the Model 12 internal mix (all MTR playback tracks) to the Wing for overdub monitoring. No feedback loop — Wing USB outputs only carry dry recording tracks (USB 1, 2, 15/16); USB 17/18 are disconnected. Speakers must be muted (/mtx/1/mute i 1) during open-mic tracking."
+      "notes": "Returns the Model 12 internal mix (all MTR playback tracks) to the Wing for overdub monitoring. Fader at -18dB for noise floor management — USB-mode tracks on the Model 12 re-broadcast their input signal back into the stereo mix. No feedback loop as long as Wing USB outputs only carry dry recording tracks (USB 1, 2) and all other Model 12 tracks are in MTR mode. USB 3 (re-amp) must be OFF when not in use. Speakers must be muted (/mtx/1/mute i 1) during open-mic tracking."
     },
     "5": {
       "name": "Gtr Acoustic DI",

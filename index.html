@@ -323,7 +323,7 @@ details table { font-size: 12px; }
     <div class="ch-strip"><div class="ch-num">11</div><div class="ch-color" style="background:var(--green)"></div><div class="fader"></div><div class="ch-name">Synth</div><div class="ch-src">DAW</div></div>
     <div class="ch-strip"><div class="ch-num">12</div><div class="ch-color" style="background:var(--green)"></div><div class="fader"></div><div class="ch-name">Drums</div><div class="ch-src">DAW</div></div>
     <div class="ch-sep"></div>
-    <div class="ch-strip"><div class="ch-num">13</div><div class="ch-color" style="background:#c45a4a"></div><div class="fader"></div><div class="ch-name">Tape Playback</div><div class="ch-src">USB/3-4</div></div>
+    <div class="ch-strip"><div class="ch-num">13</div><div class="ch-color" style="background:#e8a090"></div><div class="fader"></div><div class="ch-name">Tape Playback</div><div class="ch-src">USB/3-4</div></div>
     <div class="ch-strip dim"><div class="ch-num">14</div><div class="ch-color" style="background:#8a6d3b"></div><div class="fader"></div><div class="ch-name">Open</div><div class="ch-src"></div></div>
     <div class="ch-strip dim"><div class="ch-num">15</div><div class="ch-color" style="background:#8a6d3b"></div><div class="fader"></div><div class="ch-name">Open</div><div class="ch-src"></div></div>
     <div class="ch-strip dim"><div class="ch-num">16</div><div class="ch-color" style="background:#8a6d3b"></div><div class="fader"></div><div class="ch-name">Open</div><div class="ch-src"></div></div>
@@ -335,12 +335,12 @@ details table { font-size: 12px; }
   <h4>Model 12 Track Assignments (per project, via USB/Loopback)</h4>
   <table>
     <tr><th>Track</th><th>Mode</th><th>Source</th><th>Format</th></tr>
-    <tr><td>1</td><td>USB</td><td>Vocal Dry (Wing USB Out 1 / USR/1)</td><td>Mono</td></tr>
-    <tr><td>2</td><td>USB</td><td>Guitar Dry (Wing USB Out 2 / USR/2)</td><td>Mono</td></tr>
-    <tr><td>3–6</td><td>MTR</td><td>Previous takes (swapped from 1/2); overdub slots</td><td>Mono</td></tr>
-    <tr><td>7/8</td><td>USB</td><td>Condenser mics + TAPE (Wing USB Out 15/16 / USR/6+7)</td><td>Stereo</td></tr>
+    <tr><td>1</td><td>USB</td><td>Vocal + TAPE (Wing USB Out 1 / USR/1 / Bus 7)</td><td>Mono</td></tr>
+    <tr><td>2</td><td>USB</td><td>Guitar + TAPE (Wing USB Out 2 / USR/2 / Bus 8)</td><td>Mono</td></tr>
+    <tr><td>3–6</td><td>MTR</td><td>Previous takes / overdub slots. Track 3 used for re-amp return (USB 3 / USR/8) when re-amping.</td><td>Mono</td></tr>
+    <tr><td>7/8</td><td>MTR</td><td>Free for overdubs. USB 5/6 available for condensers when needed (off by default).</td><td>Stereo</td></tr>
     <tr><td>9/10</td><td>MTR</td><td>Free for overdubs / additional takes</td><td>Stereo</td></tr>
-    <tr><td>11/12</td><td>Internal</td><td>Model 12 main capture — returns to Wing Ch13 for overdub monitoring</td><td>Stereo (always recording)</td></tr>
+    <tr><td>11/12</td><td>Internal</td><td>Model 12 main capture — returns to Wing Ch13 (Tape Playback, -18dB) for overdub monitoring</td><td>Stereo (always recording)</td></tr>
   </table>
 
   <h3>Outboard</h3>
@@ -409,8 +409,10 @@ details table { font-size: 12px; }
       {point:8, top:"Distressor Out", bottom:"Wing LCL In 18", chain:"guitar", active:true},
       {point:9, top:"Wing LCL Out 3 (Bus 4L)", bottom:"Condenser Mic L", chain:"acoustic", active:true},
       {point:10, top:"Wing LCL Out 4 (Bus 4R)", bottom:"Condenser Mic R", chain:"acoustic", active:true},
+      {point:23, top:"Wing LCL Out 7 (MTX/1 L)", bottom:"Speakers L", chain:"monitors", active:true},
+      {point:24, top:"Wing LCL Out 8 (MTX/1 R)", bottom:"Speakers R", chain:"monitors", active:true},
     ];
-    const colors = {vocal:'var(--blue)',guitar:'var(--red)',monitors:'var(--green)',acoustic:'var(--yellow)'};
+    const colors = {vocal:'var(--blue)',guitar:'var(--red)',monitors:'#8a8578',acoustic:'var(--yellow)'};
     const rack = document.getElementById('patchbay-rack');
 
     let topRow = '<div class="pb-row-label">Top row (outputs)</div><div class="pb-row top">';
@@ -476,7 +478,7 @@ details table { font-size: 12px; }
         <div class="flow-arrow"></div>
         <div class="flow-node wing"><div class="name">Wing Ch 2</div><div class="detail">Guitar Dry — preamp gain stage</div></div>
         <div class="flow-arrow"></div>
-        <div class="flow-node wing"><div class="name">Bus 5 (Electric) / Bus 6 (Acoustic)</div><div class="detail">Mode bus — amp sim pre-insert; mute one to switch modes — clean signal</div></div>
+        <div class="flow-node wing"><div class="name">Bus 5 (Electric) / Bus 6 (Acoustic)</div><div class="detail">Mode bus — amp sim pre-insert; mute one to switch modes. Bus 5: FX6/ANGEL (lead) or FX1/DELUXE (rhythm). Bus 6: FX11/RACKAMP (acoustic).</div></div>
         <div class="flow-arrow"></div>
         <div class="flow-node wing"><div class="name">Bus 2 → Out 2</div><div class="detail">Guitar send to patchbay (receives from Bus 5 or 6)</div></div>
         <div class="flow-arrow"></div>

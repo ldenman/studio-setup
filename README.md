@@ -207,7 +207,9 @@ Single-channel optical compressor. Electronically balanced +4dBu. In the default
 | 8     | Distressor Output           | Wing LCL In 18 (→ Ch18)        | **Normalled** — Guitar chain |
 | 9     | Wing LCL Out 3 (Bus 4L)     | Condenser Mic L                 | **Normalled** — Acoustic mic send L |
 | 10    | Wing LCL Out 4 (Bus 4R)     | Condenser Mic R                 | **Normalled** — Acoustic mic send R |
-| 11-24 |                             |                                 | Open        |
+| 11-22 |                             |                                 | Open        |
+| 23    | Wing LCL Out 7 (MTX/1 L)    | Speakers L                      | Monitor output — direct wired |
+| 24    | Wing LCL Out 8 (MTX/1 R)    | Speakers R                      | Monitor output — direct wired |
 
 ---
 
@@ -254,8 +256,8 @@ Digital tape machine, mixer, and USB audio interface. 12-in/10-out USB interface
 | ----- | -------- | --------------------------------------------------- | ------- |
 | 1     | USB      | Vocal + TAPE (Wing USB Out 1 / USR/1 / Bus 7)       | Mono    |
 | 2     | USB      | Guitar + TAPE (Wing USB Out 2 / USR/2 / Bus 8)      | Mono    |
-| 3-6   | MTR      | Previous takes (swapped from 1/2); overdub slots    | Mono    |
-| 7/8   | USB      | Condenser mics + TAPE (Wing USB Out 15/16 / USR/6+7 / Bus 9) | Stereo  |
+| 3-6   | MTR      | Previous takes (swapped from 1/2); overdub slots. Track 3 used for re-amp (USB 3 / USR/8) when re-amping. | Mono |
+| 7/8   | MTR      | Free for overdubs. Can be set to USB for condensers (USB 5/6 / USR/6+7 / Bus 9) when needed. | Stereo  |
 | 9/10  | MTR      | Free for overdubs / additional takes                | Stereo  |
 | 11/12 | Internal | Model 12 main capture — returns to Wing Ch13 (Tape Playback) for overdub monitoring | Stereo (always recording) |
 
@@ -271,16 +273,17 @@ Digital tape machine, mixer, and USB audio interface. 12-in/10-out USB interface
 
 #### Software Audio Routing (Loopback)
 
-| From                                                  | To                                    |
-| ----------------------------------------------------- | ------------------------------------- |
-| Wing USB Out 1 (USR/1 — Bus 7L, Vocal + TAPE)         | Model 12 Track 1 (vocal w/ tape)      |
-| Wing USB Out 2 (USR/2 — Bus 8L, Guitar + TAPE)        | Model 12 Track 2 (guitar w/ tape)     |
-| Wing USB Out 15 (USR/6 — Bus 9L, Condenser L + TAPE)  | Model 12 Track 7 (condenser L w/ tape)|
-| Wing USB Out 16 (USR/7 — Bus 9R, Condenser R + TAPE)  | Model 12 Track 8 (condenser R w/ tape)|
-| Model 12 USB Stereo Out L (internal main mix L)       | Wing USB In 3 → Ch13 L (Tape Playback)|
-| Model 12 USB Stereo Out R (internal main mix R)       | Wing USB In 4 → Ch13 R (Tape Playback)|
+| From                                                       | To                                         | Default State |
+| ---------------------------------------------------------- | ------------------------------------------ | ------------- |
+| Wing USB Out 1 (USR/1 — Bus 7L, Vocal + TAPE)              | Model 12 Track 1 (vocal w/ tape)           | ON            |
+| Wing USB Out 2 (USR/2 — Bus 8L, Guitar + TAPE)             | Model 12 Track 2 (guitar w/ tape)          | ON            |
+| Wing USB Out 3 (USR/8 — Ch18, Re-amp out)                  | Model 12 Track 3 (re-amp return)           | OFF           |
+| Wing USB Out 5 (USR/6 — Bus 9L, Condenser L + TAPE)        | Model 12 Track 7 (condenser L w/ tape)     | OFF           |
+| Wing USB Out 6 (USR/7 — Bus 9R, Condenser R + TAPE)        | Model 12 Track 8 (condenser R w/ tape)     | OFF           |
+| Model 12 USB Stereo Out L (internal main mix L)            | Wing USB In 3 → Ch13 L (Tape Playback)     | ON            |
+| Model 12 USB Stereo Out R (internal main mix R)            | Wing USB In 4 → Ch13 R (Tape Playback)     | ON            |
 
-Wing USB Out 17/18 are not connected. DAW instruments (Logic session players) are heard directly on the Wing (Ch9-12) and are not recorded to the Model 12.
+Wing USB Out 4/15/16/17/18 are not connected. DAW instruments (Logic session players) are heard directly on the Wing (Ch9-12) and are not recorded to the Model 12. USB 3 (re-amp) must be turned OFF after use to prevent feedback.
 
 ---
 
@@ -290,7 +293,7 @@ Wing USB Out 17/18 are not connected. DAW instruments (Logic session players) ar
 
 **Vocal (recording):** Ch1 → Bus 7 → FX9/TAPE (Bus 7 pre-insert) → USR/1 → USB Out 1 → Loopback → Model 12 Track 1
 
-**Guitar (Electric, outboard):** DI → Wing LCL/2 (ch2 dry, preamp gain) → Bus 5 → FX1/DELUXE (Bus 5 pre-insert) → Bus 2 → Wing Out 2 → P5 → HA73 B → P6 → WA76 B → P7 → Distressor → P8 → Wing LCL/18 → Ch18 (Guitar Processed)
+**Guitar (Electric, outboard):** DI → Wing LCL/2 (ch2 dry, preamp gain) → Bus 5 → FX6/ANGEL (Bus 5 pre-insert, lead) → Bus 2 → Wing Out 2 → P5 → HA73 B → P6 → WA76 B → P7 → Distressor → P8 → Wing LCL/18 → Ch18 (Guitar Processed)
 
 **Guitar (Acoustic, outboard):** DI → Wing LCL/2 (ch2 dry, preamp gain) → Bus 6 → FX11/RACKAMP (Bus 6 pre-insert) → Bus 2 → Wing Out 2 → P5 → HA73 B → P6 → WA76 B → P7 → Distressor → P8 → Wing LCL/18 → Ch18 (Guitar Processed)
 
@@ -298,7 +301,7 @@ Wing USB Out 17/18 are not connected. DAW instruments (Logic session players) ar
 
 **Acoustic Mics (outboard):** Condensers → Wing LCL/3+4 → Ch6 → Bus 6 → FX11/RACKAMP → Bus 2 → outboard chain (above)
 
-**Acoustic Mics (recording):** Ch6 → Bus 9 → FX3/TAPE (Bus 9 pre-insert) → USR/6+7 → USB Out 15/16 → Loopback → Model 12 Tracks 7/8
+**Acoustic Mics (recording):** Ch6 → Bus 9 → FX3/TAPE (Bus 9 pre-insert) → USR/6+7 → USB Out 5/6 → Loopback → Model 12 Tracks 7/8 (USB 5/6 OFF by default)
 
 ## Gear Notes
 
