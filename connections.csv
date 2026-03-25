@@ -67,10 +67,8 @@ USB Routing,USB-1,Wing Rack,USB Out 1 (USR/1 — Bus 7L Vocal+TAPE),Model 12,Tra
 USB Routing,USB-2,Wing Rack,USB Out 2 (USR/2 — Bus 8L Guitar+TAPE),Model 12,Track 2,Software,,Via Loopback — guitar with tape emulation baked in
 USB Routing,USB-15,Wing Rack,USB Out 15 (USR/6 — Bus 9L Mic L+TAPE),Model 12,Track 7,Software,,Via Loopback — condenser mic L with tape emulation baked in
 USB Routing,USB-16,Wing Rack,USB Out 16 (USR/7 — Bus 9R Mic R+TAPE),Model 12,Track 8,Software,,Via Loopback — condenser mic R with tape emulation baked in
-USB Routing,USB-17,Wing Rack,USB Out 17 (Main 1 L),Model 12,Track 11,Software,,Via Loopback — rough mix L always recording
-USB Routing,USB-18,Wing Rack,USB Out 18 (Main 1 R),Model 12,Track 12,Software,,Via Loopback — rough mix R always recording
-USB Routing,USB-M12-L,Model 12,USB Stereo Out L (tracks 11/12 internal mix),Wing Rack,USB In 3 → Ch13 L (Tape Playback),Software,,Via Loopback — overdub monitoring return; no feedback loop (Model 12 tracks 11/12 are internal main bus not USB input)
-USB Routing,USB-M12-R,Model 12,USB Stereo Out R (tracks 11/12 internal mix),Wing Rack,USB In 4 → Ch13 R (Tape Playback),Software,,Via Loopback — overdub monitoring return
+USB Routing,USB-M12-L,Model 12,USB Stereo Out L (internal main mix L),Wing Rack,USB In 3 → Ch13 L (Tape Playback),Software,,Via Loopback — overdub monitoring return; Wing sends nothing back to Model 12 except USB 1/2/15/16
+USB Routing,USB-M12-R,Model 12,USB Stereo Out R (internal main mix R),Wing Rack,USB In 4 → Ch13 R (Tape Playback),Software,,Via Loopback — overdub monitoring return
 Wing Rack Routing,MX1-MON,Wing Monitor Section (MON.PH),Direct input,MX1 (Matrix 1),,Internal,,/mtx/1/dir/in=MON.PH — enables solo through speakers; Main 1 send to MX1 is OFF
 Physical Cables,PHY-1,Wing Rack,Analog Out 1 (XLR),Patchbay,Point 1 Top,XLR,,Back-of-rack — permanent
 Physical Cables,PHY-2,Wing Rack,Analog Out 2 (XLR),Patchbay,Point 5 Top,XLR,,Back-of-rack — permanent

@@ -58,3 +58,9 @@ If the Wing is set as both a Source AND Monitor (output) in Loopback, it creates
 
 ### Mac Audio Through Wing (Ch7)
 Mac system audio routed to Wing via USB 1/2 on Ch7. Use `SwitchAudioSource -s "WING" -t output` to switch Mac audio to Wing. Keep Ch7 at -12dB — 0dB is painfully loud for system sounds. Mute Ch7 when not actively listening to Mac audio.
+
+### Stereo Mode Must Be Set on Input Source
+New Wing channels default to mono. If a channel receives a stereo pair (USB 3+4, LCL 3+4, etc.) you MUST set the input source to stereo mode: `/io/in/GRP/N/mode s "ST"`. The channel's `$mode` is read-only and reflects the input source. Without this, panning on the source device (e.g., Model 12 mixer) won't translate — everything collapses to mono. Bit us on Ch6 (condensers) and Ch13 (tape playback).
+
+### Model 12 Playback Feedback Prevention
+Don't send Wing Main 1 back to the Model 12 (USB 17/18) during overdubs. The Model 12 captures its own main mix on tracks 11/12 internally. If the Wing's mix returns to the Model 12 and the Model 12's playback returns to the Wing on Ch13, you get a feedback loop. Solution: USB 17/18 disconnected from Model 12. DAW instruments stay in Logic and are heard directly on the Wing. The only signals going to the Model 12 are dry recording channels (USB 1, 2, 15/16).

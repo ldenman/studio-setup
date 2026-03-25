@@ -124,11 +124,11 @@
       "color": "coral",
       "color_value": 10,
       "source": "USB/3-4",
-      "source_detail": "Model 12 USB Stereo Out L+R (tracks 11/12 internal mix) → Loopback → Wing USB In 3-4",
+      "source_detail": "Model 12 USB Stereo Out L+R (internal main mix) → Loopback → Wing USB In 3-4",
       "on_main": true,
       "fader_db": -12,
       "default_state": "active",
-      "notes": "Returns the Model 12 stereo mixdown to the Wing for overdub monitoring. Model 12 handles its own internal mix per track. No feedback loop — Model 12 tracks 11/12 are the internal main capture bus, not a USB input. Speakers must be muted (/mtx/1/mute i 1) during open-mic tracking."
+      "notes": "Returns the Model 12 internal mix (all MTR playback tracks) to the Wing for overdub monitoring. No feedback loop — Wing USB outputs only carry dry recording tracks (USB 1, 2, 15/16); USB 17/18 are disconnected. Speakers must be muted (/mtx/1/mute i 1) during open-mic tracking."
     },
     "5": {
       "name": "Gtr Acoustic DI",

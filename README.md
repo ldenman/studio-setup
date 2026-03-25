@@ -250,14 +250,14 @@ Digital tape machine, mixer, and USB audio interface. 12-in/10-out USB interface
 
 #### Track Assignments (per project, via USB/Loopback)
 
-| Track | Source                                              | Format  |
-| ----- | --------------------------------------------------- | ------- |
-| 1     | Vocal + TAPE (USB Out 1 / USR/1 / Bus 7)            | Mono    |
-| 2     | Guitar + TAPE (USB Out 2 / USR/2 / Bus 8)           | Mono    |
-| 3-6   | Open for overdubs / alternate takes                 | Mono    |
-| 7/8   | Condenser mics + TAPE (USB Out 15/16 / USR/6+7 / Bus 9) | Stereo  |
-| 9/10  | Open                                                | Stereo  |
-| 11/12 | Rough mix (Wing USB Out 17/18, Main L/R) — returns to Wing Ch13 (Tape Playback) for overdub monitoring | Stereo (always recording) |
+| Track | Mode     | Source                                              | Format  |
+| ----- | -------- | --------------------------------------------------- | ------- |
+| 1     | USB      | Vocal + TAPE (Wing USB Out 1 / USR/1 / Bus 7)       | Mono    |
+| 2     | USB      | Guitar + TAPE (Wing USB Out 2 / USR/2 / Bus 8)      | Mono    |
+| 3-6   | MTR      | Previous takes (swapped from 1/2); overdub slots    | Mono    |
+| 7/8   | USB      | Condenser mics + TAPE (Wing USB Out 15/16 / USR/6+7 / Bus 9) | Stereo  |
+| 9/10  | MTR      | Free for overdubs / additional takes                | Stereo  |
+| 11/12 | Internal | Model 12 main capture — returns to Wing Ch13 (Tape Playback) for overdub monitoring | Stereo (always recording) |
 
 ---
 
@@ -277,10 +277,10 @@ Digital tape machine, mixer, and USB audio interface. 12-in/10-out USB interface
 | Wing USB Out 2 (USR/2 — Bus 8L, Guitar + TAPE)        | Model 12 Track 2 (guitar w/ tape)     |
 | Wing USB Out 15 (USR/6 — Bus 9L, Condenser L + TAPE)  | Model 12 Track 7 (condenser L w/ tape)|
 | Wing USB Out 16 (USR/7 — Bus 9R, Condenser R + TAPE)  | Model 12 Track 8 (condenser R w/ tape)|
-| Wing USB Out 17 (Main 1 L)                            | Model 12 Track 11 (rough mix L)       |
-| Wing USB Out 18 (Main 1 R)                            | Model 12 Track 12 (rough mix R)       |
-| Model 12 USB Stereo Out L (tracks 11/12 internal mix) | Wing USB In 3 → Ch13 L (Tape Playback)|
-| Model 12 USB Stereo Out R (tracks 11/12 internal mix) | Wing USB In 4 → Ch13 R (Tape Playback)|
+| Model 12 USB Stereo Out L (internal main mix L)       | Wing USB In 3 → Ch13 L (Tape Playback)|
+| Model 12 USB Stereo Out R (internal main mix R)       | Wing USB In 4 → Ch13 R (Tape Playback)|
+
+Wing USB Out 17/18 are not connected. DAW instruments (Logic session players) are heard directly on the Wing (Ch9-12) and are not recorded to the Model 12.
 
 ---
 
@@ -288,17 +288,17 @@ Digital tape machine, mixer, and USB audio interface. 12-in/10-out USB interface
 
 **Vocal (outboard):** Mic → Wing LCL/1 (ch1 dry, preamp gain) → Bus 1 → Wing Out 1 → P1 → HA73 A → P2 → WA76 A → P3 → Opto → P4 → Wing LCL/17 → Ch17 (Vocal Processed)
 
-**Vocal (recording):** Ch1 → Bus 7 → FX9/TAPE (Bus 7 pre-insert) → USR/1 → USB Out 1 → Model 12 Track 1
+**Vocal (recording):** Ch1 → Bus 7 → FX9/TAPE (Bus 7 pre-insert) → USR/1 → USB Out 1 → Loopback → Model 12 Track 1
 
 **Guitar (Electric, outboard):** DI → Wing LCL/2 (ch2 dry, preamp gain) → Bus 5 → FX1/DELUXE (Bus 5 pre-insert) → Bus 2 → Wing Out 2 → P5 → HA73 B → P6 → WA76 B → P7 → Distressor → P8 → Wing LCL/18 → Ch18 (Guitar Processed)
 
 **Guitar (Acoustic, outboard):** DI → Wing LCL/2 (ch2 dry, preamp gain) → Bus 6 → FX11/RACKAMP (Bus 6 pre-insert) → Bus 2 → Wing Out 2 → P5 → HA73 B → P6 → WA76 B → P7 → Distressor → P8 → Wing LCL/18 → Ch18 (Guitar Processed)
 
-**Guitar (recording):** Ch2 → Bus 8 → FX10/TAPE (Bus 8 pre-insert) → USR/2 → USB Out 2 → Model 12 Track 2
+**Guitar (recording):** Ch2 → Bus 8 → FX10/TAPE (Bus 8 pre-insert) → USR/2 → USB Out 2 → Loopback → Model 12 Track 2
 
 **Acoustic Mics (outboard):** Condensers → Wing LCL/3+4 → Ch6 → Bus 6 → FX11/RACKAMP → Bus 2 → outboard chain (above)
 
-**Acoustic Mics (recording):** Ch6 → Bus 9 → FX3/TAPE (Bus 9 pre-insert) → USR/6+7 → USB Out 15/16 → Model 12 Tracks 7/8
+**Acoustic Mics (recording):** Ch6 → Bus 9 → FX3/TAPE (Bus 9 pre-insert) → USR/6+7 → USB Out 15/16 → Loopback → Model 12 Tracks 7/8
 
 ## Gear Notes
 
