@@ -9,8 +9,14 @@ Notes, discoveries, gotchas, and lessons learned while building and operating th
 ### Wing Mute Kills Pre-Fader Sends
 On the Wing, muting a channel kills ALL signal — including pre-fader bus sends. This is different from consoles where pre-fader sends survive a mute. If a channel needs to feed a bus but shouldn't be heard on main, remove it from main (`/ch/N/main/1/on i 0`) instead of muting. Bit us when Ch2 was muted and Bus 2 (outboard send) went silent, and again with Ch6 (condenser mics) feeding Bus 6.
 
-### Bus Output Stereo Indexing
-The Wing's `/io/out/LCL/N/in` parameter uses stereo channel indices, not bus numbers. Bus 1L=1, Bus 1R=2, Bus 2L=3, Bus 2R=4, etc. Formula: `in = (bus_number - 1) * 2 + 1` for L. We spent a long time debugging why guitar wasn't reaching the outboard — Out 2 was set to `in=2` (Bus 1R) instead of `in=3` (Bus 2L). Same pattern applies to USR outputs.
+### Bus Output Stereo Indexing (Outputs Only)
+The Wing's `/io/out/LCL/N/in` parameter uses stereo channel indices, not bus numbers. Bus 1L=1, Bus 1R=2, Bus 2L=3, Bus 2R=4, etc. Formula: `in = (bus_number - 1) * 2 + 1` for L. We spent a long time debugging why guitar wasn't reaching the outboard — Out 2 was set to `in=2` (Bus 1R) instead of `in=3` (Bus 2L).
+
+### USR Routing Does NOT Use Stereo Indexing
+CRITICAL: When USR sources from a BUS (`/io/in/USR/N/user/grp s "BUS"`), the `in` parameter uses **simple bus numbering** — Bus 7 = `in=7`, Bus 8 = `in=8`, Bus 9 = `in=9`. NOT stereo indexing. This is DIFFERENT from `/io/out/LCL/N/in` which uses stereo indexing. We had `in=15` (stereo index for Bus 8L) and got no signal. Changing to `in=8` fixed it immediately. Use `lr` parameter (L, R, L+R) to select which side of a stereo bus.
+
+### FX Slot Ownership — Silent Steal
+An FX slot can only be inserted on one channel/bus at a time. Assigning it elsewhere silently removes it from the previous location — but the previous location still shows the FX name with `$stat=N/A`. Always check `$stat=OK` to confirm an insert is actually active. We hit this when FX10 (TAPE) was on Bus 8, then we assigned it to Ch2 pre-insert — Bus 8 lost it silently.
 
 ### HA73 Channel Variance
 The HA73-EQX2's two channels have different gain characteristics. Both set to gain knob 35, but channel A needed output at 1 o'clock and channel B needed 4 o'clock to hit the same level. This is normal for analog gear — don't expect matched behavior across channels.

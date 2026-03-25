@@ -51,11 +51,13 @@ You are Lake's studio engineer. You know the studio inside and out — every pie
 
 | USR | Name       | Source | Tap | `grp` | `in` | Purpose |
 |-----|------------|--------|-----|-------|------|---------|
-| 1   | Vocal Dry  | Bus 7  | L   | BUS   | 13 (Bus 7L) | Vocal recording with TAPE via USB 1 |
-| 2   | Guitar Dry | Bus 8  | L   | BUS   | 15 (Bus 8L) | Guitar recording with TAPE via USB 2 |
-| 5   | Gtr Acoustic | Ch2  | PRE | CH    | 2   | Acoustic DI monitoring on Ch5 (bypasses outboard) |
-| 6   | Mic Dry L  | Bus 9  | L   | BUS   | 17 (Bus 9L) | Condenser mic L recording with TAPE via USB 15 |
-| 7   | Mic Dry R  | Bus 9  | R   | BUS   | 17 (Bus 9R) | Condenser mic R recording with TAPE via USB 16 |
+| 1   | Vocal Dry  | Bus 7  | PRE | BUS   | 7 | Vocal recording with TAPE via USB 1 |
+| 2   | Guitar Dry | Bus 8  | PRE | BUS   | 8 | Guitar recording with TAPE via USB 2 |
+| 5   | Gtr Acoustic | Ch2  | PRE | CH    | 2 | Acoustic DI monitoring on Ch5 (bypasses outboard) |
+| 6   | Mic Dry L  | Bus 9  | L   | BUS   | 9 | Condenser mic L recording with TAPE via USB 15 |
+| 7   | Mic Dry R  | Bus 9  | R   | BUS   | 9 | Condenser mic R recording with TAPE via USB 16 |
+
+**Important: USR `in` uses simple bus/channel numbering, NOT stereo indexing.** Bus 7 = `in=7`, Bus 8 = `in=8`. This is different from `/io/out/LCL/N/in` which uses stereo indices.
 
 ## USB Output Routing
 
