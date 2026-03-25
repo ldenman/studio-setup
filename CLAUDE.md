@@ -35,23 +35,26 @@ You are Lake's studio engineer. You know the studio inside and out — every pie
 
 | Bus | Name        | Output    | Output `in` | Purpose |
 |-----|-------------|-----------|-------------|---------|
-| 1   | Vocal Send  | Wing Out 1 | 1 (Bus 1L) | Pre-fader send from Ch1 → outboard vocal chain (P1-P4) |
+| 1   | Vocal Send  | Wing Out 1 | 1 (Bus 1L) | Pre-fader send from Ch1 → outboard vocal chain (P1-P4). Clean signal — no TAPE. |
 | 2   | Guitar Send | Wing Out 2 | 3 (Bus 2L) | Receives from Bus 5 (Electric) and Bus 6 (Acoustic) → outboard guitar chain (P5-P8). No pre-insert — amp sims are on Bus 5/6. |
 | 3   | Reverb      | —          | —           | FX2 (PLATE) on pre-insert, assigned to main. Receives from Bus 1 and Bus 2. |
 | 4   | Mic Send    | Wing Out 3+4 | 7/8 (Bus 4L/R) | Pre-fader stereo send from Ch6 (condenser mics) → P9 top (L) + P10 top (R). Available for stereo outboard routing via patchbay. |
 | 5   | Electric    | —          | —           | FX1 (DELUXE) on pre-insert. Receives from Ch2 pre-fader. Sends to Bus 2 (outboard). Muted by default. |
 | 6   | Acoustic    | —          | —           | FX11 (RACKAMP, clean/bright) on pre-insert. Receives from Ch2 + Ch6 pre-fader. Sends to Bus 2 (outboard). |
-| 7-16 | Open       |           |             |         |
+| 7   | Vocal Rec   | —          | —           | FX9 (TAPE) on pre-insert. Receives from Ch1 pre-fader. Not on main. Feeds USR/1 → USB 1 → Model 12. |
+| 8   | Guitar Rec  | —          | —           | FX10 (TAPE) on pre-insert. Receives from Ch2 pre-fader. Not on main. Feeds USR/2 → USB 2 → Model 12. |
+| 9   | Mic Rec     | —          | —           | FX3 (TAPE) on pre-insert. Receives from Ch6 pre-fader. Not on main. Feeds USR/6+7 → USB 15/16 → Model 12. |
+| 10-16 | Open      |           |             |         |
 
 ## USR Routing (Virtual Patchbay)
 
-| USR | Name       | Source | Tap | Purpose |
-|-----|------------|--------|-----|---------|
-| 1   | Vocal Dry  | Ch1    | PRE | Vocal dry recording via USB 1 |
-| 2   | Guitar Dry | Ch2    | PRE | Guitar dry recording via USB 2 |
-| 5   | Gtr Acoustic | Ch2  | PRE | Acoustic DI monitoring on Ch5 (bypasses outboard) |
-| 6   | Mic Dry L  | Ch6    | L   | Condenser mic L for dry recording via USB 15 |
-| 7   | Mic Dry R  | Ch6    | R   | Condenser mic R for dry recording via USB 16 |
+| USR | Name       | Source | Tap | `grp` | `in` | Purpose |
+|-----|------------|--------|-----|-------|------|---------|
+| 1   | Vocal Dry  | Bus 7  | L   | BUS   | 13 (Bus 7L) | Vocal recording with TAPE via USB 1 |
+| 2   | Guitar Dry | Bus 8  | L   | BUS   | 15 (Bus 8L) | Guitar recording with TAPE via USB 2 |
+| 5   | Gtr Acoustic | Ch2  | PRE | CH    | 2   | Acoustic DI monitoring on Ch5 (bypasses outboard) |
+| 6   | Mic Dry L  | Bus 9  | L   | BUS   | 17 (Bus 9L) | Condenser mic L recording with TAPE via USB 15 |
+| 7   | Mic Dry R  | Bus 9  | R   | BUS   | 17 (Bus 9R) | Condenser mic R recording with TAPE via USB 16 |
 
 ## USB Output Routing
 
@@ -64,7 +67,7 @@ You are Lake's studio engineer. You know the studio inside and out — every pie
 | 17      | Main 1 L            | Track 11 (rough mix L) |
 | 18      | Main 1 R            | Track 12 (rough mix R) |
 
-All dry channels record simultaneously. Rough mix always records on 11/12. Dry recordings include tape emulation (TAPE pre-inserts) and any channel dynamics (gate/compression) baked in via the PRE tap point (ptap=5, post-processing).
+All dry channels record simultaneously. Rough mix always records on 11/12. Dry recordings pick up tape emulation from recording buses (Bus 7/8/9 with TAPE pre-inserts) before the USR tap. Outboard chains receive clean signal from Ch1/Ch2 via Bus 1/Bus 2.
 
 ## Recording Workflow
 
@@ -76,8 +79,7 @@ Songs are built up layer by layer on the Model 12:
 
 The Wing handles:
 - Preamp gain for live instruments (Ch1 vocal, Ch2 guitar, Ch6 condensers)
-- Tape emulation via pre-inserts (FX9/FX10/FX3 TAPE) — baked into dry recordings and outboard sends
-- Channel dynamics (gate/compression) baked into dry recordings when enabled
+- Tape emulation via recording buses (Bus 7/8/9 with FX9/FX10/FX3 TAPE pre-inserts) — baked into Model 12 recordings only; outboard receives clean signal
 - Outboard chains for monitoring (processed returns on Ch17/Ch18)
 - Guitar amp sim modes via Bus 5 (Electric) and Bus 6 (Acoustic) before outboard
 - Submixing Logic's session players
@@ -113,11 +115,14 @@ The Model 12 is the **master**. It sends MTC (MIDI Timecode) and MIDI clock to L
 
 ## Signal Chains (Normalled)
 
-**Vocal:** Mic → Wing ch1 (dry, preamp gain) → **FX9 TAPE (pre-insert)** → Bus 1 send (pre-fader, unity) → Wing Out 1 → P1 → HA73 A (EQ/color) → P2 → WA76 A (1176) → P3 → Opto (LA2A) → P4 → Wing LCL 17 → Ch17 (processed)
+**Vocal:** Mic → Wing ch1 (dry, preamp gain, no pre-insert) → Bus 1 send (pre-fader, unity) → Wing Out 1 → P1 → HA73 A (EQ/color) → P2 → WA76 A (1176) → P3 → Opto (LA2A) → P4 → Wing LCL 17 → Ch17 (processed)
+
+Recording path: Ch1 → Bus 7 send (pre-fader) → **FX9 TAPE (Bus 7 pre-insert)** → USR/1 (Bus 7L) → USB 1 → Loopback → Model 12 Track 1
 
 Wing routing:
-- Ch1: LCL/1, pre-insert FX9 (TAPE), send to Bus 1 (pre-fader, 0dB), NOT assigned to main (dry monitoring off by default)
-- Bus 1: fader 0dB, unmuted
+- Ch1: LCL/1, no pre-insert, sends to Bus 1 + Bus 7 (both pre-fader, 0dB), NOT assigned to main
+- Bus 1: fader 0dB, unmuted, no pre-insert — clean signal to outboard
+- Bus 7 (Vocal Rec): FX9 (TAPE) pre-insert, not on main — tape-colored signal to recording
 - Wing Out 1: sourced from Bus 1 (in=1, Bus 1L)
 - Ch17: LCL/17 (outboard return), fader -12dB, assigned to Main 1
 
@@ -127,7 +132,9 @@ Patchbay (normalled, P1-P4):
 - P3: WA76 A Out (top) → Opto In (bottom)
 - P4: Opto Out (top) → Wing LCL 17 (bottom)
 
-**Guitar:** DI → Wing ch2 (dry, preamp gain) → **FX10 TAPE (pre-insert)** → Bus 5 or Bus 6 (amp sim) → Bus 2 (outboard send) → Wing Out 2 → P5 → HA73 B (EQ/color) → P6 → WA76 B (1176) → P7 → Distressor → P8 → Wing LCL 18 → Ch18 (processed)
+**Guitar:** DI → Wing ch2 (dry, preamp gain, no pre-insert) → Bus 5 or Bus 6 (amp sim) → Bus 2 (outboard send) → Wing Out 2 → P5 → HA73 B (EQ/color) → P6 → WA76 B (1176) → P7 → Distressor → P8 → Wing LCL 18 → Ch18 (processed)
+
+Recording path: Ch2 → Bus 8 send (pre-fader) → **FX10 TAPE (Bus 8 pre-insert)** → USR/2 (Bus 8L) → USB 2 → Loopback → Model 12 Track 2
 
 **Guitar modes** — Ch2 sends to two amp sim buses. Mute/unmute to switch modes:
 - **Electric**: Ch2 → Bus 5 (FX1 DELUXE pre-insert) → Bus 2 → outboard → Ch18
@@ -136,11 +143,13 @@ Patchbay (normalled, P1-P4):
 - **Acoustic DI direct** (no outboard): Ch5 via USR/5, clean, assigned to main
 
 Wing routing:
-- Ch2: LCL/2, pre-insert FX10 (TAPE), sends to Bus 5 + Bus 6 (pre-fader, 0dB), NOT assigned to main
-- Ch6: LCL/3+4 (stereo condensers, phantom power), sends to Bus 6 (pre-fader, 0dB), NOT assigned to main. Must be unmuted for signal to flow.
+- Ch2: LCL/2, no pre-insert, sends to Bus 5 + Bus 6 + Bus 8 (all pre-fader, 0dB), NOT assigned to main
+- Ch6: LCL/3+4 (stereo condensers, phantom power), sends to Bus 6 + Bus 9 (pre-fader, 0dB), NOT assigned to main. Must be unmuted for signal to flow.
 - Bus 5 (Electric): FX1 (DELUXE) pre-insert, sends to Bus 2. Muted by default.
 - Bus 6 (Acoustic): FX11 (RACKAMP, clean/bright: pre 7, buzz 1, punch 2, crunch 1, drive 1, output 8, leq 3, heq 7.5) pre-insert, sends to Bus 2.
-- Bus 2: fader 0dB, unmuted, NO pre-insert (amp sims are on Bus 5/6)
+- Bus 2: fader 0dB, unmuted, NO pre-insert (amp sims are on Bus 5/6) — clean signal to outboard
+- Bus 8 (Guitar Rec): FX10 (TAPE) pre-insert, not on main — tape-colored signal to recording
+- Bus 9 (Mic Rec): FX3 (TAPE) pre-insert, not on main — tape-colored condenser signal to recording
 - Wing Out 2: sourced from Bus 2 (in=3, Bus 2L)
 - Ch18: LCL/18 (outboard return), fader -12dB, assigned to Main 1
 
@@ -154,14 +163,14 @@ Patchbay (normalled, P5-P8):
 - P23: Wing Out 7 / MX1 L (top) → Right Speaker (bottom). Normalled. Break normal with Model 12 main R for playback monitoring.
 - P24: Wing Out 8 / MX1 R (top) → Left Speaker (bottom). Normalled. Break normal with Model 12 main L for playback monitoring.
 
-**Condenser mic routing:** Mics → XLR direct to Wing LCL/3 + LCL/4 (phantom power required, bypasses patchbay) → Ch6 (stereo, **FX3 TAPE pre-insert**) → Bus 4 send (pre-fader) → Out 3+4 → P9 top (L) + P10 top (R). Also sends to Bus 6 (Acoustic) for outboard processing. Dry recording via USR/6 (L) + USR/7 (R) → USB 15/16 → Loopback → Model 12 tracks 7/8. Patchbay is TRS and cannot carry phantom power, so mics must connect directly via XLR.
+**Condenser mic routing:** Mics → XLR direct to Wing LCL/3 + LCL/4 (phantom power required, bypasses patchbay) → Ch6 (stereo, no pre-insert) → Bus 4 send (pre-fader) → Out 3+4 → P9 top (L) + P10 top (R). Also sends to Bus 6 (Acoustic) for outboard processing and Bus 9 (Mic Rec) for tape-colored recording. Dry recording via USR/6 (Bus 9L) + USR/7 (Bus 9R) → USB 15/16 → Loopback → Model 12 tracks 7/8. Patchbay is TRS and cannot carry phantom power, so mics must connect directly via XLR.
 
-**Tape pre-inserts (all local channels):**
-- Ch1 (Vocal): FX9 (TAPE)
-- Ch2 (Guitar DI): FX10 (TAPE)
-- Ch6 (Condensers): FX3 (TAPE)
+**Tape pre-inserts (recording buses only):**
+- Bus 7 (Vocal Rec): FX9 (TAPE)
+- Bus 8 (Guitar Rec): FX10 (TAPE)
+- Bus 9 (Mic Rec): FX3 (TAPE)
 
-**Tape Emulation:** FX9 (TAPE) on Ch1 pre-insert, FX10 (TAPE) on Ch2 pre-insert. Sits before everything in the chain — both the bus sends (outboard) and USR taps (dry recording to Model 12) pick up the tape color. This gives every recorded layer analog tape character as tracks are stacked up. Future option: replace with IK Multimedia Tascam tape plugin in the Loopback chain for a higher-quality emulation without using Wing FX slots.
+**Tape Emulation:** TAPE is on the recording buses (7/8/9), not the channel strips. The outboard chains (Bus 1/Bus 2) receive clean signal from Ch1/Ch2. Only the paths going to the Model 12 via USR routing pick up tape color. This is the correct tape machine behavior — the "tape" is only on the recording heads, not the monitoring path. Each stacked layer accumulates its own tape saturation as it's recorded to the Model 12. Future option: replace Wing TAPE FX with IK Multimedia Tascam tape plugin in the Loopback chain for higher-quality emulation without using Wing FX slots.
 
 **Vocal LA2A:** Wing ch1 (dry) → User Signal Out 1 → User Signal In 1 → Wing ch5 (Wing LA-2A plugin)
 

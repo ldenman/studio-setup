@@ -75,14 +75,14 @@
   "chains": {
     "vocal": {
       "color": "blue",
-      "pre_insert": {"fx_slot": 9, "model": "TAPE", "path": "/ch/1/preins/ins"},
-      "send": {"wing_out": 1, "source": "Bus 1", "io_out_in_index": 1},
+      "recording_bus": {"bus": 7, "name": "Vocal Rec", "pre_insert": {"fx_slot": 9, "model": "TAPE", "path": "/bus/7/preins/ins"}, "usr": 1, "usr_grp": "BUS", "usr_in": 13, "usb_out": 1},
+      "send": {"wing_out": 1, "source": "Bus 1", "io_out_in_index": 1, "notes": "Clean signal — no TAPE"},
       "return": {"wing_in": 17, "channel": 17},
       "gear": ["HA73 A", "WA76 A", "Opto"]
     },
     "guitar": {
       "color": "red",
-      "pre_insert": {"fx_slot": 10, "model": "TAPE", "path": "/ch/2/preins/ins"},
+      "recording_bus": {"bus": 8, "name": "Guitar Rec", "pre_insert": {"fx_slot": 10, "model": "TAPE", "path": "/bus/8/preins/ins"}, "usr": 2, "usr_grp": "BUS", "usr_in": 15, "usb_out": 2},
       "modes": {
         "electric": {
           "bus": 5,
@@ -104,6 +104,7 @@
     "acoustic_mic": {
       "color": "yellow",
       "bus": 4,
+      "recording_bus": {"bus": 9, "name": "Mic Rec", "pre_insert": {"fx_slot": 3, "model": "TAPE", "path": "/bus/9/preins/ins"}, "usr_l": 6, "usr_r": 7, "usr_grp": "BUS", "usr_in": 17, "usb_out_l": 15, "usb_out_r": 16},
       "send": {"wing_out_l": 3, "wing_out_r": 4, "source": "Bus 4 L/R", "io_out_in_index_l": 7, "io_out_in_index_r": 8},
       "patchbay_points": [9, 10],
       "notes": "Bus 4 sends stereo condenser mics to P9 (L) and P10 (R). Ch6 (Gtr Ac Mics) receives LCL/3+4 and sends to Bus 6. Muted by default."
