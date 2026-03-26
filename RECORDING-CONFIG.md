@@ -8,7 +8,7 @@ Wing channels are inherently stereo — a single channel receives an L+R pair.
 
 | Channel | Name              | Color  | Source                                        | Notes |
 | ------- | ----------------- | ------ | --------------------------------------------- | ----- |
-| 1       | Vocal Dry         | Blue   | LCL/1 (mic)                                   | Pre-fader send to Bus 1 (vocal outboard) |
+| 1       | Vocal Dry         | Blue   | LCL/1 (mic)                                   | GATE dynamics. Pre-fader send to Bus 1 (vocal outboard) |
 | 2       | Guitar Dry        | Red    | LCL/2 (DI)                                    | Pre-fader send to Bus 5 (Electric) and Bus 6 (Acoustic); NOT on main |
 | 3-4     | Open              |        | Local                                         |       |
 | 5       | Gtr Acoustic DI   | Yellow | USR/5 (from Ch2, PRE tap)                     | Clean DI signal bypassing outboard; assigned to main; muted by default |
@@ -20,8 +20,8 @@ Wing channels are inherently stereo — a single channel receives an L+R pair.
 | 12      | Drums             | Green  | USB/15-16 (Logic, stereo pair)                |       |
 | 13      | Tape Playback     | Coral (10) | USB/3-4 (Model 12 stereo out via Loopback) | Fader -18dB; assigned to main; returns Model 12 internal mix (MTR playback) for overdub monitoring. No feedback risk — Wing sends nothing back to Model 12 except dry recording tracks (USB 1, 2). Speakers must be muted during open-mic tracking. |
 | 14-16   | Open              |        |                                               |       |
-| 17      | Vocal Processed   | Blue   | LCL/17 (outboard return)                      |       |
-| 18      | Guitar Processed  | Red    | LCL/18 (outboard return)                      |       |
+| 17      | Vocal Processed   | Blue   | LCL/17 (outboard return)                      | DE-ES dynamics. Sends to Bus 7 (recording). |
+| 18      | Guitar Processed  | Red    | LCL/18 (outboard return)                      | Sends to Bus 8 (recording). |
 | 19-40   | Open              |        |                                               |       |
 
 **Mute behavior note:** Muting a channel kills its pre-fader sends. To keep sends flowing (e.g. for monitoring a silent channel), use main assign off instead of mute.
@@ -141,8 +141,8 @@ Signal flows through these four normalled points without any cables patched:
 | 4   | Mic Send     | —      | Wing Out 3+4   | 7/8 (Bus 4L/R)           | Stereo condenser mic send to P9 (L) + P10 (R) |
 | 5   | Electric     | Red    | → Bus 2 send   | —                        | FX6 (ANGEL) pre-insert for lead; FX1 (DELUXE) available for rhythm. Receives from Ch2; sends to Bus 2; muted by default |
 | 6   | Acoustic     | Yellow | → Bus 2 send   | —                        | FX11 (RACKAMP, clean/bright) pre-insert; receives from Ch2 + Ch6; sends to Bus 2 |
-| 7   | Vocal Rec    | Blue   | — (USR only)   | —                        | FX9 (TAPE) pre-insert; receives from Ch1 pre-fader; feeds USR/1 → USB 1 → Model 12 |
-| 8   | Guitar Rec   | Red    | — (USR only)   | —                        | FX10 (TAPE) pre-insert; receives from Ch2 pre-fader; feeds USR/2 → USB 2 → Model 12 |
+| 7   | Vocal Rec    | Blue   | — (USR only)   | —                        | FX9 (TAPE) pre-insert; receives from Ch17 pre-fader (outboard return); feeds USR/1 → USB 1 → Model 12 |
+| 8   | Guitar Rec   | Red    | — (USR only)   | —                        | FX10 (TAPE) pre-insert; receives from Ch18 pre-fader (outboard return); feeds USR/2 → USB 2 → Model 12 |
 | 9   | Mic Rec      | Yellow | — (USR only)   | —                        | FX3 (TAPE) pre-insert; receives from Ch6 pre-fader; feeds USR/6+7 → USB 5/6 → Model 12 (OFF by default) |
 
 Bus output `in` parameter uses stereo channel indices, not bus numbers: Bus 1L = 1, Bus 1R = 2, Bus 2L = 3, Bus 2R = 4, Bus 4L = 7, Bus 4R = 8, Bus 7L = 13, Bus 7R = 14, Bus 8L = 15, Bus 8R = 16, Bus 9L = 17, Bus 9R = 18.
@@ -165,15 +165,17 @@ Pre-inserts are assigned at `/ch/N/preins/ins` and `/bus/N/preins/ins`, enabled 
 
 ## Signal Chains (Normalled)
 
-**Vocal (outboard):** Mic → Wing LCL/1 → Ch1 (preamp gain, no pre-insert) → Bus 1 send (pre-fader, 0dB) → Wing Out 1 → P1 → HA73 A → P2 → WA76 A → P3 → Opto → P4 → Wing LCL/17 → Ch17 (Vocal Processed)
+**Vocal (outboard):** Mic → Wing LCL/1 → Ch1 (preamp gain, GATE dynamics) → Bus 1 send (pre-fader, 0dB) → Wing Out 1 → P1 → HA73 A → P2 → WA76 A → P3 → Opto → P4 → Wing LCL/17 → Ch17 (Vocal Processed, DE-ES dynamics)
 
-**Vocal (recording):** Ch1 → Bus 7 send (pre-fader) → FX9/TAPE (Bus 7 pre-insert) → USR/1 (Bus 7L) → USB Out 1 → Loopback → Model 12 Track 1
+**Vocal (recording):** Ch1 (GATE) → Bus 1 → outboard (HA73 A → WA76 A → Opto) → Ch17 (DE-ES) → Bus 7 send (pre-fader) → FX9/TAPE (Bus 7 pre-insert) → USR/1 (Bus 7L) → USB Out 1 → Loopback → Model 12 Track 1. Records gate + outboard + de-esser + tape. No reverb/FX.
 
 **Guitar (Electric mode — outboard):** DI → Wing LCL/2 → Ch2 (preamp gain, no pre-insert) → Bus 5 send (pre-fader) → FX6/ANGEL (Bus 5 pre-insert, lead; or FX1/DELUXE for rhythm) → Bus 5 → Bus 2 send → Wing Out 2 → P5 → HA73 B → P6 → WA76 B → P7 → Distressor → P8 → Wing LCL/18 → Ch18 (Guitar Processed)
 
 **Guitar (Acoustic mode — outboard):** DI → Wing LCL/2 → Ch2 (preamp gain, no pre-insert) → Bus 6 send (pre-fader) → FX11/RACKAMP (Bus 6 pre-insert) → Bus 6 → Bus 2 send → Wing Out 2 → P5 → HA73 B → P6 → WA76 B → P7 → Distressor → P8 → Wing LCL/18 → Ch18 (Guitar Processed)
 
-**Guitar (recording):** Ch2 → Bus 8 send (pre-fader) → FX10/TAPE (Bus 8 pre-insert) → USR/2 (Bus 8L) → USB Out 2 → Loopback → Model 12 Track 2
+**Guitar (recording — with amp sim):** Ch2 → Bus 5/6 (amp sim) → Bus 2 → outboard (HA73 B → WA76 B → Distressor) → Ch18 → Bus 8 send (pre-fader) → FX10/TAPE (Bus 8 pre-insert) → USR/2 (Bus 8L) → USB Out 2 → Loopback → Model 12 Track 2. Bus 5 or 6 unmuted, Ch2→Bus 2 send OFF.
+
+**Guitar (recording — clean DI, no amp sim):** Ch2 → Bus 2 (direct send) → outboard (HA73 B → WA76 B → Distressor) → Ch18 → Bus 8 send (pre-fader) → FX10/TAPE → USR/2 → USB Out 2 → Loopback → Model 12 Track 2. Bus 5+6 muted, Ch2→Bus 2 send ON. Records outboard + tape only.
 
 **Acoustic Mic path (Ch6 unmuted — outboard):** Condensers → Wing LCL/3+4 → Ch6 (no pre-insert) → Bus 6 send → FX11/RACKAMP (Bus 6 pre-insert) → Bus 6 → Bus 2 → outboard chain
 

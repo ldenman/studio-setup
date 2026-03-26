@@ -15,7 +15,7 @@ You are Lake's studio engineer. You know the studio inside and out — every pie
 
 | Channel | Name             | Color | Source       |
 |---------|------------------|-------|--------------|
-| 1       | Vocal Dry        | Blue  | LCL/1 (mic)  |
+| 1       | Vocal Dry        | Blue  | LCL/1 (mic). Dynamics: GATE. |
 | 2       | Guitar Dry       | Red   | LCL/2 (DI)   |
 | 3       | (planned: Gtr Rhythm) |   |              |
 | 4       | (planned: Gtr Lead)   |   |              |
@@ -28,7 +28,7 @@ You are Lake's studio engineer. You know the studio inside and out — every pie
 | 12      | Drums            | Green | USB/15-16 (Logic, stereo pair) |
 | 13      | Tape Playback    | Coral (10) | USB/3-4 (Model 12 stereo out via Loopback). Fader -18dB (noise floor management). Assigned to main. Returns the Model 12 internal mix (MTR playback tracks) to the Wing for overdub monitoring. Feedback prevention: Wing sends only USB 1 and 2 back to Model 12 by default. USB-mode tracks on Model 12 re-broadcast their input — keep non-recording tracks in MTR mode. |
 | 14-16   | Open             |       |              |
-| 17      | Vocal Processed  | Blue  | LCL/17 (outboard return) |
+| 17      | Vocal Processed  | Blue  | LCL/17 (outboard return). Dynamics: DE-ES. |
 | 18      | Guitar Processed | Red   | LCL/18 (outboard return) |
 | 19-40   | Open             |       |              |
 
@@ -42,8 +42,8 @@ You are Lake's studio engineer. You know the studio inside and out — every pie
 | 4   | Mic Send    | Wing Out 3+4 | 7/8 (Bus 4L/R) | Pre-fader stereo send from Ch6 (condenser mics) → P9 top (L) + P10 top (R). Available for stereo outboard routing via patchbay. |
 | 5   | Electric    | —          | —           | FX6 (ANGEL) on pre-insert for lead; FX1 (DELUXE) available for rhythm. Receives from Ch2 pre-fader. Sends to Bus 2 (outboard). Muted by default. |
 | 6   | Acoustic    | —          | —           | FX11 (RACKAMP, clean/bright) on pre-insert. Receives from Ch2 + Ch6 pre-fader. Sends to Bus 2 (outboard). |
-| 7   | Vocal Rec   | —          | —           | FX9 (TAPE) on pre-insert. Receives from Ch1 pre-fader. Not on main. Feeds USR/1 → USB 1 → Model 12. |
-| 8   | Guitar Rec  | —          | —           | FX10 (TAPE) on pre-insert. Receives from Ch2 pre-fader. Not on main. Feeds USR/2 → USB 2 → Model 12. |
+| 7   | Vocal Rec   | —          | —           | FX9 (TAPE) on pre-insert. Receives from Ch17 pre-fader. Not on main. Feeds USR/1 → USB 1 → Model 12. |
+| 8   | Guitar Rec  | —          | —           | FX10 (TAPE) on pre-insert. Receives from Ch18 pre-fader. Not on main. Feeds USR/2 → USB 2 → Model 12. |
 | 9   | Mic Rec     | —          | —           | FX3 (TAPE) on pre-insert. Receives from Ch6 pre-fader. Not on main. Feeds USR/6+7 → USB 5/6 → Model 12 (OFF by default). |
 | 10-16 | Open      |           |             |         |
 
@@ -161,16 +161,16 @@ The Model 12 internal stereo mix (tracks 11/12) returns to the Wing on Ch13 (Tap
 
 ## Signal Chains (Normalled)
 
-**Vocal:** Mic → Wing ch1 (dry, preamp gain, no pre-insert) → Bus 1 send (pre-fader, unity) → Wing Out 1 → P1 → HA73 A (EQ/color) → P2 → WA76 A (1176) → P3 → Opto (LA2A) → P4 → Wing LCL 17 → Ch17 (processed)
+**Vocal:** Mic → Wing ch1 (dry, preamp gain, GATE dynamics) → Bus 1 send (pre-fader, unity) → Wing Out 1 → P1 → HA73 A (EQ/color) → P2 → WA76 A (1176) → P3 → Opto (LA2A) → P4 → Wing LCL 17 → Ch17 (processed, DE-ES dynamics)
 
-Recording path: Ch1 → Bus 7 send (pre-fader) → **FX9 TAPE (Bus 7 pre-insert)** → USR/1 (Bus 7L) → USB 1 → Loopback → Model 12 Track 1
+Recording path: Ch1 (GATE) → Bus 1 → outboard (HA73 A → WA76 A → Opto) → Ch17 (DE-ES) → Bus 7 send (pre-fader) → **FX9 TAPE (Bus 7 pre-insert)** → USR/1 (Bus 7L) → USB 1 → Loopback → Model 12 Track 1. Records gate + outboard EQ/compression + de-esser + tape. No reverb or FX.
 
 Wing routing:
-- Ch1: LCL/1, no pre-insert, sends to Bus 1 + Bus 7 (both pre-fader, 0dB), NOT assigned to main
-- Bus 1: fader 0dB, unmuted, no pre-insert — clean signal to outboard
-- Bus 7 (Vocal Rec): FX9 (TAPE) pre-insert, not on main — tape-colored signal to recording
+- Ch1: LCL/1, no pre-insert, GATE dynamics (noise/bleed control), sends to Bus 1 (pre-fader, 0dB), NOT assigned to main
+- Bus 1: fader 0dB, unmuted, no pre-insert — clean signal to outboard. Dedicated to live input (Ch1).
+- Ch17: LCL/17 (outboard return), fader -12dB, DE-ES dynamics (catches sibilance emphasized by compression), sends to Bus 7 (pre-fader, 0dB), assigned to Main 1
+- Bus 7 (Vocal Rec): FX9 (TAPE) pre-insert, receives from Ch17, not on main — processed + tape-colored signal to recording
 - Wing Out 1: sourced from Bus 1 (in=1, Bus 1L)
-- Ch17: LCL/17 (outboard return), fader -12dB, assigned to Main 1
 
 Patchbay (normalled, P1-P4):
 - P1: Wing Out 1 (top) → HA73 A In (bottom)
@@ -180,9 +180,15 @@ Patchbay (normalled, P1-P4):
 
 **Guitar:** DI → Wing ch2 (dry, preamp gain, no pre-insert) → Bus 5 or Bus 6 (amp sim) → Bus 2 (outboard send) → Wing Out 2 → P5 → HA73 B (EQ/color) → P6 → WA76 B (1176) → P7 → Distressor → P8 → Wing LCL 18 → Ch18 (processed)
 
-Recording path: Ch2 → Bus 8 send (pre-fader) → **FX10 TAPE (Bus 8 pre-insert)** → USR/2 (Bus 8L) → USB 2 → Loopback → Model 12 Track 2
+Recording path: Ch18 (outboard return) → Bus 8 send (pre-fader) → **FX10 TAPE (Bus 8 pre-insert)** → USR/2 (Bus 8L) → USB 2 → Loopback → Model 12 Track 2. Records outboard EQ/compression + tape. Amp sims are optionally included depending on mode.
 
-**Guitar modes** — Ch2 sends to two amp sim buses. Mute/unmute to switch modes:
+**Guitar recording modes:**
+- **With amp sim:** Ch2 → Bus 5/6 (amp sim) → Bus 2 → outboard → Ch18 → Bus 8 (TAPE) → USB 2 → Model 12. Bus 5 or 6 unmuted, Ch2→Bus 2 send OFF.
+- **Clean DI (no amp sim):** Ch2 → Bus 2 (direct) → outboard → Ch18 → Bus 8 (TAPE) → USB 2 → Model 12. Bus 5+6 muted, Ch2→Bus 2 send ON.
+
+Ch2→Bus 2 send is OFF by default (pre-fader, 0dB when enabled). Toggle it to bypass amp sims while still recording through outboard + tape.
+
+**Guitar monitoring modes** — Ch2 sends to two amp sim buses. Mute/unmute to switch:
 - **Electric**: Ch2 → Bus 5 (FX6 ANGEL pre-insert, lead; or FX1 DELUXE for rhythm) → Bus 2 → outboard → Ch18
 - **Acoustic DI**: Ch2 → Bus 6 (FX11 RACKAMP clean/bright pre-insert) → Bus 2 → outboard → Ch18
 - **Acoustic Mics**: Ch6 (LCL/3+4 stereo condensers) → Bus 6 (RACKAMP) → Bus 2 → outboard → Ch18
@@ -191,15 +197,15 @@ Recording path: Ch2 → Bus 8 send (pre-fader) → **FX10 TAPE (Bus 8 pre-insert
 **Re-amping:** Ch13 (Tape Playback) → Bus 5 (amp sim) → Bus 2 → outboard → Ch18 → USR/8 → USB 3 → Loopback → Model 12 Track 3. Set Track 3 to USB mode, enable USB Out 3 in Loopback. Disable USB 3 and set Track 3 back to MTR when done.
 
 Wing routing:
-- Ch2: LCL/2, no pre-insert, sends to Bus 5 + Bus 6 + Bus 8 (all pre-fader, 0dB), NOT assigned to main
+- Ch2: LCL/2, no pre-insert, sends to Bus 5 + Bus 6 (pre-fader, 0dB), Bus 2 send available (OFF by default, for clean DI bypass of amp sims), NOT assigned to main
 - Ch6: LCL/3+4 (stereo condensers, phantom power), sends to Bus 6 + Bus 9 (pre-fader, 0dB), NOT assigned to main. Must be unmuted for signal to flow.
 - Bus 5 (Electric): FX6 (ANGEL, Mesa-style lead) pre-insert, sends to Bus 2. Muted by default. FX1 (DELUXE) available for rhythm mode.
 - Bus 6 (Acoustic): FX11 (RACKAMP, clean/bright: pre 7, buzz 1, punch 2, crunch 1, drive 1, output 8, leq 3, heq 7.5) pre-insert, sends to Bus 2.
 - Bus 2: fader 0dB, unmuted, NO pre-insert (amp sims are on Bus 5/6) — clean signal to outboard
-- Bus 8 (Guitar Rec): FX10 (TAPE) pre-insert, not on main — tape-colored signal to recording
+- Ch18: LCL/18 (outboard return), fader -12dB, sends to Bus 8 (pre-fader, 0dB), assigned to Main 1
+- Bus 8 (Guitar Rec): FX10 (TAPE) pre-insert, receives from Ch18, not on main — processed + tape-colored signal to recording
 - Bus 9 (Mic Rec): FX3 (TAPE) pre-insert, not on main — tape-colored condenser signal to recording (USB 5/6 OFF by default)
 - Wing Out 2: sourced from Bus 2 (in=3, Bus 2L)
-- Ch18: LCL/18 (outboard return), fader -12dB, assigned to Main 1
 
 Patchbay (normalled, P5-P8):
 - P5: Wing Out 2 (top) → HA73 B In (bottom)
@@ -218,7 +224,7 @@ Patchbay (normalled, P5-P8):
 - Bus 8 (Guitar Rec): FX10 (TAPE)
 - Bus 9 (Mic Rec): FX3 (TAPE)
 
-**Tape Emulation:** TAPE is on the recording buses (7/8/9), not the channel strips. The outboard chains (Bus 1/Bus 2) receive clean signal from Ch1/Ch2. Only the paths going to the Model 12 via USR routing pick up tape color. This is the correct tape machine behavior — the "tape" is only on the recording heads, not the monitoring path. Each stacked layer accumulates its own tape saturation as it's recorded to the Model 12. Future option: replace Wing TAPE FX with IK Multimedia Tascam tape plugin in the Loopback chain for higher-quality emulation without using Wing FX slots.
+**Tape Emulation:** TAPE is on the recording buses (7/8/9), not the channel strips. Recording buses now receive from the outboard returns (Ch17/Ch18) instead of the raw channels (Ch1/Ch2), so the Model 12 captures the full processed chain: gate → outboard EQ/compression → de-esser → tape. Reverb and monitoring FX are NOT in the recording path. Each stacked layer accumulates its own tape saturation as it's recorded to the Model 12. Future option: replace Wing TAPE FX with IK Multimedia Tascam tape plugin in the Loopback chain for higher-quality emulation without using Wing FX slots.
 
 **Vocal LA2A:** Wing ch1 (dry) → User Signal Out 1 → User Signal In 1 → Wing ch5 (Wing LA-2A plugin)
 
