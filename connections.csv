@@ -20,11 +20,11 @@ Wing Rack Channels,WR-18,Patchbay,Point 8 bottom (Distressor Out),Wing Rack,Chan
 Wing Rack Buses,BUS-1,Wing Ch1 (Vocal Dry),Pre-fader send,Wing Out 1,Bus 1 send (io/out/LCL/1 in=1),Internal,,Pre-fader at 0dB — feeds vocal outboard chain; out `in` index=1 (Bus 1L)
 Wing Rack Buses,BUS-2,Bus 5 + Bus 6 sends,,Wing Out 2,Bus 2 send (io/out/LCL/2 in=3),Internal,,Receives from Bus 5 (Electric) and Bus 6 (Acoustic); sends to guitar outboard chain; no pre-insert; out `in` index=3 (Bus 2L)
 Wing Rack Buses,BUS-3,Bus 1 + Bus 2 sends,Verb return,Bus 3 (Main only),FX2/PLATE pre-insert,Internal,,Shared reverb bus; Bus 1 and Bus 2 send to Bus 3; assigned to Main 1
-Wing Rack Buses,BUS-4,Bus 4 L/R,Stereo mic send,Wing Out 3+4,P9 (L) + P10 (R),Internal,,Stereo condenser send; out `in` index=7/8 (Bus 4L/R)
+Wing Rack Buses,BUS-4,Bus 4 R,Mic send R only,Wing Out 4,P10 (R),Internal,,Condenser mic R send; out `in` index=8 (Bus 4R); Out 3 reassigned to guitar recording
 Wing Rack Buses,BUS-5,Wing Ch2 (Guitar Dry),Pre-fader send,Bus 5 (Electric),FX6/ANGEL pre-insert → Bus 2,Internal,,Electric mode bus; muted by default; unmute to engage electric amp sim. FX6=ANGEL (lead); FX1=DELUXE available for rhythm.
 Wing Rack Buses,BUS-6,Wing Ch2 + Ch6,Pre-fader send,Bus 6 (Acoustic),FX11/RACKAMP pre-insert → Bus 2,Internal,,Acoustic mode bus; active by default; Ch6 muted by default (must unmute for mic signal)
 Wing Rack Buses,BUS-7,Wing Ch17 (Vocal Processed),Pre-fader send,Bus 7 (Vocal Rec),FX9/TAPE pre-insert → USR/1 → USB Out 1,Internal,,Recording bus for vocal; receives outboard return; records gate + outboard + de-esser + tape; not on main
-Wing Rack Buses,BUS-8,Wing Ch18 (Guitar Processed),Pre-fader send,Bus 8 (Guitar Rec),FX10/TAPE pre-insert → USR/2 → USB Out 2,Internal,,Recording bus for guitar; receives outboard return; records outboard + tape; not on main
+Wing Rack Buses,BUS-8,Wing Ch18 (Guitar Processed),Pre-fader send,Bus 8 (Guitar Rec),FX10/TAPE pre-insert → Wing Out 3 → P9 → Model 12 Track 2,Internal,,Recording bus for guitar; receives outboard return; TAPE baked in; analog output to Model 12
 Wing Rack Buses,BUS-9,Wing Ch6 (Gtr Ac Mics),Pre-fader send,Bus 9 (Mic Rec),FX3/TAPE pre-insert → USR/6+7 → USB Out 5/6,Internal,,Recording bus for condenser mics; TAPE baked into recording path only; not on main; USB 5/6 OFF by default
 Wing Rack FX,FX-1,Bus 5,(available),FX1 (DELUXE),(not currently inserted),Internal,,Electric guitar amp sim (Fender Deluxe) — rhythm mode option for Bus 5; not currently on pre-insert
 Wing Rack FX,FX-2,Bus 3,Pre-insert,FX2 (PLATE),Bus 3 pre-insert,Internal,,Shared plate reverb return
@@ -34,7 +34,7 @@ Wing Rack FX,FX-9,Bus 7,Pre-insert,FX9 (TAPE),Bus 7 pre-insert,Internal,,Tape sa
 Wing Rack FX,FX-10,Bus 8,Pre-insert,FX10 (TAPE),Bus 8 pre-insert,Internal,,Tape saturation on guitar recording path only — not on outboard send
 Wing Rack FX,FX-11,Bus 6,Pre-insert,FX11 (RACKAMP),Bus 6 pre-insert,Internal,,Acoustic amp sim (clean/bright) — pre 7 buzz 1 punch 2 crunch 1 drive 1 output 8 leq 3 heq 7.5
 Wing Rack USR,USR-1,Bus 7 (Vocal Rec),Bus 7L (in=7),USR/1 (Vocal Dry),Wing USB Out 1,Internal,,Tape-colored vocal (Bus 7 TAPE) to USB Out 1 — records to Model 12 Track 1
-Wing Rack USR,USR-2,Bus 8 (Guitar Rec),Bus 8L (in=8),USR/2 (Guitar Dry),Wing USB Out 2,Internal,,Tape-colored guitar (Bus 8 TAPE) to USB Out 2 — records to Model 12 Track 2
+Wing Rack USR,USR-2,(free),,,,Internal,,Freed — guitar recording now uses analog (Wing Out 3 → P9 → Model 12)
 Wing Rack USR,USR-3,(free),,,,,, Open
 Wing Rack USR,USR-4,(free),,,,,,Open
 Wing Rack USR,USR-5,Wing Ch2,PRE tap (grp=CH in=2),USR/5 (Gtr Acoustic DI),Wing Ch5 input,Internal,,Clean DI tap from Ch2 — feeds Ch5 (Gtr Acoustic DI) bypassing outboard
@@ -49,7 +49,7 @@ Patchbay,PB-5,Wing Rack,LCL Out 2 (Bus 2),HA73-EQX2,Channel B Input,Normalled,,G
 Patchbay,PB-6,HA73-EQX2,Channel B Output,WA76,Channel B Input,Normalled,,Guitar chain
 Patchbay,PB-7,WA76,Channel B Output,Distressor,Input,Normalled,,Guitar chain
 Patchbay,PB-8,Distressor,Output,Wing Rack,LCL In 18 (Ch18),Normalled,,Guitar chain return
-Patchbay,PB-9,Wing Rack,LCL Out 3 (Bus 4L),Condenser Mic,L Input,Normalled,,Acoustic mic send L — stereo condenser pair
+Patchbay,PB-9,Wing Rack,Analog Out 3 (Bus 8L),Model 12,Track 2 Line In,Normalled,,Guitar recording feed — processed + tape via analog
 Patchbay,PB-10,Wing Rack,LCL Out 4 (Bus 4R),Condenser Mic,R Input,Normalled,,Acoustic mic send R — stereo condenser pair
 Patchbay,PB-11,,,,,,,Open
 Patchbay,PB-12,,,,,,,Open
@@ -66,8 +66,7 @@ Patchbay,PB-22,,,,,,,Open
 Patchbay,PB-23,Wing Rack,Analog Out 7 (XLR — MTX/1 L),Speakers,L,XLR,In use,Monitor output L — sourced from MX1 (MON.PH direct input); direct wired not normalled
 Patchbay,PB-24,Wing Rack,Analog Out 8 (XLR — MTX/1 R),Speakers,R,XLR,In use,Monitor output R — sourced from MX1 (MON.PH direct input); direct wired not normalled
 USB Routing,USB-1,Wing Rack,USB Out 1 (USR/1 — Bus 7L Vocal+TAPE),Model 12,Track 1,Software,ON,Via Loopback — vocal with tape emulation baked in
-USB Routing,USB-2,Wing Rack,USB Out 2 (USR/2 — Bus 8L Guitar+TAPE),Model 12,Track 2,Software,ON,Via Loopback — guitar with tape emulation baked in
-USB Routing,USB-3,Wing Rack,USB Out 3 (USR/8 — Ch18 Re-amp),Model 12,Track 3,Software,OFF,Via Loopback — re-amp output; OFF by default; must disable after use to prevent feedback
+USB Routing,USB-3,Wing Rack,USB Out 3 (USR/8 — Ch18 Re-amp),Model 12,Track 3,Software,OFF,Via Loopback — re-amp output; OFF by default; must disable after use
 USB Routing,USB-5,Wing Rack,USB Out 5 (USR/6 — Bus 9L Mic L+TAPE),Model 12,Track 7,Software,OFF,Via Loopback — condenser mic L with tape emulation; OFF by default
 USB Routing,USB-6,Wing Rack,USB Out 6 (USR/7 — Bus 9R Mic R+TAPE),Model 12,Track 8,Software,OFF,Via Loopback — condenser mic R with tape emulation; OFF by default
 USB Routing,USB-M12-L,Model 12,USB Stereo Out L (internal main mix L),Wing Rack,USB In 3 → Ch13 L (Tape Playback),Software,ON,Via Loopback — stereo mix for quick monitoring
@@ -85,7 +84,7 @@ USB Routing,USB-M12-T10,Model 12,USB Track 10,Wing Rack,USB In 26 → Ch25 (Tape
 Wing Rack Routing,MX1-MON,Wing Monitor Section (MON.PH),Direct input,MX1 (Matrix 1),,Internal,,/mtx/1/dir/in=MON.PH — enables solo through speakers; Main 1 send to MX1 is OFF
 Physical Cables,PHY-1,Wing Rack,Analog Out 1 (XLR),Patchbay,Point 1 Top,XLR,,Back-of-rack — permanent
 Physical Cables,PHY-2,Wing Rack,Analog Out 2 (XLR),Patchbay,Point 5 Top,XLR,,Back-of-rack — permanent
-Physical Cables,PHY-21,Wing Rack,Analog Out 3 (XLR),Patchbay,Point 9 Top,XLR,,Back-of-rack — permanent; Bus 4L → condenser mic L
+Physical Cables,PHY-21,Wing Rack,Analog Out 3 (XLR),Patchbay,Point 9 Top,XLR,,Back-of-rack — permanent; Bus 8L → guitar recording feed to Model 12
 Physical Cables,PHY-22,Wing Rack,Analog Out 4 (XLR),Patchbay,Point 10 Top,XLR,,Back-of-rack — permanent; Bus 4R → condenser mic R
 Physical Cables,PHY-3,HA73-EQX2,Channel A Input (XLR),Patchbay,Point 1 Bottom,XLR,,Back-of-rack — permanent
 Physical Cables,PHY-4,HA73-EQX2,Channel A Output (XLR),Patchbay,Point 2 Top,XLR,,Back-of-rack — permanent
@@ -101,6 +100,7 @@ Physical Cables,PHY-13,WA76,Channel B Output (XLR),Patchbay,Point 7 Top,XLR,,Bac
 Physical Cables,PHY-14,Distressor,Input (XLR),Patchbay,Point 7 Bottom,XLR,,Back-of-rack — permanent
 Physical Cables,PHY-15,Distressor,Output (XLR),Patchbay,Point 8 Top,XLR,,Back-of-rack — permanent
 Physical Cables,PHY-16,Wing Rack,LCL In 18 (TRS),Patchbay,Point 8 Bottom,TRS,,Back-of-rack — permanent
+Physical Cables,PHY-23,Model 12,Track 2 Line In (TRS),Patchbay,Point 9 Bottom,TRS,,Back-of-rack — permanent; guitar recording input from Wing
 Physical Cables,PHY-17,Wing Rack,Input 1 (XLR/TRS),Vocal Mic,,XLR,,Direct — no patchbay
 Physical Cables,PHY-18,Wing Rack,Input 2 (XLR/TRS),Guitar DI,,XLR/TS,,Direct — no patchbay
 Physical Cables,PHY-19,Wing Rack,Analog Out 7 (XLR — MTX/1 L),Speakers,L,XLR,,Control room monitors — sourced from MX1 (MON.PH direct input) not Main 1
