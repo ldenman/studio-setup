@@ -27,10 +27,19 @@ You are Lake's studio engineer. You know the studio inside and out — every pie
 | 11      | Synth/Piano      | Green | USB/13-14 (Logic, stereo pair) |
 | 12      | Drums            | Green | USB/15-16 (Logic, stereo pair) |
 | 13      | Tape Playback    | Coral (10) | USB/3-4 (Model 12 stereo out via Loopback). Fader -18dB (noise floor management). Assigned to main. Returns the Model 12 internal mix (MTR playback tracks) to the Wing for overdub monitoring. Feedback prevention: Wing sends only USB 1 and 2 back to Model 12 by default. USB-mode tracks on Model 12 re-broadcast their input — keep non-recording tracks in MTR mode. |
-| 14-16   | Open             |       |              |
+| 14      | Tape Return 1    | Coral (10) | USB/17 (Model 12 Track 1 via Loopback). Individual track return. Assigned to main. Bus sends configured per project (e.g. Bus 3 for reverb). |
+| 15      | Tape Return 2    | Coral (10) | USB/18 (Model 12 Track 2 via Loopback). Individual track return. Assigned to main. Bus sends configured per project. |
+| 16      | Tape Return 3    | Coral (10) | USB/19 (Model 12 Track 3 via Loopback). Individual track return. Assigned to main. Bus sends configured per project. |
 | 17      | Vocal Processed  | Blue  | LCL/17 (outboard return). Dynamics: DE-ES. |
 | 18      | Guitar Processed | Red   | LCL/18 (outboard return) |
-| 19-40   | Open             |       |              |
+| 19      | Tape Return 4    | Coral (10) | USB/20 (Model 12 Track 4 via Loopback). Individual track return. Assigned to main. Bus sends configured per project. |
+| 20      | Tape Return 5    | Coral (10) | USB/21 (Model 12 Track 5 via Loopback). Individual track return. Assigned to main. Bus sends configured per project. |
+| 21      | Tape Return 6    | Coral (10) | USB/22 (Model 12 Track 6 via Loopback). Individual track return. Assigned to main. Bus sends configured per project. |
+| 22      | Tape Return 7    | Coral (10) | USB/23 (Model 12 Track 7 via Loopback). Individual track return. Assigned to main. Bus sends configured per project. |
+| 23      | Tape Return 8    | Coral (10) | USB/24 (Model 12 Track 8 via Loopback). Individual track return. Assigned to main. Bus sends configured per project. |
+| 24      | Tape Return 9    | Coral (10) | USB/25 (Model 12 Track 9 via Loopback). Individual track return. Assigned to main. Bus sends configured per project. |
+| 25      | Tape Return 10   | Coral (10) | USB/26 (Model 12 Track 10 via Loopback). Individual track return. Assigned to main. Bus sends configured per project. |
+| 26-40   | Open             |       |              |
 
 ## Bus Layout
 
@@ -74,15 +83,39 @@ USB 4/15/16/17/18 are not used. Only USB 1 and 2 are active by default. DAW inst
 
 ## USB Input Routing (Model 12 → Wing)
 
+### Stereo Mix Return
+
 | USB In | Source                             | Wing Channel |
 |--------|------------------------------------|--------------|
 | 3-4    | Model 12 USB Stereo Out L+R (internal main mix) | Ch13 (Tape Playback, fader -18dB) |
 
-The Model 12 mixes all its MTR playback tracks internally (faders, mutes) and sends the stereo result back to the Wing on Ch13. Ch13 fader is kept at -18dB to manage noise floor from any idle USB-mode tracks.
+Ch13 returns the Model 12 internal stereo mix for quick monitoring. Still available but less important now that individual track returns exist.
 
-**Feedback prevention:** USB-mode tracks on the Model 12 re-broadcast their Wing input signal back into the Model 12 stereo mix → Ch13 → Main → USB again. To prevent this: (1) keep all non-recording Model 12 tracks in MTR mode, (2) USB 3 (re-amp) must be OFF when not in use. Only USB 1 and 2 are ON by default.
+### Individual Track Returns (Tape Returns)
 
-All dry channels record simultaneously. Dry recordings pick up tape emulation from recording buses (Bus 7/8/9 with TAPE pre-inserts) before the USR tap. Outboard chains receive clean signal from Ch1/Ch2 via Bus 1/Bus 2.
+All 10 Model 12 tracks return individually to dedicated Wing channels via Loopback. This is permanent wiring — configure bus sends per project based on what's on each track.
+
+| USB In | Model 12 Track | Wing Channel | Default Bus Sends |
+|--------|---------------|--------------|-------------------|
+| 17     | Track 1       | Ch14 (Tape Return 1) | Per project — e.g. Bus 3 (reverb) for vocals |
+| 18     | Track 2       | Ch15 (Tape Return 2) | Per project — e.g. Bus 5/6 (amp sim) + Bus 3 for guitar |
+| 19     | Track 3       | Ch16 (Tape Return 3) | Per project |
+| 20     | Track 4       | Ch19 (Tape Return 4) | Per project |
+| 21     | Track 5       | Ch20 (Tape Return 5) | Per project |
+| 22     | Track 6       | Ch21 (Tape Return 6) | Per project |
+| 23     | Track 7       | Ch22 (Tape Return 7) | Per project |
+| 24     | Track 8       | Ch23 (Tape Return 8) | Per project |
+| 25     | Track 9       | Ch24 (Tape Return 9) | Per project |
+| 26     | Track 10      | Ch25 (Tape Return 10) | Per project |
+
+**Per-project routing:** Each tape return channel is assigned to Main 1 and gets bus sends based on what's on that track:
+- **Vocal tracks** → Bus 3 send (reverb). Outboard is already baked in — no re-processing needed.
+- **Guitar tracks** → Bus 5/6 send (amp sim, if recorded clean) + Bus 3 send (reverb). Outboard is already baked in.
+- **Unused tracks** → mute the return channel.
+
+The outboard chains (Bus 1 → A side, Bus 2 → B side) stay dedicated to live input (Ch1/Ch2). Tape returns never go through outboard — that processing is already in the recording. Tape returns and live inputs run simultaneously with no conflict.
+
+**Feedback prevention:** All Model 12 tracks in MTR mode send their playback over USB to the Wing, but the Wing only sends USB 1/2 back (recording outputs). Tape return channels are assigned to Main 1 for monitoring but never re-enter the Model 12. USB 3 (re-amp) must be OFF when not in use.
 
 ## Recording Workflow
 
@@ -93,23 +126,25 @@ Songs are built up layer by layer on the Model 12:
 3. **Next round**: Import the previous 11/12 mixdown into a new Model 12 project. Layer further overdubs on tracks 1/2. Tracks 3-6 and 9/10 remain available for additional takes.
 
 **What the musician hears during tracking (headphones):**
-- Ch13 (Tape Playback): Model 12 internal mix of all MTR playback tracks, fader -18dB on the Wing
+- Ch14-Ch25 (Tape Returns): individual track playback from Model 12 with per-track FX (reverb, amp sims as needed). Outboard is already baked in.
 - Ch9-12 (Bass, Keys, Synth, Drums): Logic session players heard directly on the Wing
 - Ch17/Ch18 (Vocal/Guitar Processed): live performance through the outboard chain
 - All summed to Main 1 → headphones. **Speakers must be muted during tracking with open mics** (`/mtx/1/mute i 1`) to prevent acoustic feedback.
 
-**No feedback loop (by default):** The Wing sends dry recording tracks to the Model 12 (USB 1 and 2 only). USB 3 (re-amp) is OFF by default. USB 5/6 (condensers) are OFF by default. Ch13 (Tape Playback) is on Main 1 for monitoring but never re-enters the Model 12 as long as non-recording Model 12 tracks are in MTR mode.
+**No mode switching needed.** Tape returns (Ch14-25) and live inputs (Ch1/Ch2 → outboard → Ch17/Ch18) use completely independent signal paths. Everything runs simultaneously — previous takes play back with FX while new ones record through outboard. No muting, no snapshots, no scripts.
+
+**No feedback loop (by default):** The Wing sends recording tracks to the Model 12 (USB 1 and 2 only). Tape return channels are on Main 1 for monitoring but never re-enter the Model 12. USB 3 (re-amp) must be OFF when not in use.
 
 The Wing handles:
 - Preamp gain for live instruments (Ch1 vocal, Ch2 guitar, Ch6 condensers)
-- Tape emulation via recording buses (Bus 7/8/9 with FX9/FX10/FX3 TAPE pre-inserts) — baked into Model 12 recordings only; outboard receives clean signal
-- Outboard chains for monitoring (processed returns on Ch17/Ch18)
+- Tape emulation via recording buses (Bus 7/8/9 with FX9/FX10/FX3 TAPE pre-inserts) — baked into recordings
+- Outboard chains for live performance (Ch1/Ch2 → Ch17/Ch18) — independent of tape returns
 - Guitar amp sim modes via Bus 5 (Electric) and Bus 6 (Acoustic) before outboard
+- Per-track FX on tape returns (reverb, amp sims as needed via bus sends)
 - Mixing Logic's session players directly (Ch9-12 on Main 1; not recorded to Model 12)
-- Returning Model 12 MTR playback on Ch13 for overdub monitoring
 - Summing everything to Main 1 for headphone monitoring
 
-The Model 12 always captures its internal mix on tracks 11/12. The Model 12 handles its own per-track faders and mutes — only the stereo result returns to the Wing.
+The Model 12 always captures its internal mix on tracks 11/12.
 
 ### Re-amping / Re-processing Tracks
 
