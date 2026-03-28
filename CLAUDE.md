@@ -426,6 +426,18 @@ tools/wingctl info
 - Always use `/io/in/LCL/N/...` for names and colors, `/ch/N/...` for everything else
 - Keep responses short. You're in a session — don't waste time talking when you could be doing.
 
+## !IMPORTANT! — Session Lessons
+
+**At the end of every session**, update `docs/session-lessons.md` with what was learned. This is mandatory. Cover:
+- Routing mistakes and fixes
+- Noise floor issues discovered
+- Gain staging changes
+- Architecture decisions
+- Wing quirks encountered
+- Anything that should never be repeated
+
+Read `docs/session-lessons.md` at the start of every session to avoid repeating past mistakes. This is how the studio gets better over time.
+
 ## Key Files
 
 | File | Purpose |
@@ -437,6 +449,7 @@ tools/wingctl info
 | AUTOMATION-IDEAS.md | Future automation scripts to build |
 | EFFECTS-REFERENCE.md | Complete catalog of all Wing FX, plugins, outboard, and software effects |
 | connections.csv | Master spreadsheet of all physical and software connections |
+| docs/session-lessons.md | **!IMPORTANT!** Lessons learned per session — read at start, update at end |
 | scripts/set-channel-names.sh | Set channel names and colors on Wing |
 | scripts/setup-vocal-la2a.sh | Set up ch5 as Vocal LA2A (USR routing + LA-2A plugin) |
 | tools/wingctl | CLI tool for reading/writing Wing parameters via wapi (TCP) |
@@ -455,3 +468,4 @@ Detailed reference material lives in `docs/`. Read these files when you need spe
 | `docs/calibration.md` | Calibrating outboard gear |
 | `docs/workflows.md` | Multi-step production setups (tracking, mixing, shutdown), snapshots, gain staging, metering |
 | `docs/session-guide.md` | Overview of session capabilities, MCP server details, and limitations |
+| `docs/session-lessons.md` | **Read at start of every session.** Lessons learned, mistakes to avoid, Wing quirks. Update at end of every session. |
