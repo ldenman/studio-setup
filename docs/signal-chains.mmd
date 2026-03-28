@@ -1,0 +1,71 @@
+graph TD
+    subgraph Live Inputs
+        MIC[Vocal Mic] --> CH1[Ch1 Vocal Dry<br/>GATE dynamics]
+        DI[Guitar DI] --> CH2[Ch2 Guitar Dry]
+    end
+
+    subgraph Vocal Outboard - Patchbay P1-P4
+        CH1 -->|Bus 1 Vocal Send<br/>pre-fader, clean| OUT1[Wing Out 1 → P1]
+        OUT1 --> HA73A[HA73 A<br/>Neve EQ / Color]
+        HA73A -->|P2| WA76A[WA76 A<br/>1176 Compression<br/>Atk 3, Rel 7, 4:1]
+        WA76A -->|P3| OPTO[Opto<br/>LA-2A Leveling<br/>Peak Red ~40%]
+        OPTO -->|P4| CH17[Ch17 Vocal Processed<br/>DE-ES dynamics]
+    end
+
+    subgraph Guitar Outboard - Patchbay P5-P8
+        CH2 -->|Bus 2 Guitar Send<br/>pre-fader, clean| OUT2[Wing Out 2 → P5]
+        OUT2 --> HA73B[HA73 B<br/>Neve EQ / Color]
+        HA73B -->|P6| WA76B[WA76 B<br/>1176 Compression<br/>Atk 5, Rel 6, 4:1]
+        WA76B -->|P7| DIST[Distressor<br/>Leveling + Tape Sat<br/>4:1, Dist 2]
+        DIST -->|P8| CH18[Ch18 Guitar Processed]
+    end
+
+    subgraph Recording - to Logic
+        CH17 -->|Bus 7 Vocal Rec<br/>pre-fader| BUS7[Bus 7 Vocal Rec<br/>FX9 TAPE]
+        CH18 -->|Bus 8 Guitar Rec<br/>pre-fader| BUS8[Bus 8 Guitar Rec<br/>FX10 TAPE]
+        BUS7 -->|USB| LOGIC[Logic Pro<br/>Primary Recorder]
+        BUS8 -->|USB / Out 3 analog| LOGIC
+    end
+
+    subgraph Monitoring - what you hear
+        CH17 -->|direct| MAIN[Main 1<br/>Headphones / Speakers]
+        CH18 -->|Bus 10 or 11| AMP[Bus 10 Gtr Rhythm Mon RACKAMP<br/>Bus 11 Gtr Lead Mon ANGEL<br/>amp sim added post-outboard]
+        AMP --> MAIN
+    end
+
+    subgraph Tape Returns - Logic Playback
+        LOGIC -->|USB 17-26| TR[Ch25-32 Tape Returns]
+        TR -->|Bus 3 Reverb| BUS3[Bus 3 Reverb<br/>FX2 PLATE]
+        TR -->|Bus 10/11 for guitar| AMP2[Amp Sim<br/>same monitoring buses]
+        BUS3 --> MAIN
+        AMP2 --> MAIN
+        TR -->|direct| MAIN
+    end
+
+    subgraph Session Players
+        SP[Logic Session Players<br/>Bass, Keys, Synth, Drums] -->|USB 9-16| CH9[Ch9-12] --> MAIN
+    end
+
+    NOTE[Recording = outboard + tape only. No amp sim baked in.<br/>Monitoring = amp sim added on top, post-outboard.<br/>Playback = tape returns through same amp sim + reverb buses.<br/>All paths run simultaneously.]
+
+    style CH1 fill:#4169E1,color:#fff
+    style CH17 fill:#4169E1,color:#fff
+    style BUS7 fill:#4169E1,color:#fff
+    style HA73A fill:#4169E1,color:#fff
+    style WA76A fill:#4169E1,color:#fff
+    style OPTO fill:#4169E1,color:#fff
+    style CH2 fill:#DC143C,color:#fff
+    style CH18 fill:#DC143C,color:#fff
+    style BUS8 fill:#DC143C,color:#fff
+    style HA73B fill:#DC143C,color:#fff
+    style WA76B fill:#DC143C,color:#fff
+    style DIST fill:#DC143C,color:#fff
+    style AMP fill:#DC143C,color:#fff
+    style AMP2 fill:#DC143C,color:#fff
+    style BUS3 fill:#228B22,color:#fff
+    style LOGIC fill:#4CAF50,color:#fff
+    style MAIN fill:#333,color:#fff
+    style TR fill:#FF6B6B,color:#fff
+    style SP fill:#4CAF50,color:#fff
+    style CH9 fill:#228B22,color:#fff
+    style NOTE fill:#ffe,stroke:#999
