@@ -434,3 +434,236 @@ graph LR
     style LOGIC fill:#4CAF50,color:#fff
     style MAIN fill:#333,color:#fff
 ```
+
+---
+
+## Noise Floor Troubleshooting
+
+```mermaid
+flowchart TD
+    START[Hearing noise or hiss?] --> Q1{Is Main 1 trim at 0dB?}
+    Q1 -->|No - found at +18dB| FIX1[Set Main 1 trim to 0dB<br/>This amplifies EVERYTHING]
+    Q1 -->|Yes| Q2{Bus compressor on Main?}
+
+    Q2 -->|Yes - SBUS active| FIX2[Disable bus compressor on Main<br/>It boosts quiet signals between takes]
+    Q2 -->|No| Q3{Are Ch17/Ch18 unmuted<br/>while not tracking?}
+
+    Q3 -->|Yes| FIX3[Remove Ch17/Ch18 from Main<br/>when not tracking.<br/>Outboard noise floor leaks<br/>even with no input signal]
+    Q3 -->|No| Q4{Is TAPE FX active<br/>on idle recording bus?}
+
+    Q4 -->|Yes| FIX4[Bypass TAPE FX when not recording<br/>FX10 on Bus 8 amplifies noise floor]
+    Q4 -->|No| Q5{Check for stale<br/>channel assignments}
+
+    Q5 --> FIX5[Dump channel nodes with wing_node<br/>Look for leftover USB assignments<br/>or unexpected source routing]
+
+    FIX1 --> RECHECK[Recheck noise floor]
+    FIX2 --> RECHECK
+    FIX3 --> RECHECK
+    FIX4 --> RECHECK
+    FIX5 --> RECHECK
+
+    style START fill:#DC143C,color:#fff
+    style FIX1 fill:#4CAF50,color:#fff
+    style FIX2 fill:#4CAF50,color:#fff
+    style FIX3 fill:#4CAF50,color:#fff
+    style FIX4 fill:#4CAF50,color:#fff
+    style FIX5 fill:#4CAF50,color:#fff
+```
+
+---
+
+## Feedback Loop Troubleshooting
+
+```mermaid
+flowchart TD
+    START[Hearing feedback or<br/>white noise?] --> Q1{White noise on<br/>ALL USB inputs?}
+
+    Q1 -->|Yes| FIX1[Loopback feedback.<br/>Wing is set as both Source AND Monitor.<br/>Fix: Wing must be Source only.]
+    Q1 -->|No| Q2{Is USB 3 enabled?}
+
+    Q2 -->|Yes| Q3{Are you re-amping<br/>right now?}
+    Q3 -->|No| FIX2[Disable USB 3 immediately.<br/>Ch18 noise floor leaks through<br/>USB 3 even when Ch18 is muted.]
+    Q3 -->|Yes| OK1[Normal - USB 3 needed for re-amp.<br/>Disable when done.]
+
+    Q2 -->|No| Q4{Oscillating buildup<br/>getting louder?}
+    Q4 -->|Yes| FIX3[Check Model 12 track modes.<br/>USB-mode tracks re-broadcast<br/>Wing input back into stereo mix.<br/>Fix: set non-recording tracks to MTR.]
+    Q4 -->|No| Q5{Speakers feeding<br/>back into open mics?}
+
+    Q5 -->|Yes| FIX4[Mute speakers during tracking.<br/>/mtx/1/mute i 1]
+    Q5 -->|No| FIX5[Check bus sends for unintended loops.<br/>Bus 2 sending to Bus 3 can leak<br/>raw signal to Main bypassing outboard.]
+
+    style START fill:#DC143C,color:#fff
+    style FIX1 fill:#4CAF50,color:#fff
+    style FIX2 fill:#4CAF50,color:#fff
+    style FIX3 fill:#4CAF50,color:#fff
+    style FIX4 fill:#4CAF50,color:#fff
+    style FIX5 fill:#4CAF50,color:#fff
+    style OK1 fill:#333,color:#fff
+```
+
+---
+
+## FX Slot Collision Troubleshooting
+
+```mermaid
+flowchart TD
+    START[FX not working?<br/>Insert shows N/A?] --> Q1{Check the FX slot<br/>with wing_node}
+
+    Q1 --> Q2{Is the FX slot assigned<br/>to a different bus/channel?}
+    Q2 -->|Yes| FIX1[FX slot was stolen.<br/>An FX can only be on one insert.<br/>Assigning it elsewhere silently<br/>removes it from the original.]
+    Q2 -->|No| Q3{Was a pre-insert<br/>recently cleared?}
+
+    Q3 -->|Yes| FIX2[Clearing a pre-insert can<br/>reassign the FX slot to another channel.<br/>Scan all inserts after clearing.]
+    Q3 -->|No| FIX3[Verify FX model is loaded.<br/>wing_get /fx/N/mdl<br/>Verify insert is enabled.<br/>wing_get /bus/N/preins/on]
+
+    style START fill:#DC143C,color:#fff
+    style FIX1 fill:#4CAF50,color:#fff
+    style FIX2 fill:#4CAF50,color:#fff
+    style FIX3 fill:#4CAF50,color:#fff
+```
+
+---
+
+## Session Setup Checklist
+
+```mermaid
+flowchart TD
+    START[Start of Session] --> READ[Read session-lessons.md<br/>Avoid past mistakes]
+    READ --> VERIFY[Verify studio state]
+
+    VERIFY --> V1[Main 1 trim = 0dB?]
+    VERIFY --> V2[Bus compressor on Main OFF?]
+    VERIFY --> V3[USB 3 OFF?]
+    VERIFY --> V4[FX slots on correct inserts?]
+    VERIFY --> V5[Logic Software Monitoring OFF?]
+
+    V1 --> READY{All checks pass?}
+    V2 --> READY
+    V3 --> READY
+    V4 --> READY
+    V5 --> READY
+
+    READY -->|Yes| TRACK[Ready to Track]
+    READY -->|No| FIX[Fix issues first]
+    FIX --> VERIFY
+
+    TRACK --> T1[Set Ch1 dynamics: GATE]
+    TRACK --> T2[Set Ch17 dynamics: DE-ES]
+    TRACK --> T3[Confirm Bus 7/8 receives from Ch17/Ch18]
+    TRACK --> T4[Select guitar mode: Electric / Acoustic / Clean]
+    TRACK --> T5[Mute speakers if open mics]
+
+    T1 --> GO[Tracking]
+    T2 --> GO
+    T3 --> GO
+    T4 --> GO
+    T5 --> GO
+
+    GO --> END_SESSION[End of Session]
+    END_SESSION --> UPDATE[Update session-lessons.md<br/>Document what was learned]
+
+    style START fill:#4169E1,color:#fff
+    style GO fill:#4CAF50,color:#fff
+    style END_SESSION fill:#333,color:#fff
+    style UPDATE fill:#FF6B6B,color:#fff
+```
+
+---
+
+## Architecture Evolution
+
+```mermaid
+timeline
+    title Studio Architecture Evolution
+    section V1 - Initial
+        TAPE on channel pre-inserts : Ch1/Ch2 had TAPE
+        : Problem - colored the outboard send
+    section V2 - Recording Buses
+        TAPE moved to Bus 7/8/9 : Outboard gets clean signal
+        : Recording gets tape color
+        : Correct separation
+    section V3 - Outboard in Recording
+        Bus 7/8 receive from Ch17/Ch18 : Recording captures full chain
+        : Gate + outboard + de-esser + tape
+        : Amp sim separate on Bus 10/11
+    section V4 - Logic as Recorder
+        Logic replaces Model 12 : Unlimited tracks
+        : Non-destructive editing
+        : Individual track returns Ch25-32
+        : Model 12 becomes mixing device
+```
+
+---
+
+## Gain Staging Reference
+
+```mermaid
+graph LR
+    subgraph Signal Levels
+        MIC[Mic / DI<br/>varies] -->|Wing preamp| CH[Channel<br/>target -18dBFS] -->|Bus send 0dB| BUS_OUT[Outboard Send<br/>Bus 1/2] -->|analog out| OB[Outboard<br/>target 0 VU]
+        OB -->|return| CH_PROC[Ch17/18<br/>fader -12dB] -->|Bus send| REC_BUS[Recording Bus<br/>Bus 7/8]
+        REC_BUS -->|USB to Logic| LOGIC[Logic<br/>-18dBFS]
+        REC_BUS -->|Out 3 analog| M12[Model 12<br/>-12dB]
+    end
+
+    NOTE[Wing analog out is ~6dB hotter than USB.<br/>-18dBFS = 0dBVU = professional reference.<br/>Bus 8 fader at -1dB for Model 12.<br/>Ch18 send to Bus 8 at -6dB for Logic.]
+
+    style NOTE fill:#ffe,stroke:#999
+    style LOGIC fill:#4CAF50,color:#fff
+```
+
+---
+
+## Monitoring Matrix - What You Hear
+
+```mermaid
+graph TD
+    subgraph During Tracking
+        LIVE_V[Ch17 Vocal Processed<br/>live through outboard] --> MAIN
+        LIVE_G[Ch18 Guitar Processed<br/>live through outboard] --> BUS10_11[Bus 10/11<br/>amp sim] --> MAIN
+        SP[Ch9-12 Session Players<br/>Logic bass/keys/synth/drums] --> MAIN
+        TR_TRACK[Ch25-32 Tape Returns<br/>previous takes from Logic] --> MAIN
+        MAIN[Main 1] --> HP[Headphones]
+        MAIN --> SPK[Speakers<br/>muted with open mics]
+    end
+
+    subgraph During Playback Only
+        TR_PLAY[Ch25-32 Tape Returns<br/>all tracks from Logic] --> MAIN2[Main 1]
+        SP2[Ch9-12 Session Players] --> MAIN2
+        MAIN2 --> HP2[Headphones]
+        MAIN2 --> SPK2[Speakers]
+    end
+
+    NOTE[During tracking: live performance + previous takes + session players<br/>During playback: all recorded tracks + session players<br/>Both use the same Main 1 output - no switching needed]
+
+    style MAIN fill:#333,color:#fff
+    style MAIN2 fill:#333,color:#fff
+    style NOTE fill:#ffe,stroke:#999
+```
+
+---
+
+## Outboard Chain Detail
+
+```mermaid
+graph LR
+    subgraph A Side - Vocals
+        direction LR
+        HA73A[HA73 A<br/>Neve EQ<br/>Line in, 0 VU<br/>EQ flat] --> WA76A[WA76 A<br/>1176 FET<br/>Atk 3, Rel 7<br/>Ratio 4:1<br/>3-4dB GR] --> OPTO[Opto<br/>LA-2A Optical<br/>Peak Red ~40%<br/>Compress mode<br/>2-3dB GR]
+    end
+
+    subgraph B Side - Guitar
+        direction LR
+        HA73B[HA73 B<br/>Neve EQ<br/>Line in, 0 VU<br/>Low shelf optional] --> WA76B[WA76 B<br/>1176 FET<br/>Atk 5, Rel 6<br/>Ratio 4:1] --> DIST[Distressor<br/>Ratio 4:1<br/>Dist 2 tape<br/>Atk 5-6, Rel Auto]
+    end
+
+    NOTE[A and B sides run simultaneously.<br/>Each has its own normalled patchbay chain.<br/>HA73 channels have different output<br/>characteristics at same knob positions -<br/>calibrate independently.]
+
+    style HA73A fill:#4169E1,color:#fff
+    style WA76A fill:#4169E1,color:#fff
+    style OPTO fill:#4169E1,color:#fff
+    style HA73B fill:#DC143C,color:#fff
+    style WA76B fill:#DC143C,color:#fff
+    style DIST fill:#DC143C,color:#fff
+    style NOTE fill:#ffe,stroke:#999
+```
