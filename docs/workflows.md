@@ -45,16 +45,49 @@ Multi-step production workflows, snapshots, gain staging, and metering.
 8. Load basic reverb for headphone monitoring
 9. Clear all inserts: set preins/postins to "NONE"
 
-### "Set up for mixing"
-1. Start from tracking state
-2. Enable EQ on all channels
-3. Load appropriate EQ models (E84 for guitar/vocals, STD for DAW tracks)
-4. Set up drum bus on bus 3 with SSL bus comp: `/bus/3/dyn/mdl s "SBUS"`
-5. Set up instrument bus on bus 4
-6. Load vocal FX chain (plate reverb + delay)
-7. Enable mix bus compression on main: `/main/1/dyn/mdl s "SBUS"`, gentle settings
-8. Load `*EVEN*` channel strips on processed channels if desired
-9. Set up reference track routing if available
+### "Set up for mixing" (Model 12 as analog console)
+
+The Model 12 receives fully processed stems from the Wing and mixes them with real faders, EQ, and compression. Logic handles playback. The Wing handles FX. The Model 12 handles the mix.
+
+**Routing setup:**
+1. Configure Wing USB outputs to send processed tape returns (Ch25-32) and session players (Ch9-12) to Model 12 channels via Loopback
+2. Model 12 channels set to USB mode to receive from Wing
+3. Assign Wing bus sends on each tape return per project:
+   - Vocal tracks → Bus 3 Reverb send
+   - Guitar tracks → Bus 10/11 (amp sim) + Bus 3 Reverb send
+   - Session players → direct (already mixed in Logic)
+
+**Model 12 channel assignments:**
+
+| Model 12 Ch | Wing Source | Content |
+|---|---|---|
+| 1 | Vocal tape return + reverb | Processed vocal |
+| 2 | Guitar tape return + amp sim + reverb | Processed guitar |
+| 3-4 | Additional overdub returns | Per project |
+| 5/6 | Bass + Keys (Ch9-10) | Session players |
+| 7/8 | Synth + Drums (Ch11-12) | Session players |
+| 9/10 | Additional stems or room mics | As needed |
+| 11/12 | Internal capture | Automatic stereo mixdown |
+
+**Mixing procedure:**
+1. Press play in Logic (or use Model 12 transport if synced)
+2. Balance levels with Model 12 faders
+3. Shape tone with Model 12 per-channel EQ
+4. Add compression on individual channels as needed
+5. Model 12 tracks 11/12 capture the stereo mix automatically
+6. A/B different balances by adjusting faders — each pass is a new mix
+7. Swap takes in Logic if needed, run the mix again
+
+**Optional: outboard on stems**
+Route individual stems through the Wing's outboard chains before they hit the Model 12:
+- Vocal stem → Bus 1 Vocal Send → outboard A side (HA73 A → WA76 A → Opto) → Ch17 → Model 12
+- Guitar stem → Bus 2 Guitar Send → outboard B side (HA73 B → WA76 B → Distressor) → Ch18 → Model 12
+
+**Tips:**
+- The Model 12's built-in compressors and EQ add their own character — use them
+- Don't overthink it — move faders, listen, commit
+- Every mix pass is captured on 11/12. Compare multiple passes later.
+- Takes are Logic's job. The Model 12 just mixes what it receives.
 
 ### "Shut it down"
 1. Save full state backup with timestamp
