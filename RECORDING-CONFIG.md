@@ -18,20 +18,19 @@ Wing channels are inherently stereo — a single channel receives an L+R pair.
 | 10      | Keyboard          | Green  | USB/11-12 (Logic, stereo pair)                |       |
 | 11      | Synth/Piano       | Green  | USB/13-14 (Logic, stereo pair)                |       |
 | 12      | Drums             | Green  | USB/15-16 (Logic, stereo pair)                |       |
-| 13      | Tape Playback     | Coral (10) | USB/3-4 (Model 12 stereo out via Loopback) | Fader -18dB; stereo mix return for quick monitoring. Less important now that individual track returns exist. |
-| 14      | Tape Return 1     | Coral (10) | USB/17 (Model 12 Track 1 via Loopback)     | Individual track return. Assigned to main. Bus sends per project. |
-| 15      | Tape Return 2     | Coral (10) | USB/18 (Model 12 Track 2 via Loopback)     | Individual track return. Assigned to main. Bus sends per project. |
-| 16      | Tape Return 3     | Coral (10) | USB/19 (Model 12 Track 3 via Loopback)     | Individual track return. Assigned to main. Bus sends per project. |
+| 13-16   | Open              |        |                                               |       |
 | 17      | Vocal Processed   | Blue   | LCL/17 (outboard return)                      | DE-ES dynamics. Sends to Bus 7 (recording). Dedicated to live input. |
 | 18      | Guitar Processed  | Red    | LCL/18 (outboard return)                      | Sends to Bus 8 (recording). Dedicated to live input. |
-| 19      | Tape Return 4     | Coral (10) | USB/20 (Model 12 Track 4 via Loopback)     | Individual track return. Assigned to main. Bus sends per project. |
-| 20      | Tape Return 5     | Coral (10) | USB/21 (Model 12 Track 5 via Loopback)     | Individual track return. Assigned to main. Bus sends per project. |
-| 21      | Tape Return 6     | Coral (10) | USB/22 (Model 12 Track 6 via Loopback)     | Individual track return. Assigned to main. Bus sends per project. |
-| 22      | Tape Return 7     | Coral (10) | USB/23 (Model 12 Track 7 via Loopback)     | Individual track return. Assigned to main. Bus sends per project. |
-| 23      | Tape Return 8     | Coral (10) | USB/24 (Model 12 Track 8 via Loopback)     | Individual track return. Assigned to main. Bus sends per project. |
-| 24      | Tape Return 9     | Coral (10) | USB/25 (Model 12 Track 9 via Loopback)     | Individual track return. Assigned to main. Bus sends per project. |
-| 25      | Tape Return 10    | Coral (10) | USB/26 (Model 12 Track 10 via Loopback)    | Individual track return. Assigned to main. Bus sends per project. |
-| 26-40   | Open              |        |                                               |       |
+| 19-24   | Open              |        |                                               |       |
+| 25      | Tape Return 1     | Coral (10) | USB/17 (Model 12 Track 1 via Loopback)     | Individual track return. Assigned to main. Bus sends per project. |
+| 26      | Tape Return 2     | Coral (10) | USB/18 (Model 12 Track 2 via Loopback)     | Individual track return. Assigned to main. Bus sends per project. |
+| 27      | Tape Return 3     | Coral (10) | USB/19 (Model 12 Track 3 via Loopback)     | Individual track return. Assigned to main. Bus sends per project. |
+| 28      | Tape Return 4     | Coral (10) | USB/20 (Model 12 Track 4 via Loopback)     | Individual track return. Assigned to main. Bus sends per project. |
+| 29      | Tape Return 5     | Coral (10) | USB/21 (Model 12 Track 5 via Loopback)     | Individual track return. Assigned to main. Bus sends per project. |
+| 30      | Tape Return 6     | Coral (10) | USB/22 (Model 12 Track 6 via Loopback)     | Individual track return. Assigned to main. Bus sends per project. |
+| 31      | Tape Return 7/8   | Coral (10) | USB/23-24 (Model 12 Tracks 7/8 via Loopback, stereo) | Individual track return. Assigned to main. Bus sends per project. |
+| 32      | Tape Return 9/10  | Coral (10) | USB/25-26 (Model 12 Tracks 9/10 via Loopback, stereo) | Individual track return. Assigned to main. Bus sends per project. |
+| 33-40   | Open              |        |                                               |       |
 
 **Mute behavior note:** Muting a channel kills its pre-fader sends. To keep sends flowing (e.g. for monitoring a silent channel), use main assign off instead of mute.
 
@@ -58,31 +57,20 @@ USB 2 is no longer used for recording (guitar is analog). Vocal still uses USB 1
 
 ## USB Input Routing (Model 12 → Loopback → Wing)
 
-### Stereo Mix Return
-
-| Model 12 USB Out | → Loopback → | Wing USB In | Wing Channel |
-| ---------------- | ------------ | ----------- | ------------ |
-| Stereo Out L (internal main mix L) | → | USB In 3 | Ch13 L (Tape Playback) |
-| Stereo Out R (internal main mix R) | → | USB In 4 | Ch13 R (Tape Playback) |
-
-Ch13 returns the Model 12 stereo mix for quick monitoring. Less important now that individual track returns exist.
-
 ### Individual Track Returns (Tape Returns)
 
-All 10 Model 12 tracks return individually to dedicated Wing channels via Loopback. Permanent wiring — bus sends configured per project.
+All Model 12 tracks return individually to Ch25-32 via Loopback. Tracks 7/8 and 9/10 are stereo pairs on single channels. Bus sends configured per project.
 
 | Model 12 USB Out | → Loopback → | Wing USB In | Wing Channel |
 | ---------------- | ------------ | ----------- | ------------ |
-| Track 1 | → | USB In 17 | Ch14 (Tape Return 1) |
-| Track 2 | → | USB In 18 | Ch15 (Tape Return 2) |
-| Track 3 | → | USB In 19 | Ch16 (Tape Return 3) |
-| Track 4 | → | USB In 20 | Ch19 (Tape Return 4) |
-| Track 5 | → | USB In 21 | Ch20 (Tape Return 5) |
-| Track 6 | → | USB In 22 | Ch21 (Tape Return 6) |
-| Track 7 | → | USB In 23 | Ch22 (Tape Return 7) |
-| Track 8 | → | USB In 24 | Ch23 (Tape Return 8) |
-| Track 9 | → | USB In 25 | Ch24 (Tape Return 9) |
-| Track 10 | → | USB In 26 | Ch25 (Tape Return 10) |
+| Track 1 | → | USB In 17 | Ch25 (Tape Return 1) |
+| Track 2 | → | USB In 18 | Ch26 (Tape Return 2) |
+| Track 3 | → | USB In 19 | Ch27 (Tape Return 3) |
+| Track 4 | → | USB In 20 | Ch28 (Tape Return 4) |
+| Track 5 | → | USB In 21 | Ch29 (Tape Return 5) |
+| Track 6 | → | USB In 22 | Ch30 (Tape Return 6) |
+| Track 7/8 | → | USB In 23-24 | Ch31 (Tape Return 7/8, stereo) |
+| Track 9/10 | → | USB In 25-26 | Ch32 (Tape Return 9/10, stereo) |
 
 **Per-project routing:** Assign bus sends on each tape return based on content:
 - Vocal tracks → Bus 3 (reverb). Outboard already baked in.
@@ -91,7 +79,7 @@ All 10 Model 12 tracks return individually to dedicated Wing channels via Loopba
 
 Outboard chains stay dedicated to live input. Tape returns go straight to main with FX via bus sends. Both run simultaneously — no mode switching.
 
-**Feedback prevention:** Tape return channels are on Main 1 but never re-enter the Model 12. Only USB 1/2 (recording) go to the Model 12. USB 3 (re-amp) must be turned OFF after use.
+**Feedback prevention:** Tape return channels are on Main 1 but never re-enter the Model 12. Only USB 1 (recording) goes to the Model 12. USB 3 (re-amp) must be turned OFF after use.
 
 ## USR Routing (Virtual Patchbay)
 
@@ -299,18 +287,14 @@ Guitar recording uses analog output (Wing Out 3 → P9 → Model 12 line in).
 
 | From                                            | To                                         | Default State |
 | ----------------------------------------------- | ------------------------------------------ | ------------- |
-| Model 12 USB Stereo Out L (internal main mix)   | Wing USB In 3 → Ch13 L (Tape Playback)     | ON            |
-| Model 12 USB Stereo Out R (internal main mix)   | Wing USB In 4 → Ch13 R (Tape Playback)     | ON            |
-| Model 12 USB Track 1                            | Wing USB In 17 → Ch14 (Tape Return 1)      | ON            |
-| Model 12 USB Track 2                            | Wing USB In 18 → Ch15 (Tape Return 2)      | ON            |
-| Model 12 USB Track 3                            | Wing USB In 19 → Ch16 (Tape Return 3)      | ON            |
-| Model 12 USB Track 4                            | Wing USB In 20 → Ch19 (Tape Return 4)      | ON            |
-| Model 12 USB Track 5                            | Wing USB In 21 → Ch20 (Tape Return 5)      | ON            |
-| Model 12 USB Track 6                            | Wing USB In 22 → Ch21 (Tape Return 6)      | ON            |
-| Model 12 USB Track 7                            | Wing USB In 23 → Ch22 (Tape Return 7)      | ON            |
-| Model 12 USB Track 8                            | Wing USB In 24 → Ch23 (Tape Return 8)      | ON            |
-| Model 12 USB Track 9                            | Wing USB In 25 → Ch24 (Tape Return 9)      | ON            |
-| Model 12 USB Track 10                           | Wing USB In 26 → Ch25 (Tape Return 10)     | ON            |
+| Model 12 USB Track 1                            | Wing USB In 17 → Ch25 (Tape Return 1)      | ON            |
+| Model 12 USB Track 2                            | Wing USB In 18 → Ch26 (Tape Return 2)      | ON            |
+| Model 12 USB Track 3                            | Wing USB In 19 → Ch27 (Tape Return 3)      | ON            |
+| Model 12 USB Track 4                            | Wing USB In 20 → Ch28 (Tape Return 4)      | ON            |
+| Model 12 USB Track 5                            | Wing USB In 21 → Ch29 (Tape Return 5)      | ON            |
+| Model 12 USB Track 6                            | Wing USB In 22 → Ch30 (Tape Return 6)      | ON            |
+| Model 12 USB Tracks 7/8                         | Wing USB In 23-24 → Ch31 (Tape Return 7/8 stereo) | ON     |
+| Model 12 USB Tracks 9/10                        | Wing USB In 25-26 → Ch32 (Tape Return 9/10 stereo) | ON    |
 
 DAW instruments do not route to the Model 12.
 

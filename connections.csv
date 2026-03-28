@@ -11,12 +11,20 @@ Wing Rack Channels,WR-9,DAW,Bass,Wing Rack,Channel 9 (Bass),USB,,Logic via USB/9
 Wing Rack Channels,WR-10,DAW,Keyboard,Wing Rack,Channel 10 (Keyboard),USB,,Logic via USB/11-12
 Wing Rack Channels,WR-11,DAW,Synth/Piano,Wing Rack,Channel 11 (Synth/Piano),USB,,Logic via USB/13-14
 Wing Rack Channels,WR-12,DAW,Drums,Wing Rack,Channel 12 (Drums),USB,,Logic via USB/15-16
-Wing Rack Channels,WR-13,Model 12,USB Stereo Out L+R (tracks 11/12 internal mix),Wing Rack,Channel 13 (Tape Playback),USB,,USB/3-4 via Loopback — Model 12 stereo mix return; fader -18dB; assigned to main; for overdub monitoring. USB-mode tracks on Model 12 feed back through here — keep non-recording tracks in MTR mode.
-Wing Rack Channels,WR-14,Model 12,Track 1 via USB/Loopback,Wing Rack,Channel 14 (Tape Return 1),USB,,USB/17 — individual track return; assigned to main; bus sends per project
-Wing Rack Channels,WR-15,Model 12,Track 2 via USB/Loopback,Wing Rack,Channel 15 (Tape Return 2),USB,,USB/18 — individual track return; assigned to main; bus sends per project
-Wing Rack Channels,WR-16,Model 12,Track 3 via USB/Loopback,Wing Rack,Channel 16 (Tape Return 3),USB,,USB/19 — individual track return; assigned to main; bus sends per project
+Wing Rack Channels,WR-13,,,Wing Rack,Channel 13,,,Open
+Wing Rack Channels,WR-14,,,Wing Rack,Channel 14,,,Open
+Wing Rack Channels,WR-15,,,Wing Rack,Channel 15,,,Open
+Wing Rack Channels,WR-16,,,Wing Rack,Channel 16,,,Open
 Wing Rack Channels,WR-17,Patchbay,Point 4 bottom (Opto Out),Wing Rack,Channel 17 (Vocal Processed),Local,,LCL/17 — outboard return
 Wing Rack Channels,WR-18,Patchbay,Point 8 bottom (Distressor Out),Wing Rack,Channel 18 (Guitar Processed),Local,,LCL/18 — outboard return
+Wing Rack Channels,WR-25,Model 12,Track 1 via USB/Loopback,Wing Rack,Channel 25 (Tape Return 1),USB,,USB/17 — individual track return; assigned to main; bus sends per project
+Wing Rack Channels,WR-26,Model 12,Track 2 via USB/Loopback,Wing Rack,Channel 26 (Tape Return 2),USB,,USB/18 — individual track return; assigned to main; bus sends per project
+Wing Rack Channels,WR-27,Model 12,Track 3 via USB/Loopback,Wing Rack,Channel 27 (Tape Return 3),USB,,USB/19 — individual track return; assigned to main; bus sends per project
+Wing Rack Channels,WR-28,Model 12,Track 4 via USB/Loopback,Wing Rack,Channel 28 (Tape Return 4),USB,,USB/20 — individual track return; assigned to main; bus sends per project
+Wing Rack Channels,WR-29,Model 12,Track 5 via USB/Loopback,Wing Rack,Channel 29 (Tape Return 5),USB,,USB/21 — individual track return; assigned to main; bus sends per project
+Wing Rack Channels,WR-30,Model 12,Track 6 via USB/Loopback,Wing Rack,Channel 30 (Tape Return 6),USB,,USB/22 — individual track return; assigned to main; bus sends per project
+Wing Rack Channels,WR-31,Model 12,Tracks 7/8 via USB/Loopback,Wing Rack,Channel 31 (Tape Return 7/8),USB,,USB/23-24 — stereo track return; assigned to main; bus sends per project
+Wing Rack Channels,WR-32,Model 12,Tracks 9/10 via USB/Loopback,Wing Rack,Channel 32 (Tape Return 9/10),USB,,USB/25-26 — stereo track return; assigned to main; bus sends per project
 Wing Rack Buses,BUS-1,Wing Ch1 (Vocal Dry),Pre-fader send,Wing Out 1,Bus 1 send (io/out/LCL/1 in=1),Internal,,Pre-fader at 0dB — feeds vocal outboard chain; out `in` index=1 (Bus 1L)
 Wing Rack Buses,BUS-2,Bus 5 + Bus 6 sends,,Wing Out 2,Bus 2 send (io/out/LCL/2 in=3),Internal,,Receives from Bus 5 (Electric) and Bus 6 (Acoustic); sends to guitar outboard chain; no pre-insert; out `in` index=3 (Bus 2L)
 Wing Rack Buses,BUS-3,Bus 1 + Bus 2 sends,Verb return,Bus 3 (Main only),FX2/PLATE pre-insert,Internal,,Shared reverb bus; Bus 1 and Bus 2 send to Bus 3; assigned to Main 1
@@ -69,18 +77,14 @@ USB Routing,USB-1,Wing Rack,USB Out 1 (USR/1 — Bus 7L Vocal+TAPE),Model 12,Tra
 USB Routing,USB-3,Wing Rack,USB Out 3 (USR/8 — Ch18 Re-amp),Model 12,Track 3,Software,OFF,Via Loopback — re-amp output; OFF by default; must disable after use
 USB Routing,USB-5,Wing Rack,USB Out 5 (USR/6 — Bus 9L Mic L+TAPE),Model 12,Track 7,Software,OFF,Via Loopback — condenser mic L with tape emulation; OFF by default
 USB Routing,USB-6,Wing Rack,USB Out 6 (USR/7 — Bus 9R Mic R+TAPE),Model 12,Track 8,Software,OFF,Via Loopback — condenser mic R with tape emulation; OFF by default
-USB Routing,USB-M12-L,Model 12,USB Stereo Out L (internal main mix L),Wing Rack,USB In 3 → Ch13 L (Tape Playback),Software,ON,Via Loopback — stereo mix for quick monitoring
-USB Routing,USB-M12-R,Model 12,USB Stereo Out R (internal main mix R),Wing Rack,USB In 4 → Ch13 R (Tape Playback),Software,ON,Via Loopback — stereo mix for quick monitoring
-USB Routing,USB-M12-T1,Model 12,USB Track 1,Wing Rack,USB In 17 → Ch14 (Tape Return 1),Software,ON,Via Loopback — individual track return; bus sends per project
-USB Routing,USB-M12-T2,Model 12,USB Track 2,Wing Rack,USB In 18 → Ch15 (Tape Return 2),Software,ON,Via Loopback — individual track return; bus sends per project
-USB Routing,USB-M12-T3,Model 12,USB Track 3,Wing Rack,USB In 19 → Ch16 (Tape Return 3),Software,ON,Via Loopback — individual track return; bus sends per project
-USB Routing,USB-M12-T4,Model 12,USB Track 4,Wing Rack,USB In 20 → Ch19 (Tape Return 4),Software,ON,Via Loopback — individual track return; bus sends per project
-USB Routing,USB-M12-T5,Model 12,USB Track 5,Wing Rack,USB In 21 → Ch20 (Tape Return 5),Software,ON,Via Loopback — individual track return; bus sends per project
-USB Routing,USB-M12-T6,Model 12,USB Track 6,Wing Rack,USB In 22 → Ch21 (Tape Return 6),Software,ON,Via Loopback — individual track return; bus sends per project
-USB Routing,USB-M12-T7,Model 12,USB Track 7,Wing Rack,USB In 23 → Ch22 (Tape Return 7),Software,ON,Via Loopback — individual track return; bus sends per project
-USB Routing,USB-M12-T8,Model 12,USB Track 8,Wing Rack,USB In 24 → Ch23 (Tape Return 8),Software,ON,Via Loopback — individual track return; bus sends per project
-USB Routing,USB-M12-T9,Model 12,USB Track 9,Wing Rack,USB In 25 → Ch24 (Tape Return 9),Software,ON,Via Loopback — individual track return; bus sends per project
-USB Routing,USB-M12-T10,Model 12,USB Track 10,Wing Rack,USB In 26 → Ch25 (Tape Return 10),Software,ON,Via Loopback — individual track return; bus sends per project
+USB Routing,USB-M12-T1,Model 12,USB Track 1,Wing Rack,USB In 17 → Ch25 (Tape Return 1),Software,ON,Via Loopback — individual track return; bus sends per project
+USB Routing,USB-M12-T2,Model 12,USB Track 2,Wing Rack,USB In 18 → Ch26 (Tape Return 2),Software,ON,Via Loopback — individual track return; bus sends per project
+USB Routing,USB-M12-T3,Model 12,USB Track 3,Wing Rack,USB In 19 → Ch27 (Tape Return 3),Software,ON,Via Loopback — individual track return; bus sends per project
+USB Routing,USB-M12-T4,Model 12,USB Track 4,Wing Rack,USB In 20 → Ch28 (Tape Return 4),Software,ON,Via Loopback — individual track return; bus sends per project
+USB Routing,USB-M12-T5,Model 12,USB Track 5,Wing Rack,USB In 21 → Ch29 (Tape Return 5),Software,ON,Via Loopback — individual track return; bus sends per project
+USB Routing,USB-M12-T6,Model 12,USB Track 6,Wing Rack,USB In 22 → Ch30 (Tape Return 6),Software,ON,Via Loopback — individual track return; bus sends per project
+USB Routing,USB-M12-T78,Model 12,USB Tracks 7/8,Wing Rack,USB In 23-24 → Ch31 (Tape Return 7/8 stereo),Software,ON,Via Loopback — stereo track return; bus sends per project
+USB Routing,USB-M12-T910,Model 12,USB Tracks 9/10,Wing Rack,USB In 25-26 → Ch32 (Tape Return 9/10 stereo),Software,ON,Via Loopback — stereo track return; bus sends per project
 Wing Rack Routing,MX1-MON,Wing Monitor Section (MON.PH),Direct input,MX1 (Matrix 1),,Internal,,/mtx/1/dir/in=MON.PH — enables solo through speakers; Main 1 send to MX1 is OFF
 Physical Cables,PHY-1,Wing Rack,Analog Out 1 (XLR),Patchbay,Point 1 Top,XLR,,Back-of-rack — permanent
 Physical Cables,PHY-2,Wing Rack,Analog Out 2 (XLR),Patchbay,Point 5 Top,XLR,,Back-of-rack — permanent
