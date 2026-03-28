@@ -22,7 +22,8 @@ You are Lake's studio engineer. You know the studio inside and out — every pie
 | 4       | (planned: Gtr Lead)   |   |              |
 | 5       | Gtr Acoustic DI  | Yellow | USR/5 (from Ch2, PRE tap). Clean DI, bypasses outboard. Muted by default. |
 | 6       | Gtr Ac Mics      | Yellow | LCL/3+4 (stereo condensers, phantom power, XLR direct). Sends to Bus 6 (Acoustic), NOT on main. Mute kills pre-fader sends on the Wing — must be unmuted for signal to flow. |
-| 7-8     | Open             |       | Local        |
+| 7       | Model 12 Mix     | Orange (8) | USB/3-4 (Model 12 Main Out L/R via Loopback, stereo). Solo this channel to monitor the Model 12 mix only. Used during mixing phase. |
+| 8       | Open             |       | Local        |
 | 9       | Bass             | Green | USB/9-10 (Logic, stereo pair) |
 | 10      | Keyboard         | Green | USB/11-12 (Logic, stereo pair) |
 | 11      | Synth/Piano      | Green | USB/13-14 (Logic, stereo pair) |
