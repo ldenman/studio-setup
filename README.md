@@ -15,24 +15,25 @@ When an alternative routing is needed (e.g. swapping a compressor), a single fro
 The studio is actually two parts: Recording and Mixing
 
 ### Recording
-Low latency tracking, computer free operation. Simple, modular routing. Everything connected to patchbay. Patchbay stores default configuration through normalled connections, and provides flexibility for alternative routing options. Microphones and DI instruments should be able to patch through any configuration of outboard gear. 
+Low latency tracking with simple, modular routing. Everything connected to the patchbay. Patchbay stores default configuration through normalled connections, and provides flexibility for alternative routing options. Microphones and DI instruments can patch through any configuration of outboard gear.
 
-Recording is comprised of "local/real" instruments namely: guitar and vocals, but could also be a miced keyboard, percussion instruments (like a cajon or hang drum), even singing bowls. 
+Recording is comprised of "local/real" instruments: guitar and vocals, but could also be a miced keyboard, percussion instruments (like a cajon or hang drum), even singing bowls.
 
-The DAW (Logic Pro) will have virtual studio session players and/or other backing tracks. Session player instruments include bass, keyboard, synth, and drums. These tracks will be routed into the Wing Rack. 
+**Logic Pro is the primary multi-track recorder.** It records directly from the Wing Rack via USB — unlimited tracks, non-destructive editing, full undo, take comping. Logic also provides virtual studio session players (bass, keyboard, synth, drums) as backing tracks routed into the Wing Rack.
 
-Everything will be recorded DRY into the tascam model 12. 
+The Wing Rack handles all monitoring with low latency effects. Recording captures the full outboard chain (gate + EQ/compression + de-esser + tape emulation). Monitoring adds amp sims and reverb on top — separate from the recording path.
 
-Monitoring with low latency effects will be available through the wing rack. 
-
-Loopback software will be enlisted to allow connections between the Model 12 and the Behringer Wing Rack without any physical cables (other than the USB cables of course). With this setup, no aggregate device in Mac OS will be necessary. 
-
+Individual recorded tracks return from Logic to dedicated Wing channels (Ch25-32) for playback with per-track FX (reverb, amp sims). Tape returns and live inputs run simultaneously — no mode switching.
 
 ### Mixing
-This section is still to be determined. There are many mixing options available. I would encourage the most simple setup.
+The Tascam Model 12 serves as a **mixing device** during the mixing phase. It can operate as:
+- **DAW controller** for Logic Pro — physical faders, transport controls, and mute/solo buttons controlling Logic's mixer
+- **Standalone mixer** — for hands-on mixing with its own faders, EQ, and compression, receiving audio from Logic or the Wing
+
+The Wing Rack and outboard gear are also available during mixing — tracks can be sent through the outboard chains via the patchbay for analog processing.
 
 ### Mastering
-This section is still to be determined. However, the WA76-D2 and the HA76EQX2 can be used to apply master bus compression and EQ.
+This section is still to be determined. However, the WA76-D2 and the HA73-EQX2 can be used for master bus compression and EQ.
 
 ## Gear
 
@@ -42,16 +43,16 @@ This section is still to be determined. However, the WA76-D2 and the HA76EQX2 ca
 - WA76-D2 Black (1176 compressor clone, dual channel)
 - Distressor (compressor)
 - Audioscape Opto (LA-2A compressor clone)
-- Tascam Model 12 (multitrack recorder / interface)
+- Tascam Model 12 (mixing console / DAW controller)
 - Mac (Logic Pro, Loopback, wing-sync)
 
 ## Software
 
 - Mac OS
-- Logic Pro (DAW — session players, mixing)
+- Logic Pro (DAW — primary recorder, session players, mixing)
 - Wing Edit (remote Wing control)
 - wing-sync (custom BPM sync app, ~/src/wing-sync)
-- Loopback (virtual audio routing between Wing Rack and Model 12)
+- Loopback (virtual audio routing between Wing Rack and Logic)
 - Harrison Mixbus 10
 
 ## Plugins
@@ -213,11 +214,11 @@ Single-channel optical compressor. Electronically balanced +4dBu. In the default
 
 ---
 
-### Tascam Model 12 (Multitrack Recorder)
+### Tascam Model 12 (Mixing Console / DAW Controller)
 
-Digital tape machine, mixer, and USB audio interface. 12-in/10-out USB interface. In this studio, audio is routed to/from the Model 12 via Loopback software over USB — no physical audio cables. Physical I/O is available but unused. +48V phantom power available on all mic inputs.
+12-channel analog mixer, DAW controller, and USB audio interface. During the mixing phase, it operates as a physical control surface for Logic Pro (faders, transport, mute/solo) or as a standalone mixer. Not used for recording — Logic Pro is the primary recorder. +48V phantom power available on all mic inputs.
 
-#### Physical Audio I/O (All Unused — Audio Routed via USB/Loopback)
+#### Physical Audio I/O (Available for Mixing Phase)
 
 | Direction | #    | Connector      | Label              | Notes | Status |
 | --------- | ---- | -------------- | ------------------ | ----- | ------ |
@@ -250,16 +251,13 @@ Digital tape machine, mixer, and USB audio interface. 12-in/10-out USB interface
 | 1/4" TRS       | Footswitch     | Open       | (remote transport control) |
 | Bluetooth 5.0  | BT Audio In    | Open       | (playback to ch 9/10) |
 
-#### Track Assignments (per project, via USB/Loopback)
+#### Mixing Phase Usage
 
-| Track | Mode     | Source                                              | Format  |
-| ----- | -------- | --------------------------------------------------- | ------- |
-| 1     | USB      | Vocal + TAPE (Wing USB Out 1 / USR/1 / Bus 7)       | Mono    |
-| 2     | USB      | Guitar + TAPE (Wing USB Out 2 / USR/2 / Bus 8)      | Mono    |
-| 3-6   | MTR      | Previous takes (swapped from 1/2); overdub slots. Track 3 used for re-amp (USB 3 / USR/8) when re-amping. | Mono |
-| 7/8   | MTR      | Free for overdubs. Can be set to USB for condensers (USB 5/6 / USR/6+7 / Bus 9) when needed. | Stereo  |
-| 9/10  | MTR      | Free for overdubs / additional takes                | Stereo  |
-| 11/12 | Internal | Model 12 main capture — returns to Wing Ch13 (Tape Playback) for overdub monitoring | Stereo (always recording) |
+The Model 12 is used during the mixing phase, not during tracking. Two modes:
+
+**As DAW controller:** Model 12 faders, transport, and mute/solo buttons control Logic Pro's mixer via Mackie Control protocol over USB. Physical tactile control over the Logic mix.
+
+**As standalone mixer:** Audio from Logic or the Wing can be routed to the Model 12's physical inputs for hands-on mixing with its analog EQ and compression.
 
 ---
 
@@ -268,22 +266,38 @@ Digital tape machine, mixer, and USB audio interface. 12-in/10-out USB interface
 | Connector      | Connected To        | Purpose                    |
 | -------------- | ------------------- | -------------------------- |
 | USB            | Wing Rack           | 48ch audio + control       |
-| USB            | Model 12            | Multitrack recording       |
+| USB            | Model 12            | DAW control (mixing phase) |
 | Ethernet       | Wing Rack           | OSC control, Wing Edit     |
 
 #### Software Audio Routing (Loopback)
 
+**Wing → Logic (Recording)**
+
+| From                                                       | To                         | Default State |
+| ---------------------------------------------------------- | -------------------------- | ------------- |
+| Wing USB Out (Bus 7 — Vocal + TAPE)                        | Logic (vocal track)        | ON            |
+| Wing USB Out (Bus 8 — Guitar + TAPE)                       | Logic (guitar track)       | ON            |
+
+**Logic → Wing (Tape Returns / Playback)**
+
 | From                                                       | To                                         | Default State |
 | ---------------------------------------------------------- | ------------------------------------------ | ------------- |
-| Wing USB Out 1 (USR/1 — Bus 7L, Vocal + TAPE)              | Model 12 Track 1 (vocal w/ tape)           | ON            |
-| Wing USB Out 2 (USR/2 — Bus 8L, Guitar + TAPE)             | Model 12 Track 2 (guitar w/ tape)          | ON            |
-| Wing USB Out 3 (USR/8 — Ch18, Re-amp out)                  | Model 12 Track 3 (re-amp return)           | OFF           |
-| Wing USB Out 5 (USR/6 — Bus 9L, Condenser L + TAPE)        | Model 12 Track 7 (condenser L w/ tape)     | OFF           |
-| Wing USB Out 6 (USR/7 — Bus 9R, Condenser R + TAPE)        | Model 12 Track 8 (condenser R w/ tape)     | OFF           |
-| Model 12 USB Stereo Out L (internal main mix L)            | Wing USB In 3 → Ch13 L (Tape Playback)     | ON            |
-| Model 12 USB Stereo Out R (internal main mix R)            | Wing USB In 4 → Ch13 R (Tape Playback)     | ON            |
+| Logic Track 1                                              | Wing USB In 17 → Ch25 (Tape Return 1)      | ON            |
+| Logic Track 2                                              | Wing USB In 18 → Ch26 (Tape Return 2)      | ON            |
+| Logic Tracks 3-6                                           | Wing USB In 19-22 → Ch27-30 (Tape Returns) | ON            |
+| Logic Tracks 7/8                                           | Wing USB In 23-24 → Ch31 (stereo)          | ON            |
+| Logic Tracks 9/10                                          | Wing USB In 25-26 → Ch32 (stereo)          | ON            |
 
-Wing USB Out 4/15/16/17/18 are not connected. DAW instruments (Logic session players) are heard directly on the Wing (Ch9-12) and are not recorded to the Model 12. USB 3 (re-amp) must be turned OFF after use to prevent feedback.
+**Logic → Wing (Session Players)**
+
+| From                                                       | To                                         | Default State |
+| ---------------------------------------------------------- | ------------------------------------------ | ------------- |
+| Logic Bass                                                 | Wing USB 9-10 → Ch9                        | ON            |
+| Logic Keyboard                                             | Wing USB 11-12 → Ch10                      | ON            |
+| Logic Synth/Piano                                          | Wing USB 13-14 → Ch11                      | ON            |
+| Logic Drums                                                | Wing USB 15-16 → Ch12                      | ON            |
+
+Logic is the primary multi-track recorder. All recorded tracks return to dedicated Wing channels (Ch25-32) for playback with per-track FX.
 
 ---
 
@@ -291,17 +305,17 @@ Wing USB Out 4/15/16/17/18 are not connected. DAW instruments (Logic session pla
 
 **Vocal (outboard):** Mic → Wing LCL/1 (ch1 dry, preamp gain) → Bus 1 → Wing Out 1 → P1 → HA73 A → P2 → WA76 A → P3 → Opto → P4 → Wing LCL/17 → Ch17 (Vocal Processed)
 
-**Vocal (recording):** Ch1 → Bus 7 → FX9/TAPE (Bus 7 pre-insert) → USR/1 → USB Out 1 → Loopback → Model 12 Track 1
+**Vocal (recording):** Ch1 (GATE) → Bus 1 → outboard → Ch17 (DE-ES) → Bus 7 → FX9/TAPE (Bus 7 pre-insert) → Logic (via USB)
 
 **Guitar (Electric, outboard):** DI → Wing LCL/2 (ch2 dry, preamp gain) → Bus 5 → FX6/ANGEL (Bus 5 pre-insert, lead) → Bus 2 → Wing Out 2 → P5 → HA73 B → P6 → WA76 B → P7 → Distressor → P8 → Wing LCL/18 → Ch18 (Guitar Processed)
 
 **Guitar (Acoustic, outboard):** DI → Wing LCL/2 (ch2 dry, preamp gain) → Bus 6 → FX11/RACKAMP (Bus 6 pre-insert) → Bus 2 → Wing Out 2 → P5 → HA73 B → P6 → WA76 B → P7 → Distressor → P8 → Wing LCL/18 → Ch18 (Guitar Processed)
 
-**Guitar (recording):** Ch2 → Bus 8 → FX10/TAPE (Bus 8 pre-insert) → USR/2 → USB Out 2 → Loopback → Model 12 Track 2
+**Guitar (recording):** Ch18 (outboard return) → Bus 8 → FX10/TAPE (Bus 8 pre-insert) → Logic (via USB or Wing Out 3 → P9 analog)
 
 **Acoustic Mics (outboard):** Condensers → Wing LCL/3+4 → Ch6 → Bus 6 → FX11/RACKAMP → Bus 2 → outboard chain (above)
 
-**Acoustic Mics (recording):** Ch6 → Bus 9 → FX3/TAPE (Bus 9 pre-insert) → USR/6+7 → USB Out 5/6 → Loopback → Model 12 Tracks 7/8 (USB 5/6 OFF by default)
+**Acoustic Mics (recording):** Ch6 → Bus 9 → FX3/TAPE (Bus 9 pre-insert) → Logic (via USB)
 
 ## Gear Notes
 
@@ -318,7 +332,7 @@ Single-channel compressor. In the default guitar chain (P7-P8, after the WA76 B)
 LA-2A clone. Optical compressor. Smooth, musical compression. In the default vocal chain (P3-P4, after the WA76 A). Great for vocals and bass guitar.
 
 ### Tascam Model 12
-Digital tape machine — 12 tracks (1-6 mono, 7/8 and 9/10 stereo, 11/12 main L/R always recording). Connected via USB, audio routed through Loopback software. Records everything DRY.
+Mixing console and DAW controller. During the mixing phase, operates as a physical control surface for Logic (Mackie Control over USB) or as a standalone analog mixer. 12 channels with EQ, compression, and 2 aux sends. Not used for recording — Logic Pro is the primary recorder.
 
 ### Behringer Wing Rack (Creative Uses)
 Beyond mixing: snapshots for song recall, built-in FX for sound design, channel strip emulations (Neve, SSL, Vintage), guitar amp sims, OSC automation.
