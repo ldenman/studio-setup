@@ -154,7 +154,7 @@ graph LR
         CH18M[Ch18] -->|Bus 10/11| AMP[Amp Sim<br/>RACKAMP / ANGEL] --> MAIN
     end
 
-    REC_NOTE[Recording captures:<br/>gate + outboard + de-esser + tape<br/><br/>Monitoring adds:<br/>amp sim + reverb<br/><br/>Independent paths — run simultaneously]
+    REC_NOTE[Recording captures:<br/>gate + outboard + de-esser + tape<br/><br/>Monitoring adds:<br/>amp sim + reverb<br/><br/>Independent paths - run simultaneously]
 
     style REC_NOTE fill:#ffe,stroke:#999
     style LOGIC_R fill:#4CAF50,color:#fff
@@ -215,21 +215,21 @@ graph TD
 
 ```mermaid
 graph LR
-    subgraph Vocal Chain — P1-P4
+    subgraph Vocal Chain P1-P4
         P1T[P1 Top<br/>Wing Out 1] -.->|normalled| P1B[P1 Bottom<br/>HA73 A In]
         P2T[P2 Top<br/>HA73 A Out] -.->|normalled| P2B[P2 Bottom<br/>WA76 A In]
         P3T[P3 Top<br/>WA76 A Out] -.->|normalled| P3B[P3 Bottom<br/>Opto In]
         P4T[P4 Top<br/>Opto Out] -.->|normalled| P4B[P4 Bottom<br/>Wing LCL 17]
     end
 
-    subgraph Guitar Chain — P5-P8
+    subgraph Guitar Chain P5-P8
         P5T[P5 Top<br/>Wing Out 2] -.->|normalled| P5B[P5 Bottom<br/>HA73 B In]
         P6T[P6 Top<br/>HA73 B Out] -.->|normalled| P6B[P6 Bottom<br/>WA76 B In]
         P7T[P7 Top<br/>WA76 B Out] -.->|normalled| P7B[P7 Bottom<br/>Distressor In]
         P8T[P8 Top<br/>Distressor Out] -.->|normalled| P8B[P8 Bottom<br/>Wing LCL 18]
     end
 
-    subgraph Other — P9-P10, P23-P24
+    subgraph Other P9-P10 and P23-P24
         P9T[P9 Top<br/>Wing Out 3 / Bus 8L] -.->|normalled| P9B[P9 Bottom<br/>Model 12 Track 2 In]
         P10T[P10 Top<br/>Wing Out 4 / Bus 4R] --- P10B[P10 Bottom<br/>open]
         P23T[P23 Top<br/>Wing Out 7 / MX1 L] -.->|normalled| P23B[P23 Bottom<br/>Speaker R]
@@ -248,7 +248,7 @@ graph TD
         BUS2[Bus 2 Guitar Send<br/>→ Out 2 → P5-P8]
     end
 
-    subgraph Amp Sim Buses — Pre-Outboard
+    subgraph Amp Sim Buses Pre-Outboard
         BUS5[Bus 5 Electric<br/>FX6 ANGEL → Bus 2]
         BUS6[Bus 6 Acoustic<br/>FX11 RACKAMP → Bus 2]
     end
@@ -259,7 +259,7 @@ graph TD
         BUS9[Bus 9 Mic Rec<br/>FX3 TAPE → Logic]
     end
 
-    subgraph Monitoring Buses — Post-Outboard
+    subgraph Monitoring Buses Post-Outboard
         BUS10[Bus 10 Rhythm Mon<br/>RACKAMP → Main]
         BUS11[Bus 11 Lead Mon<br/>ANGEL → Main]
     end
@@ -414,7 +414,7 @@ graph LR
         R1 --> R2 --> R3 --> R4
     end
 
-    subgraph Monitoring Only — NOT recorded
+    subgraph Monitoring Only - NOT recorded
         M1[Amp Sim]
         M2[Reverb]
         M3[Other FX]
