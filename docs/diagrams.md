@@ -48,11 +48,11 @@ graph LR
     DI --> CH2
     COND --> CH6
 
-    CH1 -->|Bus 1| HA73A --> WA76A --> OPTO --> CH17
-    CH2 -->|Bus 2| HA73B --> WA76B --> DIST --> CH18
+    CH1 -->|Bus 1 Vocal Send| HA73A --> WA76A --> OPTO --> CH17
+    CH2 -->|Bus 2 Guitar Send| HA73B --> WA76B --> DIST --> CH18
 
-    CH17 -->|Bus 7 TAPE| REC
-    CH18 -->|Bus 8 TAPE| REC
+    CH17 -->|Bus 7 Vocal Rec TAPE| REC
+    CH18 -->|Bus 8 Guitar Rec TAPE| REC
 
     SP --> CH9
     PLAY --> CH25
@@ -64,6 +64,10 @@ graph LR
     MAIN -->|Headphones / Speakers| OUT[Monitor Output]
 
     M12 -.->|DAW Control| REC
+
+    NOTE[Wing Rack is the central hub. All audio flows through it.<br/>Logic records and plays back. Model 12 controls transport.<br/>Outboard chains are permanently wired via patchbay.]
+
+    style NOTE fill:#ffe,stroke:#999
 ```
 
 ---
@@ -86,14 +90,17 @@ graph TD
     LCL17 --> CH17[Ch17 Vocal Processed<br/>DE-ES dynamics]
 
     CH17 -->|assigned| MAIN[Main 1<br/>Monitoring]
-    CH17 -->|Bus 7 send<br/>pre-fader| BUS7[Bus 7 Vocal Rec<br/>FX9 TAPE pre-insert]
+    CH17 -->|Bus 7 Vocal Rec send<br/>pre-fader| BUS7[Bus 7 Vocal Rec<br/>FX9 TAPE pre-insert]
 
     BUS7 -->|USB| LOGIC[Logic Pro<br/>Vocal Track]
+
+    NOTE[Vocal recording captures: GATE + HA73 EQ +<br/>WA76 compression + Opto leveling + DE-ES + TAPE.<br/>Reverb and monitoring FX are NOT recorded.]
 
     style CH1 fill:#4169E1,color:#fff
     style CH17 fill:#4169E1,color:#fff
     style BUS7 fill:#4169E1,color:#fff
     style MAIN fill:#333,color:#fff
+    style NOTE fill:#ffe,stroke:#999
 ```
 
 ---
@@ -122,11 +129,13 @@ graph TD
     LCL18 --> CH18[Ch18 Guitar Processed]
 
     CH18 -->|assigned| MAIN[Main 1<br/>Monitoring]
-    CH18 -->|Bus 10/11 send| MON[Bus 10 Rhythm / Bus 11 Lead<br/>Post-outboard amp sim monitoring]
-    CH18 -->|Bus 8 send<br/>pre-fader| BUS8[Bus 8 Guitar Rec<br/>FX10 TAPE pre-insert]
+    CH18 -->|Bus 10/11 send| MON[Bus 10 Gtr Rhythm Mon / Bus 11 Gtr Lead Mon<br/>Post-outboard amp sim monitoring]
+    CH18 -->|Bus 8 Guitar Rec send<br/>pre-fader| BUS8[Bus 8 Guitar Rec<br/>FX10 TAPE pre-insert]
 
     MON --> MAIN
     BUS8 -->|Out 3 → P9| LOGIC[Logic Pro<br/>Guitar Track]
+
+    NOTE[Guitar has two stages: amp sim THEN outboard.<br/>Recording captures outboard + tape. Monitoring adds<br/>amp sim on top via Bus 10/11. Mute Bus 5 or 6 to<br/>switch between Electric and Acoustic modes.]
 
     style CH2 fill:#DC143C,color:#fff
     style CH18 fill:#DC143C,color:#fff
@@ -134,6 +143,7 @@ graph TD
     style BUS5 fill:#DC143C,color:#fff
     style BUS6 fill:#DAA520,color:#fff
     style MAIN fill:#333,color:#fff
+    style NOTE fill:#ffe,stroke:#999
 ```
 
 ---
@@ -144,14 +154,14 @@ graph TD
 graph LR
     subgraph Recording Path
         direction TB
-        CH17R[Ch17 Vocal Processed] -->|Bus 7| BUS7[Bus 7<br/>TAPE] -->|USB| LOGIC_R[Logic]
-        CH18R[Ch18 Guitar Processed] -->|Bus 8| BUS8[Bus 8<br/>TAPE] -->|Out 3 / P9| LOGIC_R
+        CH17R[Ch17 Vocal Processed] -->|Bus 7 Vocal Rec| BUS7[Bus 7 Vocal Rec<br/>TAPE] -->|USB| LOGIC_R[Logic]
+        CH18R[Ch18 Guitar Processed] -->|Bus 8 Guitar Rec| BUS8[Bus 8 Guitar Rec<br/>TAPE] -->|Out 3 / P9| LOGIC_R
     end
 
     subgraph Monitoring Path
         direction TB
-        CH17M[Ch17] --> MAIN[Main 1]
-        CH18M[Ch18] -->|Bus 10/11| AMP[Amp Sim<br/>RACKAMP / ANGEL] --> MAIN
+        CH17M[Ch17 Vocal Processed] --> MAIN[Main 1]
+        CH18M[Ch18 Guitar Processed] -->|Bus 10 Rhythm / Bus 11 Lead| AMP[Amp Sim<br/>RACKAMP / ANGEL] --> MAIN
     end
 
     REC_NOTE[Recording captures:<br/>gate + outboard + de-esser + tape<br/><br/>Monitoring adds:<br/>amp sim + reverb<br/><br/>Independent paths - run simultaneously]
@@ -178,8 +188,8 @@ graph TD
     WING --> CH31[Ch31 Tape Return 7/8<br/>stereo]
     WING --> CH32[Ch32 Tape Return 9/10<br/>stereo]
 
-    CH25 -->|per project| BUS3[Bus 3 Reverb]
-    CH26 -->|per project| BUS10[Bus 10/11 Amp Sim]
+    CH25 -->|per project| BUS3[Bus 3 Reverb<br/>FX2 PLATE]
+    CH26 -->|per project| BUS10[Bus 10 Gtr Rhythm Mon /<br/>Bus 11 Gtr Lead Mon]
     CH26 -->|per project| BUS3
     CH27 -->|per project| SENDS[Bus sends as needed]
 
@@ -230,11 +240,15 @@ graph LR
     end
 
     subgraph Other P9-P10 and P23-P24
-        P9T[P9 Top<br/>Wing Out 3 / Bus 8L] -.->|normalled| P9B[P9 Bottom<br/>Model 12 Track 2 In]
-        P10T[P10 Top<br/>Wing Out 4 / Bus 4R] --- P10B[P10 Bottom<br/>open]
+        P9T[P9 Top<br/>Wing Out 3 / Bus 8 Guitar Rec] -.->|normalled| P9B[P9 Bottom<br/>Model 12 Track 2 In]
+        P10T[P10 Top<br/>Wing Out 4 / Bus 4 Mic Send R] --- P10B[P10 Bottom<br/>open]
         P23T[P23 Top<br/>Wing Out 7 / MX1 L] -.->|normalled| P23B[P23 Bottom<br/>Speaker R]
         P24T[P24 Top<br/>Wing Out 8 / MX1 R] -.->|normalled| P24B[P24 Bottom<br/>Speaker L]
     end
+
+    NOTE[All connections are normalled - signal flows<br/>automatically with zero cables patched.<br/>Insert a front-panel cable to break any normal<br/>and reroute through different gear.]
+
+    style NOTE fill:#ffe,stroke:#999
 ```
 
 ---
@@ -268,21 +282,23 @@ graph TD
         BUS3[Bus 3 Reverb<br/>FX2 PLATE → Main]
     end
 
-    CH1[Ch1] -->|pre-fader| BUS1
-    CH2[Ch2] -->|pre-fader| BUS5
+    CH1[Ch1 Vocal Dry] -->|pre-fader| BUS1
+    CH2[Ch2 Guitar Dry] -->|pre-fader| BUS5
     CH2 -->|pre-fader| BUS6
     BUS5 --> BUS2
     BUS6 --> BUS2
 
-    CH17[Ch17] -->|pre-fader| BUS7
-    CH18[Ch18] -->|pre-fader| BUS8
+    CH17[Ch17 Vocal Processed] -->|pre-fader| BUS7
+    CH18[Ch18 Guitar Processed] -->|pre-fader| BUS8
     CH18 --> BUS10
     CH18 --> BUS11
-    CH6[Ch6] -->|pre-fader| BUS9
+    CH6[Ch6 Gtr Ac Mics] -->|pre-fader| BUS9
 
     BUS3 --> MAIN[Main 1]
     BUS10 --> MAIN
     BUS11 --> MAIN
+
+    NOTE[Blue = vocal path. Red = guitar path. Yellow = acoustic.<br/>Green = shared FX. Outboard send buses carry clean signal.<br/>Recording buses add TAPE. Monitoring buses add amp sims.<br/>All three bus types are independent.]
 
     style BUS1 fill:#4169E1,color:#fff
     style BUS2 fill:#DC143C,color:#fff
@@ -295,6 +311,7 @@ graph TD
     style BUS11 fill:#DC143C,color:#fff
     style BUS3 fill:#228B22,color:#fff
     style MAIN fill:#333,color:#fff
+    style NOTE fill:#ffe,stroke:#999
 ```
 
 ---
@@ -304,11 +321,11 @@ graph TD
 ```mermaid
 graph LR
     subgraph Wing Rack
-        BUS7[Bus 7 Vocal] -->|USB 1| USB_OUT[Wing USB Out]
-        BUS8[Bus 8 Guitar] -->|Out 3 analog| P9[P9 → Model 12]
-        BUS8 -->|Ch18 send| USB_OUT
-        CH9[Ch9-12] ---|receives| USB_IN_SP[USB 9-16]
-        CH25[Ch25-32] ---|receives| USB_IN_TR[USB 17-26]
+        BUS7[Bus 7 Vocal Rec] -->|USB 1| USB_OUT[Wing USB Out]
+        BUS8[Bus 8 Guitar Rec] -->|Out 3 analog| P9[P9 → Model 12 Track 2]
+        BUS8 -->|Ch18 Guitar Processed send| USB_OUT
+        CH9[Ch9-12 Session Players] ---|receives| USB_IN_SP[USB 9-16]
+        CH25[Ch25-32 Tape Returns] ---|receives| USB_IN_TR[USB 17-26]
     end
 
     subgraph Logic Pro
@@ -323,10 +340,13 @@ graph LR
     SESSION -->|USB 9-16| USB_IN_SP
     PLAYBACK -->|USB 17-26| USB_IN_TR
 
+    NOTE[Recording goes Wing → Logic via USB.<br/>Playback returns Logic → Wing via USB 17-26.<br/>Session players are on USB 9-16.<br/>Guitar also records analog via Out 3 → P9.]
+
     style REC_V fill:#4CAF50,color:#fff
     style REC_G fill:#4CAF50,color:#fff
     style SESSION fill:#4CAF50,color:#fff
     style PLAYBACK fill:#4CAF50,color:#fff
+    style NOTE fill:#ffe,stroke:#999
 ```
 
 ---
@@ -337,9 +357,9 @@ graph LR
 graph TD
     LOGIC[Logic<br/>Plays back dry track] -->|USB| TR[Tape Return Channel<br/>e.g. Ch26]
 
-    TR -->|Bus 5 send| BUS5[Bus 5 Electric<br/>ANGEL amp sim]
+    TR -->|Bus 5 Electric send| BUS5[Bus 5 Electric<br/>FX6 ANGEL amp sim]
 
-    BUS5 -->|send| BUS2[Bus 2 Guitar Send]
+    BUS5 -->|send| BUS2[Bus 2 Guitar Send<br/>clean to outboard]
     BUS2 --> OUT2[Wing Out 2]
 
     subgraph Patchbay P5-P8
@@ -365,7 +385,7 @@ graph TD
 graph TD
     CH2[Ch2 Guitar Dry] -->|pre-fader| BUS5[Bus 5 Electric<br/>ANGEL lead / DELUXE rhythm]
     CH2 -->|pre-fader| BUS6[Bus 6 Acoustic<br/>RACKAMP clean]
-    CH2 -.->|direct send<br/>OFF by default| BUS2_DIRECT[Bus 2 direct<br/>clean DI, no amp sim]
+    CH2 -.->|direct send<br/>OFF by default| BUS2_DIRECT[Bus 2 Guitar Send direct<br/>clean DI, no amp sim]
 
     BUS5 -->|send| BUS2[Bus 2 Guitar Send]
     BUS6 -->|send| BUS2
@@ -375,11 +395,11 @@ graph TD
 
     OUTBOARD --> CH18[Ch18 Guitar Processed]
 
-    CH18 --> BUS10[Bus 10 Rhythm<br/>RACKAMP monitoring]
-    CH18 --> BUS11[Bus 11 Lead<br/>ANGEL monitoring]
+    CH18 --> BUS10[Bus 10 Gtr Rhythm Mon<br/>FX11 RACKAMP]
+    CH18 --> BUS11[Bus 11 Gtr Lead Mon<br/>FX6 ANGEL]
 
     subgraph Recording
-        CH18 -->|Bus 8| REC[Bus 8 TAPE → Logic]
+        CH18 -->|Bus 8 Guitar Rec| REC[Bus 8 Guitar Rec<br/>FX10 TAPE → Logic]
     end
 
     subgraph Monitoring
@@ -387,17 +407,13 @@ graph TD
         BUS11 --> MAIN
     end
 
-    NOTE_E[Electric mode:<br/>unmute Bus 5, mute Bus 6]
-    NOTE_A[Acoustic mode:<br/>unmute Bus 6, mute Bus 5]
-    NOTE_C[Clean DI mode:<br/>mute Bus 5+6,<br/>enable Ch2→Bus 2 direct]
+    NOTE[Three guitar modes - switch by muting/unmuting buses.<br/>Electric: unmute Bus 5 Electric, mute Bus 6 Acoustic.<br/>Acoustic: unmute Bus 6 Acoustic, mute Bus 5 Electric.<br/>Clean DI: mute both, enable Ch2 direct send to Bus 2 Guitar Send.]
 
     style BUS5 fill:#DC143C,color:#fff
     style BUS6 fill:#DAA520,color:#fff
     style CH18 fill:#DC143C,color:#fff
     style MAIN fill:#333,color:#fff
-    style NOTE_E fill:#fee,stroke:#c33
-    style NOTE_A fill:#ffe,stroke:#aa0
-    style NOTE_C fill:#efe,stroke:#393
+    style NOTE fill:#ffe,stroke:#999
 ```
 
 ---
@@ -424,15 +440,18 @@ graph LR
     M1 -->|live only| MAIN[Main 1 / Headphones]
     M2 -->|live only| MAIN
 
-    LOGIC -->|playback| TR[Tape Return Ch25-32]
-    TR -->|Bus 10/11| M1_PLAY[Amp Sim]
-    TR -->|Bus 3| M2_PLAY[Reverb]
+    LOGIC -->|playback| TR[Tape Returns Ch25-32]
+    TR -->|Bus 10 Gtr Rhythm Mon /<br/>Bus 11 Gtr Lead Mon| M1_PLAY[Amp Sim]
+    TR -->|Bus 3 Reverb| M2_PLAY[Reverb]
     TR --> MAIN
     M1_PLAY --> MAIN
     M2_PLAY --> MAIN
 
+    NOTE[The recording is a commitment - outboard processing<br/>is baked in permanently. Amp sims and reverb are<br/>added during monitoring and playback only, giving<br/>flexibility to change them later.]
+
     style LOGIC fill:#4CAF50,color:#fff
     style MAIN fill:#333,color:#fff
+    style NOTE fill:#ffe,stroke:#999
 ```
 
 ---
@@ -462,6 +481,9 @@ flowchart TD
     FIX4 --> RECHECK
     FIX5 --> RECHECK
 
+    NOTE[Most noise issues come from Main 1 trim,<br/>idle outboard returns, or stale channel assignments.<br/>Always check Main 1 trim first - it is the<br/>most common and most damaging cause.]
+
+    style NOTE fill:#ffe,stroke:#999
     style START fill:#DC143C,color:#fff
     style FIX1 fill:#4CAF50,color:#fff
     style FIX2 fill:#4CAF50,color:#fff
@@ -492,6 +514,9 @@ flowchart TD
     Q5 -->|Yes| FIX4[Mute speakers during tracking.<br/>/mtx/1/mute i 1]
     Q5 -->|No| FIX5[Check bus sends for unintended loops.<br/>Bus 2 sending to Bus 3 can leak<br/>raw signal to Main bypassing outboard.]
 
+    NOTE[USB 3 is the most common feedback culprit.<br/>Always disable it after re-amping. White noise<br/>on all channels means Loopback is misconfigured.]
+
+    style NOTE fill:#ffe,stroke:#999
     style START fill:#DC143C,color:#fff
     style FIX1 fill:#4CAF50,color:#fff
     style FIX2 fill:#4CAF50,color:#fff
@@ -516,6 +541,9 @@ flowchart TD
     Q3 -->|Yes| FIX2[Clearing a pre-insert can<br/>reassign the FX slot to another channel.<br/>Scan all inserts after clearing.]
     Q3 -->|No| FIX3[Verify FX model is loaded.<br/>wing_get /fx/N/mdl<br/>Verify insert is enabled.<br/>wing_get /bus/N/preins/on]
 
+    NOTE[The Wing gives NO warning when an FX slot is<br/>reassigned. Always run wing_node on affected<br/>buses after any FX or insert change to verify<br/>slots are still where you expect them.]
+
+    style NOTE fill:#ffe,stroke:#999
     style START fill:#DC143C,color:#fff
     style FIX1 fill:#4CAF50,color:#fff
     style FIX2 fill:#4CAF50,color:#fff
@@ -547,10 +575,10 @@ flowchart TD
     READY -->|No| FIX[Fix issues first]
     FIX --> VERIFY
 
-    TRACK --> T1[Set Ch1 dynamics: GATE]
-    TRACK --> T2[Set Ch17 dynamics: DE-ES]
-    TRACK --> T3[Confirm Bus 7/8 receives from Ch17/Ch18]
-    TRACK --> T4[Select guitar mode: Electric / Acoustic / Clean]
+    TRACK --> T1[Set Ch1 Vocal Dry dynamics: GATE]
+    TRACK --> T2[Set Ch17 Vocal Processed dynamics: DE-ES]
+    TRACK --> T3[Confirm Bus 7 Vocal Rec / Bus 8 Guitar Rec<br/>receive from Ch17/Ch18 outboard returns]
+    TRACK --> T4[Select guitar mode:<br/>Bus 5 Electric / Bus 6 Acoustic / Clean DI]
     TRACK --> T5[Mute speakers if open mics]
 
     T1 --> GO[Tracking]
@@ -562,6 +590,9 @@ flowchart TD
     GO --> END_SESSION[End of Session]
     END_SESSION --> UPDATE[Update session-lessons.md<br/>Document what was learned]
 
+    NOTE[Every session starts by reading lessons and<br/>verifying state. Every session ends by documenting<br/>what was learned. The studio gets smarter over time.]
+
+    style NOTE fill:#ffe,stroke:#999
     style START fill:#4169E1,color:#fff
     style GO fill:#4CAF50,color:#fff
     style END_SESSION fill:#333,color:#fff
@@ -600,8 +631,8 @@ timeline
 ```mermaid
 graph LR
     subgraph Signal Levels
-        MIC[Mic / DI<br/>varies] -->|Wing preamp| CH[Channel<br/>target -18dBFS] -->|Bus send 0dB| BUS_OUT[Outboard Send<br/>Bus 1/2] -->|analog out| OB[Outboard<br/>target 0 VU]
-        OB -->|return| CH_PROC[Ch17/18<br/>fader -12dB] -->|Bus send| REC_BUS[Recording Bus<br/>Bus 7/8]
+        MIC[Mic / DI<br/>varies] -->|Wing preamp| CH[Ch1 Vocal Dry /<br/>Ch2 Guitar Dry<br/>target -18dBFS] -->|Bus send 0dB| BUS_OUT[Bus 1 Vocal Send /<br/>Bus 2 Guitar Send] -->|analog out| OB[Outboard<br/>target 0 VU]
+        OB -->|return| CH_PROC[Ch17 Vocal Processed /<br/>Ch18 Guitar Processed<br/>fader -12dB] -->|Bus send| REC_BUS[Bus 7 Vocal Rec /<br/>Bus 8 Guitar Rec]
         REC_BUS -->|USB to Logic| LOGIC[Logic<br/>-18dBFS]
         REC_BUS -->|Out 3 analog| M12[Model 12<br/>-12dB]
     end
@@ -619,16 +650,16 @@ graph LR
 ```mermaid
 graph TD
     subgraph During Tracking
-        LIVE_V[Ch17 Vocal Processed<br/>live through outboard] --> MAIN
-        LIVE_G[Ch18 Guitar Processed<br/>live through outboard] --> BUS10_11[Bus 10/11<br/>amp sim] --> MAIN
-        SP[Ch9-12 Session Players<br/>Logic bass/keys/synth/drums] --> MAIN
-        TR_TRACK[Ch25-32 Tape Returns<br/>previous takes from Logic] --> MAIN
+        LIVE_V[Ch17 Vocal Processed<br/>live through outboard A side] --> MAIN
+        LIVE_G[Ch18 Guitar Processed<br/>live through outboard B side] --> BUS10_11[Bus 10 Gtr Rhythm Mon /<br/>Bus 11 Gtr Lead Mon] --> MAIN
+        SP[Ch9 Bass / Ch10 Keyboard /<br/>Ch11 Synth / Ch12 Drums<br/>Logic session players] --> MAIN
+        TR_TRACK[Ch25-32 Tape Returns<br/>previous takes from Logic<br/>with per-track bus sends] --> MAIN
         MAIN[Main 1] --> HP[Headphones]
         MAIN --> SPK[Speakers<br/>muted with open mics]
     end
 
     subgraph During Playback Only
-        TR_PLAY[Ch25-32 Tape Returns<br/>all tracks from Logic] --> MAIN2[Main 1]
+        TR_PLAY[Ch25-32 Tape Returns<br/>all tracks from Logic<br/>with per-track bus sends] --> MAIN2[Main 1]
         SP2[Ch9-12 Session Players] --> MAIN2
         MAIN2 --> HP2[Headphones]
         MAIN2 --> SPK2[Speakers]
