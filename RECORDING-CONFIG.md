@@ -35,19 +35,26 @@ Wing channels are inherently stereo — a single channel receives an L+R pair.
 
 **Mute behavior note:** Muting a channel kills its pre-fader sends. To keep sends flowing (e.g. for monitoring a silent channel), use main assign off instead of mute.
 
+## Analog Output Routing (Wing → Patchbay → Model 12)
+
+Guitar recording uses analog output through the patchbay — no USB/MTR toggle needed.
+
+| Wing Out | Source | → Patchbay → | Model 12 Input | Purpose |
+| -------- | ------ | ------------ | -------------- | ------- |
+| Out 3    | Bus 8L (Guitar Rec, in=15) | P9 | Track 2 line in | Guitar processed + tape |
+
 ## USB Output Routing (Wing → Loopback → Model 12)
+
+Vocal still records via USB. Guitar recording is analog.
 
 | USB Out | Source                      | Model 12 Track            | Default State |
 | ------- | --------------------------- | ------------------------- | ------------- |
 | 1       | USR/1 (Bus 7L — Vocal Dry)  | Track 1 (vocal w/ tape)   | ON            |
-| 2       | USR/2 (Bus 8L — Guitar Dry) | Track 2 (guitar w/ tape)  | ON            |
 | 3       | USR/8 (Ch18 — Re-amp out)   | Track 3 (re-amp return)   | OFF — enable only during re-amping |
 | 5       | USR/6 (Bus 9L — Mic L)      | (future: condenser L)     | OFF — enable when recording condensers |
 | 6       | USR/7 (Bus 9R — Mic R)      | (future: condenser R)     | OFF — enable when recording condensers |
 
-USB 4/15/16/17/18 are not used. Only USB 1 and 2 are active by default. USB 3 is used for re-amping and must be turned OFF after re-amping to prevent feedback. USB 5/6 are available for condenser mic recording when needed. DAW instruments (Ch9-12, Logic session players) are heard directly on the Wing and are not recorded to the Model 12.
-
-Tape emulation is baked into USB 1 and 2 via the recording buses (7/8) before the USR tap.
+USB 2 is no longer used for recording (guitar is analog). Vocal still uses USB 1. DAW instruments (Ch9-12, Logic session players) are heard directly on the Wing and are not recorded to the Model 12.
 
 ## USB Input Routing (Model 12 → Loopback → Wing)
 
@@ -93,7 +100,7 @@ USR `in` values use simple bus numbering (Bus 7 = in=7, Bus 8 = in=8, Bus 9 = in
 | USR | Name              | Source | `grp` | `in` | `lr` | USB Out | Purpose                                          |
 | --- | ----------------- | ------ | ----- | ---- | ---- | ------- | ------------------------------------------------ |
 | 1   | Vocal Dry         | Bus 7  | BUS   | 7    | L    | 1       | Tape-colored vocal for recording                 |
-| 2   | Guitar Dry        | Bus 8  | BUS   | 8    | L    | 2       | Tape-colored guitar for recording                |
+| 2   | (free)            | —      | —     | —    | —    | —       | Freed — guitar recording now uses analog (Out 3 → P9) |
 | 3   | (free)            | —      | —     | —    | —    | —       | Open                                             |
 | 4   | (free)            | —      | —     | —    | —    | —       | Open                                             |
 | 5   | Gtr Acoustic DI   | Ch2    | CH    | 2    | L+R  | —       | Clean DI tap for Ch5; bypasses outboard          |
@@ -106,13 +113,13 @@ USR `in` values use simple bus numbering (Bus 7 = in=7, Bus 8 = in=8, Bus 9 = in
 | Track | Mode     | Source                                              | Format |
 | ----- | -------- | --------------------------------------------------- | ------ |
 | 1     | USB      | Vocal + TAPE (Wing USB Out 1 / USR/1 / Bus 7)       | Mono   |
-| 2     | USB      | Guitar + TAPE (Wing USB Out 2 / USR/2 / Bus 8)      | Mono   |
-| 3-6   | MTR      | Previous takes (swapped from 1/2); overdub slots. Track 3 used for re-amp return (USB 3 / USR/8 / Ch18) when re-amping. | Mono |
+| 2     | MTR      | Guitar processed + tape (Wing Out 3 → P9 → analog line in) | Mono   |
+| 3-6   | MTR      | Previous takes (moved from 1/2); overdub slots. Track 3 used for re-amp return (USB 3 / USR/8 / Ch18) when re-amping. | Mono |
 | 7/8   | MTR      | Free for overdubs / additional takes. Can be set to USB for condenser mics (USB 5/6) when needed. | Stereo |
 | 9/10  | MTR      | Free for overdubs / additional takes                | Stereo |
 | 11/12 | Internal | Model 12 main capture (always recording)            | Stereo |
 
-**Track mode rules:** Set tracks to MTR whenever not actively recording from USB — USB mode re-broadcasts signal from the Wing back into the stereo mix, creating a feedback path through Ch13. Only tracks 1 and 2 run USB by default.
+**Guitar track (Track 2) stays in MTR mode permanently** — records from analog input (Wing Out 3 → P9 → Model 12 line in). **Vocal track (Track 1) still requires USB/MTR toggle** — set to USB for recording, MTR for playback.
 
 The Model 12 internal stereo mix (tracks 11/12) routes back to the Wing via USB Stereo Out → Loopback → Wing USB In 3-4 → Ch13 (Tape Playback). This is the return path for overdub monitoring — the musician hears previous MTR takes through Ch13 on the Wing.
 
@@ -160,8 +167,8 @@ Signal flows through these four normalled points without any cables patched:
 | 6     | HA73 B Out                  | WA76 B In                      | Guitar       |
 | 7     | WA76 B Out                  | Distressor In                  | Guitar       |
 | 8     | Distressor Out              | Wing LCL In 18                 | Guitar       |
-| 9     | Wing LCL Out 3 (Bus 4L)     | Condenser Mic L                | Acoustic Mic |
-| 10    | Wing LCL Out 4 (Bus 4R)     | Condenser Mic R                | Acoustic Mic |
+| 9     | Wing Out 3 (Bus 8L)         | Model 12 Track 2 line in       | Guitar Rec   |
+| 10    | Wing Out 4 (Bus 4R)         | Condenser Mic R                | Acoustic Mic |
 | 11-22 |                             |                                | Open         |
 | 23    | Wing LCL Out 7 (MTX/1 L)    | Speakers L                     | Monitors     |
 | 24    | Wing LCL Out 8 (MTX/1 R)    | Speakers R                     | Monitors     |
@@ -173,11 +180,11 @@ Signal flows through these four normalled points without any cables patched:
 | 1   | Vocal Send   | Blue   | Wing Out 1     | 1 (Bus 1L)               | Pre-fader send from Ch1 → vocal outboard chain (P1–P4); clean signal, no TAPE |
 | 2   | Guitar Send  | Red    | Wing Out 2     | 3 (Bus 2L)               | Receives from Bus 5 + Bus 6; sends to guitar outboard chain (P5–P8); no pre-insert; clean signal |
 | 3   | Verb Return  | Green  | (Main only)    | —                        | Shared reverb bus — receives sends from Bus 1 and Bus 2; FX2 (PLATE) on pre-insert |
-| 4   | Mic Send     | —      | Wing Out 3+4   | 7/8 (Bus 4L/R)           | Stereo condenser mic send to P9 (L) + P10 (R) |
+| 4   | Mic Send     | —      | Wing Out 4     | 8 (Bus 4R)               | Condenser mic R send to P10 (R only; Out 3 reassigned to guitar recording) |
 | 5   | Electric     | Red    | → Bus 2 send   | —                        | FX6 (ANGEL) pre-insert for lead; FX1 (DELUXE) available for rhythm. Receives from Ch2; sends to Bus 2; muted by default |
 | 6   | Acoustic     | Yellow | → Bus 2 send   | —                        | FX11 (RACKAMP, clean/bright) pre-insert; receives from Ch2 + Ch6; sends to Bus 2 |
 | 7   | Vocal Rec    | Blue   | — (USR only)   | —                        | FX9 (TAPE) pre-insert; receives from Ch17 pre-fader (outboard return); feeds USR/1 → USB 1 → Model 12 |
-| 8   | Guitar Rec   | Red    | — (USR only)   | —                        | FX10 (TAPE) pre-insert; receives from Ch18 pre-fader (outboard return); feeds USR/2 → USB 2 → Model 12 |
+| 8   | Guitar Rec   | Red    | Wing Out 3     | 15 (Bus 8L)              | FX10 (TAPE) pre-insert; receives from Ch18 pre-fader (outboard return); → P9 → Model 12 Track 2 (analog) |
 | 9   | Mic Rec      | Yellow | — (USR only)   | —                        | FX3 (TAPE) pre-insert; receives from Ch6 pre-fader; feeds USR/6+7 → USB 5/6 → Model 12 (OFF by default) |
 
 Bus output `in` parameter uses stereo channel indices, not bus numbers: Bus 1L = 1, Bus 1R = 2, Bus 2L = 3, Bus 2R = 4, Bus 4L = 7, Bus 4R = 8, Bus 7L = 13, Bus 7R = 14, Bus 8L = 15, Bus 8R = 16, Bus 9L = 17, Bus 9R = 18.
@@ -208,9 +215,11 @@ Pre-inserts are assigned at `/ch/N/preins/ins` and `/bus/N/preins/ins`, enabled 
 
 **Guitar (Acoustic mode — outboard):** DI → Wing LCL/2 → Ch2 (preamp gain, no pre-insert) → Bus 6 send (pre-fader) → FX11/RACKAMP (Bus 6 pre-insert) → Bus 6 → Bus 2 send → Wing Out 2 → P5 → HA73 B → P6 → WA76 B → P7 → Distressor → P8 → Wing LCL/18 → Ch18 (Guitar Processed)
 
-**Guitar (recording — with amp sim):** Ch2 → Bus 5/6 (amp sim) → Bus 2 → outboard (HA73 B → WA76 B → Distressor) → Ch18 → Bus 8 send (pre-fader) → FX10/TAPE (Bus 8 pre-insert) → USR/2 (Bus 8L) → USB Out 2 → Loopback → Model 12 Track 2. Bus 5 or 6 unmuted, Ch2→Bus 2 send OFF.
+**Guitar (recording — with amp sim):** Ch2 → Bus 5/6 (amp sim) → Bus 2 → outboard (HA73 B → WA76 B → Distressor) → Ch18 → Bus 8 send (pre-fader) → FX10/TAPE (Bus 8 pre-insert) → Wing Out 3 → P9 → Model 12 Track 2 line in (analog). Bus 5 or 6 unmuted, Ch2→Bus 2 send OFF.
 
-**Guitar (recording — clean DI, no amp sim):** Ch2 → Bus 2 (direct send) → outboard (HA73 B → WA76 B → Distressor) → Ch18 → Bus 8 send (pre-fader) → FX10/TAPE → USR/2 → USB Out 2 → Loopback → Model 12 Track 2. Bus 5+6 muted, Ch2→Bus 2 send ON. Records outboard + tape only.
+**Guitar (recording — clean DI, no amp sim):** Ch2 → Bus 2 (direct send) → outboard (HA73 B → WA76 B → Distressor) → Ch18 → Bus 8 send (pre-fader) → FX10/TAPE → Wing Out 3 → P9 → Model 12 Track 2 line in (analog). Bus 5+6 muted, Ch2→Bus 2 send ON. Records outboard + tape only.
+
+**Guitar (playback):** Model 12 Track 2 → USB → Loopback → Wing USB In 18 → Ch15 (Guitar Playback) → Main 1 + Bus 3 (reverb). Outboard already baked in. Runs simultaneously with live tracking.
 
 **Acoustic Mic path (Ch6 unmuted — outboard):** Condensers → Wing LCL/3+4 → Ch6 (no pre-insert) → Bus 6 send → FX11/RACKAMP (Bus 6 pre-insert) → Bus 6 → Bus 2 → outboard chain
 
@@ -279,11 +288,12 @@ Calibrated settings for both chains. Do not adjust without retesting.
 
 | From                                          | To                                         | Default State |
 | --------------------------------------------- | ------------------------------------------ | ------------- |
-| Wing USB Out 1 (USR/1 — Bus 7L, Vocal+TAPE)   | Model 12 Track 1 (vocal w/ tape)           | ON            |
-| Wing USB Out 2 (USR/2 — Bus 8L, Guitar+TAPE)  | Model 12 Track 2 (guitar w/ tape)          | ON            |
+| Wing USB Out 1 (USR/1 — Bus 7L, Vocal+TAPE)  | Model 12 Track 1 (vocal processed + tape)  | ON            |
 | Wing USB Out 3 (USR/8 — Ch18, Re-amp out)     | Model 12 Track 3 (re-amp return)           | OFF           |
 | Wing USB Out 5 (USR/6 — Bus 9L, Mic L+TAPE)  | Model 12 Track 7 (condenser L w/ tape)     | OFF           |
 | Wing USB Out 6 (USR/7 — Bus 9R, Mic R+TAPE)  | Model 12 Track 8 (condenser R w/ tape)     | OFF           |
+
+Guitar recording uses analog output (Wing Out 3 → P9 → Model 12 line in).
 
 ### Model 12 → Wing (tape returns — permanent)
 
