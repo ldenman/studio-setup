@@ -4,7 +4,7 @@ graph TD
         DI[Guitar DI] --> CH2[Ch2 Guitar Dry]
     end
 
-    subgraph Vocal Outboard Chain - Patchbay P1-P4
+    subgraph Vocal Outboard - Patchbay P1-P4
         CH1 -->|Bus 1 Vocal Send<br/>pre-fader, clean| OUT1[Wing Out 1 → P1]
         OUT1 --> HA73A[HA73 A<br/>Neve EQ / Color]
         HA73A -->|P2| WA76A[WA76 A<br/>1176 Compression<br/>Atk 3, Rel 7, 4:1]
@@ -12,42 +12,33 @@ graph TD
         OPTO -->|P4| CH17[Ch17 Vocal Processed<br/>DE-ES dynamics]
     end
 
-    subgraph Guitar Amp Sim Stage
-        CH2 -->|pre-fader| BUS5[Bus 5 Electric<br/>FX6 ANGEL lead /<br/>FX1 DELUXE rhythm]
-        CH2 -->|pre-fader| BUS6[Bus 6 Acoustic<br/>FX11 RACKAMP clean]
-        BUS5 -->|send| BUS2[Bus 2 Guitar Send<br/>clean to outboard]
-        BUS6 -->|send| BUS2
-    end
-
-    subgraph Guitar Outboard Chain - Patchbay P5-P8
-        BUS2 --> OUT2[Wing Out 2 → P5]
+    subgraph Guitar Outboard - Patchbay P5-P8
+        CH2 -->|Bus 2 Guitar Send<br/>pre-fader, clean| OUT2[Wing Out 2 → P5]
         OUT2 --> HA73B[HA73 B<br/>Neve EQ / Color]
         HA73B -->|P6| WA76B[WA76 B<br/>1176 Compression<br/>Atk 5, Rel 6, 4:1]
         WA76B -->|P7| DIST[Distressor<br/>Leveling + Tape Sat<br/>4:1, Dist 2]
         DIST -->|P8| CH18[Ch18 Guitar Processed]
     end
 
-    subgraph Recording Path - to Logic
-        CH17 -->|Bus 7 Vocal Rec send<br/>pre-fader| BUS7[Bus 7 Vocal Rec<br/>FX9 TAPE]
-        CH18 -->|Bus 8 Guitar Rec send<br/>pre-fader| BUS8[Bus 8 Guitar Rec<br/>FX10 TAPE]
+    subgraph Recording - to Logic
+        CH17 -->|Bus 7 Vocal Rec<br/>pre-fader| BUS7[Bus 7 Vocal Rec<br/>FX9 TAPE]
+        CH18 -->|Bus 8 Guitar Rec<br/>pre-fader| BUS8[Bus 8 Guitar Rec<br/>FX10 TAPE]
         BUS7 -->|USB| LOGIC[Logic Pro<br/>Primary Recorder]
         BUS8 -->|USB / Out 3 analog| LOGIC
     end
 
-    subgraph Monitoring - to Main 1
-        CH17 -->|assigned to main| MAIN[Main 1<br/>Headphones / Speakers]
-        CH18 --> BUS10[Bus 10 Gtr Rhythm Mon<br/>RACKAMP]
-        CH18 --> BUS11[Bus 11 Gtr Lead Mon<br/>ANGEL]
-        BUS10 --> MAIN
-        BUS11 --> MAIN
+    subgraph Monitoring - what you hear
+        CH17 -->|direct| MAIN[Main 1<br/>Headphones / Speakers]
+        CH18 -->|Bus 10 or 11| AMP[Bus 10 Gtr Rhythm Mon RACKAMP<br/>Bus 11 Gtr Lead Mon ANGEL<br/>amp sim added post-outboard]
+        AMP --> MAIN
     end
 
     subgraph Tape Returns - Logic Playback
-        LOGIC -->|USB 17-26| TR[Ch25-32 Tape Returns<br/>per-track bus sends]
+        LOGIC -->|USB 17-26| TR[Ch25-32 Tape Returns]
         TR -->|Bus 3 Reverb| BUS3[Bus 3 Reverb<br/>FX2 PLATE]
-        TR -->|Bus 10/11 for guitar| BUS10B[Bus 10 Rhythm /<br/>Bus 11 Lead]
+        TR -->|Bus 10/11 for guitar| AMP2[Amp Sim<br/>same monitoring buses]
         BUS3 --> MAIN
-        BUS10B --> MAIN
+        AMP2 --> MAIN
         TR -->|direct| MAIN
     end
 
@@ -55,7 +46,7 @@ graph TD
         SP[Logic Session Players<br/>Bass, Keys, Synth, Drums] -->|USB 9-16| CH9[Ch9-12] --> MAIN
     end
 
-    NOTE[Recording captures: gate + outboard + de-esser + tape.<br/>Monitoring adds: amp sim + reverb.<br/>Tape returns play back through the same FX buses.<br/>All paths run simultaneously - no mode switching.]
+    NOTE[Recording = outboard + tape only. No amp sim baked in.<br/>Monitoring = amp sim added on top, post-outboard.<br/>Playback = tape returns through same amp sim + reverb buses.<br/>All paths run simultaneously.]
 
     style CH1 fill:#4169E1,color:#fff
     style CH17 fill:#4169E1,color:#fff
@@ -69,12 +60,8 @@ graph TD
     style HA73B fill:#DC143C,color:#fff
     style WA76B fill:#DC143C,color:#fff
     style DIST fill:#DC143C,color:#fff
-    style BUS5 fill:#DC143C,color:#fff
-    style BUS6 fill:#DAA520,color:#fff
-    style BUS2 fill:#DC143C,color:#fff
-    style BUS10 fill:#DC143C,color:#fff
-    style BUS11 fill:#DC143C,color:#fff
-    style BUS10B fill:#DC143C,color:#fff
+    style AMP fill:#DC143C,color:#fff
+    style AMP2 fill:#DC143C,color:#fff
     style BUS3 fill:#228B22,color:#fff
     style LOGIC fill:#4CAF50,color:#fff
     style MAIN fill:#333,color:#fff
