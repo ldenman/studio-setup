@@ -28,18 +28,20 @@ Individual recorded tracks return from Logic to dedicated Wing channels (Ch25-32
 ### Mixing
 The Tascam Model 12 is the **analog mixing console**. Logic plays back all tracks through the Wing, the Wing adds FX (amp sims, reverb, outboard), and sends processed stems to the Model 12 for hands-on mixing with real faders, EQ, and compression.
 
-**Signal flow:** Logic → Wing Ch25-32 (tape returns with FX) + Ch9-12 (session players) → Wing USB outputs → Model 12 channels → Model 12 faders/EQ/compression → stereo mixdown on tracks 11/12.
+**Signal flow:** Logic → Wing Ch25-32 (tape returns with FX) + Ch9-12 (session players) → Wing matrices (MX2-MX8) → USB outputs 33-42 → Loopback → Model 12 channels → Model 12 faders/EQ/compression → stereo mixdown on tracks 11/12.
 
 **Model 12 channel assignments (mixing phase):**
 
 | Model 12 Ch | Source | Content |
 |---|---|---|
-| 1 | Wing → vocal tape return + reverb | Processed vocal |
-| 2 | Wing → guitar tape return + amp sim + reverb | Processed guitar |
-| 3-6 | Wing → additional overdub tape returns | As needed per project |
-| 5/6 | Wing → bass + keys from Logic | Session players |
-| 7/8 | Wing → synth + drums from Logic | Session players |
-| 9/10 | Wing → stereo room/ambient or additional stems | As needed |
+| 1 | MX2 (Wing) | Vocal — tape return with outboard baked in |
+| 2 | MX3 (Wing) | Rhythm guitar — tape return through RACKAMP amp sim |
+| 3 | MX4 (Wing) | Lead guitar — tape return through ANGEL amp sim |
+| 4 | MX5 (Wing) | Overdub — as needed per project |
+| 5 | MX6 (Wing) | Bass — Logic session player |
+| 6 | AUX 1 tape return | Tape saturation — parallel tape bus via Wing TAPE + TAPE-DL |
+| 7/8 | MX7 (Wing) | Drums stereo — Logic session player |
+| 9/10 | MX8 (Wing) | Piano/Synth stereo — Logic session player |
 | 11/12 | Internal | Automatic stereo mixdown capture |
 
 **Why this works:**
@@ -48,6 +50,7 @@ The Tascam Model 12 is the **analog mixing console**. Logic plays back all track
 - Tracks 11/12 automatically capture every mix pass — instant rough bounce
 - Takes are handled by Logic. Find a better take? Swap it in Logic, run the mix again.
 - A/B different mixes by just moving faders — mixing becomes a performance
+- AUX 1 sends selected channels through Wing tape saturation — per-channel control with a real knob, returns on Ch 6
 
 **Monitoring the mix:** The Model 12's stereo main mix returns to the Wing via USB (Loopback → USB In 3-4 → Ch7 Model 12 Mix). Solo Ch7 to hear only the Model 12 mix through the Wing's headphones and speakers. One button — no cable swapping between tracking and mixing. The Wing is always the monitoring hub.
 
@@ -296,8 +299,8 @@ The Model 12 is used during the mixing phase, not during tracking. Two modes:
 
 | From                                                       | To                         | Default State |
 | ---------------------------------------------------------- | -------------------------- | ------------- |
-| Wing USB Out (Bus 7 — Vocal + TAPE)                        | Logic (vocal track)        | ON            |
-| Wing USB Out (Bus 8 — Guitar + TAPE)                       | Logic (guitar track)       | ON            |
+| Wing USB Out (Bus 7 — Vocal, outboard only)                        | Logic (vocal track)        | ON            |
+| Wing USB Out (Bus 8 — Guitar, outboard only)                       | Logic (guitar track)       | ON            |
 
 **Logic → Wing (Tape Returns / Playback)**
 
@@ -319,6 +322,21 @@ The Model 12 is used during the mixing phase, not during tracking. Two modes:
 | Logic Drums                                                | Wing USB 15-16 → Ch12                      | ON            |
 
 Logic is the primary multi-track recorder. All recorded tracks return to dedicated Wing channels (Ch25-32) for playback with per-track FX.
+
+**Wing → Model 12 (Mixing)**
+
+| From | To | Default State |
+|---|---|---|
+| Wing USB 33 (MX2 Mix Vocal) | Model 12 Ch 1 (USB) | ON |
+| Wing USB 34 (MX3 Mix Rhythm) | Model 12 Ch 2 (USB) | ON |
+| Wing USB 35 (MX4 Mix Lead) | Model 12 Ch 3 (USB) | ON |
+| Wing USB 36 (MX5 Mix Overdub) | Model 12 Ch 4 (USB) | ON |
+| Wing USB 37 (MX6 Mix Bass) | Model 12 Ch 5 (USB) | ON |
+| Wing USB 38 (USR/3 Tape Return) | Model 12 Ch 6 (USB) | ON |
+| Wing USB 39-40 (MX7 Mix Drums) | Model 12 Ch 7/8 (USB) | ON |
+| Wing USB 41-42 (MX8 Mix Piano) | Model 12 Ch 9/10 (USB) | ON |
+
+Model 12 AUX 1 Out connects directly to Wing LCL 3 via TRS→XLR cable (not through Loopback). This is the tape saturation send for the parallel tape bus on Ch33.
 
 ---
 
@@ -353,7 +371,7 @@ Single-channel compressor. In the default guitar chain (P7-P8, after the WA76 B)
 LA-2A clone. Optical compressor. Smooth, musical compression. In the default vocal chain (P3-P4, after the WA76 A). Great for vocals and bass guitar.
 
 ### Tascam Model 12
-Mixing console and DAW controller. During the mixing phase, operates as a physical control surface for Logic (Mackie Control over USB) or as a standalone analog mixer. 12 channels with EQ, compression, and 2 aux sends. Not used for recording — Logic Pro is the primary recorder.
+Mixing console and DAW controller. During the mixing phase, operates as a physical control surface for Logic (Mackie Control over USB) or as a standalone analog mixer. 12 channels with EQ, compression, and 2 aux sends. AUX 1 is used for tape saturation send (returns to Wing for parallel tape processing). Not used for recording — Logic Pro is the primary recorder.
 
 ### Behringer Wing Rack (Creative Uses)
 Beyond mixing: snapshots for song recall, built-in FX for sound design, channel strip emulations (Neve, SSL, Vintage), guitar amp sims, OSC automation.

@@ -84,3 +84,43 @@ Lessons learned during studio sessions. Updated after each session.
 ### Model 12 Limitations (Discovered Late)
 - USB output is 12-in/10-out: sends 10 analog inputs to computer + stereo main mix (11/12). Individual MTR playback tracks do NOT output over USB.
 - This forced the move to Logic as primary recorder with individual track returns.
+
+---
+
+## 2026-03-28 — Model 12 Mixing + Mix Matrices + Tape Aux Loop
+
+### Architecture Changes
+- Logic is now primary recorder; Model 12 is analog mixing console
+- Wing matrices (MX2-MX8) serve as permanent mix buses → USB outputs → Loopback → Model 12 channels
+- Tape saturation moved from recording buses to mixing phase via Model 12 AUX 1 send/return loop
+- All TAPE FX removed from recording buses (7/8/9) — Logic records clean outboard signal only
+- Wing Out 3 repurposed from guitar analog recording to tape return (USR/3)
+- Ch7 (Model 12 Mix) set up on USB 3/4 for monitoring Model 12 stereo output
+
+### Routing Lessons
+- USB input numbering for stereo channels: `in=2` is USB 1/2 (not 3/4). For USB 3/4 in stereo mode, use `in=3`
+- Wing USB outputs do NOT support `grp=CH` — use USR as intermediary (route channel → USR tap → USB out from USR)
+- Wing physical outputs (LCL) also reject `grp=CH` for high channel numbers — use USR group instead
+- USR PRE tap captures before post-inserts. Must use POST tap to capture both pre-insert and post-insert effects
+- When repurposing LCL inputs from mic to line level: ALWAYS check phantom power (vph) and gain (g). LCL/3 had phantom ON and 37.5dB gain from condenser use — caused massive noise floor on line level input. Fix: vph=0, g=0 (or appropriate line level gain)
+
+### Tape Saturation via AUX 1 Loop
+- Model 12 AUX 1 Out (pre-fader) → Wing LCL 3 → Ch33 (TAPE + TAPE-DL) → USR/3 (POST tap) → USB 38 → Model 12 Ch 6
+- AUX 1 is a parallel send — dry signal and tape return coexist. Phase/latency from the digital round-trip is audible on percussive material (drums) but acceptable on sustained sources (guitar, vocals, bass)
+- Do NOT send drums to tape via AUX 1 — transients expose the round-trip latency as slapback
+- AUX 2 on Model 12 is internally normalled to built-in FX (reverb). Plugging into AUX 2 Out breaks this connection — use AUX 1 for external sends
+
+### Monitoring
+- Buses on Wing Main leak through even when Ch7 (Model 12 Mix) is solo'd — buses ignore channel solo
+- Took all buses off Main except during tracking. During mixing, only Ch7 needs to be on Main
+- FX16 slot would not load effects — possible DSP limit on the Wing Rack when many FX are active
+
+### FX Slot Usage (end of session)
+- FX1: DELUXE (Bus 5 pre-insert, muted)
+- FX2: PLATE (Bus 3 pre-insert)
+- FX6: TAPE-DL (Ch33 post-insert — tape aux loop flutter)
+- FX7: RACKAMP (Bus 10 pre-insert — rhythm monitor)
+- FX11: RACKAMP (Bus 6 pre-insert — acoustic, bypassed)
+- FX12: ANGEL (Bus 11 pre-insert — lead monitor)
+- FX13: TAPE (Ch33 pre-insert — tape aux loop saturation)
+- All others: NONE (freed during session)
