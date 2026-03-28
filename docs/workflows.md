@@ -83,6 +83,15 @@ Route individual stems through the Wing's outboard chains before they hit the Mo
 - Vocal stem → Bus 1 Vocal Send → outboard A side (HA73 A → WA76 A → Opto) → Ch17 → Model 12
 - Guitar stem → Bus 2 Guitar Send → outboard B side (HA73 B → WA76 B → Distressor) → Ch18 → Model 12
 
+**Monitoring the Model 12 mix:**
+The Model 12 stereo main mix returns to the Wing via USB (Loopback → USB In 3-4 → Ch7 Model 12 Mix). Solo Ch7 to hear only the Model 12 mix:
+- OSC: `/ch/7/$solo i 1` (solo on), `/ch/7/$solo i 0` (solo off)
+- Or press the solo button on Ch7's strip on the Wing
+
+Speakers work with solo because MX1 sources from MON.PH (monitor phones output), which switches to the solo bus automatically. No cable swapping — the Wing is always the monitoring hub for both tracking and mixing.
+
+**One-button shortcut:** The Wing has 4 GPIO ports with user-assignable buttons (1/4" TRS jacks on the back panel). A simple momentary footswitch or desktop button plugged into GPIO 1 can be configured to toggle Ch7 solo. Set up via `/$CTL/USER/GPIO/1/BU/1` to assign the solo toggle action. One physical button to switch between full monitoring and Model 12 mix only.
+
 **Tips:**
 - The Model 12's built-in compressors and EQ add their own character — use them
 - Don't overthink it — move faders, listen, commit

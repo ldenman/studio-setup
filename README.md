@@ -49,6 +49,8 @@ The Tascam Model 12 is the **analog mixing console**. Logic plays back all track
 - Takes are handled by Logic. Find a better take? Swap it in Logic, run the mix again.
 - A/B different mixes by just moving faders — mixing becomes a performance
 
+**Monitoring the mix:** The Model 12's stereo main mix returns to the Wing via USB (Loopback → USB In 3-4 → Ch7 Model 12 Mix). Solo Ch7 to hear only the Model 12 mix through the Wing's headphones and speakers. One button — no cable swapping between tracking and mixing. The Wing is always the monitoring hub.
+
 The Wing Rack and outboard gear are also available during mixing — individual stems can be sent through the outboard chains via the patchbay for analog processing before hitting the Model 12.
 
 ### Mastering
