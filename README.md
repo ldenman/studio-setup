@@ -26,11 +26,30 @@ The Wing Rack handles all monitoring with low latency effects. Recording capture
 Individual recorded tracks return from Logic to dedicated Wing channels (Ch25-32) for playback with per-track FX (reverb, amp sims). Tape returns and live inputs run simultaneously — no mode switching.
 
 ### Mixing
-The Tascam Model 12 serves as a **mixing device** during the mixing phase. It can operate as:
-- **DAW controller** for Logic Pro — physical faders, transport controls, and mute/solo buttons controlling Logic's mixer
-- **Standalone mixer** — for hands-on mixing with its own faders, EQ, and compression, receiving audio from Logic or the Wing
+The Tascam Model 12 is the **analog mixing console**. Logic plays back all tracks through the Wing, the Wing adds FX (amp sims, reverb, outboard), and sends processed stems to the Model 12 for hands-on mixing with real faders, EQ, and compression.
 
-The Wing Rack and outboard gear are also available during mixing — tracks can be sent through the outboard chains via the patchbay for analog processing.
+**Signal flow:** Logic → Wing Ch25-32 (tape returns with FX) + Ch9-12 (session players) → Wing USB outputs → Model 12 channels → Model 12 faders/EQ/compression → stereo mixdown on tracks 11/12.
+
+**Model 12 channel assignments (mixing phase):**
+
+| Model 12 Ch | Source | Content |
+|---|---|---|
+| 1 | Wing → vocal tape return + reverb | Processed vocal |
+| 2 | Wing → guitar tape return + amp sim + reverb | Processed guitar |
+| 3-6 | Wing → additional overdub tape returns | As needed per project |
+| 5/6 | Wing → bass + keys from Logic | Session players |
+| 7/8 | Wing → synth + drums from Logic | Session players |
+| 9/10 | Wing → stereo room/ambient or additional stems | As needed |
+| 11/12 | Internal | Automatic stereo mixdown capture |
+
+**Why this works:**
+- Real faders, real EQ, real compression — not a mouse
+- The Model 12's built-in processing adds its own analog character
+- Tracks 11/12 automatically capture every mix pass — instant rough bounce
+- Takes are handled by Logic. Find a better take? Swap it in Logic, run the mix again.
+- A/B different mixes by just moving faders — mixing becomes a performance
+
+The Wing Rack and outboard gear are also available during mixing — individual stems can be sent through the outboard chains via the patchbay for analog processing before hitting the Model 12.
 
 ### Mastering
 This section is still to be determined. However, the WA76-D2 and the HA73-EQX2 can be used for master bus compression and EQ.
