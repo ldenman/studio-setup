@@ -113,32 +113,21 @@ import Base from '../layouts/Base.astro';
       // OFF=90, 50≈120, 55≈150, 60≈170, 65≈195, 70≈220, 75≈248,
       // -80≈278, 30≈305, 35≈330, 40≈352, 45≈18 (past 0/360)
 
-      // From the photo: OFF at bottom center.
-      // Going COUNTERCLOCKWISE (right side up): 30, 35, 40, 45, 50 → OFF
-      // Going CLOCKWISE (left side up): 55, 60, 65, 70, 75 → -80 at top
-      // So the full sequence counterclockwise from OFF:
-      // OFF → 30 → 35 → 40 → 45 → 50 (right side, going up)
-      // then continues: 55 → 60 → 65 → 70 → 75 → -80 (left side, going up)
-      //
-      // In SVG: counterclockwise = DECREASING angle
-      // OFF at 90° (bottom), going counterclockwise (decreasing):
-      // 30 at ~60°, 35 at ~33°, 40 at ~5°, 45 at ~337°, 50 at ~310°...
-      // ...continuing: 55 at ~280°, 60 at ~253°, 65 at ~225°, 70 at ~198°,
-      // 75 at ~170°, -80 at ~143°
-      //
-      // Sweep: 295° counterclockwise from 90° to ~(90-295)=~155°
-      const numLabels = ['OFF','30','35','40','45','50','55','60','65','70','75','-80'];
+      // Photo: OFF at 6:00. Clockwise: 50, 55, 60, 65, 70, 75, -80 (reaching top),
+      // then 30, 35, 40, 45 coming back down the right side toward OFF.
+      // SVG clockwise = increasing angle. OFF=90°, going clockwise to 385° (=25°).
+      const numLabels = ['OFF','50','55','60','65','70','75','-80','30','35','40','45'];
       const sweepTotal = 295;
       const gainPositions = numLabels.map((label, i) => ({
         label,
-        deg: 90 - (i / (numLabels.length - 1)) * sweepTotal
+        deg: 90 + (i / (numLabels.length - 1)) * sweepTotal
       }));
 
       // ── WHITE DOTS between positions ──
       const dotCount = 48;
       for (let i = 0; i <= dotCount; i++) {
         const t = i / dotCount;
-        const deg = 90 - t * sweepTotal; // counterclockwise
+        const deg = 90 + t * sweepTotal; // clockwise
         const a = deg * Math.PI / 180;
         // Larger dot at number positions (every 4th)
         const isNum = i % 4 === 0;
@@ -171,8 +160,8 @@ import Base from '../layouts/Base.astro';
       // Subtle sheen
       s += `<ellipse cx="${cx - 3}" cy="${cy - 3}" rx="${r * 0.3}" ry="${r * 0.2}" fill="#aa3333" opacity="0.12"/>`;
 
-      // ── WHITE POINTER LINE ── at 35 position (index 2)
-      const deg35 = 90 - (2 / (numLabels.length - 1)) * sweepTotal;
+      // ── WHITE POINTER LINE ── at 35 position (index 9 in the clockwise order)
+      const deg35 = 90 + (9 / (numLabels.length - 1)) * sweepTotal;
       const pa35 = deg35 * Math.PI / 180;
       const pxI = cx + Math.cos(pa35) * 4;
       const pyI = cy + Math.sin(pa35) * 4;
