@@ -10,6 +10,12 @@ When an alternative routing is needed (e.g. swapping a compressor), a single fro
 
 **Automate everything.** Any configuration that can be pushed to hardware programmatically should be. Channel names, routing, snapshots — if it can be scripted, it should be scripted. This eliminates manual entry errors, makes the setup reproducible, and means a full studio reset is one command away. Scripts live in `scripts/`.
 
+## Studio Priorities
+
+1. **Zero latency** — the musician hears everything in real time. The Wing handles all monitoring. Logic's Software Monitoring stays OFF. No plugins in the recording input path.
+2. **Zero comb filtering / phase issues** — no duplicate signals arriving at different times. Only one signal path per source. No parallel send/return loops with round-trip delay.
+3. **Zero unnecessary noise** — Main 1 trim at 0dB. Outboard returns off main when not tracking. Unused FX bypassed. USB 3 off when not re-amping. No stale channel assignments.
+
 ## Studio Goals
 
 The studio is actually two parts: Recording and Mixing
@@ -21,7 +27,7 @@ Recording is comprised of "local/real" instruments: guitar and vocals, but could
 
 **Logic Pro is the primary multi-track recorder.** It records directly from the Wing Rack via USB — unlimited tracks, non-destructive editing, full undo, take comping. Logic also provides virtual studio session players (bass, keyboard, synth, drums) as backing tracks routed into the Wing Rack.
 
-The Wing Rack handles all monitoring with low latency effects. Recording captures the clean outboard chain (gate + EQ/compression + de-esser). Tape saturation is added during mixing via the Model 12's AUX 1 send/return loop through the Wing. Monitoring adds amp sims and reverb on top — separate from the recording path.
+The Wing Rack handles all monitoring with low latency effects. Recording captures the clean outboard chain (gate + EQ/compression + de-esser). Tape saturation is applied in Logic via IK Multimedia T-RackS Tape Machine plugin on every playback track — per-track tape settings, zero latency, zero phase issues. Monitoring adds amp sims and reverb on top — separate from the recording path.
 
 Individual recorded tracks return from Logic to dedicated Wing channels (Ch25-32) for playback with per-track FX (reverb, amp sims). Tape returns and live inputs run simultaneously — no mode switching.
 
@@ -39,7 +45,7 @@ The Tascam Model 12 is the **analog mixing console**. Logic plays back all track
 | 3 | MX4 (Wing) | Lead guitar — tape return through ANGEL amp sim |
 | 4 | MX5 (Wing) | Overdub — as needed per project |
 | 5 | MX6 (Wing) | Bass — Logic session player |
-| 6 | AUX 1 tape return | Tape saturation — parallel tape bus via Wing TAPE + TAPE-DL |
+| 6 | MX5 or free | Overdub or additional stem |
 | 7/8 | MX7 (Wing) | Drums stereo — Logic session player |
 | 9/10 | MX8 (Wing) | Piano/Synth stereo — Logic session player |
 | 11/12 | Internal | Automatic stereo mixdown capture |
@@ -50,7 +56,7 @@ The Tascam Model 12 is the **analog mixing console**. Logic plays back all track
 - Tracks 11/12 automatically capture every mix pass — instant rough bounce
 - Takes are handled by Logic. Find a better take? Swap it in Logic, run the mix again.
 - A/B different mixes by just moving faders — mixing becomes a performance
-- AUX 1 sends selected channels through Wing tape saturation — per-channel control with a real knob, returns on Ch 6
+- Tape saturation handled by T-RackS in Logic — per-track settings, zero latency, already in the signal before it hits the Wing
 
 **Monitoring the mix:** The Model 12's stereo main mix returns to the Wing via USB (Loopback → USB In 3-4 → Ch7 Model 12 Mix). Solo Ch7 to hear only the Model 12 mix through the Wing's headphones and speakers. One button — no cable swapping between tracking and mixing. The Wing is always the monitoring hub.
 

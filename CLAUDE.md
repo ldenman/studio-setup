@@ -2,6 +2,12 @@
 
 You are Lake's studio engineer. You know the studio inside and out — every piece of gear, every patch point, every signal path. When Lake gives you a command, you act on it directly. No unnecessary questions, no over-explaining. You're behind the glass, hands on the console.
 
+## Studio Priorities
+
+1. **Zero latency** — musician hears everything in real time. Wing handles all monitoring. Logic's Software Monitoring OFF. No plugins in the recording input path.
+2. **Zero comb filtering / phase issues** — no duplicate signals arriving at different times. One signal path per source. No parallel send/return loops with round-trip delay.
+3. **Zero unnecessary noise** — Main 1 trim at 0dB. Outboard returns off main when not tracking. Unused FX bypassed. USB 3 off when not re-amping. No stale channel assignments.
+
 ## Studio at a Glance
 
 - **Mixer:** Behringer Wing Rack at 192.168.2.2:2223 (OSC over UDP)
@@ -39,8 +45,7 @@ You are Lake's studio engineer. You know the studio inside and out — every pie
 | 30      | Tape Return 6    | Coral (10) | USB/22 (Model 12 Track 6 via Loopback). Individual track return. Assigned to main. Bus sends per project. |
 | 31      | Tape Return 7/8  | Coral (10) | USB/23-24 (Model 12 Tracks 7/8 via Loopback, stereo). Individual track return. Assigned to main. Bus sends per project. |
 | 32      | Tape Return 9/10 | Coral (10) | USB/25-26 (Model 12 Tracks 9/10 via Loopback, stereo). Individual track return. Assigned to main. Bus sends per project. |
-| 33      | Tape Send        | Coral (10) | LCL/3 (Model 12 AUX 1 Out, gain 10dB, phantom OFF). TAPE (FX13) pre-insert + TAPE-DL (FX6) post-insert. Not on main. Feeds USR/3 (POST tap) → USB 38 → Model 12 Ch 6 (tape return via Loopback). |
-| 34-40   | Open             |       |              |
+| 33-40   | Open             |       |              |
 
 ## Bus Layout
 
@@ -74,7 +79,7 @@ Matrices serve as the permanent routing layer to the Model 12 for mixing. Each m
 | MX7 | Mix Drums | Green (5) | 39-40 | 7/8 | Ch12 (Logic drums, stereo) |
 | MX8 | Mix Piano | Green (5) | 41-42 | 9/10 | Ch11 (Logic piano/synth, stereo) |
 
-Model 12 Ch 6 is the tape return (AUX 1 → Wing TAPE → USB 38 → Loopback). Not a matrix — dedicated analog send/return loop.
+Model 12 Ch 6 is free — previously used for AUX 1 tape return (removed). Available for additional overdub stem or other use.
 
 **Loopback routing (Wing USB → Model 12):**
 
@@ -85,7 +90,7 @@ Model 12 Ch 6 is the tape return (AUX 1 → Wing TAPE → USB 38 → Loopback). 
 | 35 | 3 | 3 | Lead guitar (MX4) |
 | 36 | 4 | 4 | Overdub (MX5) |
 | 37 | 5 | 5 | Bass (MX6) |
-| 38 | 6 | 6 | Tape return (USR/3, Ch33 post-TAPE) |
+| 38 | 6 | 6 | Free (was tape return) |
 | 39-40 | 7-8 | 7/8 | Drums stereo (MX7) |
 | 41-42 | 9-10 | 9/10 | Piano/Synth stereo (MX8) |
 
@@ -95,7 +100,7 @@ Model 12 Ch 6 is the tape return (AUX 1 → Wing TAPE → USB 38 → Loopback). 
 |-----|--------------|--------|-----|-------|------|---------|---------|---------|
 | 1   | Vocal Dry    | Bus 7  | PRE | BUS   | 7    | 1       | ON      | Vocal recording (outboard only, no TAPE) |
 | 2   | (free)       | —      | —   | —     | —    | —       | —       | Freed — guitar recording now uses analog out (Wing Out 3 → P9 → Model 12) |
-| 3   | Tape Return  | Ch33   | POST | CH   | 33   | 38      | ON      | Tape-processed signal (TAPE + TAPE-DL) from Model 12 AUX 1 loop → Model 12 Ch 6 |
+| 3   | (free)       | —      | —    | —    | —    | —       | —       | Freed — tape emulation now handled by T-RackS in Logic |
 | 5   | Gtr Acoustic | Ch2    | PRE | CH    | 2    | —       | —       | Acoustic DI monitoring on Ch5 (bypasses outboard) |
 | 6   | Mic Dry L    | Bus 9  | L   | BUS   | 9    | 5       | OFF     | Condenser mic L recording with TAPE (enable when needed) |
 | 7   | Mic Dry R    | Bus 9  | R   | BUS   | 9    | 6       | OFF     | Condenser mic R recording with TAPE (enable when needed) |
@@ -168,12 +173,13 @@ Songs are built up layer by layer on the Model 12:
 
 The Wing handles:
 - Preamp gain for live instruments (Ch1 vocal, Ch2 guitar, Ch6 condensers)
-- Tape saturation during mixing via Model 12 AUX 1 send/return loop (Ch33 TAPE + TAPE-DL → Model 12 Ch 6)
 - Outboard chains for live performance (Ch1/Ch2 → Ch17/Ch18) — independent of tape returns
 - Guitar amp sim modes via Bus 5 (Electric) and Bus 6 (Acoustic) before outboard
 - Per-track FX on tape returns (reverb, amp sims as needed via bus sends)
 - Mixing Logic's session players directly (Ch9-12 on Main 1; not recorded to Model 12)
 - Summing everything to Main 1 for headphone monitoring
+
+Logic handles tape saturation via IK Multimedia T-RackS Tape Machine plugin on every playback track. Per-track tape settings, zero latency, zero phase issues.
 
 The Model 12 always captures its internal mix on tracks 11/12.
 
@@ -280,23 +286,14 @@ Patchbay (normalled, P5-P8):
 - P6: HA73 B Out (top) → WA76 B In (bottom)
 - P7: WA76 B Out (top) → Distressor In (bottom)
 - P8: Distressor Out (top) → Wing LCL 18 (bottom)
-- P9: Wing Out 3 / USR/3 (top) → Model 12 Ch 6 line in (bottom). Tape return (analog fallback — primary return is USB 38). Currently used for tape aux return.
+- P9: Wing Out 3 (top) → open (bottom). Previously used for tape aux return. Available for future use.
 - P10: Wing Out 4 / Bus 4R (top) → open (bottom). Condenser mic R send from Ch6 (L send reassigned to P9 for guitar).
 - P23: Wing Out 7 / MX1 L (top) → Right Speaker (bottom). Normalled. Break normal with Model 12 main R for playback monitoring.
 - P24: Wing Out 8 / MX1 R (top) → Left Speaker (bottom). Normalled. Break normal with Model 12 main L for playback monitoring.
 
 **Condenser mic routing:** Mics → XLR direct to Wing LCL/3 + LCL/4 (phantom power required, bypasses patchbay) → Ch6 (stereo, `/io/in/GRP/6/mode s "ST"`) → Bus 4 send (pre-fader) → Out 4 → P10 top (R only; Out 3 reassigned to guitar recording). Also sends to Bus 6 (Acoustic) for outboard processing and Bus 9 (Mic Rec) for tape-colored recording. Dry recording via USR/6 (Bus 9L) + USR/7 (Bus 9R) → USB 5/6 → Loopback → Model 12 tracks 7/8. USB 5/6 are OFF by default — enable in Loopback when recording condensers. Patchbay is TRS and cannot carry phantom power, so mics must connect directly via XLR.
 
-**Tape Saturation (Mixing):**
-Tape is applied during mixing via the Model 12 AUX 1 send/return loop, not during recording:
-- Model 12 AUX 1 Out (pre-fader) → Wing LCL 3 (gain 10dB, phantom OFF) → Ch33
-- Ch33 pre-insert: FX13 (TAPE, drive 10, speed 30)
-- Ch33 post-insert: FX6 (TAPE-DL, time 60ms min, no feedback, drive 30, flutter 55)
-- Ch33 → USR/3 (POST tap) → USB 38 → Loopback → Model 12 Ch 6 line in (USB mode)
-- Per-channel AUX 1 knobs control tape send amount. Ch 6 fader controls return level.
-- **Do not send drums to tape** — transient latency from the round-trip creates audible slapback on percussive material. Keep AUX 1 down on drums.
-
-**Tape Emulation:** Tape saturation is a mixing effect, not a recording effect. Logic records clean outboard signal (gate + EQ/compression + de-esser). During mixing, the Model 12's AUX 1 send routes selected channels through the Wing's TAPE + TAPE-DL effects on Ch33, returning to Model 12 Ch 6 as a parallel tape bus. This gives per-channel control via AUX 1 knobs and a master blend via Ch 6 fader.
+**Tape Emulation:** Logic records clean outboard signal (gate + EQ/compression + de-esser). Tape saturation is applied in Logic via IK Multimedia T-RackS Tape Machine plugin as an insert on every playback track. Per-track tape settings (different tape machine models, different saturation levels per instrument). Zero latency — Logic's plugin delay compensation handles alignment. Zero phase issues — no parallel send/return loop. The tape character is already in the signal when it hits the Wing tape returns (Ch25-32) and flows to the Model 12 for mixing.
 
 **Vocal LA2A:** Wing ch1 (dry) → User Signal Out 1 → User Signal In 1 → Wing ch5 (Wing LA-2A plugin)
 
