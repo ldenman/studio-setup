@@ -113,29 +113,39 @@ import Base from '../layouts/Base.astro';
       // OFF=90, 50≈120, 55≈150, 60≈170, 65≈195, 70≈220, 75≈248,
       // -80≈278, 30≈305, 35≈330, 40≈352, 45≈18 (past 0/360)
 
-      // Photo: OFF at 6:00. Right side top-to-bottom: 30,35,40,45,50.
-      // Left side bottom-to-top: 55,60,65,70,75. Top: -80.
-      // Clockwise from OFF (going LEFT and UP):
-      // OFF → 55 → 60 → 65 → 70 → 75 → -80 → 30 → 35 → 40 → 45 → 50
-      const numLabels = ['OFF','55','60','65','70','75','-80','30','35','40','45','50'];
-      const sweepTotal = 295;
-      const gainPositions = numLabels.map((label, i) => ({
-        label,
-        deg: 90 + (i / (numLabels.length - 1)) * sweepTotal
-      }));
+      // Explicit clock positions from the photo:
+      // OFF=6:00, 55=7:00, 60=8:00, 65=9:00, 70=10:00, 75=11:00,
+      // -80=12:00, 30=1:00, 35=2:00, 40=3:00, 45=4:00, 50=5:00
+      // SVG: 0°=3:00, 90°=6:00, 180°=9:00, 270°=12:00
+      const gainPositions: {label:string, deg:number}[] = [
+        {label:'OFF', deg:90},   // 6:00
+        {label:'55',  deg:120},  // 7:00
+        {label:'60',  deg:150},  // 8:00
+        {label:'65',  deg:180},  // 9:00
+        {label:'70',  deg:210},  // 10:00
+        {label:'75',  deg:240},  // 11:00
+        {label:'-80', deg:270},  // 12:00 (dead top)
+        {label:'30',  deg:300},  // 1:00
+        {label:'35',  deg:330},  // 2:00
+        {label:'40',  deg:360},  // 3:00
+        {label:'45',  deg:390},  // 4:00 (=30°)
+        {label:'50',  deg:420},  // 5:00 (=60°)
+      ];
+      const sweepTotal = 330; // 90° to 420°
 
-      // ── WHITE DOTS between positions ──
-      const dotCount = 48;
-      for (let i = 0; i <= dotCount; i++) {
-        const t = i / dotCount;
-        const deg = 90 + t * sweepTotal; // clockwise
-        const a = deg * Math.PI / 180;
-        // Larger dot at number positions (every 4th)
-        const isNum = i % 4 === 0;
-        const dotSize = isNum ? 2.2 : 1;
-        const dr = r + 9;
-        s += `<circle cx="${cx + Math.cos(a) * dr}" cy="${cy + Math.sin(a) * dr}" r="${dotSize}" fill="#ffffff"/>`;
-      }
+      // ── WHITE DOTS ── large dot at each number, single small dot between each pair
+      const dr = r + 9;
+      gainPositions.forEach((pos, i) => {
+        const a = pos.deg * Math.PI / 180;
+        // Large dot at number position
+        s += `<circle cx="${cx + Math.cos(a) * dr}" cy="${cy + Math.sin(a) * dr}" r="2.2" fill="#ffffff"/>`;
+        // Small dot halfway to next number (except after last)
+        if (i < gainPositions.length - 1) {
+          const midDeg = (pos.deg + gainPositions[i + 1].deg) / 2;
+          const ma = midDeg * Math.PI / 180;
+          s += `<circle cx="${cx + Math.cos(ma) * dr}" cy="${cy + Math.sin(ma) * dr}" r="2" fill="#ffffff"/>`;
+        }
+      });
 
       // ── NUMBER LABELS ──
       const numR = r + 22;
@@ -161,8 +171,8 @@ import Base from '../layouts/Base.astro';
       // Subtle sheen
       s += `<ellipse cx="${cx - 3}" cy="${cy - 3}" rx="${r * 0.3}" ry="${r * 0.2}" fill="#aa3333" opacity="0.12"/>`;
 
-      // ── WHITE POINTER LINE ── at 35 position (index 8 in the clockwise order)
-      const deg35 = 90 + (8 / (numLabels.length - 1)) * sweepTotal;
+      // ── WHITE POINTER LINE ── at 35 = 330° (2:00 position)
+      const deg35 = 330;
       const pa35 = deg35 * Math.PI / 180;
       const pxI = cx + Math.cos(pa35) * 4;
       const pyI = cy + Math.sin(pa35) * 4;
@@ -196,9 +206,8 @@ import Base from '../layouts/Base.astro';
         const rad = a * Math.PI / 180;
         s += `<line x1="${cx + Math.cos(rad)*(r-1)}" y1="${cy + Math.sin(rad)*(r-1)}" x2="${cx + Math.cos(rad)*r}" y2="${cy + Math.sin(rad)*r}" stroke="#7a7a80" stroke-width="0.4"/>`;
       }
-      // Pointer — 1 o'clock ≈ 55% of range, starting from bottom
-      const pct = 0.55;
-      const pa = (90 + pct * 300) * Math.PI / 180;
+      // Pointer — 1 o'clock = 300° in SVG
+      const pa = 300 * Math.PI / 180;
       s += `<line x1="${cx}" y1="${cy}" x2="${cx + Math.cos(pa)*r*0.7}" y2="${cy + Math.sin(pa)*r*0.7}" stroke="${WHT}" stroke-width="1.5" stroke-linecap="round"/>`;
       s += `<circle cx="${cx}" cy="${cy}" r="2" fill="${SILVER_EDGE}"/>`;
       s += `</g>`;
