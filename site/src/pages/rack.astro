@@ -99,20 +99,21 @@ import Base from '../layouts/Base.astro';
       y: number;
       h: number;
       color?: string;
-      jacks: {id:string, x:number, yOff:number, chain:string, label:string, note:string, type:'xlr'|'trs'|'usb'}[];
+      jacks: {id:string, x:number, yOff:number, chain:string, label:string, note:string, type:'xlr'|'trs'|'usb', io:'in'|'out'|'both'}[];
     }
 
     const rackUnits: RackUnit[] = [];
 
     function addUnit(label:string, sub:string, h:number, color:string,
-      jacks: {id:string, xPct:number, yOff:number, chain:string, label:string, note:string, type:'xlr'|'trs'|'usb'}[]) {
+      jacks: {id:string, xPct:number, yOff:number, chain:string, label:string, note:string, type:'xlr'|'trs'|'usb', io?:'in'|'out'|'both'}[]) {
       const y = nextY(h);
       const unit: RackUnit = { label, sub, y, h, color, jacks: [] };
       jacks.forEach(j => {
         const x = PANEL_L + j.xPct * PANEL_W;
         const ay = y + j.yOff;
+        const io = j.io || 'both';
         J[j.id] = { x, y: ay, chain: j.chain, note: j.note };
-        unit.jacks.push({ id: j.id, x, yOff: ay, chain: j.chain, label: j.label, note: j.note, type: j.type });
+        unit.jacks.push({ id: j.id, x, yOff: ay, chain: j.chain, label: j.label, note: j.note, type: j.type, io });
       });
       rackUnits.push(unit);
     }
@@ -121,25 +122,25 @@ import Base from '../layouts/Base.astro';
     addUnit('BEHRINGER WING RACK', '48ch Digital Mixer — 8 Inputs / 8 Outputs / USB', U2, '#111',
     [
       // Inputs row (top half)
-      { id:'w-i1',  xPct:0.05, yOff:40, chain:'vocal',   label:'IN 1',  note:'LCL/1 — Ch1 Vocal Dry (mic, GATE)', type:'xlr' },
-      { id:'w-i2',  xPct:0.10, yOff:40, chain:'guitar',  label:'IN 2',  note:'LCL/2 — Ch2 Guitar Dry (DI)',        type:'xlr' },
-      { id:'w-i3',  xPct:0.15, yOff:40, chain:'tape',    label:'IN 3',  note:'LCL/3 — Ch33 Tape Send (M12 AUX 1, gain 10dB)', type:'xlr' },
-      { id:'w-i4',  xPct:0.20, yOff:40, chain:'none',    label:'IN 4',  note:'LCL/4 — Condenser R (phantom)',      type:'xlr' },
-      { id:'w-i5',  xPct:0.25, yOff:40, chain:'none',    label:'IN 5',  note:'LCL/5 — Open',                       type:'xlr' },
-      { id:'w-i6',  xPct:0.30, yOff:40, chain:'none',    label:'IN 6',  note:'LCL/6 — Open',                       type:'xlr' },
-      { id:'w-i7',  xPct:0.35, yOff:40, chain:'vocal',   label:'IN 17', note:'LCL/17 — Ch17 Vocal Processed (return from P4)', type:'trs' },
-      { id:'w-i8',  xPct:0.40, yOff:40, chain:'guitar',  label:'IN 18', note:'LCL/18 — Ch18 Guitar Processed (return from P8)', type:'trs' },
+      { id:'w-i1',  xPct:0.05, yOff:40, chain:'vocal',   label:'IN 1',  note:'LCL/1 — Ch1 Vocal Dry (mic, GATE)', type:'xlr', io:'in' },
+      { id:'w-i2',  xPct:0.10, yOff:40, chain:'guitar',  label:'IN 2',  note:'LCL/2 — Ch2 Guitar Dry (DI)',        type:'xlr', io:'in' },
+      { id:'w-i3',  xPct:0.15, yOff:40, chain:'tape',    label:'IN 3',  note:'LCL/3 — Ch33 Tape Send (M12 AUX 1, gain 10dB)', type:'xlr', io:'in' },
+      { id:'w-i4',  xPct:0.20, yOff:40, chain:'none',    label:'IN 4',  note:'LCL/4 — Condenser R (phantom)',      type:'xlr', io:'in' },
+      { id:'w-i5',  xPct:0.25, yOff:40, chain:'none',    label:'IN 5',  note:'LCL/5 — Open',                       type:'xlr', io:'in' },
+      { id:'w-i6',  xPct:0.30, yOff:40, chain:'none',    label:'IN 6',  note:'LCL/6 — Open',                       type:'xlr', io:'in' },
+      { id:'w-i7',  xPct:0.35, yOff:40, chain:'vocal',   label:'IN 17', note:'LCL/17 — Ch17 Vocal Processed (return from P4)', type:'trs', io:'in' },
+      { id:'w-i8',  xPct:0.40, yOff:40, chain:'guitar',  label:'IN 18', note:'LCL/18 — Ch18 Guitar Processed (return from P8)', type:'trs', io:'in' },
       // Outputs row (bottom half)
-      { id:'w-o1',  xPct:0.05, yOff:100, chain:'vocal',   label:'OUT 1', note:'Bus 1 Vocal Send → P1',              type:'xlr' },
-      { id:'w-o2',  xPct:0.10, yOff:100, chain:'guitar',  label:'OUT 2', note:'Bus 2 Guitar Send → P5',             type:'xlr' },
-      { id:'w-o3',  xPct:0.15, yOff:100, chain:'tape',    label:'OUT 3', note:'USR/3 Tape Return → P9 → M12 Ch 6',  type:'xlr' },
-      { id:'w-o4',  xPct:0.20, yOff:100, chain:'none',    label:'OUT 4', note:'Bus 4R Mic Send → P10',              type:'xlr' },
-      { id:'w-o5',  xPct:0.25, yOff:100, chain:'none',    label:'OUT 5', note:'Open',                               type:'xlr' },
-      { id:'w-o6',  xPct:0.30, yOff:100, chain:'none',    label:'OUT 6', note:'Open',                               type:'xlr' },
-      { id:'w-o7',  xPct:0.55, yOff:100, chain:'monitor', label:'OUT 7', note:'MX1 L — Speaker via P23',            type:'xlr' },
-      { id:'w-o8',  xPct:0.60, yOff:100, chain:'monitor', label:'OUT 8', note:'MX1 R — Speaker via P24',            type:'xlr' },
+      { id:'w-o1',  xPct:0.05, yOff:100, chain:'vocal',   label:'OUT 1', note:'Bus 1 Vocal Send → P1',              type:'xlr', io:'out' },
+      { id:'w-o2',  xPct:0.10, yOff:100, chain:'guitar',  label:'OUT 2', note:'Bus 2 Guitar Send → P5',             type:'xlr', io:'out' },
+      { id:'w-o3',  xPct:0.15, yOff:100, chain:'tape',    label:'OUT 3', note:'USR/3 Tape Return → P9 → M12 Ch 6',  type:'xlr', io:'out' },
+      { id:'w-o4',  xPct:0.20, yOff:100, chain:'none',    label:'OUT 4', note:'Bus 4R Mic Send → P10',              type:'xlr', io:'out' },
+      { id:'w-o5',  xPct:0.25, yOff:100, chain:'none',    label:'OUT 5', note:'Open',                               type:'xlr', io:'out' },
+      { id:'w-o6',  xPct:0.30, yOff:100, chain:'none',    label:'OUT 6', note:'Open',                               type:'xlr', io:'out' },
+      { id:'w-o7',  xPct:0.55, yOff:100, chain:'monitor', label:'OUT 7', note:'MX1 L — Speaker via P23',            type:'xlr', io:'out' },
+      { id:'w-o8',  xPct:0.60, yOff:100, chain:'monitor', label:'OUT 8', note:'MX1 R — Speaker via P24',            type:'xlr', io:'out' },
       // USB
-      { id:'w-usb', xPct:0.85, yOff:70,  chain:'daw',     label:'USB',   note:'48in/48out to Mac — recording, session players, mix stems', type:'usb' },
+      { id:'w-usb', xPct:0.85, yOff:70,  chain:'daw',     label:'USB',   note:'48in/48out to Mac — recording, session players, mix stems', type:'usb', io:'both' },
     ]);
 
     // ── PATCHBAY (1.5U) ──
@@ -175,48 +176,48 @@ import Base from '../layouts/Base.astro';
 
     // ── HA73-EQX2 (1U) ──
     addUnit('HA73-EQX2', 'Neve 1073 Preamp/EQ — Dual Channel', U1, '#111', [
-      { id:'ha-ai', xPct:0.10, yOff:40, chain:'vocal',  label:'A IN',  note:'HA73 Ch A Input — Neve EQ + transformer color', type:'xlr' },
-      { id:'ha-ao', xPct:0.25, yOff:40, chain:'vocal',  label:'A OUT', note:'HA73 Ch A Output',                              type:'xlr' },
-      { id:'ha-bi', xPct:0.60, yOff:40, chain:'guitar', label:'B IN',  note:'HA73 Ch B Input — Neve EQ + transformer color', type:'xlr' },
-      { id:'ha-bo', xPct:0.75, yOff:40, chain:'guitar', label:'B OUT', note:'HA73 Ch B Output',                              type:'xlr' },
+      { id:'ha-ai', xPct:0.10, yOff:40, chain:'vocal',  label:'A IN',  note:'HA73 Ch A Input — Neve EQ + transformer color', type:'xlr', io:'in' },
+      { id:'ha-ao', xPct:0.25, yOff:40, chain:'vocal',  label:'A OUT', note:'HA73 Ch A Output',                              type:'xlr', io:'out' },
+      { id:'ha-bi', xPct:0.60, yOff:40, chain:'guitar', label:'B IN',  note:'HA73 Ch B Input — Neve EQ + transformer color', type:'xlr', io:'in' },
+      { id:'ha-bo', xPct:0.75, yOff:40, chain:'guitar', label:'B OUT', note:'HA73 Ch B Output',                              type:'xlr', io:'out' },
     ]);
 
     // ── WA76-D2 (1U) ──
     addUnit('WA76-D2 BLACK', '1176 FET Compressor — Dual Channel', U1, '#111', [
-      { id:'wa-ai', xPct:0.10, yOff:40, chain:'vocal',  label:'A IN',  note:'WA76 Ch A Input — 1176 fast transient control', type:'xlr' },
-      { id:'wa-ao', xPct:0.25, yOff:40, chain:'vocal',  label:'A OUT', note:'WA76 Ch A Output',                              type:'xlr' },
-      { id:'wa-bi', xPct:0.60, yOff:40, chain:'guitar', label:'B IN',  note:'WA76 Ch B Input — 1176 fast transient control', type:'xlr' },
-      { id:'wa-bo', xPct:0.75, yOff:40, chain:'guitar', label:'B OUT', note:'WA76 Ch B Output',                              type:'xlr' },
+      { id:'wa-ai', xPct:0.10, yOff:40, chain:'vocal',  label:'A IN',  note:'WA76 Ch A Input — 1176 fast transient control', type:'xlr', io:'in' },
+      { id:'wa-ao', xPct:0.25, yOff:40, chain:'vocal',  label:'A OUT', note:'WA76 Ch A Output',                              type:'xlr', io:'out' },
+      { id:'wa-bi', xPct:0.60, yOff:40, chain:'guitar', label:'B IN',  note:'WA76 Ch B Input — 1176 fast transient control', type:'xlr', io:'in' },
+      { id:'wa-bo', xPct:0.75, yOff:40, chain:'guitar', label:'B OUT', note:'WA76 Ch B Output',                              type:'xlr', io:'out' },
     ]);
 
     // ── DISTRESSOR (1U) ──
     addUnit('DISTRESSOR', 'Empirical Labs EL8 — Compression + Harmonic Color', U1, '#111', [
-      { id:'ds-i', xPct:0.60, yOff:40, chain:'guitar', label:'IN',  note:'Distressor Input — in guitar chain after WA76 B', type:'xlr' },
-      { id:'ds-o', xPct:0.75, yOff:40, chain:'guitar', label:'OUT', note:'Distressor Output',                               type:'xlr' },
+      { id:'ds-i', xPct:0.60, yOff:40, chain:'guitar', label:'IN',  note:'Distressor Input — in guitar chain after WA76 B', type:'xlr', io:'in' },
+      { id:'ds-o', xPct:0.75, yOff:40, chain:'guitar', label:'OUT', note:'Distressor Output',                               type:'xlr', io:'out' },
     ]);
 
     // ── OPTO (1U) ──
     addUnit('AUDIOSCAPE OPTO', 'LA-2A Optical Compressor Clone', U1, '#111', [
-      { id:'op-i', xPct:0.10, yOff:40, chain:'vocal', label:'IN',  note:'Opto Input — LA-2A smooth optical leveling', type:'xlr' },
-      { id:'op-o', xPct:0.25, yOff:40, chain:'vocal', label:'OUT', note:'Opto Output',                                type:'xlr' },
+      { id:'op-i', xPct:0.10, yOff:40, chain:'vocal', label:'IN',  note:'Opto Input — LA-2A smooth optical leveling', type:'xlr', io:'in' },
+      { id:'op-o', xPct:0.25, yOff:40, chain:'vocal', label:'OUT', note:'Opto Output',                                type:'xlr', io:'out' },
     ]);
 
     // ── MODEL 12 (1U) ──
     addUnit('TASCAM MODEL 12', 'Analog Mixing Console — Receives stems via USB/Loopback', U1, '#0f0f0d', [
-      { id:'m-aux',  xPct:0.08, yOff:40, chain:'tape',    label:'AUX 1 OUT', note:'Tape send — pre-fader, per-channel knob → Wing LCL 3', type:'trs' },
-      { id:'m-ch6',  xPct:0.22, yOff:40, chain:'tape',    label:'CH 6 IN',   note:'Tape return from P9 (analog) or USB 38 (digital)',      type:'trs' },
-      { id:'m-mainl',xPct:0.45, yOff:40, chain:'monitor', label:'MAIN L',    note:'Stereo main out L → USB → Wing Ch7',                   type:'xlr' },
-      { id:'m-mainr',xPct:0.52, yOff:40, chain:'monitor', label:'MAIN R',    note:'Stereo main out R → USB → Wing Ch7',                   type:'xlr' },
-      { id:'m-usb',  xPct:0.80, yOff:40, chain:'daw',     label:'USB',       note:'USB to Mac — Loopback routes mix stems (USB 33-42)',    type:'usb' },
+      { id:'m-aux',  xPct:0.08, yOff:40, chain:'tape',    label:'AUX 1 OUT', note:'Tape send — pre-fader, per-channel knob → Wing LCL 3', type:'trs', io:'out' },
+      { id:'m-ch6',  xPct:0.22, yOff:40, chain:'tape',    label:'CH 6 IN',   note:'Tape return from P9 (analog) or USB 38 (digital)',      type:'trs', io:'in' },
+      { id:'m-mainl',xPct:0.45, yOff:40, chain:'monitor', label:'MAIN L',    note:'Stereo main out L → USB → Wing Ch7',                   type:'xlr', io:'out' },
+      { id:'m-mainr',xPct:0.52, yOff:40, chain:'monitor', label:'MAIN R',    note:'Stereo main out R → USB → Wing Ch7',                   type:'xlr', io:'out' },
+      { id:'m-usb',  xPct:0.80, yOff:40, chain:'daw',     label:'USB',       note:'USB to Mac — Loopback routes mix stems (USB 33-42)',    type:'usb', io:'both' },
     ]);
 
     // ── SPEAKERS + MAC (1U) ──
     addUnit('STUDIO MONITORS + MAC', 'Speakers via P23/P24 — Mac runs Logic Pro + Loopback', U1, '#0c0c0a', [
-      { id:'sp-r',   xPct:0.08, yOff:40, chain:'monitor', label:'SPK R',     note:'Right speaker — from P23',   type:'xlr' },
-      { id:'sp-l',   xPct:0.18, yOff:40, chain:'monitor', label:'SPK L',     note:'Left speaker — from P24',    type:'xlr' },
-      { id:'mac-w',  xPct:0.50, yOff:40, chain:'daw',     label:'WING USB',  note:'Mac ↔ Wing 48ch USB audio',  type:'usb' },
-      { id:'mac-m',  xPct:0.62, yOff:40, chain:'daw',     label:'M12 USB',   note:'Mac ↔ Model 12 Loopback',    type:'usb' },
-      { id:'mac-l',  xPct:0.80, yOff:40, chain:'daw',     label:'LOGIC PRO', note:'Primary recorder + session players (bass, piano, drums)', type:'usb' },
+      { id:'sp-r',   xPct:0.08, yOff:40, chain:'monitor', label:'SPK R',     note:'Right speaker — from P23',   type:'xlr', io:'in' },
+      { id:'sp-l',   xPct:0.18, yOff:40, chain:'monitor', label:'SPK L',     note:'Left speaker — from P24',    type:'xlr', io:'in' },
+      { id:'mac-w',  xPct:0.50, yOff:40, chain:'daw',     label:'WING USB',  note:'Mac ↔ Wing 48ch USB audio',  type:'usb', io:'both' },
+      { id:'mac-m',  xPct:0.62, yOff:40, chain:'daw',     label:'M12 USB',   note:'Mac ↔ Model 12 Loopback',    type:'usb', io:'both' },
+      { id:'mac-l',  xPct:0.80, yOff:40, chain:'daw',     label:'LOGIC PRO', note:'Primary recorder + session players (bass, piano, drums)', type:'usb', io:'both' },
     ]);
 
     // ── CABLES ──
@@ -300,20 +301,37 @@ import Base from '../layouts/Base.astro';
           const r = j.type === 'xlr' ? 11 : j.type === 'usb' ? 9 : 9;
           const gy = j.yOff;
 
+          const isOut = j.io === 'out';
+          const isIn = j.io === 'in';
+          const isBoth = j.io === 'both';
+
           s += `<g class="jk" data-id="${j.id}" data-chain="${j.chain}" data-note="${j.note}" style="cursor:pointer">`;
-          // Outer ring
-          s += `<circle cx="${j.x}" cy="${gy}" r="${r}" fill="#0a0a08" stroke="${col}" stroke-width="1.5" class="jr"/>`;
-          // Inner hole
-          s += `<circle cx="${j.x}" cy="${gy}" r="${r * 0.35}" fill="#050505"/>`;
-          // XLR pins
+
+          if (isOut) {
+            // OUTPUT — bright filled ring, bright center dot (signal coming out)
+            s += `<circle cx="${j.x}" cy="${gy}" r="${r}" fill="#0a0a08" stroke="${col}" stroke-width="2" class="jr"/>`;
+            s += `<circle cx="${j.x}" cy="${gy}" r="${r * 0.3}" fill="${col}" opacity="0.6"/>`;
+          } else if (isIn) {
+            // INPUT — thinner ring, dark hollow center (receiving)
+            s += `<circle cx="${j.x}" cy="${gy}" r="${r}" fill="#0a0a08" stroke="${col}" stroke-width="1" stroke-dasharray="3 2" class="jr"/>`;
+            s += `<circle cx="${j.x}" cy="${gy}" r="${r * 0.35}" fill="#030303"/>`;
+          } else {
+            // BOTH (USB) — solid ring, half-filled
+            s += `<circle cx="${j.x}" cy="${gy}" r="${r}" fill="#0a0a08" stroke="${col}" stroke-width="1.5" class="jr"/>`;
+            s += `<circle cx="${j.x}" cy="${gy}" r="${r * 0.3}" fill="${col}" opacity="0.3"/>`;
+          }
+
+          // XLR pins (outputs have pins, inputs have holes)
           if (j.type === 'xlr') {
-            s += `<circle cx="${j.x-3.5}" cy="${gy+3}" r="1.2" fill="#1a1a18"/>`;
-            s += `<circle cx="${j.x+3.5}" cy="${gy+3}" r="1.2" fill="#1a1a18"/>`;
-            s += `<circle cx="${j.x}" cy="${gy-3.5}" r="1.2" fill="#1a1a18"/>`;
+            const pinCol = isOut ? col : '#1a1a18';
+            const pinOp = isOut ? '0.5' : '1';
+            s += `<circle cx="${j.x-3.5}" cy="${gy+3}" r="1.2" fill="${pinCol}" opacity="${pinOp}"/>`;
+            s += `<circle cx="${j.x+3.5}" cy="${gy+3}" r="1.2" fill="${pinCol}" opacity="${pinOp}"/>`;
+            s += `<circle cx="${j.x}" cy="${gy-3.5}" r="1.2" fill="${pinCol}" opacity="${pinOp}"/>`;
           }
           // USB shape
           if (j.type === 'usb') {
-            s += `<rect x="${j.x-5}" y="${gy-3}" width="10" height="6" rx="1.5" fill="none" stroke="#2a2a26" stroke-width="0.8"/>`;
+            s += `<rect x="${j.x-5}" y="${gy-3}" width="10" height="6" rx="1.5" fill="none" stroke="${col}" stroke-width="0.8" opacity="0.5"/>`;
           }
           // Label below
           if (j.label) {
