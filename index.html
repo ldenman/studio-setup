@@ -250,18 +250,18 @@ details table { font-size: 12px; }
 <section id="about">
   <h2>The Studio</h2>
   <p>The studio should never get in the way of the music. Every input runs through a permanently wired analog chain — normalled, gain-staged, ready. Plug in and hit record. The outboard is already in the path.</p>
-  <p>The Wing Rack handles routing, monitoring, and 16 slots of classic effect emulations, all controllable via OSC. Logic Pro session players route through the console alongside live instruments. Everything records dry to the Tascam Model 12 — clean multitracks, analog monitoring.</p>
+  <p>The Wing Rack handles routing, monitoring, and 16 slots of classic effect emulations, all controllable via OSC. Logic Pro records and plays back session players alongside live instruments. The Tascam Model 12 receives processed stems for hands-on analog mixing with real faders, EQ, and compression.</p>
   <div class="stats">
-    <div class="stat"><div class="num">16</div><div class="label">Channels</div></div>
+    <div class="stat"><div class="num">8</div><div class="label">Mix Matrices</div></div>
     <div class="stat"><div class="num">4</div><div class="label">Outboard</div></div>
-    <div class="stat"><div class="num">12</div><div class="label">Tracks</div></div>
+    <div class="stat"><div class="num">10</div><div class="label">Mix Channels</div></div>
     <div class="stat"><div class="num">16</div><div class="label">FX Slots</div></div>
   </div>
   <h3>What happens here</h3>
   <div class="services-grid">
     <div class="service-card">
       <h4>Recording</h4>
-      <p>Live instruments through Neve preamp, 1176, and LA-2A. Dry capture to multitrack. Analog monitoring.</p>
+      <p>Live instruments through Neve preamp, 1176, and LA-2A. Clean outboard capture to Logic Pro. Zero-latency monitoring through the Wing.</p>
     </div>
     <div class="service-card">
       <h4>Production</h4>
@@ -269,7 +269,7 @@ details table { font-size: 12px; }
     </div>
     <div class="service-card">
       <h4>Mixing</h4>
-      <p>Hybrid analog/digital. Outboard processing, Neve and SSL channel strip emulations, 16 FX slots.</p>
+      <p>Tascam Model 12 as analog mixing console. Wing matrices feed processed stems to real faders, EQ, and compression. Tape saturation via AUX 1 send/return loop.</p>
     </div>
     <div class="service-card">
       <h4>Sound Design</h4>
@@ -330,6 +330,12 @@ details table { font-size: 12px; }
     <div class="ch-sep"></div>
     <div class="ch-strip"><div class="ch-num">17</div><div class="ch-color" style="background:var(--blue)"></div><div class="fader"></div><div class="ch-name">Vocal Proc</div><div class="ch-src">Local</div></div>
     <div class="ch-strip"><div class="ch-num">18</div><div class="ch-color" style="background:var(--red)"></div><div class="fader"></div><div class="ch-name">Guitar Proc</div><div class="ch-src">Local</div></div>
+    <div class="ch-sep"></div>
+    <div class="ch-strip"><div class="ch-num">25</div><div class="ch-color" style="background:#e8a090"></div><div class="fader"></div><div class="ch-name">Tape Rtn 1</div><div class="ch-src">USB/17</div></div>
+    <div class="ch-strip"><div class="ch-num">26</div><div class="ch-color" style="background:#e8a090"></div><div class="fader"></div><div class="ch-name">Tape Rtn 2</div><div class="ch-src">USB/18</div></div>
+    <div class="ch-strip"><div class="ch-num">27</div><div class="ch-color" style="background:#e8a090"></div><div class="fader"></div><div class="ch-name">Tape Rtn 3</div><div class="ch-src">USB/19</div></div>
+    <div class="ch-sep"></div>
+    <div class="ch-strip"><div class="ch-num">33</div><div class="ch-color" style="background:#e8a090"></div><div class="fader"></div><div class="ch-name">Tape Send</div><div class="ch-src">LCL/3</div></div>
   </div>
 
   <h4>Model 12 Channel Assignments (Mixing Console)</h4>
@@ -386,8 +392,8 @@ details table { font-size: 12px; }
     </div>
   </details>
 
-  <h3>Recorder</h3>
-  <p>Tascam Model 12. 12 tracks to SD card via Loopback — no physical audio cables. Dry capture while you monitor through the analog chain.</p>
+  <h3>Mixing Console</h3>
+  <p>Tascam Model 12. Receives processed stems from the Wing via USB/Loopback. Hands-on mixing with real faders, analog EQ, and compression. AUX 1 sends to Wing tape saturation. Stereo mixdown captured on tracks 11/12.</p>
 
   <details>
     <summary>Tascam Model 12 — Multitrack Recorder / Interface</summary>
@@ -504,6 +510,21 @@ details table { font-size: 12px; }
       </div>
     </div>
   </div>
+</section>
+
+  <h3>Mix Matrices to Model 12</h3>
+  <p>Wing matrices serve as the permanent routing layer to the Model 12. Each matrix feeds a dedicated USB output through Loopback to a Model 12 channel. Wire once, change sources per project.</p>
+  <table>
+    <tr><th>Matrix</th><th>Name</th><th>USB Out</th><th>M12 Ch</th><th>Default Source</th><th>Post-Insert</th></tr>
+    <tr><td>MX2</td><td>Mix Vocal</td><td>33</td><td>1</td><td>Ch25 tape return + Ch17 live</td><td>FX3 DOUBLE/THICK</td></tr>
+    <tr><td>MX3</td><td>Mix Rhythm</td><td>34</td><td>2</td><td>Bus 10 (FX7 RACKAMP)</td><td>--</td></tr>
+    <tr><td>MX4</td><td>Mix Lead</td><td>35</td><td>3</td><td>Bus 11 (FX12 ANGEL)</td><td>--</td></tr>
+    <tr><td>MX5</td><td>Mix Overdub</td><td>36</td><td>4</td><td>Per project</td><td>--</td></tr>
+    <tr><td>MX6</td><td>Mix Bass</td><td>37</td><td>5</td><td>Ch9 (Logic bass)</td><td>FX4 SUB/MID</td></tr>
+    <tr><td>MX7</td><td>Mix Drums</td><td>39-40</td><td>7/8</td><td>Ch12 (Logic drums)</td><td>--</td></tr>
+    <tr><td>MX8</td><td>Mix Piano</td><td>41-42</td><td>9/10</td><td>Ch11 (Logic piano/synth)</td><td>--</td></tr>
+  </table>
+  <p>Model 12 Ch 6 is the tape return (AUX 1 &rarr; Wing Ch33 TAPE + TAPE-DL &rarr; USB 38). Model 12 stereo main returns to Wing Ch7 for monitoring.</p>
 </section>
 
 <!-- SOUNDS -->
