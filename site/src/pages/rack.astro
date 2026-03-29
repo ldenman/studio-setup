@@ -1,0 +1,664 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Rack Room" active="">
+  <div style="max-width:1500px;margin:0 auto;padding:0 16px">
+    <section class="page-header">
+      <h3>Interactive</h3>
+      <h1>Rack Room</h1>
+      <p>The back of the rack. Hover any jack to trace the signal.</p>
+    </section>
+  </div>
+
+  <div id="app">
+    <div class="info-bar" id="info">HOVER OVER ANY JACK</div>
+    <div class="viewport">
+      <svg id="svg" viewBox="0 0 1400 1300" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+    <div class="legend">
+      <span><i style="background:#6a9ab8"></i>Vocal</span>
+      <span><i style="background:#c46a5a"></i>Guitar</span>
+      <span><i style="background:#d4943a"></i>Tape</span>
+      <span><i style="background:#7aaa6a"></i>USB/DAW</span>
+      <span><i style="background:#e8a090"></i>Monitor</span>
+      <span><i style="background:#555"></i>Normalled</span>
+    </div>
+
+    <div class="virtual-label">VIRTUAL ROUTING — LOOPBACK + USB</div>
+    <div class="info-bar" id="vinfo">HOVER OVER ANY NODE</div>
+    <div class="viewport virtual">
+      <svg id="vsvg" viewBox="0 0 1400 520" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+  </div>
+
+  <style>
+    #app { max-width: 1400px; margin: 0 auto; padding: 0 8px 80px; }
+    .info-bar {
+      font-family: var(--mono); font-size: 11px; letter-spacing: 1px;
+      color: #d4943a; padding: 10px 16px; margin-bottom: 4px;
+      background: #0a0a08; border: 1px solid #1a1a18; border-radius: 2px;
+    }
+    .viewport { background: #060608; border: 1px solid #1a1a18; border-radius: 2px; overflow-x: auto; }
+    #svg { display: block; width: 100%; min-height: 650px; }
+    .legend {
+      display: flex; gap: 18px; margin-top: 10px; flex-wrap: wrap;
+      font-family: var(--mono); font-size: 10px; color: #55554e;
+    }
+    .legend span { display: flex; align-items: center; gap: 6px; }
+    .legend i { width: 8px; height: 8px; border-radius: 50%; display: block; }
+    .virtual-label {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 3px;
+      color: #7aaa6a; padding: 24px 0 8px; text-transform: uppercase;
+    }
+    .viewport.virtual { background: #060a06; border-color: #1a2a1a; }
+    #vsvg { display: block; width: 100%; min-height: 400px; }
+  </style>
+
+  <script>
+    // ════════════════════════════════════════════
+    // RACK ROOM v4 — Physical rack layout
+    // Horizontal units stacked vertically
+    // ════════════════════════════════════════════
+
+    const CC: Record<string,string> = {
+      vocal:'#6a9ab8', guitar:'#c46a5a', tape:'#d4943a',
+      daw:'#7aaa6a', monitor:'#e8a090', none:'#444',
+    };
+
+    // Rack dimensions
+    const RACK_L = 50;       // Left rail
+    const RACK_R = 1350;     // Right rail
+    const RACK_W = RACK_R - RACK_L;
+    const RAIL_W = 25;
+    const PANEL_L = RACK_L + RAIL_W;
+    const PANEL_R = RACK_R - RAIL_W;
+    const PANEL_W = PANEL_R - PANEL_L;
+
+    // Unit heights & Y positions
+    const U1 = 80;   // 1 rack unit
+    const U2 = 140;  // 2 rack units
+    let curY = 20;
+
+    function nextY(height: number): number {
+      const y = curY;
+      curY += height + 6; // 6px gap between units
+      return y;
+    }
+
+    // All jacks
+    const J: Record<string, {x:number,y:number,chain:string,note:string}> = {};
+    // All cables
+    const cables: {from:string,to:string,chain:string,label:string}[] = [];
+
+    // ── UNIT DEFINITIONS ──
+
+    interface RackUnit {
+      label: string;
+      sub?: string;
+      y: number;
+      h: number;
+      color?: string;
+      jacks: {id:string, x:number, yOff:number, chain:string, label:string, note:string, type:'xlr'|'trs'|'usb'}[];
+    }
+
+    const rackUnits: RackUnit[] = [];
+
+    function addUnit(label:string, sub:string, h:number, color:string,
+      jacks: {id:string, xPct:number, yOff:number, chain:string, label:string, note:string, type:'xlr'|'trs'|'usb'}[]) {
+      const y = nextY(h);
+      const unit: RackUnit = { label, sub, y, h, color, jacks: [] };
+      jacks.forEach(j => {
+        const x = PANEL_L + j.xPct * PANEL_W;
+        const ay = y + j.yOff;
+        J[j.id] = { x, y: ay, chain: j.chain, note: j.note };
+        unit.jacks.push({ id: j.id, x, yOff: ay, chain: j.chain, label: j.label, note: j.note, type: j.type });
+      });
+      rackUnits.push(unit);
+    }
+
+    // ── WING RACK (2U) ──
+    addUnit('BEHRINGER WING RACK', '48ch Digital Mixer — 8 Inputs / 8 Outputs / USB', U2, '#111',
+    [
+      // Inputs row (top half)
+      { id:'w-i1',  xPct:0.05, yOff:40, chain:'vocal',   label:'IN 1',  note:'LCL/1 — Ch1 Vocal Dry (mic, GATE)', type:'xlr' },
+      { id:'w-i2',  xPct:0.10, yOff:40, chain:'guitar',  label:'IN 2',  note:'LCL/2 — Ch2 Guitar Dry (DI)',        type:'xlr' },
+      { id:'w-i3',  xPct:0.15, yOff:40, chain:'tape',    label:'IN 3',  note:'LCL/3 — Ch33 Tape Send (M12 AUX 1, gain 10dB)', type:'xlr' },
+      { id:'w-i4',  xPct:0.20, yOff:40, chain:'none',    label:'IN 4',  note:'LCL/4 — Condenser R (phantom)',      type:'xlr' },
+      { id:'w-i5',  xPct:0.25, yOff:40, chain:'none',    label:'IN 5',  note:'LCL/5 — Open',                       type:'xlr' },
+      { id:'w-i6',  xPct:0.30, yOff:40, chain:'none',    label:'IN 6',  note:'LCL/6 — Open',                       type:'xlr' },
+      { id:'w-i7',  xPct:0.35, yOff:40, chain:'vocal',   label:'IN 17', note:'LCL/17 — Ch17 Vocal Processed (return from P4)', type:'trs' },
+      { id:'w-i8',  xPct:0.40, yOff:40, chain:'guitar',  label:'IN 18', note:'LCL/18 — Ch18 Guitar Processed (return from P8)', type:'trs' },
+      // Outputs row (bottom half)
+      { id:'w-o1',  xPct:0.05, yOff:100, chain:'vocal',   label:'OUT 1', note:'Bus 1 Vocal Send → P1',              type:'xlr' },
+      { id:'w-o2',  xPct:0.10, yOff:100, chain:'guitar',  label:'OUT 2', note:'Bus 2 Guitar Send → P5',             type:'xlr' },
+      { id:'w-o3',  xPct:0.15, yOff:100, chain:'tape',    label:'OUT 3', note:'USR/3 Tape Return → P9 → M12 Ch 6',  type:'xlr' },
+      { id:'w-o4',  xPct:0.20, yOff:100, chain:'none',    label:'OUT 4', note:'Bus 4R Mic Send → P10',              type:'xlr' },
+      { id:'w-o5',  xPct:0.25, yOff:100, chain:'none',    label:'OUT 5', note:'Open',                               type:'xlr' },
+      { id:'w-o6',  xPct:0.30, yOff:100, chain:'none',    label:'OUT 6', note:'Open',                               type:'xlr' },
+      { id:'w-o7',  xPct:0.55, yOff:100, chain:'monitor', label:'OUT 7', note:'MX1 L — Speaker via P23',            type:'xlr' },
+      { id:'w-o8',  xPct:0.60, yOff:100, chain:'monitor', label:'OUT 8', note:'MX1 R — Speaker via P24',            type:'xlr' },
+      // USB
+      { id:'w-usb', xPct:0.85, yOff:70,  chain:'daw',     label:'USB',   note:'48in/48out to Mac — recording, session players, mix stems', type:'usb' },
+    ]);
+
+    // ── PATCHBAY (1.5U) ──
+    addUnit('SAMSON S-PATCH PLUS', '48-Point TRS — Half Normalled', U2 - 20, '#0e0e0c', (() => {
+      const pts: any[] = [];
+      const labels: Record<number,{t:string,b:string,cv:string,cg:string}> = {
+        1: {t:'Wing Out 1',    b:'HA73 A In',     cv:'vocal',  cg:'vocal'},
+        2: {t:'HA73 A Out',    b:'WA76 A In',     cv:'vocal',  cg:'vocal'},
+        3: {t:'WA76 A Out',    b:'Opto In',       cv:'vocal',  cg:'vocal'},
+        4: {t:'Opto Out',      b:'Wing LCL 17',   cv:'vocal',  cg:'vocal'},
+        5: {t:'Wing Out 2',    b:'HA73 B In',     cv:'guitar', cg:'guitar'},
+        6: {t:'HA73 B Out',    b:'WA76 B In',     cv:'guitar', cg:'guitar'},
+        7: {t:'WA76 B Out',    b:'Distressor In', cv:'guitar', cg:'guitar'},
+        8: {t:'Distressor Out',b:'Wing LCL 18',   cv:'guitar', cg:'guitar'},
+        9: {t:'Wing Out 3',    b:'M12 Ch 6',      cv:'tape',   cg:'tape'},
+        10:{t:'Wing Out 4',    b:'(open)',         cv:'none',   cg:'none'},
+        23:{t:'MX1 L / Out 7', b:'Speaker R',     cv:'monitor',cg:'monitor'},
+        24:{t:'MX1 R / Out 8', b:'Speaker L',     cv:'monitor',cg:'monitor'},
+      };
+      const activeNums = [1,2,3,4,5,6,7,8,9,10,23,24];
+      activeNums.forEach((n, i) => {
+        const xPct = 0.03 + i * 0.08;
+        const info = labels[n];
+        pts.push({
+          id:`p${n}t`, xPct, yOff: 35, chain: info.cv, label:`${n}`, note:`P${n} TOP — ${info.t}`, type:'trs' as const
+        });
+        pts.push({
+          id:`p${n}b`, xPct, yOff: 85, chain: info.cg, label:``, note:`P${n} BOT — ${info.b}`, type:'trs' as const
+        });
+      });
+      return pts;
+    })());
+
+    // ── HA73-EQX2 (1U) ──
+    addUnit('HA73-EQX2', 'Neve 1073 Preamp/EQ — Dual Channel', U1, '#111', [
+      { id:'ha-ai', xPct:0.10, yOff:40, chain:'vocal',  label:'A IN',  note:'HA73 Ch A Input — Neve EQ + transformer color', type:'xlr' },
+      { id:'ha-ao', xPct:0.25, yOff:40, chain:'vocal',  label:'A OUT', note:'HA73 Ch A Output',                              type:'xlr' },
+      { id:'ha-bi', xPct:0.60, yOff:40, chain:'guitar', label:'B IN',  note:'HA73 Ch B Input — Neve EQ + transformer color', type:'xlr' },
+      { id:'ha-bo', xPct:0.75, yOff:40, chain:'guitar', label:'B OUT', note:'HA73 Ch B Output',                              type:'xlr' },
+    ]);
+
+    // ── WA76-D2 (1U) ──
+    addUnit('WA76-D2 BLACK', '1176 FET Compressor — Dual Channel', U1, '#111', [
+      { id:'wa-ai', xPct:0.10, yOff:40, chain:'vocal',  label:'A IN',  note:'WA76 Ch A Input — 1176 fast transient control', type:'xlr' },
+      { id:'wa-ao', xPct:0.25, yOff:40, chain:'vocal',  label:'A OUT', note:'WA76 Ch A Output',                              type:'xlr' },
+      { id:'wa-bi', xPct:0.60, yOff:40, chain:'guitar', label:'B IN',  note:'WA76 Ch B Input — 1176 fast transient control', type:'xlr' },
+      { id:'wa-bo', xPct:0.75, yOff:40, chain:'guitar', label:'B OUT', note:'WA76 Ch B Output',                              type:'xlr' },
+    ]);
+
+    // ── DISTRESSOR (1U) ──
+    addUnit('DISTRESSOR', 'Empirical Labs EL8 — Compression + Harmonic Color', U1, '#111', [
+      { id:'ds-i', xPct:0.60, yOff:40, chain:'guitar', label:'IN',  note:'Distressor Input — in guitar chain after WA76 B', type:'xlr' },
+      { id:'ds-o', xPct:0.75, yOff:40, chain:'guitar', label:'OUT', note:'Distressor Output',                               type:'xlr' },
+    ]);
+
+    // ── OPTO (1U) ──
+    addUnit('AUDIOSCAPE OPTO', 'LA-2A Optical Compressor Clone', U1, '#111', [
+      { id:'op-i', xPct:0.10, yOff:40, chain:'vocal', label:'IN',  note:'Opto Input — LA-2A smooth optical leveling', type:'xlr' },
+      { id:'op-o', xPct:0.25, yOff:40, chain:'vocal', label:'OUT', note:'Opto Output',                                type:'xlr' },
+    ]);
+
+    // ── MODEL 12 (1U) ──
+    addUnit('TASCAM MODEL 12', 'Analog Mixing Console — Receives stems via USB/Loopback', U1, '#0f0f0d', [
+      { id:'m-aux',  xPct:0.08, yOff:40, chain:'tape',    label:'AUX 1 OUT', note:'Tape send — pre-fader, per-channel knob → Wing LCL 3', type:'trs' },
+      { id:'m-ch6',  xPct:0.22, yOff:40, chain:'tape',    label:'CH 6 IN',   note:'Tape return from P9 (analog) or USB 38 (digital)',      type:'trs' },
+      { id:'m-mainl',xPct:0.45, yOff:40, chain:'monitor', label:'MAIN L',    note:'Stereo main out L → USB → Wing Ch7',                   type:'xlr' },
+      { id:'m-mainr',xPct:0.52, yOff:40, chain:'monitor', label:'MAIN R',    note:'Stereo main out R → USB → Wing Ch7',                   type:'xlr' },
+      { id:'m-usb',  xPct:0.80, yOff:40, chain:'daw',     label:'USB',       note:'USB to Mac — Loopback routes mix stems (USB 33-42)',    type:'usb' },
+    ]);
+
+    // ── SPEAKERS + MAC (1U) ──
+    addUnit('STUDIO MONITORS + MAC', 'Speakers via P23/P24 — Mac runs Logic Pro + Loopback', U1, '#0c0c0a', [
+      { id:'sp-r',   xPct:0.08, yOff:40, chain:'monitor', label:'SPK R',     note:'Right speaker — from P23',   type:'xlr' },
+      { id:'sp-l',   xPct:0.18, yOff:40, chain:'monitor', label:'SPK L',     note:'Left speaker — from P24',    type:'xlr' },
+      { id:'mac-w',  xPct:0.50, yOff:40, chain:'daw',     label:'WING USB',  note:'Mac ↔ Wing 48ch USB audio',  type:'usb' },
+      { id:'mac-m',  xPct:0.62, yOff:40, chain:'daw',     label:'M12 USB',   note:'Mac ↔ Model 12 Loopback',    type:'usb' },
+      { id:'mac-l',  xPct:0.80, yOff:40, chain:'daw',     label:'LOGIC PRO', note:'Primary recorder + session players (bass, piano, drums)', type:'usb' },
+    ]);
+
+    // ── CABLES ──
+    // Vocal chain: Wing Out 1 → P1t...P1b → HA73 A In → Out → P2t...P2b → WA76 A In → Out → P3t...P3b → Opto In → Out → P4t...P4b → Wing In 17
+    cables.push(
+      {from:'w-o1',  to:'p1t',  chain:'vocal',  label:'Wing Out 1 → Patchbay P1 top'},
+      {from:'p1b',   to:'ha-ai',chain:'vocal',  label:'P1 bottom → HA73 A In'},
+      {from:'ha-ao', to:'p2t',  chain:'vocal',  label:'HA73 A Out → P2 top'},
+      {from:'p2b',   to:'wa-ai',chain:'vocal',  label:'P2 bottom → WA76 A In'},
+      {from:'wa-ao', to:'p3t',  chain:'vocal',  label:'WA76 A Out → P3 top'},
+      {from:'p3b',   to:'op-i', chain:'vocal',  label:'P3 bottom → Opto In'},
+      {from:'op-o',  to:'p4t',  chain:'vocal',  label:'Opto Out → P4 top'},
+      {from:'p4b',   to:'w-i7', chain:'vocal',  label:'P4 bottom → Wing LCL 17 (Ch17 Vocal Processed)'},
+    );
+    // Guitar chain
+    cables.push(
+      {from:'w-o2',  to:'p5t',  chain:'guitar', label:'Wing Out 2 → Patchbay P5 top'},
+      {from:'p5b',   to:'ha-bi',chain:'guitar', label:'P5 bottom → HA73 B In'},
+      {from:'ha-bo', to:'p6t',  chain:'guitar', label:'HA73 B Out → P6 top'},
+      {from:'p6b',   to:'wa-bi',chain:'guitar', label:'P6 bottom → WA76 B In'},
+      {from:'wa-bo', to:'p7t',  chain:'guitar', label:'WA76 B Out → P7 top'},
+      {from:'p7b',   to:'ds-i', chain:'guitar', label:'P7 bottom → Distressor In'},
+      {from:'ds-o',  to:'p8t',  chain:'guitar', label:'Distressor Out → P8 top'},
+      {from:'p8b',   to:'w-i8', chain:'guitar', label:'P8 bottom → Wing LCL 18 (Ch18 Guitar Processed)'},
+    );
+    // Tape
+    cables.push(
+      {from:'m-aux', to:'w-i3', chain:'tape',   label:'Model 12 AUX 1 Out → Wing LCL 3 (TRS→XLR cable)'},
+      {from:'w-o3',  to:'p9t',  chain:'tape',   label:'Wing Out 3 (USR/3) → Patchbay P9 top'},
+      {from:'p9b',   to:'m-ch6',chain:'tape',   label:'P9 bottom → Model 12 Ch 6 line in'},
+    );
+    // Monitor
+    cables.push(
+      {from:'w-o7',  to:'p23t', chain:'monitor', label:'Wing Out 7 (MX1 L) → P23 top'},
+      {from:'p23b',  to:'sp-r', chain:'monitor', label:'P23 bottom → Speaker R'},
+      {from:'w-o8',  to:'p24t', chain:'monitor', label:'Wing Out 8 (MX1 R) → P24 top'},
+      {from:'p24b',  to:'sp-l', chain:'monitor', label:'P24 bottom → Speaker L'},
+    );
+    // USB
+    cables.push(
+      {from:'w-usb', to:'mac-w', chain:'daw',    label:'Wing USB → Mac (48ch audio + control)'},
+      {from:'m-usb', to:'mac-m', chain:'daw',    label:'Model 12 USB → Mac (Loopback stems)'},
+    );
+
+    // Normals (patchbay top→bottom)
+    const norms = [[1,2,3,4,'vocal'],[5,6,7,8,'guitar'],[9,'tape'],[23,24,'monitor']];
+
+    // ── RENDER ──
+    const svg = document.getElementById('svg')!;
+    const info = document.getElementById('info')!;
+
+    function draw() {
+      let s = '';
+
+      // Rack rails
+      s += `<rect x="${RACK_L}" y="15" width="${RAIL_W}" height="${curY - 10}" rx="2" fill="#0e0e0c" stroke="#1a1a18"/>`;
+      s += `<rect x="${RACK_R - RAIL_W}" y="15" width="${RAIL_W}" height="${curY - 10}" rx="2" fill="#0e0e0c" stroke="#1a1a18"/>`;
+      // Rail holes
+      for (let y = 30; y < curY; y += 20) {
+        s += `<rect x="${RACK_L + 8}" y="${y}" width="10" height="6" rx="1" fill="#080808" stroke="#1a1a18" stroke-width="0.5"/>`;
+        s += `<rect x="${RACK_R - RAIL_W + 8}" y="${y}" width="10" height="6" rx="1" fill="#080808" stroke="#1a1a18" stroke-width="0.5"/>`;
+      }
+
+      // Units
+      rackUnits.forEach(u => {
+        // Panel
+        s += `<rect x="${PANEL_L}" y="${u.y}" width="${PANEL_W}" height="${u.h}" rx="2" fill="${u.color || '#111'}" stroke="#222220"/>`;
+        // Screws (4 corners)
+        [[PANEL_L + 12, u.y + 12], [PANEL_R - 12, u.y + 12],
+         [PANEL_L + 12, u.y + u.h - 12], [PANEL_R - 12, u.y + u.h - 12]].forEach(([sx, sy]) => {
+          s += `<circle cx="${sx}" cy="${sy}" r="4" fill="#0a0a08" stroke="#2a2a26" stroke-width="1"/>`;
+          s += `<line x1="${sx-2}" y1="${sy}" x2="${sx+2}" y2="${sy}" stroke="#2a2a26" stroke-width="0.7"/>`;
+        });
+        // Label (left side)
+        s += `<text x="${PANEL_L + 35}" y="${u.y + u.h/2 - 4}" fill="#3a3a36" font-family="JetBrains Mono,monospace" font-size="11" font-weight="600" letter-spacing="2">${u.label}</text>`;
+        if (u.sub) s += `<text x="${PANEL_L + 35}" y="${u.y + u.h/2 + 10}" fill="#252524" font-family="JetBrains Mono,monospace" font-size="7" letter-spacing="1">${u.sub}</text>`;
+
+        // Jacks
+        u.jacks.forEach(j => {
+          const col = CC[j.chain] || CC.none;
+          const r = j.type === 'xlr' ? 11 : j.type === 'usb' ? 9 : 9;
+          const gy = j.yOff;
+
+          s += `<g class="jk" data-id="${j.id}" data-chain="${j.chain}" data-note="${j.note}" style="cursor:pointer">`;
+          // Outer ring
+          s += `<circle cx="${j.x}" cy="${gy}" r="${r}" fill="#0a0a08" stroke="${col}" stroke-width="1.5" class="jr"/>`;
+          // Inner hole
+          s += `<circle cx="${j.x}" cy="${gy}" r="${r * 0.35}" fill="#050505"/>`;
+          // XLR pins
+          if (j.type === 'xlr') {
+            s += `<circle cx="${j.x-3.5}" cy="${gy+3}" r="1.2" fill="#1a1a18"/>`;
+            s += `<circle cx="${j.x+3.5}" cy="${gy+3}" r="1.2" fill="#1a1a18"/>`;
+            s += `<circle cx="${j.x}" cy="${gy-3.5}" r="1.2" fill="#1a1a18"/>`;
+          }
+          // USB shape
+          if (j.type === 'usb') {
+            s += `<rect x="${j.x-5}" y="${gy-3}" width="10" height="6" rx="1.5" fill="none" stroke="#2a2a26" stroke-width="0.8"/>`;
+          }
+          // Label below
+          if (j.label) {
+            s += `<text x="${j.x}" y="${gy + r + 12}" text-anchor="middle" fill="${col}" font-family="JetBrains Mono,monospace" font-size="7" font-weight="500" opacity="0.8">${j.label}</text>`;
+          }
+          s += `</g>`;
+        });
+      });
+
+      // ── Patchbay normals ──
+      norms.forEach(grp => {
+        const chain = grp[grp.length - 1] as string;
+        const col = CC[chain] || CC.none;
+        for (let i = 0; i < grp.length - 1; i++) {
+          const n = grp[i] as number;
+          const t = J[`p${n}t`], b = J[`p${n}b`];
+          if (t && b) {
+            s += `<line class="nl" data-chain="${chain}" x1="${t.x}" y1="${t.y}" x2="${b.x}" y2="${b.y}" stroke="${col}" stroke-width="1.5" stroke-dasharray="2 3" opacity="0.35"/>`;
+          }
+        }
+      });
+
+      // ── Cables ──
+      cables.forEach(c => {
+        const a = J[c.from], b = J[c.to];
+        if (!a || !b) return;
+        const col = CC[c.chain] || CC.none;
+        const dy = b.y - a.y;
+        const dx = b.x - a.x;
+
+        // Cables sag downward like real cables on the back of a rack
+        // More vertical distance = more sag offset to the side
+        const sagDir = a.x < 700 ? -1 : 1; // sag left if on left side, right if on right
+        const sagAmt = Math.min(Math.abs(dy) * 0.25, 60) * sagDir;
+
+        let path: string;
+        if (Math.abs(dy) < 20) {
+          // Same unit — gentle horizontal curve
+          const mid = (a.x + b.x) / 2;
+          path = `M${a.x},${a.y} Q${mid},${a.y + 15} ${b.x},${b.y}`;
+        } else {
+          // Between units — cable droops to the side
+          const cx1 = a.x + sagAmt;
+          const cy1 = a.y + dy * 0.6;
+          const cx2 = b.x + sagAmt;
+          const cy2 = a.y + dy * 0.4;
+          path = `M${a.x},${a.y} C${cx1},${cy1} ${cx2},${cy2} ${b.x},${b.y}`;
+        }
+
+        s += `<path class="cb" data-chain="${c.chain}" data-label="${c.label}" d="${path}" fill="none" stroke="${col}" stroke-width="2.5" stroke-linecap="round" opacity="0.2" style="cursor:pointer;pointer-events:stroke"/>`;
+      });
+
+      // Update viewBox to fit content
+      svg.setAttribute('viewBox', `0 0 1400 ${curY + 30}`);
+      svg.innerHTML = s;
+
+      // ── EVENTS ──
+      svg.querySelectorAll('.jk').forEach(el => {
+        const g = el as SVGGElement;
+        g.addEventListener('mouseenter', () => {
+          info.textContent = g.dataset.note || '';
+          info.style.color = CC[g.dataset.chain!] || '#99998a';
+          hl(g.dataset.chain!);
+        });
+        g.addEventListener('mouseleave', reset);
+      });
+      svg.querySelectorAll('.cb').forEach(el => {
+        const p = el as SVGPathElement;
+        p.addEventListener('mouseenter', () => {
+          info.textContent = p.dataset.label || '';
+          info.style.color = CC[p.dataset.chain!] || '#99998a';
+          hl(p.dataset.chain!);
+        });
+        p.addEventListener('mouseleave', reset);
+      });
+    }
+
+    function hl(chain: string) {
+      svg.querySelectorAll('.jk').forEach(el => {
+        const g = el as SVGGElement;
+        const ring = g.querySelector('.jr') as SVGCircleElement;
+        if (g.dataset.chain === chain) {
+          ring.setAttribute('stroke-width', '3');
+          ring.style.filter = `drop-shadow(0 0 4px ${CC[chain]})`;
+          ring.setAttribute('opacity', '1');
+        } else {
+          ring.setAttribute('opacity', '0.12');
+          ring.style.filter = '';
+        }
+      });
+      svg.querySelectorAll('.cb').forEach(el => {
+        const p = el as SVGPathElement;
+        if (p.dataset.chain === chain) {
+          p.setAttribute('opacity', '0.85');
+          p.setAttribute('stroke-width', '3.5');
+          p.style.filter = `drop-shadow(0 0 6px ${CC[chain]}50)`;
+        } else {
+          p.setAttribute('opacity', '0.03');
+          p.style.filter = '';
+        }
+      });
+      svg.querySelectorAll('.nl').forEach(el => {
+        const l = el as SVGLineElement;
+        if ((l as any).dataset.chain === chain) {
+          l.setAttribute('opacity', '0.8');
+          l.setAttribute('stroke-dasharray', '');
+          l.setAttribute('stroke-width', '2.5');
+        } else {
+          l.setAttribute('opacity', '0.03');
+        }
+      });
+    }
+
+    function reset() {
+      info.textContent = 'HOVER OVER ANY JACK';
+      info.style.color = '#d4943a';
+      svg.querySelectorAll('.jr').forEach(el => {
+        (el as SVGCircleElement).setAttribute('stroke-width', '1.5');
+        (el as SVGCircleElement).setAttribute('opacity', '1');
+        (el as SVGCircleElement).style.filter = '';
+      });
+      svg.querySelectorAll('.cb').forEach(el => {
+        (el as SVGPathElement).setAttribute('opacity', '0.2');
+        (el as SVGPathElement).setAttribute('stroke-width', '2.5');
+        (el as SVGPathElement).style.filter = '';
+      });
+      svg.querySelectorAll('.nl').forEach(el => {
+        (el as SVGLineElement).setAttribute('opacity', '0.35');
+        (el as SVGLineElement).setAttribute('stroke-dasharray', '2 3');
+        (el as SVGLineElement).setAttribute('stroke-width', '1.5');
+      });
+    }
+
+    draw();
+
+    // ════════════════════════════════════════════
+    // VIRTUAL ROUTING — Loopback + USB
+    // ════════════════════════════════════════════
+
+    const VC: Record<string,string> = {
+      rec: '#6a9ab8',       // recording to Logic
+      session: '#7aaa6a',   // session players from Logic
+      mix: '#d4943a',       // mix stems to Model 12
+      returns: '#e8a090',   // tape returns + M12 main
+    };
+
+    const vsvg = document.getElementById('vsvg')!;
+    const vinfo = document.getElementById('vinfo')!;
+
+    function drawVirtual() {
+      let s = '';
+
+      // Background grid
+      for (let y = 0; y <= 520; y += 40) s += `<line x1="0" y1="${y}" x2="1400" y2="${y}" stroke="#0a120a" stroke-width="0.5"/>`;
+      for (let x = 0; x <= 1400; x += 40) s += `<line x1="${x}" y1="0" x2="${x}" y2="520" stroke="#0a120a" stroke-width="0.5"/>`;
+
+      // Three columns: Wing USB Out (left), Loopback (center), Destinations (right)
+      const COL1 = 80;   // Wing USB outputs
+      const COL2 = 500;  // Loopback
+      const COL3 = 900;  // Destinations (Logic / Model 12)
+
+      // Column headers
+      const hdr = (x:number, y:number, t:string) =>
+        `<text x="${x}" y="${y}" fill="#2a3a2a" font-family="JetBrains Mono,monospace" font-size="9" font-weight="600" letter-spacing="3">${t}</text>`;
+      s += hdr(COL1, 28, 'WING USB OUTPUTS');
+      s += hdr(COL2, 28, 'LOOPBACK');
+      s += hdr(COL3, 28, 'DESTINATIONS');
+
+      // Loopback device
+      s += `<rect x="${COL2 - 40}" y="40" width="200" height="460" rx="4" fill="#081008" stroke="#1a2a1a" stroke-width="1"/>`;
+      s += `<text x="${COL2 + 60}" y="60" text-anchor="middle" fill="#3a5a3a" font-family="JetBrains Mono,monospace" font-size="10" font-weight="600" letter-spacing="2">LOOPBACK</text>`;
+
+      // Virtual nodes
+      interface VNode { id:string; x:number; y:number; label:string; note:string; cat:string; }
+      const vn: Record<string, VNode> = {};
+      function N(id:string, x:number, y:number, label:string, note:string, cat:string) {
+        vn[id] = {id, x, y, label, note, cat};
+      }
+
+      // ── RECORDING (Wing → Logic) ──
+      N('usb1',    COL1, 90,  'USB 1',    'Wing USB Out 1 — USR/1, Bus 7L Vocal (clean outboard)', 'rec');
+      N('lb-r1',   COL2 + 60, 90,  '→',       'Loopback routes USB 1 to Logic', 'rec');
+      N('logic-v', COL3, 90,  'Logic: Vocal Track', 'Logic recording input — vocal with clean outboard', 'rec');
+
+      // ── SESSION PLAYERS (Logic → Wing) ──
+      N('logic-b', COL3, 160, 'Logic: Bass',        'Session player → USB 9-10 → Wing Ch9',  'session');
+      N('lb-s1',   COL2 + 60, 160, '←',       'Loopback routes Logic to Wing USB In', 'session');
+      N('usbi9',   COL1, 160, 'USB In 9-10',  'Wing Ch9 Bass',   'session');
+
+      N('logic-p', COL3, 200, 'Logic: Piano/Synth', 'Session player → USB 13-14 → Wing Ch11', 'session');
+      N('lb-s2',   COL2 + 60, 200, '←',       '', 'session');
+      N('usbi13',  COL1, 200, 'USB In 13-14', 'Wing Ch11 Piano/Synth', 'session');
+
+      N('logic-d', COL3, 240, 'Logic: Drums',       'Session player → USB 15-16 → Wing Ch12', 'session');
+      N('lb-s3',   COL2 + 60, 240, '←',       '', 'session');
+      N('usbi15',  COL1, 240, 'USB In 15-16', 'Wing Ch12 Drums', 'session');
+
+      // ── MIX MATRICES (Wing → Model 12) ──
+      N('mx2',  COL1, 310, 'USB 33 (MX2)',  'Mix Vocal — Ch25 + Ch17, FX3 DOUBLE',         'mix');
+      N('mx3',  COL1, 340, 'USB 34 (MX3)',  'Mix Rhythm — Bus 10 RACKAMP',                 'mix');
+      N('mx4',  COL1, 370, 'USB 35 (MX4)',  'Mix Lead — Bus 11 ANGEL',                     'mix');
+      N('mx5',  COL1, 400, 'USB 36 (MX5)',  'Mix Overdub — per project',                   'mix');
+      N('mx6',  COL1, 430, 'USB 37 (MX6)',  'Mix Bass — Ch9, FX4 SUB octaver',             'mix');
+      N('mx38', COL1, 460, 'USB 38 (USR/3)','Tape Return — Ch33 TAPE + TAPE-DL',           'mix');
+      N('mx7',  COL1, 490, 'USB 39-40 (MX7)','Mix Drums — Ch12, stereo',                   'mix');
+      N('mx8',  COL1, 510, 'USB 41-42 (MX8)','Mix Piano — Ch11, stereo',                   'mix');
+
+      N('lb-m', COL2 + 60, 410, '→',       'Loopback routes Wing USB to Model 12', 'mix');
+
+      N('m12-1', COL3, 310, 'M12 Ch 1: Vocal',    'Model 12 USB mode — receives MX2', 'mix');
+      N('m12-2', COL3, 340, 'M12 Ch 2: Rhythm',   'Model 12 USB mode — receives MX3', 'mix');
+      N('m12-3', COL3, 370, 'M12 Ch 3: Lead',     'Model 12 USB mode — receives MX4', 'mix');
+      N('m12-4', COL3, 400, 'M12 Ch 4: Overdub',  'Model 12 USB mode — receives MX5', 'mix');
+      N('m12-5', COL3, 430, 'M12 Ch 5: Bass',     'Model 12 USB mode — receives MX6', 'mix');
+      N('m12-6', COL3, 460, 'M12 Ch 6: Tape',     'Model 12 USB mode — receives USR/3 tape return', 'mix');
+      N('m12-78',COL3, 490, 'M12 Ch 7/8: Drums',  'Model 12 USB mode — receives MX7 stereo', 'mix');
+      N('m12-910',COL3,510, 'M12 Ch 9/10: Piano',  'Model 12 USB mode — receives MX8 stereo', 'mix');
+
+      // ── TAPE RETURNS (Logic → Wing) ──
+      // Shown as a summary since there are 8 channels
+      N('logic-tr', COL3 + 150, 160, '← Tape Returns', 'Logic playback → USB 17-26 → Wing Ch25-32', 'returns');
+
+      // ── MODEL 12 MAIN RETURN ──
+      N('m12-main', COL3, 80, 'M12 Main L/R',      'Model 12 stereo mix → USB 3-4 → Wing Ch7', 'returns');
+      N('lb-ret',   COL2 + 60, 80, '←',       'Loopback routes Model 12 main to Wing', 'returns');
+      N('usbi34',   COL1, 80, 'USB In 3-4',   'Wing Ch7 Model 12 Mix — solo to monitor', 'returns');
+
+      // Virtual cables
+      const vcables: {from:string, to:string, cat:string, label:string}[] = [
+        // Recording
+        {from:'usb1', to:'lb-r1', cat:'rec', label:'Vocal recording → Loopback'},
+        {from:'lb-r1', to:'logic-v', cat:'rec', label:'Loopback → Logic vocal track'},
+        // Session players
+        {from:'logic-b', to:'lb-s1', cat:'session', label:'Logic Bass → Loopback'},
+        {from:'lb-s1', to:'usbi9', cat:'session', label:'Loopback → Wing USB 9-10'},
+        {from:'logic-p', to:'lb-s2', cat:'session', label:'Logic Piano → Loopback'},
+        {from:'lb-s2', to:'usbi13', cat:'session', label:'Loopback → Wing USB 13-14'},
+        {from:'logic-d', to:'lb-s3', cat:'session', label:'Logic Drums → Loopback'},
+        {from:'lb-s3', to:'usbi15', cat:'session', label:'Loopback → Wing USB 15-16'},
+        // Mix matrices
+        {from:'mx2', to:'lb-m', cat:'mix', label:'MX2 Mix Vocal → Loopback'},
+        {from:'mx3', to:'lb-m', cat:'mix', label:'MX3 Mix Rhythm → Loopback'},
+        {from:'mx4', to:'lb-m', cat:'mix', label:'MX4 Mix Lead → Loopback'},
+        {from:'mx5', to:'lb-m', cat:'mix', label:'MX5 Mix Overdub → Loopback'},
+        {from:'mx6', to:'lb-m', cat:'mix', label:'MX6 Mix Bass → Loopback'},
+        {from:'mx38',to:'lb-m', cat:'mix', label:'USR/3 Tape Return → Loopback'},
+        {from:'mx7', to:'lb-m', cat:'mix', label:'MX7 Mix Drums → Loopback'},
+        {from:'mx8', to:'lb-m', cat:'mix', label:'MX8 Mix Piano → Loopback'},
+        {from:'lb-m', to:'m12-1', cat:'mix', label:'Loopback → M12 Ch 1'},
+        {from:'lb-m', to:'m12-2', cat:'mix', label:'Loopback → M12 Ch 2'},
+        {from:'lb-m', to:'m12-3', cat:'mix', label:'Loopback → M12 Ch 3'},
+        {from:'lb-m', to:'m12-4', cat:'mix', label:'Loopback → M12 Ch 4'},
+        {from:'lb-m', to:'m12-5', cat:'mix', label:'Loopback → M12 Ch 5'},
+        {from:'lb-m', to:'m12-6', cat:'mix', label:'Loopback → M12 Ch 6 (tape)'},
+        {from:'lb-m', to:'m12-78', cat:'mix', label:'Loopback → M12 Ch 7/8 (drums)'},
+        {from:'lb-m', to:'m12-910', cat:'mix', label:'Loopback → M12 Ch 9/10 (piano)'},
+        // Model 12 return
+        {from:'m12-main', to:'lb-ret', cat:'returns', label:'M12 Main → Loopback'},
+        {from:'lb-ret', to:'usbi34', cat:'returns', label:'Loopback → Wing USB 3-4 → Ch7'},
+      ];
+
+      // Draw nodes
+      Object.values(vn).forEach(n => {
+        const col = VC[n.cat] || '#444';
+        if (n.label === '→' || n.label === '←') {
+          // Loopback passthrough dot
+          s += `<circle class="vn" data-cat="${n.cat}" data-note="${n.note}" cx="${n.x}" cy="${n.y}" r="4" fill="${col}" opacity="0.5" style="cursor:pointer"/>`;
+        } else {
+          // Node with label
+          s += `<g class="vn" data-cat="${n.cat}" data-note="${n.note}" style="cursor:pointer">`;
+          s += `<circle cx="${n.x - 8}" cy="${n.y}" r="5" fill="#060a06" stroke="${col}" stroke-width="1.5" opacity="0.7"/>`;
+          s += `<text x="${n.x + 4}" y="${n.y + 4}" fill="${col}" font-family="JetBrains Mono,monospace" font-size="9" opacity="0.8">${n.label}</text>`;
+          s += `</g>`;
+        }
+      });
+
+      // Draw virtual cables
+      vcables.forEach(c => {
+        const a = vn[c.from], b = vn[c.to];
+        if (!a || !b) return;
+        const col = VC[c.cat] || '#444';
+        const mx = (a.x + b.x) / 2;
+        const path = `M${a.x},${a.y} C${mx},${a.y} ${mx},${b.y} ${b.x},${b.y}`;
+        s += `<path class="vc" data-cat="${c.cat}" data-label="${c.label}" d="${path}" fill="none" stroke="${col}" stroke-width="1.5" stroke-linecap="round" opacity="0.15" style="cursor:pointer;pointer-events:stroke"/>`;
+      });
+
+      vsvg.innerHTML = s;
+
+      // Events
+      vsvg.querySelectorAll('.vn').forEach(el => {
+        el.addEventListener('mouseenter', () => {
+          const d = el as SVGElement;
+          vinfo.textContent = d.dataset.note || '';
+          vinfo.style.color = VC[d.dataset.cat!] || '#7aaa6a';
+          vhl(d.dataset.cat!);
+        });
+        el.addEventListener('mouseleave', vreset);
+      });
+      vsvg.querySelectorAll('.vc').forEach(el => {
+        el.addEventListener('mouseenter', () => {
+          const p = el as SVGPathElement;
+          vinfo.textContent = p.dataset.label || '';
+          vinfo.style.color = VC[p.dataset.cat!] || '#7aaa6a';
+          vhl(p.dataset.cat!);
+        });
+        el.addEventListener('mouseleave', vreset);
+      });
+    }
+
+    function vhl(cat: string) {
+      vsvg.querySelectorAll('.vn').forEach(el => {
+        const d = el as SVGElement;
+        if (d.dataset.cat === cat) {
+          (el.querySelector('circle') || el).setAttribute('opacity', '1');
+        } else {
+          (el.querySelector('circle') || el).setAttribute('opacity', '0.12');
+          const txt = el.querySelector('text');
+          if (txt) txt.setAttribute('opacity', '0.12');
+        }
+      });
+      vsvg.querySelectorAll('.vc').forEach(el => {
+        const p = el as SVGPathElement;
+        if (p.dataset.cat === cat) {
+          p.setAttribute('opacity', '0.8');
+          p.setAttribute('stroke-width', '2.5');
+        } else {
+          p.setAttribute('opacity', '0.03');
+        }
+      });
+    }
+
+    function vreset() {
+      vinfo.textContent = 'HOVER OVER ANY NODE';
+      vinfo.style.color = '#7aaa6a';
+      vsvg.querySelectorAll('.vn').forEach(el => {
+        (el.querySelector('circle') || el).setAttribute('opacity', '0.7');
+        const txt = el.querySelector('text');
+        if (txt) txt.setAttribute('opacity', '0.8');
+      });
+      vsvg.querySelectorAll('.vc').forEach(el => {
+        (el as SVGPathElement).setAttribute('opacity', '0.15');
+        (el as SVGPathElement).setAttribute('stroke-width', '1.5');
+      });
+    }
+
+    drawVirtual();
+  </script>
+</Base>
