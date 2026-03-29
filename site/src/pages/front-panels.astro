@@ -113,37 +113,41 @@ import Base from '../layouts/Base.astro';
       // OFF=90, 50≈120, 55≈150, 60≈170, 65≈195, 70≈220, 75≈248,
       // -80≈278, 30≈305, 35≈330, 40≈352, 45≈18 (past 0/360)
 
-      // Explicit clock positions from the photo:
-      // OFF=6:00, 55=7:00, 60=8:00, 65=9:00, 70=10:00, 75=11:00,
-      // -80=12:00, 30=1:00, 35=2:00, 40=3:00, 45=4:00, 50=5:00
-      // SVG: 0°=3:00, 90°=6:00, 180°=9:00, 270°=12:00
-      const gainPositions: {label:string, deg:number}[] = [
-        {label:'OFF', deg:90},   // 6:00
-        {label:'55',  deg:120},  // 7:00
-        {label:'60',  deg:150},  // 8:00
-        {label:'65',  deg:180},  // 9:00
-        {label:'70',  deg:210},  // 10:00
-        {label:'75',  deg:240},  // 11:00
-        {label:'-80', deg:270},  // 12:00 (dead top)
-        {label:'30',  deg:300},  // 1:00
-        {label:'35',  deg:330},  // 2:00
-        {label:'40',  deg:360},  // 3:00
-        {label:'45',  deg:390},  // 4:00 (=30°)
-        {label:'50',  deg:420},  // 5:00 (=60°)
-      ];
-      const sweepTotal = 330; // 90° to 420°
+      // Two groups with a gap between -80 and 30 at the top.
+      // Left group (OFF→75): 7 positions evenly spaced from 90° to 255°
+      // Gap: 255° to 305° (50° gap, no dots)
+      // Right group (30→50): 5 positions evenly spaced from 305° to 425° (=65°)
+      // This pushes 50 closer to OFF
+      const leftGroup = ['OFF','55','60','65','70','75','-80'];
+      const rightGroup = ['30','35','40','45','50'];
+      const leftStart = 90, leftEnd = 255;
+      const rightStart = 305, rightEnd = 425;
 
-      // ── WHITE DOTS ── large dot at each number, single small dot between each pair
+      const gainPositions: {label:string, deg:number, group:string}[] = [];
+      leftGroup.forEach((label, i) => {
+        gainPositions.push({label, deg: leftStart + (i / (leftGroup.length - 1)) * (leftEnd - leftStart), group: 'left'});
+      });
+      rightGroup.forEach((label, i) => {
+        gainPositions.push({label, deg: rightStart + (i / (rightGroup.length - 1)) * (rightEnd - rightStart), group: 'right'});
+      });
+      const sweepTotal = rightEnd - leftStart;
+
+      // ── WHITE DOTS ── large dot at each number, small dot between adjacent pairs
+      // No dots in the gap between -80 and 30
       const dr = r + 9;
       gainPositions.forEach((pos, i) => {
         const a = pos.deg * Math.PI / 180;
         // Large dot at number position
         s += `<circle cx="${cx + Math.cos(a) * dr}" cy="${cy + Math.sin(a) * dr}" r="2.2" fill="#ffffff"/>`;
-        // Small dot halfway to next number (except after last)
+        // Small dot between this and next — but skip the -80 to 30 gap
         if (i < gainPositions.length - 1) {
-          const midDeg = (pos.deg + gainPositions[i + 1].deg) / 2;
-          const ma = midDeg * Math.PI / 180;
-          s += `<circle cx="${cx + Math.cos(ma) * dr}" cy="${cy + Math.sin(ma) * dr}" r="2" fill="#ffffff"/>`;
+          const next = gainPositions[i + 1];
+          // Skip if crossing the gap (different groups and large degree jump)
+          if (pos.group === next.group || (next.deg - pos.deg) < 40) {
+            const midDeg = (pos.deg + next.deg) / 2;
+            const ma = midDeg * Math.PI / 180;
+            s += `<circle cx="${cx + Math.cos(ma) * dr}" cy="${cy + Math.sin(ma) * dr}" r="1.75" fill="#ffffff"/>`;
+          }
         }
       });
 
@@ -171,8 +175,9 @@ import Base from '../layouts/Base.astro';
       // Subtle sheen
       s += `<ellipse cx="${cx - 3}" cy="${cy - 3}" rx="${r * 0.3}" ry="${r * 0.2}" fill="#aa3333" opacity="0.12"/>`;
 
-      // ── WHITE POINTER LINE ── at 35 = 330° (2:00 position)
-      const deg35 = 330;
+      // ── WHITE POINTER LINE ── at 35 position
+      const pos35 = gainPositions.find(p => p.label === '35')!;
+      const deg35 = pos35.deg;
       const pa35 = deg35 * Math.PI / 180;
       const pxI = cx + Math.cos(pa35) * 4;
       const pyI = cy + Math.sin(pa35) * 4;
