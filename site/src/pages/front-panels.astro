@@ -12,347 +12,339 @@ import Base from '../layouts/Base.astro';
   </div>
 
   <div id="panels">
-    <div class="panel-section">
-      <div class="chain-label vocal">VOCAL CHAIN (A SIDE)</div>
-    </div>
-    <svg id="svg" viewBox="0 0 1400 2200" preserveAspectRatio="xMidYMid meet"></svg>
+    <div class="info" id="info">Hover over any control</div>
+    <svg id="svg" viewBox="0 0 1400 400" preserveAspectRatio="xMidYMid meet"></svg>
   </div>
 
   <style>
     #panels { max-width: 1400px; margin: 0 auto; padding: 0 8px 80px; }
-    .panel-section { margin-bottom: 8px; }
-    .chain-label {
-      font-family: var(--mono); font-size: 10px; font-weight: 600;
-      letter-spacing: 3px; padding: 8px 16px;
+    .info {
+      font-family: var(--mono); font-size: 11px; color: var(--stone);
+      padding: 8px 14px; margin-bottom: 4px;
+      background: var(--soot); border: 1px solid var(--smoke); border-radius: 2px;
     }
-    .chain-label.vocal { color: #6a9ab8; }
-    .chain-label.guitar { color: #c46a5a; }
     #svg { display: block; width: 100%; background: #060608; border: 1px solid #1a1a18; border-radius: 2px; }
   </style>
 
   <script>
     const svg = document.getElementById('svg')!;
+    const info = document.getElementById('info')!;
 
-    // Colors
-    const METAL = '#1c1c1a';
-    const PANEL_BG = '#141412';
-    const DARK = '#0a0a08';
-    const SCREW = '#2a2a26';
-    const TEXT_DIM = '#444440';
-    const TEXT_MED = '#66665a';
-    const TEXT_BRT = '#99998a';
-    const CREAM = '#cccbb8';
-    const AMBER = '#d4943a';
-    const VOCAL = '#6a9ab8';
-    const GUITAR = '#c46a5a';
-    const VU_GREEN = '#4a8a4a';
-    const VU_RED = '#c44a4a';
+    // ════════════════════════════════════════════════
+    // HERITAGE AUDIO HA73-EQX2 — NEVE 1073 CLONE
+    // Channel A (Vocal Chain) — Calibrated
+    //
+    // Physical reference: 2U, dark grey/charcoal faceplate
+    // Classic 1073 layout: DI → preamp gain (red) →
+    //   output attenuator (stepped) → EQ section →
+    //   HPF → switches
+    //
+    // EQ: 3-band Neve style with stepped frequency selectors
+    //   HIGH: 12kHz shelf, gain ±16dB
+    //   MID: 7.2k/4.8k/3.2k/1.6k/0.7k/0.36k peak, gain ±16dB
+    //   LOW: 220/110/60/35 Hz shelf, gain ±16dB
+    //   HPF: 300/160/80/50 Hz, 18dB/oct
+    //
+    // Calibrated: Gain 35, Output 1 o'clock, EQ flat/bypassed
+    // ════════════════════════════════════════════════
 
-    // ── HELPERS ──
+    const PX = 30;   // Panel x
+    const PY = 30;   // Panel y
+    const PW = 1340; // Panel width
+    const PH = 340;  // Panel height (2U)
 
-    function knob(cx: number, cy: number, r: number, value: number, min: number, max: number, label: string, valueLabel: string, color: string, options?: {ticks?: number, style?: string}): string {
-      // value: current position (min..max)
-      // Knob rotates from -135deg (min) to +135deg (max)
-      const pct = (value - min) / (max - min);
-      const angle = -135 + pct * 270;
-      const ticks = options?.ticks || 11;
-      const style = options?.style || 'standard';
-
-      let s = '';
-
-      // Knob shadow
-      s += `<circle cx="${cx}" cy="${cy}" r="${r + 3}" fill="#080808" opacity="0.5"/>`;
-
-      // Tick marks
-      for (let i = 0; i < ticks; i++) {
-        const t = i / (ticks - 1);
-        const a = (-135 + t * 270) * Math.PI / 180;
-        const x1 = cx + Math.cos(a) * (r + 8);
-        const y1 = cy + Math.sin(a) * (r + 8);
-        const x2 = cx + Math.cos(a) * (r + 14);
-        const y2 = cy + Math.sin(a) * (r + 14);
-        const isActive = t <= pct;
-        s += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${isActive ? color : '#2a2a26'}" stroke-width="1.5" stroke-linecap="round"/>`;
-      }
-
-      // Knob body
-      if (style === 'chicken-head') {
-        // Pointer-style knob (like 1176)
-        s += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="#1a1a18" stroke="#333" stroke-width="1"/>`;
-        const pa = angle * Math.PI / 180;
-        const px = cx + Math.cos(pa) * (r * 0.75);
-        const py = cy + Math.sin(pa) * (r * 0.75);
-        s += `<line x1="${cx}" y1="${cy}" x2="${px}" y2="${py}" stroke="${color}" stroke-width="2.5" stroke-linecap="round"/>`;
-        s += `<circle cx="${cx}" cy="${cy}" r="3" fill="#333"/>`;
-      } else if (style === 'red') {
-        // Red knob (HA73 gain)
-        s += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="#8a2222" stroke="#aa3333" stroke-width="1.5"/>`;
-        const pa = angle * Math.PI / 180;
-        const px = cx + Math.cos(pa) * (r * 0.7);
-        const py = cy + Math.sin(pa) * (r * 0.7);
-        s += `<line x1="${cx}" y1="${cy}" x2="${px}" y2="${py}" stroke="#eee" stroke-width="2" stroke-linecap="round"/>`;
-      } else if (style === 'bakelite') {
-        // Bakelite style (Opto/LA-2A)
-        s += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="#2a2520" stroke="#3a3530" stroke-width="1.5"/>`;
-        // Notch
-        const pa = angle * Math.PI / 180;
-        const px = cx + Math.cos(pa) * (r * 0.65);
-        const py = cy + Math.sin(pa) * (r * 0.65);
-        s += `<circle cx="${px}" cy="${py}" r="2.5" fill="${CREAM}"/>`;
-      } else {
-        // Standard silver knob
-        s += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="#2a2a28" stroke="#3a3a38" stroke-width="1"/>`;
-        // Indicator line
-        const pa = angle * Math.PI / 180;
-        const px = cx + Math.cos(pa) * (r * 0.7);
-        const py = cy + Math.sin(pa) * (r * 0.7);
-        s += `<line x1="${cx}" y1="${cy}" x2="${px}" y2="${py}" stroke="${CREAM}" stroke-width="1.5" stroke-linecap="round"/>`;
-        s += `<circle cx="${cx}" cy="${cy}" r="2" fill="#3a3a38"/>`;
-      }
-
-      // Label below
-      s += `<text x="${cx}" y="${cy + r + 26}" text-anchor="middle" fill="${TEXT_MED}" font-family="JetBrains Mono,monospace" font-size="8" letter-spacing="1">${label}</text>`;
-      // Value
-      s += `<text x="${cx}" y="${cy + r + 37}" text-anchor="middle" fill="${color}" font-family="JetBrains Mono,monospace" font-size="9" font-weight="600">${valueLabel}</text>`;
-
-      return s;
-    }
-
-    function vuMeter(x: number, y: number, w: number, h: number, label: string, reading: string): string {
-      let s = '';
-      // VU meter housing
-      s += `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="3" fill="#0c0c0a" stroke="#2a2a26" stroke-width="1"/>`;
-      // Scale arc
-      const cx = x + w/2, cy = y + h - 15;
-      const arcR = w * 0.35;
-      // Scale markings (-20 to +3 VU)
-      for (let i = 0; i <= 10; i++) {
-        const t = i / 10;
-        const a = (-150 + t * 120) * Math.PI / 180;
-        const x1 = cx + Math.cos(a) * (arcR - 4);
-        const y1 = cy + Math.sin(a) * (arcR - 4);
-        const x2 = cx + Math.cos(a) * arcR;
-        const y2 = cy + Math.sin(a) * arcR;
-        const col = t > 0.7 ? VU_RED : VU_GREEN;
-        s += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${col}" stroke-width="1" opacity="0.6"/>`;
-      }
-      // Needle (at 0VU position — roughly 70% of scale)
-      const needleAngle = (-150 + 0.7 * 120) * Math.PI / 180;
-      const nx = cx + Math.cos(needleAngle) * (arcR - 8);
-      const ny = cy + Math.sin(needleAngle) * (arcR - 8);
-      s += `<line x1="${cx}" y1="${cy}" x2="${nx}" y2="${ny}" stroke="#eee" stroke-width="1"/>`;
-      s += `<circle cx="${cx}" cy="${cy}" r="2" fill="#333"/>`;
-      // Label
-      s += `<text x="${cx}" y="${y + 12}" text-anchor="middle" fill="${TEXT_DIM}" font-family="JetBrains Mono,monospace" font-size="7" letter-spacing="1">${label}</text>`;
-      // Reading
-      s += `<text x="${cx}" y="${y + h + 14}" text-anchor="middle" fill="${AMBER}" font-family="JetBrains Mono,monospace" font-size="8">${reading}</text>`;
-      return s;
-    }
-
-    function button(x: number, y: number, label: string, active: boolean, color: string): string {
-      let s = '';
-      s += `<rect x="${x-20}" y="${y-8}" width="40" height="16" rx="2" fill="${active ? color : '#1a1a18'}" stroke="#333" stroke-width="0.5" opacity="${active ? 0.8 : 0.4}"/>`;
-      s += `<text x="${x}" y="${y + 3}" text-anchor="middle" fill="${active ? '#fff' : TEXT_DIM}" font-family="JetBrains Mono,monospace" font-size="7" font-weight="${active ? '600' : '400'}">${label}</text>`;
-      return s;
-    }
-
-    function panel(x: number, y: number, w: number, h: number, name: string, sub: string, color: string): string {
-      let s = '';
-      // Faceplate
-      s += `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="3" fill="${PANEL_BG}" stroke="#2a2a26" stroke-width="1.5"/>`;
-      // Brushed metal texture
-      for (let i = 0; i < h; i += 2) {
-        s += `<line x1="${x}" y1="${y+i}" x2="${x+w}" y2="${y+i}" stroke="#1a1a18" stroke-width="0.3" opacity="0.3"/>`;
-      }
-      // Screws
-      [[x+15, y+15], [x+w-15, y+15], [x+15, y+h-15], [x+w-15, y+h-15]].forEach(([sx, sy]) => {
-        s += `<circle cx="${sx}" cy="${sy}" r="5" fill="#0e0e0c" stroke="${SCREW}" stroke-width="1"/>`;
-        s += `<line x1="${sx-2.5}" y1="${sy}" x2="${sx+2.5}" y2="${sy}" stroke="${SCREW}" stroke-width="0.8"/>`;
-      });
-      // Name plate
-      s += `<text x="${x + 40}" y="${y + h/2 - 2}" fill="${color}" font-family="DM Serif Display,serif" font-size="18" opacity="0.8">${name}</text>`;
-      s += `<text x="${x + 40}" y="${y + h/2 + 14}" fill="${TEXT_DIM}" font-family="JetBrains Mono,monospace" font-size="8" letter-spacing="1">${sub}</text>`;
-      return s;
-    }
-
-    function sectionDivider(y: number, label: string, color: string): string {
-      let s = '';
-      s += `<line x1="30" y1="${y}" x2="1370" y2="${y}" stroke="#1a1a18" stroke-width="1"/>`;
-      s += `<text x="700" y="${y - 8}" text-anchor="middle" fill="${color}" font-family="JetBrains Mono,monospace" font-size="10" font-weight="600" letter-spacing="3">${label}</text>`;
-      return s;
-    }
-
-    // ── BUILD ──
+    // Neve faceplate colors
+    const FACEPLATE = '#2a2a2d';      // Dark charcoal grey
+    const FACEPLATE_EDGE = '#3a3a3d';
+    const NEVE_TEXT = '#c0c0b8';      // Cream/silver text
+    const NEVE_DIM = '#666660';       // Dim markings
+    const RED_KNOB = '#8b1a1a';       // Heritage red gain knob
+    const RED_KNOB_EDGE = '#a52a2a';
+    const SILVER_KNOB = '#555558';    // Silver/grey pointer knobs
+    const SILVER_EDGE = '#6a6a6d';
+    const BLACK_KNOB = '#1a1a1c';     // Black selector knobs
+    const BLACK_EDGE = '#2a2a2d';
+    const INDICATOR = '#e8e8d8';      // White indicator line
+    const VOCAL_HL = '#6a9ab8';       // Vocal chain highlight
 
     let s = '';
 
-    // Background
-    for (let y = 0; y <= 2200; y += 40) s += `<line x1="0" y1="${y}" x2="1400" y2="${y}" stroke="#0c0c0b" stroke-width="0.3"/>`;
+    // ── FACEPLATE ──
+    // Dark charcoal with subtle horizontal brushed texture
+    s += `<rect x="${PX}" y="${PY}" width="${PW}" height="${PH}" rx="4" fill="${FACEPLATE}" stroke="${FACEPLATE_EDGE}" stroke-width="2"/>`;
+    // Brushed metal texture
+    for (let i = 0; i < PH; i += 1.5) {
+      const op = 0.03 + Math.random() * 0.04;
+      s += `<line x1="${PX}" y1="${PY + i}" x2="${PX + PW}" y2="${PY + i}" stroke="#222225" stroke-width="0.5" opacity="${op}"/>`;
+    }
 
-    // ════════════════════════════
-    // VOCAL CHAIN (A SIDE)
-    // ════════════════════════════
-    s += sectionDivider(30, 'VOCAL CHAIN — A SIDE', VOCAL);
+    // Rack screws (hex style, 4 corners + middle)
+    const screwPositions = [
+      [PX + 14, PY + 14], [PX + PW - 14, PY + 14],
+      [PX + 14, PY + PH - 14], [PX + PW - 14, PY + PH - 14],
+      [PX + 14, PY + PH/2], [PX + PW - 14, PY + PH/2],
+    ];
+    screwPositions.forEach(([sx, sy]) => {
+      s += `<circle cx="${sx}" cy="${sy}" r="6" fill="#1a1a1c" stroke="#333336" stroke-width="1"/>`;
+      // Hex pattern
+      for (let a = 0; a < 6; a++) {
+        const angle = a * 60 * Math.PI / 180;
+        const x1 = sx + Math.cos(angle) * 3;
+        const y1 = sy + Math.sin(angle) * 3;
+        const x2 = sx + Math.cos(angle + Math.PI/3) * 3;
+        const y2 = sy + Math.sin(angle + Math.PI/3) * 3;
+        s += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#444" stroke-width="0.5"/>`;
+      }
+    });
 
-    // ── HA73 A ──
-    const ha_y = 60;
-    s += panel(30, ha_y, 1340, 200, 'HA73-EQX2', 'HERITAGE AUDIO — NEVE 1073 PREAMP/EQ CLONE — CHANNEL A', VOCAL);
+    // ── BRAND / MODEL TEXT ──
+    s += `<text x="${PX + 50}" y="${PY + 30}" fill="${NEVE_TEXT}" font-family="DM Serif Display,serif" font-size="16" opacity="0.7">Heritage Audio</text>`;
+    s += `<text x="${PX + 50}" y="${PY + 48}" fill="${NEVE_DIM}" font-family="JetBrains Mono,monospace" font-size="9" letter-spacing="2">HA-73 EQX2 ELITE</text>`;
+    s += `<text x="${PX + PW - 50}" y="${PY + 30}" text-anchor="end" fill="${VOCAL_HL}" font-family="JetBrains Mono,monospace" font-size="9" letter-spacing="2" opacity="0.6">CHANNEL A — VOCAL</text>`;
+    s += `<text x="${PX + PW - 50}" y="${PY + 48}" text-anchor="end" fill="${NEVE_DIM}" font-family="JetBrains Mono,monospace" font-size="8">Calibrated: 1kHz @ -18dBFS → 2 yellow on Ch17</text>`;
 
-    // Gain knob (red, set to 35)
-    s += knob(250, ha_y + 100, 28, 35, 0, 80, 'GAIN', '35', '#cc3333', {ticks: 9, style: 'red'});
-    // Output knob (1 o'clock ≈ 65%)
-    s += knob(400, ha_y + 100, 22, 65, 0, 100, 'OUTPUT', '1 o\'clock', CREAM, {ticks: 11, style: 'standard'});
-    // EQ section — all flat for calibration
-    s += knob(580, ha_y + 80, 16, 0, -16, 16, 'LOW', 'FLAT', TEXT_MED, {ticks: 7});
-    s += knob(700, ha_y + 80, 16, 0, -16, 16, 'MID', 'FLAT', TEXT_MED, {ticks: 7});
-    s += knob(820, ha_y + 80, 16, 0, -16, 16, 'HIGH', 'FLAT', TEXT_MED, {ticks: 7});
-    // HPF
-    s += knob(940, ha_y + 80, 14, 0, 0, 4, 'HPF', 'OFF', TEXT_DIM, {ticks: 5});
-    // Phantom, pad, polarity buttons
-    s += button(1100, ha_y + 70, '48V', false, '#cc3333');
-    s += button(1100, ha_y + 95, 'PAD', false, AMBER);
-    s += button(1100, ha_y + 120, 'POL', false, TEXT_MED);
-    // Level indicator
-    s += `<text x="${1200}" y="${ha_y + 100}" text-anchor="middle" fill="${VOCAL}" font-family="JetBrains Mono,monospace" font-size="9">→ 2 YELLOW</text>`;
-    s += `<text x="${1200}" y="${ha_y + 115}" text-anchor="middle" fill="${TEXT_DIM}" font-family="JetBrains Mono,monospace" font-size="7">on Ch17</text>`;
+    // ── HELPER: Neve-style stepped rotary knob ──
+    function neveKnob(cx: number, cy: number, r: number, value: number, min: number, max: number,
+      label: string, valLabel: string, style: 'red'|'silver'|'black', positions: string[], note: string,
+      rotation?: 'standard'|'clock'): string {
+      let k = '';
+      const pct = (value - min) / (max - min);
+      const rot = rotation || 'clock';
+      // 'standard': min at bottom-left (-135°), max at bottom-right (+135°) — for gain knobs
+      // 'clock': min at 7 o'clock (120°), max at 5 o'clock (420°) — 12 o'clock = center
+      const startAngle = rot === 'standard' ? -135 : 120;
+      const sweep = rot === 'standard' ? 270 : 300;
+      const angle = startAngle + pct * sweep;
 
-    // ── WA76 A ──
-    const wa_y = 300;
-    s += panel(30, wa_y, 1340, 220, 'WA76-D2', 'WARM AUDIO — 1176 FET COMPRESSOR — CHANNEL A', VOCAL);
+      // Position markings around the knob
+      positions.forEach((pos, i) => {
+        const t = i / (positions.length - 1);
+        const a = (startAngle + t * sweep) * Math.PI / 180;
+        const tx = cx + Math.cos(a) * (r + 16);
+        const ty = cy + Math.sin(a) * (r + 16);
+        const isActive = Math.abs(t - pct) < 0.05;
+        k += `<text x="${tx}" y="${ty + 3}" text-anchor="middle" fill="${isActive ? INDICATOR : NEVE_DIM}" font-family="JetBrains Mono,monospace" font-size="${pos.length > 2 ? 5 : 6}" opacity="${isActive ? 1 : 0.5}">${pos}</text>`;
+      });
 
-    // VU meter
-    s += vuMeter(200, wa_y + 25, 160, 90, 'VU', '0dB GR');
-    // Input (48)
-    s += knob(450, wa_y + 110, 24, 48, 0, 100, 'INPUT', '48', VOCAL, {ticks: 11, style: 'chicken-head'});
-    // Output (18)
-    s += knob(580, wa_y + 110, 24, 18, 0, 100, 'OUTPUT', '18', VOCAL, {ticks: 11, style: 'chicken-head'});
-    // Attack (3)
-    s += knob(710, wa_y + 110, 20, 3, 1, 7, 'ATTACK', '3', CREAM, {ticks: 7, style: 'chicken-head'});
-    // Release (7)
-    s += knob(820, wa_y + 110, 20, 7, 1, 7, 'RELEASE', '7', CREAM, {ticks: 7, style: 'chicken-head'});
-    // Ratio buttons
-    s += button(950, wa_y + 80, '4:1', true, VOCAL);
-    s += button(1000, wa_y + 80, '8:1', false, TEXT_MED);
-    s += button(1050, wa_y + 80, '12:1', false, TEXT_MED);
-    s += button(1100, wa_y + 80, '20:1', false, TEXT_MED);
-    s += button(1025, wa_y + 110, 'ALL', false, VU_RED);
-    // Dry/wet
-    s += knob(1200, wa_y + 110, 16, 100, 0, 100, 'MIX', '100%', TEXT_MED, {ticks: 5});
+      // Knob shadow
+      k += `<circle cx="${cx + 1}" cy="${cy + 2}" r="${r + 1}" fill="#0a0a0c" opacity="0.5"/>`;
 
-    // ── OPTO ──
-    const op_y = 560;
-    s += panel(30, op_y, 1340, 180, 'Audioscape Opto', 'LA-2A OPTICAL COMPRESSOR CLONE', VOCAL);
+      // Knob body
+      let fillCol: string, strokeCol: string;
+      if (style === 'red') {
+        fillCol = RED_KNOB; strokeCol = RED_KNOB_EDGE;
+        // Gradient effect on red knob
+        k += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${fillCol}" stroke="${strokeCol}" stroke-width="2"/>`;
+        k += `<circle cx="${cx - r*0.15}" cy="${cy - r*0.15}" r="${r * 0.7}" fill="none" stroke="#a03030" stroke-width="0.5" opacity="0.3"/>`;
+      } else if (style === 'silver') {
+        fillCol = SILVER_KNOB; strokeCol = SILVER_EDGE;
+        k += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${fillCol}" stroke="${strokeCol}" stroke-width="1.5"/>`;
+        // Knurled edge texture
+        for (let a = 0; a < 360; a += 12) {
+          const rad = a * Math.PI / 180;
+          const x1 = cx + Math.cos(rad) * (r - 1);
+          const y1 = cy + Math.sin(rad) * (r - 1);
+          const x2 = cx + Math.cos(rad) * r;
+          const y2 = cy + Math.sin(rad) * r;
+          k += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#777" stroke-width="0.5"/>`;
+        }
+      } else {
+        fillCol = BLACK_KNOB; strokeCol = BLACK_EDGE;
+        k += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${fillCol}" stroke="${strokeCol}" stroke-width="1.5"/>`;
+      }
 
-    // VU meter
-    s += vuMeter(250, op_y + 20, 180, 100, 'GAIN REDUCTION', '0dB GR');
-    // Peak Reduction (off for calibration)
-    s += knob(550, op_y + 90, 28, 0, 0, 100, 'PEAK REDUCTION', 'OFF', VOCAL, {ticks: 11, style: 'bakelite'});
-    // Gain (between 10 and 15)
-    s += knob(750, op_y + 90, 28, 12, 0, 100, 'GAIN', '10-15', VOCAL, {ticks: 11, style: 'bakelite'});
-    // Mode switch
-    s += button(950, op_y + 80, 'COMP', true, VOCAL);
-    s += button(950, op_y + 105, 'LIMIT', false, TEXT_MED);
-    // Power
-    s += `<circle cx="1100" cy="${op_y + 90}" r="6" fill="${VU_GREEN}" opacity="0.8"/>`;
-    s += `<text x="1100" y="${op_y + 110}" text-anchor="middle" fill="${TEXT_DIM}" font-family="JetBrains Mono,monospace" font-size="7">POWER</text>`;
+      // Pointer/indicator line
+      const pa = angle * Math.PI / 180;
+      const px = cx + Math.cos(pa) * (r * 0.75);
+      const py = cy + Math.sin(pa) * (r * 0.75);
+      k += `<line x1="${cx}" y1="${cy}" x2="${px}" y2="${py}" stroke="${INDICATOR}" stroke-width="${style === 'red' ? 2.5 : 2}" stroke-linecap="round"/>`;
 
-    // ════════════════════════════
-    // GUITAR CHAIN (B SIDE)
-    // ════════════════════════════
-    s += sectionDivider(790, 'GUITAR CHAIN — B SIDE', GUITAR);
+      // Center cap
+      if (style === 'red') {
+        k += `<circle cx="${cx}" cy="${cy}" r="3" fill="#6a1515"/>`;
+      } else {
+        k += `<circle cx="${cx}" cy="${cy}" r="2.5" fill="${fillCol}" stroke="${strokeCol}" stroke-width="0.5"/>`;
+      }
 
-    // ── HA73 B ──
-    const hab_y = 820;
-    s += panel(30, hab_y, 1340, 200, 'HA73-EQX2', 'HERITAGE AUDIO — NEVE 1073 PREAMP/EQ CLONE — CHANNEL B', GUITAR);
+      // Label
+      k += `<text x="${cx}" y="${cy + r + 28}" text-anchor="middle" fill="${NEVE_TEXT}" font-family="JetBrains Mono,monospace" font-size="8" font-weight="500" letter-spacing="1">${label}</text>`;
+      // Value
+      k += `<text x="${cx}" y="${cy + r + 40}" text-anchor="middle" fill="${VOCAL_HL}" font-family="JetBrains Mono,monospace" font-size="9" font-weight="600">${valLabel}</text>`;
 
-    s += knob(250, hab_y + 100, 28, 35, 0, 80, 'GAIN', '35', '#cc3333', {ticks: 9, style: 'red'});
-    s += knob(400, hab_y + 100, 22, 85, 0, 100, 'OUTPUT', '4 o\'clock', CREAM, {ticks: 11, style: 'standard'});
-    s += knob(580, hab_y + 80, 16, 0, -16, 16, 'LOW', 'FLAT', TEXT_MED, {ticks: 7});
-    s += knob(700, hab_y + 80, 16, 0, -16, 16, 'MID', 'FLAT', TEXT_MED, {ticks: 7});
-    s += knob(820, hab_y + 80, 16, 0, -16, 16, 'HIGH', 'FLAT', TEXT_MED, {ticks: 7});
-    s += knob(940, hab_y + 80, 14, 0, 0, 4, 'HPF', 'OFF', TEXT_DIM, {ticks: 5});
-    s += button(1100, hab_y + 70, '48V', false, '#cc3333');
-    s += button(1100, hab_y + 95, 'PAD', false, AMBER);
-    s += button(1100, hab_y + 120, 'POL', false, TEXT_MED);
-    s += `<text x="${1200}" y="${hab_y + 100}" text-anchor="middle" fill="${GUITAR}" font-family="JetBrains Mono,monospace" font-size="9">→ 2 YELLOW</text>`;
-    s += `<text x="${1200}" y="${hab_y + 115}" text-anchor="middle" fill="${TEXT_DIM}" font-family="JetBrains Mono,monospace" font-size="7">on Ch18</text>`;
+      // Wrap in interactive group
+      return `<g class="ctrl" data-note="${note}" style="cursor:pointer">${k}</g>`;
+    }
 
-    // ── WA76 B ──
-    const wab_y = 1060;
-    s += panel(30, wab_y, 1340, 220, 'WA76-D2', 'WARM AUDIO — 1176 FET COMPRESSOR — CHANNEL B', GUITAR);
+    // ── HELPER: Toggle switch ──
+    function neveSwitch(cx: number, cy: number, label: string, active: boolean, note: string): string {
+      let k = '';
+      k += `<g class="ctrl" data-note="${note}" style="cursor:pointer">`;
+      // Switch housing
+      k += `<rect x="${cx - 10}" y="${cy - 14}" width="20" height="28" rx="3" fill="#1a1a1c" stroke="#333" stroke-width="0.8"/>`;
+      // Toggle position
+      const ty = active ? cy - 6 : cy + 6;
+      k += `<rect x="${cx - 6}" y="${ty - 4}" width="12" height="8" rx="2" fill="${active ? '#666' : '#333'}" stroke="#555" stroke-width="0.5"/>`;
+      // LED indicator
+      if (active) {
+        k += `<circle cx="${cx}" cy="${cy - 22}" r="3" fill="#cc3333" opacity="0.9"/>`;
+        k += `<circle cx="${cx}" cy="${cy - 22}" r="5" fill="#cc3333" opacity="0.15"/>`;
+      }
+      // Label
+      k += `<text x="${cx}" y="${cy + 26}" text-anchor="middle" fill="${NEVE_DIM}" font-family="JetBrains Mono,monospace" font-size="7" letter-spacing="0.5">${label}</text>`;
+      k += `</g>`;
+      return k;
+    }
 
-    s += vuMeter(200, wab_y + 25, 160, 90, 'VU', '0dB GR');
-    s += knob(450, wab_y + 110, 24, 48, 0, 100, 'INPUT', '48', GUITAR, {ticks: 11, style: 'chicken-head'});
-    s += knob(580, wab_y + 110, 24, 24, 0, 100, 'OUTPUT', '24', GUITAR, {ticks: 11, style: 'chicken-head'});
-    s += knob(710, wab_y + 110, 20, 5, 1, 7, 'ATTACK', '5', CREAM, {ticks: 7, style: 'chicken-head'});
-    s += knob(820, wab_y + 110, 20, 6, 1, 7, 'RELEASE', '6', CREAM, {ticks: 7, style: 'chicken-head'});
-    s += button(950, wab_y + 80, '4:1', true, GUITAR);
-    s += button(1000, wab_y + 80, '8:1', false, TEXT_MED);
-    s += button(1050, wab_y + 80, '12:1', false, TEXT_MED);
-    s += button(1100, wab_y + 80, '20:1', false, TEXT_MED);
-    s += button(1025, wab_y + 110, 'ALL', false, VU_RED);
-    s += knob(1200, wab_y + 110, 16, 100, 0, 100, 'MIX', '100%', TEXT_MED, {ticks: 5});
+    // ── HELPER: DI jack ──
+    function diJack(cx: number, cy: number): string {
+      let k = '';
+      k += `<g class="ctrl" data-note="Front panel 1/4 inch DI input — instrument level" style="cursor:pointer">`;
+      k += `<circle cx="${cx}" cy="${cy}" r="10" fill="#0e0e10" stroke="#3a3a3d" stroke-width="1.5"/>`;
+      k += `<circle cx="${cx}" cy="${cy}" r="4" fill="#080808"/>`;
+      k += `<text x="${cx}" y="${cy + 20}" text-anchor="middle" fill="${NEVE_DIM}" font-family="JetBrains Mono,monospace" font-size="7">DI</text>`;
+      k += `</g>`;
+      return k;
+    }
 
-    // ── DISTRESSOR ──
-    const ds_y = 1320;
-    s += panel(30, ds_y, 1340, 220, 'Distressor', 'EMPIRICAL LABS EL8 — COMPRESSION + HARMONIC COLOR', GUITAR);
+    // ── LAYOUT ──
+    // Left to right: DI | GAIN (red) | OUTPUT (stepped) | HIGH EQ | MID EQ | LOW EQ | HPF | switches
+    // Based on 1073 layout: preamp section left, EQ center-right, switches far right
 
-    // VU meter
-    s += vuMeter(200, ds_y + 25, 160, 90, 'GAIN REDUCTION', '0dB GR');
-    // Input (2)
-    s += knob(450, ds_y + 110, 24, 2, 0, 10, 'INPUT', '2', GUITAR, {ticks: 11, style: 'chicken-head'});
-    // Output (7)
-    s += knob(580, ds_y + 110, 24, 7, 0, 10, 'OUTPUT', '7', GUITAR, {ticks: 11, style: 'chicken-head'});
-    // Attack (5-6)
-    s += knob(710, ds_y + 110, 20, 5.5, 1, 10, 'ATTACK', '5-6', CREAM, {ticks: 10, style: 'chicken-head'});
-    // Release (auto)
-    s += knob(820, ds_y + 110, 20, 0, 0, 10, 'RELEASE', 'AUTO', CREAM, {ticks: 10, style: 'chicken-head'});
-    // Ratio
-    s += button(950, ds_y + 70, '1:1', false, TEXT_MED);
-    s += button(1000, ds_y + 70, '2:1', false, TEXT_MED);
-    s += button(1050, ds_y + 70, '4:1', true, GUITAR);
-    s += button(1100, ds_y + 70, '6:1', false, TEXT_MED);
-    s += button(1150, ds_y + 70, '10:1', false, TEXT_MED);
-    s += button(1025, ds_y + 95, '20:1', false, TEXT_MED);
-    s += button(1100, ds_y + 95, 'NUKE', false, VU_RED);
-    // Dist mode
-    s += button(950, ds_y + 130, 'DIST 2', true, AMBER);
-    s += button(1030, ds_y + 130, 'DIST 3', false, TEXT_MED);
-    s += `<text x="990" y="${ds_y + 155}" text-anchor="middle" fill="${TEXT_DIM}" font-family="JetBrains Mono,monospace" font-size="7">TAPE SAT</text>`;
-    // HP filter
-    s += knob(1200, ds_y + 110, 16, 0, 0, 10, 'DET HP', 'OFF', TEXT_DIM, {ticks: 5});
+    const ROW_Y = PY + 190; // Main knob row vertical center
 
-    // ════════════════════════════
-    // PERFORMANCE SETTINGS
-    // ════════════════════════════
-    s += sectionDivider(1590, 'PERFORMANCE SETTINGS (DURING TRACKING)', AMBER);
+    // Section divider lines
+    const sections = [
+      { x: PX + 120, label: 'PREAMP' },
+      { x: PX + 380, label: 'EQ — HIGH' },
+      { x: PX + 560, label: 'EQ — MID' },
+      { x: PX + 780, label: 'EQ — LOW' },
+      { x: PX + 960, label: 'FILTER' },
+      { x: PX + 1100, label: 'SWITCHES' },
+    ];
+    sections.forEach((sec, i) => {
+      s += `<line x1="${sec.x}" y1="${PY + 60}" x2="${sec.x}" y2="${PY + PH - 20}" stroke="#333336" stroke-width="0.5" opacity="0.4"/>`;
+      s += `<text x="${sec.x + 8}" y="${PY + 72}" fill="${NEVE_DIM}" font-family="JetBrains Mono,monospace" font-size="6" letter-spacing="1.5" opacity="0.6">${sec.label}</text>`;
+    });
 
-    const perf_y = 1620;
-    s += `<rect x="30" y="${perf_y}" width="1340" height="180" rx="3" fill="${PANEL_BG}" stroke="#2a2a26"/>`;
-    // Brushed metal
-    for (let i = 0; i < 180; i += 2) s += `<line x1="30" y1="${perf_y+i}" x2="1370" y2="${perf_y+i}" stroke="#1a1a18" stroke-width="0.3" opacity="0.2"/>`;
+    // DI input
+    s += diJack(PX + 75, ROW_Y);
 
-    s += `<text x="700" y="${perf_y + 30}" text-anchor="middle" fill="${AMBER}" font-family="JetBrains Mono,monospace" font-size="10" letter-spacing="2">TYPICAL PERFORMANCE SETTINGS</text>`;
+    // GAIN — large red knob with chrome bezel
+    // Real unit: OFF at bottom (6 o'clock), numbers go clockwise: 30,35,40...75,-80
+    // Calibrated: 35 (just past OFF, about 5 o'clock)
+    // Custom rendering — the real knob has numbers on the faceplate, not tick marks
+    {
+      const cx = PX + 200, cy = ROW_Y, r = 34;
+      // Chrome bezel ring
+      s += `<circle cx="${cx}" cy="${cy}" r="${r + 4}" fill="none" stroke="#888" stroke-width="3"/>`;
+      s += `<circle cx="${cx}" cy="${cy}" r="${r + 2}" fill="none" stroke="#555" stroke-width="1"/>`;
 
-    // Vocal performance
-    s += `<text x="200" y="${perf_y + 55}" text-anchor="middle" fill="${VOCAL}" font-family="JetBrains Mono,monospace" font-size="9" font-weight="600">VOCAL</text>`;
-    s += `<text x="200" y="${perf_y + 75}" text-anchor="middle" fill="${TEXT_MED}" font-family="JetBrains Mono,monospace" font-size="8">WA76 A: 3-4dB GR</text>`;
-    s += `<text x="200" y="${perf_y + 90}" text-anchor="middle" fill="${TEXT_MED}" font-family="JetBrains Mono,monospace" font-size="8">Opto: Peak Red ~40%</text>`;
-    s += `<text x="200" y="${perf_y + 105}" text-anchor="middle" fill="${TEXT_MED}" font-family="JetBrains Mono,monospace" font-size="8">Compress mode, 2-3dB GR</text>`;
+      // Number positions on faceplate (clockwise from OFF at bottom)
+      // OFF=6:00, 30=~5:00, 35=~4:30, 40=~4:00, 45=~3:30 ... 75=~8:00, -80=~7:00
+      const gainNums = ['OFF','30','35','40','45','50','55','60','65','70','75','80'];
+      const startDeg = 180; // 6 o'clock = 180° in SVG (bottom)
+      const endDeg = 180 - 330; // almost full rotation back to ~7 o'clock
+      gainNums.forEach((num, i) => {
+        const t = i / (gainNums.length - 1);
+        // Go clockwise from bottom: 180° → 180° - 330° = -150° (which is 210°)
+        // But we want clockwise, so: 180 - t * 330
+        const a = (180 + t * 330) * Math.PI / 180;
+        const tx = cx + Math.cos(a) * (r + 18);
+        const ty = cy + Math.sin(a) * (r + 18);
+        const isActive = num === '35';
+        // Tick mark
+        const tx1 = cx + Math.cos(a) * (r + 8);
+        const ty1 = cy + Math.sin(a) * (r + 8);
+        const tx2 = cx + Math.cos(a) * (r + 12);
+        const ty2 = cy + Math.sin(a) * (r + 12);
+        s += `<line x1="${tx1}" y1="${ty1}" x2="${tx2}" y2="${ty2}" stroke="${isActive ? '#fff' : '#ccc'}" stroke-width="1.5"/>`;
+        s += `<text x="${tx}" y="${ty + 3}" text-anchor="middle" fill="${isActive ? '#fff' : '#bbb'}" font-family="JetBrains Mono,monospace" font-size="${num === 'OFF' ? 6 : 7}" font-weight="${isActive ? '700' : '400'}">${num === '80' ? '-80' : num}</text>`;
+      });
 
-    // Guitar performance
-    s += `<text x="700" y="${perf_y + 55}" text-anchor="middle" fill="${GUITAR}" font-family="JetBrains Mono,monospace" font-size="9" font-weight="600">GUITAR</text>`;
-    s += `<text x="700" y="${perf_y + 75}" text-anchor="middle" fill="${TEXT_MED}" font-family="JetBrains Mono,monospace" font-size="8">WA76 B: Atk 5, Rel 6, 4:1</text>`;
-    s += `<text x="700" y="${perf_y + 90}" text-anchor="middle" fill="${TEXT_MED}" font-family="JetBrains Mono,monospace" font-size="8">Distressor: 4:1, Dist 2 (tape)</text>`;
-    s += `<text x="700" y="${perf_y + 105}" text-anchor="middle" fill="${TEXT_MED}" font-family="JetBrains Mono,monospace" font-size="8">Atk 5-6, Rel Auto</text>`;
+      // Red knob body
+      s += `<g class="ctrl" data-note="Preamp gain — large red knob with chrome bezel. Calibrated to 35 for -18dBFS reference tone. Range: OFF → 30 → 80." style="cursor:pointer">`;
+      s += `<circle cx="${cx + 1}" cy="${cy + 2}" r="${r}" fill="#080808" opacity="0.4"/>`;
+      s += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${RED_KNOB}" stroke="${RED_KNOB_EDGE}" stroke-width="2"/>`;
+      // Subtle gradient/sheen
+      s += `<circle cx="${cx - 6}" cy="${cy - 6}" r="${r * 0.6}" fill="none" stroke="#a03535" stroke-width="0.5" opacity="0.4"/>`;
 
-    // Calibration reference
-    s += `<text x="1100" y="${perf_y + 55}" text-anchor="middle" fill="${AMBER}" font-family="JetBrains Mono,monospace" font-size="9" font-weight="600">CALIBRATION</text>`;
-    s += `<text x="1100" y="${perf_y + 75}" text-anchor="middle" fill="${TEXT_MED}" font-family="JetBrains Mono,monospace" font-size="8">Reference: 1kHz @ -18dBFS</text>`;
-    s += `<text x="1100" y="${perf_y + 90}" text-anchor="middle" fill="${TEXT_MED}" font-family="JetBrains Mono,monospace" font-size="8">Target: 2 yellow steps</text>`;
-    s += `<text x="1100" y="${perf_y + 105}" text-anchor="middle" fill="${TEXT_MED}" font-family="JetBrains Mono,monospace" font-size="8">on Ch17 / Ch18</text>`;
-    s += `<text x="1100" y="${perf_y + 125}" text-anchor="middle" fill="${TEXT_DIM}" font-family="JetBrains Mono,monospace" font-size="7">All compressors: 0dB GR during cal</text>`;
+      // Pointer — at 35 position (1/11 of range past OFF)
+      const pct35 = 1 / 11; // 35 is the second position after OFF
+      const pointerAngle = (180 + pct35 * 330) * Math.PI / 180;
+      const px = cx + Math.cos(pointerAngle) * (r * 0.78);
+      const py = cy + Math.sin(pointerAngle) * (r * 0.78);
+      s += `<line x1="${cx}" y1="${cy}" x2="${px}" y2="${py}" stroke="#eee" stroke-width="3" stroke-linecap="round"/>`;
+
+      // Center cap (darker red)
+      s += `<circle cx="${cx}" cy="${cy}" r="5" fill="#5a1212" stroke="#7a2222" stroke-width="1"/>`;
+      s += `</g>`;
+
+      // Label
+      s += `<text x="${cx}" y="${cy + r + 32}" text-anchor="middle" fill="${NEVE_TEXT}" font-family="JetBrains Mono,monospace" font-size="8" font-weight="500" letter-spacing="1">GAIN</text>`;
+      s += `<text x="${cx}" y="${cy + r + 44}" text-anchor="middle" fill="${VOCAL_HL}" font-family="JetBrains Mono,monospace" font-size="9" font-weight="600">35</text>`;
+    }
+
+    // OUTPUT — Neve stepped attenuator
+    // Calibrated: "1 o'clock" position ≈ 65% of range
+    // 1073 output is typically a stepped rotary from OFF through various attenuation levels
+    const outputPositions = ['OFF','−20','−16','−12','−8','−4','0','+4'];
+    s += neveKnob(PX + 330, ROW_Y, 24, 65, 0, 100, 'OUTPUT', '1 o\'clock',
+      'silver', outputPositions, 'Output level — stepped Neve attenuator. Calibrated to 1 o\'clock for unity gain through chain.');
+
+    // HIGH EQ — frequency selector + gain
+    // 12kHz shelf (fixed on 1073), gain ±16dB
+    // Calibrated: FLAT (0dB, center position)
+    const hiFreqPositions = ['OFF','12k'];
+    s += neveKnob(PX + 430, ROW_Y - 35, 16, 0, 0, 1, 'HF', 'OFF',
+      'black', hiFreqPositions, 'High shelf frequency selector — 12kHz or OFF');
+    const hiGainPositions = ['-16','-8','0','+8','+16'];
+    s += neveKnob(PX + 430, ROW_Y + 40, 18, 0, -16, 16, 'HF GAIN', '0dB',
+      'silver', hiGainPositions, 'High shelf gain — ±16dB. Calibrated FLAT (0dB).');
+
+    // MID EQ — frequency selector (6 positions) + gain
+    const midFreqPositions = ['.36','.7','1.6','3.2','4.8','7.2'];
+    s += neveKnob(PX + 570, ROW_Y - 35, 18, 0, 0, 5, 'MF', 'OFF',
+      'black', midFreqPositions, 'Mid peak frequency selector — 360Hz to 7.2kHz (6 positions)');
+    const midGainPositions = ['-16','-8','0','+8','+16'];
+    s += neveKnob(PX + 570, ROW_Y + 40, 18, 0, -16, 16, 'MF GAIN', '0dB',
+      'silver', midGainPositions, 'Mid peak gain — ±16dB. Calibrated FLAT (0dB).');
+
+    // LOW EQ — frequency selector (4 positions) + gain
+    const loFreqPositions = ['35','60','110','220'];
+    s += neveKnob(PX + 720, ROW_Y - 35, 18, 0, 0, 3, 'LF', 'OFF',
+      'black', loFreqPositions, 'Low shelf frequency selector — 35Hz to 220Hz (4 positions)');
+    const loGainPositions = ['-16','-8','0','+8','+16'];
+    s += neveKnob(PX + 720, ROW_Y + 40, 18, 0, -16, 16, 'LF GAIN', '0dB',
+      'silver', loGainPositions, 'Low shelf gain — ±16dB. Calibrated FLAT (0dB).');
+
+    // HPF — stepped rotary
+    const hpfPositions = ['OFF','50','80','160','300'];
+    s += neveKnob(PX + 870, ROW_Y, 18, 0, 0, 4, 'HPF', 'OFF',
+      'black', hpfPositions, 'High-pass filter — 18dB/oct. OFF / 50 / 80 / 160 / 300 Hz');
+
+    // Switches
+    s += neveSwitch(PX + 1000, ROW_Y - 40, '48V', false, 'Phantom power — OFF for line level input from Wing Out 1');
+    s += neveSwitch(PX + 1050, ROW_Y - 40, 'PAD', false, 'Input pad — -20dB. OFF for normal operation.');
+    s += neveSwitch(PX + 1100, ROW_Y - 40, 'POL', false, 'Polarity reverse — OFF (normal phase)');
+    s += neveSwitch(PX + 1000, ROW_Y + 30, 'EQL', false, 'EQ bypass — OFF (EQ section bypassed during calibration)');
+    s += neveSwitch(PX + 1050, ROW_Y + 30, 'MIC', false, 'Mic/Line selector — LINE mode (receiving from Wing output)');
+    s += neveSwitch(PX + 1100, ROW_Y + 30, 'IMP', false, 'Impedance — 1200Ω (default)');
+
+    // ── SIGNAL FLOW ANNOTATION ──
+    s += `<text x="${PX + PW/2}" y="${PY + PH - 15}" text-anchor="middle" fill="${NEVE_DIM}" font-family="JetBrains Mono,monospace" font-size="7" letter-spacing="1">SIGNAL: Wing Out 1 → P1 → HA73 A LINE IN → GAIN 35 → OUTPUT → P2 → WA76 A IN</text>`;
 
     svg.innerHTML = s;
+
+    // ── EVENTS ──
+    svg.querySelectorAll('.ctrl').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        info.textContent = (el as SVGGElement).dataset.note || '';
+        info.style.color = VOCAL_HL;
+      });
+      el.addEventListener('mouseleave', () => {
+        info.textContent = 'Hover over any control';
+        info.style.color = '#55554e';
+      });
+    });
   </script>
 </Base>
