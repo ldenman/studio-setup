@@ -503,9 +503,9 @@ import Base from '../layouts/Base.astro';
       for (let x = 0; x <= 1400; x += 40) s += `<line x1="${x}" y1="0" x2="${x}" y2="520" stroke="#0a120a" stroke-width="0.5"/>`;
 
       // Three columns: Wing USB Out (left), Loopback (center), Destinations (right)
-      const COL1 = 80;   // Wing USB outputs
-      const COL2 = 500;  // Loopback
-      const COL3 = 900;  // Destinations (Logic / Model 12)
+      const COL1 = 120;   // Wing USB outputs (matches PANEL_L area)
+      const COL2 = 650;   // Loopback (center)
+      const COL3 = 1150;  // Destinations (matches PANEL_R area)
 
       // Column headers
       const hdr = (x:number, y:number, t:string) =>
@@ -515,7 +515,7 @@ import Base from '../layouts/Base.astro';
       s += hdr(COL3, 28, 'DESTINATIONS');
 
       // Loopback device
-      s += `<rect x="${COL2 - 40}" y="40" width="200" height="460" rx="4" fill="#081008" stroke="#1a2a1a" stroke-width="1"/>`;
+      s += `<rect x="${COL2 - 60}" y="40" width="240" height="460" rx="4" fill="#081008" stroke="#1a2a1a" stroke-width="1"/>`;
       s += `<text x="${COL2 + 60}" y="60" text-anchor="middle" fill="#3a5a3a" font-family="JetBrains Mono,monospace" font-size="10" font-weight="600" letter-spacing="2">LOOPBACK</text>`;
 
       // Virtual nodes
