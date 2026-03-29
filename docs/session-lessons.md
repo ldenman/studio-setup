@@ -115,12 +115,25 @@ Lessons learned during studio sessions. Updated after each session.
 - Took all buses off Main except during tracking. During mixing, only Ch7 needs to be on Main
 - FX16 slot would not load effects — possible DSP limit on the Wing Rack when many FX are active
 
+### Tracking Setup (Knockin' on Heaven's Door)
+- Guitar modes: Bus 5 (DELUXE/clean) for rhythm, Bus 11 (ANGEL) for lead. Ch2 → Bus 2 direct (bypassing amp sims) for clean DI
+- Switching rhythm/lead: toggle Ch2→Bus 5 or Ch2→Bus 2 (direct), Ch18→Bus 10 or Bus 11
+- Live vocal (Ch17) and live guitar (Ch18) need matrix sends for Model 12 monitoring: Ch17→MX2, Ch18→MX3 or MX4
+- During tracking, tape return Ch25→MX2 stays on — no double as long as Logic input monitoring is OFF
+- Vocal doubler (DOUBLE/THICK) on MX2 post-insert affects both live and playback
+- Sub Octaver (SUB/MID) on MX6 post-insert for bass mid presence
+
+### Sidechain Limitation
+- Wing dynsc/src cannot be set via OSC or wapi — always reverts to SELF. Must use Wing Edit or console touchscreen for external sidechain routing.
+
 ### FX Slot Usage (end of session)
-- FX1: DELUXE (Bus 5 pre-insert, muted)
+- FX1: DELUXE (Bus 5 pre-insert — rhythm clean)
 - FX2: PLATE (Bus 3 pre-insert)
-- FX6: TAPE-DL (Ch33 post-insert — tape aux loop flutter)
+- FX3: DOUBLE/THICK (MX2 post-insert — vocal doubler, mix 65%, spread 100%)
+- FX4: SUB/MID (MX6 post-insert — bass octaver, oct1 70%, mix 50%)
+- FX6: TAPE-DL (Ch33 post-insert — tape aux loop flutter, drive 30, flutter 55)
 - FX7: RACKAMP (Bus 10 pre-insert — rhythm monitor)
 - FX11: RACKAMP (Bus 6 pre-insert — acoustic, bypassed)
-- FX12: ANGEL (Bus 11 pre-insert — lead monitor)
-- FX13: TAPE (Ch33 pre-insert — tape aux loop saturation)
-- All others: NONE (freed during session)
+- FX12: ANGEL (Bus 11 pre-insert — lead monitor, drive 1.5, treble 3, presence 3)
+- FX13: TAPE (Ch33 pre-insert — tape aux loop saturation, drive 10, speed 30)
+- All others: NONE
