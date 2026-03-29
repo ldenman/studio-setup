@@ -118,6 +118,24 @@ import Base from '../layouts/Base.astro';
       rackUnits.push(unit);
     }
 
+    // ── STUDIO MONITORS + MAC (1U) ──
+    addUnit('STUDIO MONITORS + MAC', 'Speakers via P23/P24 — Mac runs Logic Pro + Loopback', U1, '#0c0c0a', [
+      { id:'sp-r',   xPct:0.08, yOff:40, chain:'monitor', label:'SPK R',     note:'Right speaker — from P23',   type:'xlr', io:'in' },
+      { id:'sp-l',   xPct:0.18, yOff:40, chain:'monitor', label:'SPK L',     note:'Left speaker — from P24',    type:'xlr', io:'in' },
+      { id:'mac-w',  xPct:0.50, yOff:40, chain:'daw',     label:'WING USB',  note:'Mac ↔ Wing 48ch USB audio',  type:'usb', io:'both' },
+      { id:'mac-m',  xPct:0.62, yOff:40, chain:'daw',     label:'M12 USB',   note:'Mac ↔ Model 12 Loopback',    type:'usb', io:'both' },
+      { id:'mac-l',  xPct:0.80, yOff:40, chain:'daw',     label:'LOGIC PRO', note:'Primary recorder + session players (bass, piano, drums)', type:'usb', io:'both' },
+    ]);
+
+    // ── MODEL 12 (1U) ──
+    addUnit('TASCAM MODEL 12', 'Analog Mixing Console — Receives stems via USB/Loopback', U1, '#0f0f0d', [
+      { id:'m-aux',  xPct:0.08, yOff:40, chain:'tape',    label:'AUX 1 OUT', note:'Tape send — pre-fader, per-channel knob → Wing LCL 3', type:'trs', io:'out' },
+      { id:'m-ch6',  xPct:0.22, yOff:40, chain:'tape',    label:'CH 6 IN',   note:'Tape return from P9 (analog) or USB 38 (digital)',      type:'trs', io:'in' },
+      { id:'m-mainl',xPct:0.45, yOff:40, chain:'monitor', label:'MAIN L',    note:'Stereo main out L → USB → Wing Ch7',                   type:'xlr', io:'out' },
+      { id:'m-mainr',xPct:0.52, yOff:40, chain:'monitor', label:'MAIN R',    note:'Stereo main out R → USB → Wing Ch7',                   type:'xlr', io:'out' },
+      { id:'m-usb',  xPct:0.80, yOff:40, chain:'daw',     label:'USB',       note:'USB to Mac — Loopback routes mix stems (USB 33-42)',    type:'usb', io:'both' },
+    ]);
+
     // ── WING RACK (2U) ──
     addUnit('BEHRINGER WING RACK', '48ch Digital Mixer — 8 Inputs / 8 Outputs / USB', U2, '#111',
     [
@@ -190,34 +208,16 @@ import Base from '../layouts/Base.astro';
       { id:'wa-bo', xPct:0.75, yOff:40, chain:'guitar', label:'B OUT', note:'WA76 Ch B Output',                              type:'xlr', io:'out' },
     ]);
 
-    // ── DISTRESSOR (1U) ──
-    addUnit('DISTRESSOR', 'Empirical Labs EL8 — Compression + Harmonic Color', U1, '#111', [
-      { id:'ds-i', xPct:0.60, yOff:40, chain:'guitar', label:'IN',  note:'Distressor Input — in guitar chain after WA76 B', type:'xlr', io:'in' },
-      { id:'ds-o', xPct:0.75, yOff:40, chain:'guitar', label:'OUT', note:'Distressor Output',                               type:'xlr', io:'out' },
-    ]);
-
     // ── OPTO (1U) ──
     addUnit('AUDIOSCAPE OPTO', 'LA-2A Optical Compressor Clone', U1, '#111', [
       { id:'op-i', xPct:0.10, yOff:40, chain:'vocal', label:'IN',  note:'Opto Input — LA-2A smooth optical leveling', type:'xlr', io:'in' },
       { id:'op-o', xPct:0.25, yOff:40, chain:'vocal', label:'OUT', note:'Opto Output',                                type:'xlr', io:'out' },
     ]);
 
-    // ── MODEL 12 (1U) ──
-    addUnit('TASCAM MODEL 12', 'Analog Mixing Console — Receives stems via USB/Loopback', U1, '#0f0f0d', [
-      { id:'m-aux',  xPct:0.08, yOff:40, chain:'tape',    label:'AUX 1 OUT', note:'Tape send — pre-fader, per-channel knob → Wing LCL 3', type:'trs', io:'out' },
-      { id:'m-ch6',  xPct:0.22, yOff:40, chain:'tape',    label:'CH 6 IN',   note:'Tape return from P9 (analog) or USB 38 (digital)',      type:'trs', io:'in' },
-      { id:'m-mainl',xPct:0.45, yOff:40, chain:'monitor', label:'MAIN L',    note:'Stereo main out L → USB → Wing Ch7',                   type:'xlr', io:'out' },
-      { id:'m-mainr',xPct:0.52, yOff:40, chain:'monitor', label:'MAIN R',    note:'Stereo main out R → USB → Wing Ch7',                   type:'xlr', io:'out' },
-      { id:'m-usb',  xPct:0.80, yOff:40, chain:'daw',     label:'USB',       note:'USB to Mac — Loopback routes mix stems (USB 33-42)',    type:'usb', io:'both' },
-    ]);
-
-    // ── SPEAKERS + MAC (1U) ──
-    addUnit('STUDIO MONITORS + MAC', 'Speakers via P23/P24 — Mac runs Logic Pro + Loopback', U1, '#0c0c0a', [
-      { id:'sp-r',   xPct:0.08, yOff:40, chain:'monitor', label:'SPK R',     note:'Right speaker — from P23',   type:'xlr', io:'in' },
-      { id:'sp-l',   xPct:0.18, yOff:40, chain:'monitor', label:'SPK L',     note:'Left speaker — from P24',    type:'xlr', io:'in' },
-      { id:'mac-w',  xPct:0.50, yOff:40, chain:'daw',     label:'WING USB',  note:'Mac ↔ Wing 48ch USB audio',  type:'usb', io:'both' },
-      { id:'mac-m',  xPct:0.62, yOff:40, chain:'daw',     label:'M12 USB',   note:'Mac ↔ Model 12 Loopback',    type:'usb', io:'both' },
-      { id:'mac-l',  xPct:0.80, yOff:40, chain:'daw',     label:'LOGIC PRO', note:'Primary recorder + session players (bass, piano, drums)', type:'usb', io:'both' },
+    // ── DISTRESSOR (1U) ──
+    addUnit('DISTRESSOR', 'Empirical Labs EL8 — Compression + Harmonic Color', U1, '#111', [
+      { id:'ds-i', xPct:0.60, yOff:40, chain:'guitar', label:'IN',  note:'Distressor Input — in guitar chain after WA76 B', type:'xlr', io:'in' },
+      { id:'ds-o', xPct:0.75, yOff:40, chain:'guitar', label:'OUT', note:'Distressor Output',                               type:'xlr', io:'out' },
     ]);
 
     // ── CABLES ──
