@@ -315,15 +315,15 @@ details table { font-size: 12px; }
     <div class="ch-strip dim"><div class="ch-num">4</div><div class="ch-color" style="background:#8a6d3b"></div><div class="fader"></div><div class="ch-name">Open</div><div class="ch-src">Local</div></div>
     <div class="ch-strip dim"><div class="ch-num">5</div><div class="ch-color" style="background:var(--yellow)"></div><div class="fader"></div><div class="ch-name">Gtr Ac DI</div><div class="ch-src">USR/5</div></div>
     <div class="ch-strip dim"><div class="ch-num">6</div><div class="ch-color" style="background:var(--yellow)"></div><div class="fader"></div><div class="ch-name">Gtr Ac Mics</div><div class="ch-src">Local</div></div>
-    <div class="ch-strip dim"><div class="ch-num">7</div><div class="ch-color" style="background:#8a6d3b"></div><div class="fader"></div><div class="ch-name">Open</div><div class="ch-src">Local</div></div>
+    <div class="ch-strip"><div class="ch-num">7</div><div class="ch-color" style="background:#d4874d"></div><div class="fader"></div><div class="ch-name">M12 Mix</div><div class="ch-src">USB/3-4</div></div>
     <div class="ch-strip dim"><div class="ch-num">8</div><div class="ch-color" style="background:#8a6d3b"></div><div class="fader"></div><div class="ch-name">Open</div><div class="ch-src">Local</div></div>
     <div class="ch-sep"></div>
     <div class="ch-strip"><div class="ch-num">9</div><div class="ch-color" style="background:var(--green)"></div><div class="fader"></div><div class="ch-name">Bass</div><div class="ch-src">DAW</div></div>
-    <div class="ch-strip"><div class="ch-num">10</div><div class="ch-color" style="background:var(--green)"></div><div class="fader"></div><div class="ch-name">Keyboard</div><div class="ch-src">DAW</div></div>
-    <div class="ch-strip"><div class="ch-num">11</div><div class="ch-color" style="background:var(--green)"></div><div class="fader"></div><div class="ch-name">Synth</div><div class="ch-src">DAW</div></div>
+    <div class="ch-strip dim"><div class="ch-num">10</div><div class="ch-color" style="background:#8a6d3b"></div><div class="fader"></div><div class="ch-name">(open)</div><div class="ch-src">DAW</div></div>
+    <div class="ch-strip"><div class="ch-num">11</div><div class="ch-color" style="background:var(--green)"></div><div class="fader"></div><div class="ch-name">Piano/Synth</div><div class="ch-src">DAW</div></div>
     <div class="ch-strip"><div class="ch-num">12</div><div class="ch-color" style="background:var(--green)"></div><div class="fader"></div><div class="ch-name">Drums</div><div class="ch-src">DAW</div></div>
     <div class="ch-sep"></div>
-    <div class="ch-strip"><div class="ch-num">13</div><div class="ch-color" style="background:#e8a090"></div><div class="fader"></div><div class="ch-name">Tape Playback</div><div class="ch-src">USB/3-4</div></div>
+    <div class="ch-strip dim"><div class="ch-num">13</div><div class="ch-color" style="background:#8a6d3b"></div><div class="fader"></div><div class="ch-name">Open</div><div class="ch-src"></div></div>
     <div class="ch-strip dim"><div class="ch-num">14</div><div class="ch-color" style="background:#8a6d3b"></div><div class="fader"></div><div class="ch-name">Open</div><div class="ch-src"></div></div>
     <div class="ch-strip dim"><div class="ch-num">15</div><div class="ch-color" style="background:#8a6d3b"></div><div class="fader"></div><div class="ch-name">Open</div><div class="ch-src"></div></div>
     <div class="ch-strip dim"><div class="ch-num">16</div><div class="ch-color" style="background:#8a6d3b"></div><div class="fader"></div><div class="ch-name">Open</div><div class="ch-src"></div></div>
@@ -332,15 +332,19 @@ details table { font-size: 12px; }
     <div class="ch-strip"><div class="ch-num">18</div><div class="ch-color" style="background:var(--red)"></div><div class="fader"></div><div class="ch-name">Guitar Proc</div><div class="ch-src">Local</div></div>
   </div>
 
-  <h4>Model 12 Track Assignments (per project, via USB/Loopback)</h4>
+  <h4>Model 12 Channel Assignments (Mixing Console)</h4>
+  <p>Model 12 receives processed stems from the Wing via USB/Loopback for hands-on analog mixing. Logic is the primary recorder.</p>
   <table>
-    <tr><th>Track</th><th>Mode</th><th>Source</th><th>Format</th></tr>
-    <tr><td>1</td><td>USB</td><td>Vocal + TAPE (Wing USB Out 1 / USR/1 / Bus 7)</td><td>Mono</td></tr>
-    <tr><td>2</td><td>USB</td><td>Guitar + TAPE (Wing USB Out 2 / USR/2 / Bus 8)</td><td>Mono</td></tr>
-    <tr><td>3–6</td><td>MTR</td><td>Previous takes / overdub slots. Track 3 used for re-amp return (USB 3 / USR/8) when re-amping.</td><td>Mono</td></tr>
-    <tr><td>7/8</td><td>MTR</td><td>Free for overdubs. USB 5/6 available for condensers when needed (off by default).</td><td>Stereo</td></tr>
-    <tr><td>9/10</td><td>MTR</td><td>Free for overdubs / additional takes</td><td>Stereo</td></tr>
-    <tr><td>11/12</td><td>Internal</td><td>Model 12 main capture — returns to Wing Ch13 (Tape Playback, -18dB) for overdub monitoring</td><td>Stereo (always recording)</td></tr>
+    <tr><th>M12 Ch</th><th>Wing USB Out</th><th>Wing Source</th><th>Content</th></tr>
+    <tr><td>1</td><td>33 (MX2)</td><td>Ch25 vocal tape return</td><td>Processed vocal</td></tr>
+    <tr><td>2</td><td>34 (MX3)</td><td>Bus 10 (RACKAMP)</td><td>Rhythm guitar</td></tr>
+    <tr><td>3</td><td>35 (MX4)</td><td>Bus 11 (ANGEL)</td><td>Lead guitar</td></tr>
+    <tr><td>4</td><td>36 (MX5)</td><td>Per project</td><td>Overdub</td></tr>
+    <tr><td>5</td><td>37 (MX6)</td><td>Ch9 (Logic bass)</td><td>Bass</td></tr>
+    <tr><td>6</td><td>38 (USR/3)</td><td>Ch33 (TAPE + TAPE-DL)</td><td>Tape aux return</td></tr>
+    <tr><td>7/8</td><td>39-40 (MX7)</td><td>Ch12 (Logic drums)</td><td>Drums stereo</td></tr>
+    <tr><td>9/10</td><td>41-42 (MX8)</td><td>Ch11 (Logic piano/synth)</td><td>Piano/Synth stereo</td></tr>
+    <tr><td>11/12</td><td>Internal</td><td>--</td><td>Stereo mixdown (always recording)</td></tr>
   </table>
 
   <h3>Outboard</h3>
@@ -388,8 +392,8 @@ details table { font-size: 12px; }
   <details>
     <summary>Tascam Model 12 — Multitrack Recorder / Interface</summary>
     <div class="content">
-      <p>12-track recorder, 12-in/10-out USB-C audio interface. Connected via Loopback software — no physical audio cables. Records to SD card.</p>
-      <p><strong>Physical I/O (unused):</strong> 10x XLR/TRS combo inputs (all with phantom), XLR main outs, sub outs, 2 AUX sends, 2 headphone outs, click out, footswitch, MIDI in/out, Bluetooth</p>
+      <p>Analog mixing console. Receives processed stems from the Wing via USB/Loopback. Mixes with real faders, EQ, and compression. Captures stereo mixdown on tracks 11/12. Logic is the primary recorder.</p>
+      <p><strong>Physical I/O:</strong> 10x XLR/TRS combo inputs (all with phantom), XLR main outs (returns to Wing Ch7 via USB), sub outs, 2 AUX sends (AUX 1 used for tape aux loop), 2 headphone outs, click out, footswitch, MIDI in/out, Bluetooth</p>
     </div>
   </details>
 
@@ -407,12 +411,12 @@ details table { font-size: 12px; }
       {point:6, top:"HA73 B Out", bottom:"WA76 B In", chain:"guitar", active:true},
       {point:7, top:"WA76 B Out", bottom:"Distressor In", chain:"guitar", active:true},
       {point:8, top:"Distressor Out", bottom:"Wing LCL In 18", chain:"guitar", active:true},
-      {point:9, top:"Wing LCL Out 3 (Bus 4L)", bottom:"Condenser Mic L", chain:"acoustic", active:true},
-      {point:10, top:"Wing LCL Out 4 (Bus 4R)", bottom:"Condenser Mic R", chain:"acoustic", active:true},
+      {point:9, top:"Wing Out 3 (USR/3)", bottom:"Model 12 Ch 6 line in", chain:"tape", active:true},
+      {point:10, top:"Wing LCL Out 4 (Bus 4R)", bottom:"(open)", chain:"acoustic", active:true},
       {point:23, top:"Wing LCL Out 7 (MTX/1 L)", bottom:"Speakers L", chain:"monitors", active:true},
       {point:24, top:"Wing LCL Out 8 (MTX/1 R)", bottom:"Speakers R", chain:"monitors", active:true},
     ];
-    const colors = {vocal:'var(--blue)',guitar:'var(--red)',monitors:'#8a8578',acoustic:'var(--yellow)'};
+    const colors = {vocal:'var(--blue)',guitar:'var(--red)',monitors:'#8a8578',acoustic:'var(--yellow)',tape:'#e07a5f'};
     const rack = document.getElementById('patchbay-rack');
 
     let topRow = '<div class="pb-row-label">Top row (outputs)</div><div class="pb-row top">';

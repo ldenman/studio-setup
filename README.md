@@ -21,7 +21,7 @@ Recording is comprised of "local/real" instruments: guitar and vocals, but could
 
 **Logic Pro is the primary multi-track recorder.** It records directly from the Wing Rack via USB — unlimited tracks, non-destructive editing, full undo, take comping. Logic also provides virtual studio session players (bass, keyboard, synth, drums) as backing tracks routed into the Wing Rack.
 
-The Wing Rack handles all monitoring with low latency effects. Recording captures the full outboard chain (gate + EQ/compression + de-esser + tape emulation). Monitoring adds amp sims and reverb on top — separate from the recording path.
+The Wing Rack handles all monitoring with low latency effects. Recording captures the clean outboard chain (gate + EQ/compression + de-esser). Tape saturation is added during mixing via the Model 12's AUX 1 send/return loop through the Wing. Monitoring adds amp sims and reverb on top — separate from the recording path.
 
 Individual recorded tracks return from Logic to dedicated Wing channels (Ch25-32) for playback with per-track FX (reverb, amp sims). Tape returns and live inputs run simultaneously — no mode switching.
 
@@ -344,17 +344,17 @@ Model 12 AUX 1 Out connects directly to Wing LCL 3 via TRS→XLR cable (not thro
 
 **Vocal (outboard):** Mic → Wing LCL/1 (ch1 dry, preamp gain) → Bus 1 → Wing Out 1 → P1 → HA73 A → P2 → WA76 A → P3 → Opto → P4 → Wing LCL/17 → Ch17 (Vocal Processed)
 
-**Vocal (recording):** Ch1 (GATE) → Bus 1 → outboard → Ch17 (DE-ES) → Bus 7 → FX9/TAPE (Bus 7 pre-insert) → Logic (via USB)
+**Vocal (recording):** Ch1 (GATE) → Bus 1 → outboard → Ch17 (DE-ES) → Bus 7 → Logic (via USB). Clean outboard, no tape.
 
 **Guitar (Electric, outboard):** DI → Wing LCL/2 (ch2 dry, preamp gain) → Bus 5 → FX6/ANGEL (Bus 5 pre-insert, lead) → Bus 2 → Wing Out 2 → P5 → HA73 B → P6 → WA76 B → P7 → Distressor → P8 → Wing LCL/18 → Ch18 (Guitar Processed)
 
 **Guitar (Acoustic, outboard):** DI → Wing LCL/2 (ch2 dry, preamp gain) → Bus 6 → FX11/RACKAMP (Bus 6 pre-insert) → Bus 2 → Wing Out 2 → P5 → HA73 B → P6 → WA76 B → P7 → Distressor → P8 → Wing LCL/18 → Ch18 (Guitar Processed)
 
-**Guitar (recording):** Ch18 (outboard return) → Bus 8 → FX10/TAPE (Bus 8 pre-insert) → Logic (via USB or Wing Out 3 → P9 analog)
+**Guitar (recording):** Ch18 (outboard return) → Bus 8 → Logic (via USB). Clean outboard, no tape.
 
 **Acoustic Mics (outboard):** Condensers → Wing LCL/3+4 → Ch6 → Bus 6 → FX11/RACKAMP → Bus 2 → outboard chain (above)
 
-**Acoustic Mics (recording):** Ch6 → Bus 9 → FX3/TAPE (Bus 9 pre-insert) → Logic (via USB)
+**Acoustic Mics (recording):** Ch6 → Bus 9 → Logic (via USB). Clean outboard, no tape.
 
 ## Gear Notes
 

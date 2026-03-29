@@ -59,16 +59,16 @@
     },
     {
       "point": 9,
-      "top": "Wing LCL Out 3 (Bus 4L)",
-      "bottom": "Condenser Mic L",
-      "chain": "acoustic",
+      "top": "Wing Out 3 (USR/3)",
+      "bottom": "Model 12 Ch 6 line in",
+      "chain": "tape_return",
       "active": true
     },
     {
       "point": 10,
       "top": "Wing LCL Out 4 (Bus 4R)",
-      "bottom": "Condenser Mic R",
-      "chain": "acoustic",
+      "bottom": "(open)",
+      "chain": "acoustic_mic",
       "active": true
     },
     {
@@ -89,14 +89,14 @@
   "chains": {
     "vocal": {
       "color": "blue",
-      "recording_bus": {"bus": 7, "name": "Vocal Rec", "pre_insert": {"fx_slot": 9, "model": "TAPE", "path": "/bus/7/preins/ins"}, "usr": 1, "usr_grp": "BUS", "usr_in": 7, "usb_out": 1},
+      "recording_bus": {"bus": 7, "name": "Vocal Rec", "pre_insert": "none", "usr": 1, "usr_grp": "BUS", "usr_in": 7, "usb_out": 1, "destination": "Logic"},
       "send": {"wing_out": 1, "source": "Bus 1", "io_out_in_index": 1, "notes": "Clean signal — no TAPE"},
       "return": {"wing_in": 17, "channel": 17},
       "gear": ["HA73 A", "WA76 A", "Opto"]
     },
     "guitar": {
       "color": "red",
-      "recording_bus": {"bus": 8, "name": "Guitar Rec", "pre_insert": {"fx_slot": 10, "model": "TAPE", "path": "/bus/8/preins/ins"}, "usr": 2, "usr_grp": "BUS", "usr_in": 8, "usb_out": 2},
+      "recording_bus": {"bus": 8, "name": "Guitar Rec", "pre_insert": "none", "destination": "Logic"},
       "modes": {
         "electric": {
           "bus": 5,
@@ -118,10 +118,26 @@
     "acoustic_mic": {
       "color": "yellow",
       "bus": 4,
-      "recording_bus": {"bus": 9, "name": "Mic Rec", "pre_insert": {"fx_slot": 3, "model": "TAPE", "path": "/bus/9/preins/ins"}, "usr_l": 6, "usr_r": 7, "usr_grp": "BUS", "usr_in": 9, "usb_out_l": 5, "usb_out_r": 6, "default_state": "off", "notes": "USB 5/6 OFF by default — enable when recording condensers"},
-      "send": {"wing_out_l": 3, "wing_out_r": 4, "source": "Bus 4 L/R", "io_out_in_index_l": 7, "io_out_in_index_r": 8},
-      "patchbay_points": [9, 10],
-      "notes": "Bus 4 sends stereo condenser mics to P9 (L) and P10 (R). Ch6 (Gtr Ac Mics) receives LCL/3+4 and sends to Bus 6. Muted by default."
+      "recording_bus": {"bus": 9, "name": "Mic Rec", "pre_insert": "none", "usr_l": 6, "usr_r": 7, "usr_grp": "BUS", "usr_in": 9, "usb_out_l": 5, "usb_out_r": 6, "default_state": "off", "destination": "Logic", "notes": "USB 5/6 OFF by default — enable when recording condensers"},
+      "send": {"wing_out_r": 4, "source": "Bus 4R", "io_out_in_index_r": 8},
+      "patchbay_points": [10],
+      "notes": "Bus 4 sends condenser mic R to P10. Ch6 (Gtr Ac Mics) receives LCL/3+4 and sends to Bus 6. Muted by default."
+    },
+    "tape_return": {
+      "color": "coral",
+      "channel": 33,
+      "name": "Tape Send",
+      "source": "LCL/3 (Model 12 AUX 1 Out)",
+      "pre_insert": {"fx_slot": 13, "model": "TAPE", "settings": {"drive": 10, "speed": 30}},
+      "post_insert": {"fx_slot": 6, "model": "TAPE-DL", "settings": {"time": "60ms", "feedback": 0, "drive": 30, "flutter": 55}},
+      "usr": 3,
+      "usr_grp": "CH",
+      "usr_in": 33,
+      "usr_tap": "POST",
+      "usb_out": 38,
+      "destination": "Model 12 Ch 6",
+      "patchbay_point": 9,
+      "notes": "Tape aux loop: M12 AUX 1 → Wing LCL 3 → Ch33 (TAPE + TAPE-DL) → USR/3 → USB 38 → M12 Ch 6. P9 is analog fallback — primary return is USB 38."
     },
     "reamp": {
       "usr": 8,
@@ -141,19 +157,30 @@
       "sources": ["Bus 1", "Bus 2"],
       "destination": "Main 1",
       "notes": "Shared reverb return. Bus 1 and Bus 2 send to Bus 3. Bus 3 assigned to Main 1."
+    },
+    "mix_matrices": {
+      "description": "Mix matrices route processed stems to Model 12 for analog mixing",
+      "matrices": {
+        "MX2": {"name": "Mix Vocal", "usb_out": 33, "m12_ch": 1, "source": "Ch25", "post_insert": {"fx_slot": 3, "model": "DOUBLE", "mode": "THICK"}},
+        "MX3": {"name": "Mix Rhythm", "usb_out": 34, "m12_ch": 2, "source": "Bus 10 (RACKAMP)"},
+        "MX4": {"name": "Mix Lead", "usb_out": 35, "m12_ch": 3, "source": "Bus 11 (ANGEL)"},
+        "MX5": {"name": "Mix Overdub", "usb_out": 36, "m12_ch": 4, "source": "Per project"},
+        "MX6": {"name": "Mix Bass", "usb_out": 37, "m12_ch": 5, "source": "Ch9", "post_insert": {"fx_slot": 4, "model": "SUB", "mode": "MID"}},
+        "MX7": {"name": "Mix Drums", "usb_out": [39,40], "m12_ch": "7/8", "source": "Ch12 (stereo)"},
+        "MX8": {"name": "Mix Piano", "usb_out": [41,42], "m12_ch": "9/10", "source": "Ch11 (stereo)"}
+      }
     }
   },
   "channels": {
-    "13": {
-      "name": "Tape Playback",
-      "color": "coral",
-      "color_value": 10,
+    "7": {
+      "name": "Model 12 Mix",
+      "color": "orange",
+      "color_value": 8,
       "source": "USB/3-4",
-      "source_detail": "Model 12 USB Stereo Out L+R (internal main mix) → Loopback → Wing USB In 3-4",
+      "source_detail": "Model 12 USB Main Out L+R → Loopback → Wing USB In 3-4",
       "on_main": true,
-      "fader_db": -18,
       "default_state": "active",
-      "notes": "Returns the Model 12 internal mix (all MTR playback tracks) to the Wing for overdub monitoring. Fader at -18dB for noise floor management — USB-mode tracks on the Model 12 re-broadcast their input signal back into the stereo mix. No feedback loop as long as Wing USB outputs only carry dry recording tracks (USB 1, 2) and all other Model 12 tracks are in MTR mode. USB 3 (re-amp) must be OFF when not in use. Speakers must be muted (/mtx/1/mute i 1) during open-mic tracking."
+      "notes": "Returns the Model 12 stereo main mix to the Wing for monitoring during mixing. Solo this channel to hear only the Model 12 mix."
     },
     "5": {
       "name": "Gtr Acoustic DI",
@@ -172,6 +199,18 @@
       "sends_to": "Bus 6",
       "default_state": "muted",
       "notes": "Stereo condensers via XLR direct (phantom power on). NOT on main — signal flows through Bus 6 to Bus 2 to outboard. Must be unmuted for mic signal to flow."
+    },
+    "33": {
+      "name": "Tape Send",
+      "color": "coral",
+      "color_value": 10,
+      "source": "LCL/3",
+      "source_detail": "Model 12 AUX 1 Out → Wing LCL 3 (gain 10dB, phantom OFF)",
+      "on_main": false,
+      "pre_insert": "FX13 (TAPE)",
+      "post_insert": "FX6 (TAPE-DL)",
+      "default_state": "active",
+      "notes": "Tape aux loop channel. Receives M12 AUX 1, processes through TAPE + TAPE-DL, returns to M12 Ch 6 via USR/3 → USB 38."
     }
   }
 }

@@ -168,7 +168,7 @@ Songs are built up layer by layer on the Model 12:
 
 The Wing handles:
 - Preamp gain for live instruments (Ch1 vocal, Ch2 guitar, Ch6 condensers)
-- Tape emulation via recording buses (Bus 7/8/9 with FX9/FX10/FX3 TAPE pre-inserts) — baked into recordings
+- Tape saturation during mixing via Model 12 AUX 1 send/return loop (Ch33 TAPE + TAPE-DL → Model 12 Ch 6)
 - Outboard chains for live performance (Ch1/Ch2 → Ch17/Ch18) — independent of tape returns
 - Guitar amp sim modes via Bus 5 (Electric) and Bus 6 (Acoustic) before outboard
 - Per-track FX on tape returns (reverb, amp sims as needed via bus sends)

@@ -50,24 +50,27 @@ Multi-step production workflows, snapshots, gain staging, and metering.
 The Model 12 receives fully processed stems from the Wing and mixes them with real faders, EQ, and compression. Logic handles playback. The Wing handles FX. The Model 12 handles the mix.
 
 **Routing setup:**
-1. Configure Wing USB outputs to send processed tape returns (Ch25-32) and session players (Ch9-12) to Model 12 channels via Loopback
+1. Mix matrices MX2-MX8 permanently route processed stems to Model 12 via USB 33-42 (Loopback)
 2. Model 12 channels set to USB mode to receive from Wing
 3. Assign Wing bus sends on each tape return per project:
-   - Vocal tracks → Bus 3 Reverb send
-   - Guitar tracks → Bus 10/11 (amp sim) + Bus 3 Reverb send
-   - Session players → direct (already mixed in Logic)
+   - Vocal tracks → MX2 (with FX3/DOUBLE post-insert)
+   - Guitar tracks → Bus 10/11 (amp sim) → MX3/MX4
+   - Session players → MX6 (bass, FX4/SUB), MX7 (drums), MX8 (piano/synth)
+4. Tape saturation via AUX 1 send/return loop (AUX 1 → Wing Ch33 TAPE+TAPE-DL → M12 Ch 6)
 
-**Model 12 channel assignments:**
+**Model 12 channel assignments (via mix matrices):**
 
-| Model 12 Ch | Wing Source | Content |
-|---|---|---|
-| 1 | Vocal tape return + reverb | Processed vocal |
-| 2 | Guitar tape return + amp sim + reverb | Processed guitar |
-| 3-4 | Additional overdub returns | Per project |
-| 5/6 | Bass + Keys (Ch9-10) | Session players |
-| 7/8 | Synth + Drums (Ch11-12) | Session players |
-| 9/10 | Additional stems or room mics | As needed |
-| 11/12 | Internal capture | Automatic stereo mixdown |
+| Model 12 Ch | Wing USB Out | Wing Source | Content |
+|---|---|---|---|
+| 1 | 33 (MX2) | Ch25 vocal tape return | Processed vocal (FX3/DOUBLE on MX2 post-insert) |
+| 2 | 34 (MX3) | Bus 10 (RACKAMP) | Rhythm guitar |
+| 3 | 35 (MX4) | Bus 11 (ANGEL) | Lead guitar |
+| 4 | 36 (MX5) | Per project | Overdub |
+| 5 | 37 (MX6) | Ch9 (Logic bass) | Bass (FX4/SUB on MX6 post-insert) |
+| 6 | 38 (USR/3) | Ch33 (TAPE + TAPE-DL) | Tape aux return |
+| 7/8 | 39-40 (MX7) | Ch12 (Logic drums) | Drums stereo |
+| 9/10 | 41-42 (MX8) | Ch11 (Logic piano/synth) | Piano/Synth stereo |
+| 11/12 | Internal | -- | Stereo mixdown (always recording) |
 
 **Mixing procedure:**
 1. Press play in Logic (or use Model 12 transport if synced)
