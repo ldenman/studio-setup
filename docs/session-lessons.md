@@ -137,3 +137,10 @@ Lessons learned during studio sessions. Updated after each session.
 - FX12: ANGEL (Bus 11 pre-insert — lead monitor, drive 1.5, treble 3, presence 3)
 - FX13: TAPE (Ch33 pre-insert — tape aux loop saturation, drive 10, speed 30)
 - All others: NONE
+
+### Website
+- Built Astro static site (site/) with 8 pages: Home, Recording, Production, Mixing, Sound Design, Tools, Rack Room, Blog
+- Interactive rack room visualization: SVG gear panels, XLR/TRS jacks, cable routing along rack rails, hover-to-trace signal chains
+- Virtual routing panel showing Loopback/USB connections between Wing, Logic, and Model 12
+- Blog with content collections (3 sample posts about studio architecture)
+- Cable routing lesson: route long cables along rack rails (left for vocal/monitor, right for guitar/tape) to avoid crossing over gear panels
