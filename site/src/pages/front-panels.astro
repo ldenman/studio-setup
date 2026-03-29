@@ -113,24 +113,28 @@ import Base from '../layouts/Base.astro';
       // OFF=90, 50≈120, 55≈150, 60≈170, 65≈195, 70≈220, 75≈248,
       // -80≈278, 30≈305, 35≈330, 40≈352, 45≈18 (past 0/360)
 
-      // Two groups with a gap between -80 and 30 at the top.
-      // Left group (OFF→75): 7 positions evenly spaced from 90° to 255°
-      // Gap: 255° to 305° (50° gap, no dots)
-      // Right group (30→50): 5 positions evenly spaced from 305° to 425° (=65°)
-      // This pushes 50 closer to OFF
-      const leftGroup = ['OFF','55','60','65','70','75','-80'];
-      const rightGroup = ['30','35','40','45','50'];
-      const leftStart = 90, leftEnd = 255;
-      const rightStart = 305, rightEnd = 425;
-
-      const gainPositions: {label:string, deg:number, group:string}[] = [];
-      leftGroup.forEach((label, i) => {
-        gainPositions.push({label, deg: leftStart + (i / (leftGroup.length - 1)) * (leftEnd - leftStart), group: 'left'});
+      // -80 must be at 270° (12 o'clock). OFF at 90° (6 o'clock).
+      // 6 steps from OFF to -80: step = 180/6 = 30°.
+      // 5 steps from 30 to 50 at same 30° = 150°.
+      // Gap between -80(270°) and 30: 360° - 150° - 180° = 30° extra.
+      // Total gap = 330° - 11×30° = 330° - 330° = 0. Hmm.
+      // Let's just: 11 equal steps of 28° = 308°, gap = 360° - 308° - 28° = 24° extra.
+      // No — keep it simple. step=30°, gap=30° (same as step but no dot).
+      // -80 at 90+6*30=270. 30 at 270+30=300. 50 at 300+4*30=420=60°.
+      // 50(60°) to OFF(90°) = 30° = same step. Perfect symmetry.
+      const step = 30;
+      const gap = 30; // same as step, just no dot between -80 and 30
+      const numLabels = ['OFF','55','60','65','70','75','-80','30','35','40','45','50'];
+      const gainPositions: {label:string, deg:number}[] = [];
+      let deg = 90;
+      numLabels.forEach((label, i) => {
+        gainPositions.push({label, deg});
+        if (i < numLabels.length - 1) {
+          // Gap between -80 (index 6) and 30 (index 7)
+          deg += (i === 6) ? gap : step;
+        }
       });
-      rightGroup.forEach((label, i) => {
-        gainPositions.push({label, deg: rightStart + (i / (rightGroup.length - 1)) * (rightEnd - rightStart), group: 'right'});
-      });
-      const sweepTotal = rightEnd - leftStart;
+      const sweepTotal = deg - 90;
 
       // ── WHITE DOTS ── large dot at each number, small dot between adjacent pairs
       // No dots in the gap between -80 and 30
@@ -139,15 +143,21 @@ import Base from '../layouts/Base.astro';
         const a = pos.deg * Math.PI / 180;
         // Large dot at number position
         s += `<circle cx="${cx + Math.cos(a) * dr}" cy="${cy + Math.sin(a) * dr}" r="2.2" fill="#ffffff"/>`;
-        // Small dot between this and next — but skip the -80 to 30 gap
+        // Small dot between adjacent numbers — skip -80 to 30 gap
         if (i < gainPositions.length - 1) {
           const next = gainPositions[i + 1];
-          // Skip if crossing the gap (different groups and large degree jump)
-          if (pos.group === next.group || (next.deg - pos.deg) < 40) {
+          if (!(pos.label === '-80' && next.label === '30')) {
             const midDeg = (pos.deg + next.deg) / 2;
             const ma = midDeg * Math.PI / 180;
             s += `<circle cx="${cx + Math.cos(ma) * dr}" cy="${cy + Math.sin(ma) * dr}" r="1.75" fill="#ffffff"/>`;
           }
+        }
+        // Dot between 50 and OFF (wrapping)
+        if (pos.label === '50') {
+          const offDeg = 90 + 360;
+          const midDeg = (pos.deg + offDeg) / 2;
+          const ma = midDeg * Math.PI / 180;
+          s += `<circle cx="${cx + Math.cos(ma) * dr}" cy="${cy + Math.sin(ma) * dr}" r="1.75" fill="#ffffff"/>`;
         }
       });
 
