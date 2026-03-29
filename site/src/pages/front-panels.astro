@@ -1,0 +1,358 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Front Panels" active="">
+  <div style="max-width:1500px;margin:0 auto;padding:0 16px">
+    <section class="page-header">
+      <h3>Calibrated Settings</h3>
+      <h1>Front Panels</h1>
+      <p>Outboard gear with dials set to calibrated positions. Reference for every session.</p>
+    </section>
+  </div>
+
+  <div id="panels">
+    <div class="panel-section">
+      <div class="chain-label vocal">VOCAL CHAIN (A SIDE)</div>
+    </div>
+    <svg id="svg" viewBox="0 0 1400 2200" preserveAspectRatio="xMidYMid meet"></svg>
+  </div>
+
+  <style>
+    #panels { max-width: 1400px; margin: 0 auto; padding: 0 8px 80px; }
+    .panel-section { margin-bottom: 8px; }
+    .chain-label {
+      font-family: var(--mono); font-size: 10px; font-weight: 600;
+      letter-spacing: 3px; padding: 8px 16px;
+    }
+    .chain-label.vocal { color: #6a9ab8; }
+    .chain-label.guitar { color: #c46a5a; }
+    #svg { display: block; width: 100%; background: #060608; border: 1px solid #1a1a18; border-radius: 2px; }
+  </style>
+
+  <script>
+    const svg = document.getElementById('svg')!;
+
+    // Colors
+    const METAL = '#1c1c1a';
+    const PANEL_BG = '#141412';
+    const DARK = '#0a0a08';
+    const SCREW = '#2a2a26';
+    const TEXT_DIM = '#444440';
+    const TEXT_MED = '#66665a';
+    const TEXT_BRT = '#99998a';
+    const CREAM = '#cccbb8';
+    const AMBER = '#d4943a';
+    const VOCAL = '#6a9ab8';
+    const GUITAR = '#c46a5a';
+    const VU_GREEN = '#4a8a4a';
+    const VU_RED = '#c44a4a';
+
+    // ── HELPERS ──
+
+    function knob(cx: number, cy: number, r: number, value: number, min: number, max: number, label: string, valueLabel: string, color: string, options?: {ticks?: number, style?: string}): string {
+      // value: current position (min..max)
+      // Knob rotates from -135deg (min) to +135deg (max)
+      const pct = (value - min) / (max - min);
+      const angle = -135 + pct * 270;
+      const ticks = options?.ticks || 11;
+      const style = options?.style || 'standard';
+
+      let s = '';
+
+      // Knob shadow
+      s += `<circle cx="${cx}" cy="${cy}" r="${r + 3}" fill="#080808" opacity="0.5"/>`;
+
+      // Tick marks
+      for (let i = 0; i < ticks; i++) {
+        const t = i / (ticks - 1);
+        const a = (-135 + t * 270) * Math.PI / 180;
+        const x1 = cx + Math.cos(a) * (r + 8);
+        const y1 = cy + Math.sin(a) * (r + 8);
+        const x2 = cx + Math.cos(a) * (r + 14);
+        const y2 = cy + Math.sin(a) * (r + 14);
+        const isActive = t <= pct;
+        s += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${isActive ? color : '#2a2a26'}" stroke-width="1.5" stroke-linecap="round"/>`;
+      }
+
+      // Knob body
+      if (style === 'chicken-head') {
+        // Pointer-style knob (like 1176)
+        s += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="#1a1a18" stroke="#333" stroke-width="1"/>`;
+        const pa = angle * Math.PI / 180;
+        const px = cx + Math.cos(pa) * (r * 0.75);
+        const py = cy + Math.sin(pa) * (r * 0.75);
+        s += `<line x1="${cx}" y1="${cy}" x2="${px}" y2="${py}" stroke="${color}" stroke-width="2.5" stroke-linecap="round"/>`;
+        s += `<circle cx="${cx}" cy="${cy}" r="3" fill="#333"/>`;
+      } else if (style === 'red') {
+        // Red knob (HA73 gain)
+        s += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="#8a2222" stroke="#aa3333" stroke-width="1.5"/>`;
+        const pa = angle * Math.PI / 180;
+        const px = cx + Math.cos(pa) * (r * 0.7);
+        const py = cy + Math.sin(pa) * (r * 0.7);
+        s += `<line x1="${cx}" y1="${cy}" x2="${px}" y2="${py}" stroke="#eee" stroke-width="2" stroke-linecap="round"/>`;
+      } else if (style === 'bakelite') {
+        // Bakelite style (Opto/LA-2A)
+        s += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="#2a2520" stroke="#3a3530" stroke-width="1.5"/>`;
+        // Notch
+        const pa = angle * Math.PI / 180;
+        const px = cx + Math.cos(pa) * (r * 0.65);
+        const py = cy + Math.sin(pa) * (r * 0.65);
+        s += `<circle cx="${px}" cy="${py}" r="2.5" fill="${CREAM}"/>`;
+      } else {
+        // Standard silver knob
+        s += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="#2a2a28" stroke="#3a3a38" stroke-width="1"/>`;
+        // Indicator line
+        const pa = angle * Math.PI / 180;
+        const px = cx + Math.cos(pa) * (r * 0.7);
+        const py = cy + Math.sin(pa) * (r * 0.7);
+        s += `<line x1="${cx}" y1="${cy}" x2="${px}" y2="${py}" stroke="${CREAM}" stroke-width="1.5" stroke-linecap="round"/>`;
+        s += `<circle cx="${cx}" cy="${cy}" r="2" fill="#3a3a38"/>`;
+      }
+
+      // Label below
+      s += `<text x="${cx}" y="${cy + r + 26}" text-anchor="middle" fill="${TEXT_MED}" font-family="JetBrains Mono,monospace" font-size="8" letter-spacing="1">${label}</text>`;
+      // Value
+      s += `<text x="${cx}" y="${cy + r + 37}" text-anchor="middle" fill="${color}" font-family="JetBrains Mono,monospace" font-size="9" font-weight="600">${valueLabel}</text>`;
+
+      return s;
+    }
+
+    function vuMeter(x: number, y: number, w: number, h: number, label: string, reading: string): string {
+      let s = '';
+      // VU meter housing
+      s += `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="3" fill="#0c0c0a" stroke="#2a2a26" stroke-width="1"/>`;
+      // Scale arc
+      const cx = x + w/2, cy = y + h - 15;
+      const arcR = w * 0.35;
+      // Scale markings (-20 to +3 VU)
+      for (let i = 0; i <= 10; i++) {
+        const t = i / 10;
+        const a = (-150 + t * 120) * Math.PI / 180;
+        const x1 = cx + Math.cos(a) * (arcR - 4);
+        const y1 = cy + Math.sin(a) * (arcR - 4);
+        const x2 = cx + Math.cos(a) * arcR;
+        const y2 = cy + Math.sin(a) * arcR;
+        const col = t > 0.7 ? VU_RED : VU_GREEN;
+        s += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${col}" stroke-width="1" opacity="0.6"/>`;
+      }
+      // Needle (at 0VU position — roughly 70% of scale)
+      const needleAngle = (-150 + 0.7 * 120) * Math.PI / 180;
+      const nx = cx + Math.cos(needleAngle) * (arcR - 8);
+      const ny = cy + Math.sin(needleAngle) * (arcR - 8);
+      s += `<line x1="${cx}" y1="${cy}" x2="${nx}" y2="${ny}" stroke="#eee" stroke-width="1"/>`;
+      s += `<circle cx="${cx}" cy="${cy}" r="2" fill="#333"/>`;
+      // Label
+      s += `<text x="${cx}" y="${y + 12}" text-anchor="middle" fill="${TEXT_DIM}" font-family="JetBrains Mono,monospace" font-size="7" letter-spacing="1">${label}</text>`;
+      // Reading
+      s += `<text x="${cx}" y="${y + h + 14}" text-anchor="middle" fill="${AMBER}" font-family="JetBrains Mono,monospace" font-size="8">${reading}</text>`;
+      return s;
+    }
+
+    function button(x: number, y: number, label: string, active: boolean, color: string): string {
+      let s = '';
+      s += `<rect x="${x-20}" y="${y-8}" width="40" height="16" rx="2" fill="${active ? color : '#1a1a18'}" stroke="#333" stroke-width="0.5" opacity="${active ? 0.8 : 0.4}"/>`;
+      s += `<text x="${x}" y="${y + 3}" text-anchor="middle" fill="${active ? '#fff' : TEXT_DIM}" font-family="JetBrains Mono,monospace" font-size="7" font-weight="${active ? '600' : '400'}">${label}</text>`;
+      return s;
+    }
+
+    function panel(x: number, y: number, w: number, h: number, name: string, sub: string, color: string): string {
+      let s = '';
+      // Faceplate
+      s += `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="3" fill="${PANEL_BG}" stroke="#2a2a26" stroke-width="1.5"/>`;
+      // Brushed metal texture
+      for (let i = 0; i < h; i += 2) {
+        s += `<line x1="${x}" y1="${y+i}" x2="${x+w}" y2="${y+i}" stroke="#1a1a18" stroke-width="0.3" opacity="0.3"/>`;
+      }
+      // Screws
+      [[x+15, y+15], [x+w-15, y+15], [x+15, y+h-15], [x+w-15, y+h-15]].forEach(([sx, sy]) => {
+        s += `<circle cx="${sx}" cy="${sy}" r="5" fill="#0e0e0c" stroke="${SCREW}" stroke-width="1"/>`;
+        s += `<line x1="${sx-2.5}" y1="${sy}" x2="${sx+2.5}" y2="${sy}" stroke="${SCREW}" stroke-width="0.8"/>`;
+      });
+      // Name plate
+      s += `<text x="${x + 40}" y="${y + h/2 - 2}" fill="${color}" font-family="DM Serif Display,serif" font-size="18" opacity="0.8">${name}</text>`;
+      s += `<text x="${x + 40}" y="${y + h/2 + 14}" fill="${TEXT_DIM}" font-family="JetBrains Mono,monospace" font-size="8" letter-spacing="1">${sub}</text>`;
+      return s;
+    }
+
+    function sectionDivider(y: number, label: string, color: string): string {
+      let s = '';
+      s += `<line x1="30" y1="${y}" x2="1370" y2="${y}" stroke="#1a1a18" stroke-width="1"/>`;
+      s += `<text x="700" y="${y - 8}" text-anchor="middle" fill="${color}" font-family="JetBrains Mono,monospace" font-size="10" font-weight="600" letter-spacing="3">${label}</text>`;
+      return s;
+    }
+
+    // ── BUILD ──
+
+    let s = '';
+
+    // Background
+    for (let y = 0; y <= 2200; y += 40) s += `<line x1="0" y1="${y}" x2="1400" y2="${y}" stroke="#0c0c0b" stroke-width="0.3"/>`;
+
+    // ════════════════════════════
+    // VOCAL CHAIN (A SIDE)
+    // ════════════════════════════
+    s += sectionDivider(30, 'VOCAL CHAIN — A SIDE', VOCAL);
+
+    // ── HA73 A ──
+    const ha_y = 60;
+    s += panel(30, ha_y, 1340, 200, 'HA73-EQX2', 'HERITAGE AUDIO — NEVE 1073 PREAMP/EQ CLONE — CHANNEL A', VOCAL);
+
+    // Gain knob (red, set to 35)
+    s += knob(250, ha_y + 100, 28, 35, 0, 80, 'GAIN', '35', '#cc3333', {ticks: 9, style: 'red'});
+    // Output knob (1 o'clock ≈ 65%)
+    s += knob(400, ha_y + 100, 22, 65, 0, 100, 'OUTPUT', '1 o\'clock', CREAM, {ticks: 11, style: 'standard'});
+    // EQ section — all flat for calibration
+    s += knob(580, ha_y + 80, 16, 0, -16, 16, 'LOW', 'FLAT', TEXT_MED, {ticks: 7});
+    s += knob(700, ha_y + 80, 16, 0, -16, 16, 'MID', 'FLAT', TEXT_MED, {ticks: 7});
+    s += knob(820, ha_y + 80, 16, 0, -16, 16, 'HIGH', 'FLAT', TEXT_MED, {ticks: 7});
+    // HPF
+    s += knob(940, ha_y + 80, 14, 0, 0, 4, 'HPF', 'OFF', TEXT_DIM, {ticks: 5});
+    // Phantom, pad, polarity buttons
+    s += button(1100, ha_y + 70, '48V', false, '#cc3333');
+    s += button(1100, ha_y + 95, 'PAD', false, AMBER);
+    s += button(1100, ha_y + 120, 'POL', false, TEXT_MED);
+    // Level indicator
+    s += `<text x="${1200}" y="${ha_y + 100}" text-anchor="middle" fill="${VOCAL}" font-family="JetBrains Mono,monospace" font-size="9">→ 2 YELLOW</text>`;
+    s += `<text x="${1200}" y="${ha_y + 115}" text-anchor="middle" fill="${TEXT_DIM}" font-family="JetBrains Mono,monospace" font-size="7">on Ch17</text>`;
+
+    // ── WA76 A ──
+    const wa_y = 300;
+    s += panel(30, wa_y, 1340, 220, 'WA76-D2', 'WARM AUDIO — 1176 FET COMPRESSOR — CHANNEL A', VOCAL);
+
+    // VU meter
+    s += vuMeter(200, wa_y + 25, 160, 90, 'VU', '0dB GR');
+    // Input (48)
+    s += knob(450, wa_y + 110, 24, 48, 0, 100, 'INPUT', '48', VOCAL, {ticks: 11, style: 'chicken-head'});
+    // Output (18)
+    s += knob(580, wa_y + 110, 24, 18, 0, 100, 'OUTPUT', '18', VOCAL, {ticks: 11, style: 'chicken-head'});
+    // Attack (3)
+    s += knob(710, wa_y + 110, 20, 3, 1, 7, 'ATTACK', '3', CREAM, {ticks: 7, style: 'chicken-head'});
+    // Release (7)
+    s += knob(820, wa_y + 110, 20, 7, 1, 7, 'RELEASE', '7', CREAM, {ticks: 7, style: 'chicken-head'});
+    // Ratio buttons
+    s += button(950, wa_y + 80, '4:1', true, VOCAL);
+    s += button(1000, wa_y + 80, '8:1', false, TEXT_MED);
+    s += button(1050, wa_y + 80, '12:1', false, TEXT_MED);
+    s += button(1100, wa_y + 80, '20:1', false, TEXT_MED);
+    s += button(1025, wa_y + 110, 'ALL', false, VU_RED);
+    // Dry/wet
+    s += knob(1200, wa_y + 110, 16, 100, 0, 100, 'MIX', '100%', TEXT_MED, {ticks: 5});
+
+    // ── OPTO ──
+    const op_y = 560;
+    s += panel(30, op_y, 1340, 180, 'Audioscape Opto', 'LA-2A OPTICAL COMPRESSOR CLONE', VOCAL);
+
+    // VU meter
+    s += vuMeter(250, op_y + 20, 180, 100, 'GAIN REDUCTION', '0dB GR');
+    // Peak Reduction (off for calibration)
+    s += knob(550, op_y + 90, 28, 0, 0, 100, 'PEAK REDUCTION', 'OFF', VOCAL, {ticks: 11, style: 'bakelite'});
+    // Gain (between 10 and 15)
+    s += knob(750, op_y + 90, 28, 12, 0, 100, 'GAIN', '10-15', VOCAL, {ticks: 11, style: 'bakelite'});
+    // Mode switch
+    s += button(950, op_y + 80, 'COMP', true, VOCAL);
+    s += button(950, op_y + 105, 'LIMIT', false, TEXT_MED);
+    // Power
+    s += `<circle cx="1100" cy="${op_y + 90}" r="6" fill="${VU_GREEN}" opacity="0.8"/>`;
+    s += `<text x="1100" y="${op_y + 110}" text-anchor="middle" fill="${TEXT_DIM}" font-family="JetBrains Mono,monospace" font-size="7">POWER</text>`;
+
+    // ════════════════════════════
+    // GUITAR CHAIN (B SIDE)
+    // ════════════════════════════
+    s += sectionDivider(790, 'GUITAR CHAIN — B SIDE', GUITAR);
+
+    // ── HA73 B ──
+    const hab_y = 820;
+    s += panel(30, hab_y, 1340, 200, 'HA73-EQX2', 'HERITAGE AUDIO — NEVE 1073 PREAMP/EQ CLONE — CHANNEL B', GUITAR);
+
+    s += knob(250, hab_y + 100, 28, 35, 0, 80, 'GAIN', '35', '#cc3333', {ticks: 9, style: 'red'});
+    s += knob(400, hab_y + 100, 22, 85, 0, 100, 'OUTPUT', '4 o\'clock', CREAM, {ticks: 11, style: 'standard'});
+    s += knob(580, hab_y + 80, 16, 0, -16, 16, 'LOW', 'FLAT', TEXT_MED, {ticks: 7});
+    s += knob(700, hab_y + 80, 16, 0, -16, 16, 'MID', 'FLAT', TEXT_MED, {ticks: 7});
+    s += knob(820, hab_y + 80, 16, 0, -16, 16, 'HIGH', 'FLAT', TEXT_MED, {ticks: 7});
+    s += knob(940, hab_y + 80, 14, 0, 0, 4, 'HPF', 'OFF', TEXT_DIM, {ticks: 5});
+    s += button(1100, hab_y + 70, '48V', false, '#cc3333');
+    s += button(1100, hab_y + 95, 'PAD', false, AMBER);
+    s += button(1100, hab_y + 120, 'POL', false, TEXT_MED);
+    s += `<text x="${1200}" y="${hab_y + 100}" text-anchor="middle" fill="${GUITAR}" font-family="JetBrains Mono,monospace" font-size="9">→ 2 YELLOW</text>`;
+    s += `<text x="${1200}" y="${hab_y + 115}" text-anchor="middle" fill="${TEXT_DIM}" font-family="JetBrains Mono,monospace" font-size="7">on Ch18</text>`;
+
+    // ── WA76 B ──
+    const wab_y = 1060;
+    s += panel(30, wab_y, 1340, 220, 'WA76-D2', 'WARM AUDIO — 1176 FET COMPRESSOR — CHANNEL B', GUITAR);
+
+    s += vuMeter(200, wab_y + 25, 160, 90, 'VU', '0dB GR');
+    s += knob(450, wab_y + 110, 24, 48, 0, 100, 'INPUT', '48', GUITAR, {ticks: 11, style: 'chicken-head'});
+    s += knob(580, wab_y + 110, 24, 24, 0, 100, 'OUTPUT', '24', GUITAR, {ticks: 11, style: 'chicken-head'});
+    s += knob(710, wab_y + 110, 20, 5, 1, 7, 'ATTACK', '5', CREAM, {ticks: 7, style: 'chicken-head'});
+    s += knob(820, wab_y + 110, 20, 6, 1, 7, 'RELEASE', '6', CREAM, {ticks: 7, style: 'chicken-head'});
+    s += button(950, wab_y + 80, '4:1', true, GUITAR);
+    s += button(1000, wab_y + 80, '8:1', false, TEXT_MED);
+    s += button(1050, wab_y + 80, '12:1', false, TEXT_MED);
+    s += button(1100, wab_y + 80, '20:1', false, TEXT_MED);
+    s += button(1025, wab_y + 110, 'ALL', false, VU_RED);
+    s += knob(1200, wab_y + 110, 16, 100, 0, 100, 'MIX', '100%', TEXT_MED, {ticks: 5});
+
+    // ── DISTRESSOR ──
+    const ds_y = 1320;
+    s += panel(30, ds_y, 1340, 220, 'Distressor', 'EMPIRICAL LABS EL8 — COMPRESSION + HARMONIC COLOR', GUITAR);
+
+    // VU meter
+    s += vuMeter(200, ds_y + 25, 160, 90, 'GAIN REDUCTION', '0dB GR');
+    // Input (2)
+    s += knob(450, ds_y + 110, 24, 2, 0, 10, 'INPUT', '2', GUITAR, {ticks: 11, style: 'chicken-head'});
+    // Output (7)
+    s += knob(580, ds_y + 110, 24, 7, 0, 10, 'OUTPUT', '7', GUITAR, {ticks: 11, style: 'chicken-head'});
+    // Attack (5-6)
+    s += knob(710, ds_y + 110, 20, 5.5, 1, 10, 'ATTACK', '5-6', CREAM, {ticks: 10, style: 'chicken-head'});
+    // Release (auto)
+    s += knob(820, ds_y + 110, 20, 0, 0, 10, 'RELEASE', 'AUTO', CREAM, {ticks: 10, style: 'chicken-head'});
+    // Ratio
+    s += button(950, ds_y + 70, '1:1', false, TEXT_MED);
+    s += button(1000, ds_y + 70, '2:1', false, TEXT_MED);
+    s += button(1050, ds_y + 70, '4:1', true, GUITAR);
+    s += button(1100, ds_y + 70, '6:1', false, TEXT_MED);
+    s += button(1150, ds_y + 70, '10:1', false, TEXT_MED);
+    s += button(1025, ds_y + 95, '20:1', false, TEXT_MED);
+    s += button(1100, ds_y + 95, 'NUKE', false, VU_RED);
+    // Dist mode
+    s += button(950, ds_y + 130, 'DIST 2', true, AMBER);
+    s += button(1030, ds_y + 130, 'DIST 3', false, TEXT_MED);
+    s += `<text x="990" y="${ds_y + 155}" text-anchor="middle" fill="${TEXT_DIM}" font-family="JetBrains Mono,monospace" font-size="7">TAPE SAT</text>`;
+    // HP filter
+    s += knob(1200, ds_y + 110, 16, 0, 0, 10, 'DET HP', 'OFF', TEXT_DIM, {ticks: 5});
+
+    // ════════════════════════════
+    // PERFORMANCE SETTINGS
+    // ════════════════════════════
+    s += sectionDivider(1590, 'PERFORMANCE SETTINGS (DURING TRACKING)', AMBER);
+
+    const perf_y = 1620;
+    s += `<rect x="30" y="${perf_y}" width="1340" height="180" rx="3" fill="${PANEL_BG}" stroke="#2a2a26"/>`;
+    // Brushed metal
+    for (let i = 0; i < 180; i += 2) s += `<line x1="30" y1="${perf_y+i}" x2="1370" y2="${perf_y+i}" stroke="#1a1a18" stroke-width="0.3" opacity="0.2"/>`;
+
+    s += `<text x="700" y="${perf_y + 30}" text-anchor="middle" fill="${AMBER}" font-family="JetBrains Mono,monospace" font-size="10" letter-spacing="2">TYPICAL PERFORMANCE SETTINGS</text>`;
+
+    // Vocal performance
+    s += `<text x="200" y="${perf_y + 55}" text-anchor="middle" fill="${VOCAL}" font-family="JetBrains Mono,monospace" font-size="9" font-weight="600">VOCAL</text>`;
+    s += `<text x="200" y="${perf_y + 75}" text-anchor="middle" fill="${TEXT_MED}" font-family="JetBrains Mono,monospace" font-size="8">WA76 A: 3-4dB GR</text>`;
+    s += `<text x="200" y="${perf_y + 90}" text-anchor="middle" fill="${TEXT_MED}" font-family="JetBrains Mono,monospace" font-size="8">Opto: Peak Red ~40%</text>`;
+    s += `<text x="200" y="${perf_y + 105}" text-anchor="middle" fill="${TEXT_MED}" font-family="JetBrains Mono,monospace" font-size="8">Compress mode, 2-3dB GR</text>`;
+
+    // Guitar performance
+    s += `<text x="700" y="${perf_y + 55}" text-anchor="middle" fill="${GUITAR}" font-family="JetBrains Mono,monospace" font-size="9" font-weight="600">GUITAR</text>`;
+    s += `<text x="700" y="${perf_y + 75}" text-anchor="middle" fill="${TEXT_MED}" font-family="JetBrains Mono,monospace" font-size="8">WA76 B: Atk 5, Rel 6, 4:1</text>`;
+    s += `<text x="700" y="${perf_y + 90}" text-anchor="middle" fill="${TEXT_MED}" font-family="JetBrains Mono,monospace" font-size="8">Distressor: 4:1, Dist 2 (tape)</text>`;
+    s += `<text x="700" y="${perf_y + 105}" text-anchor="middle" fill="${TEXT_MED}" font-family="JetBrains Mono,monospace" font-size="8">Atk 5-6, Rel Auto</text>`;
+
+    // Calibration reference
+    s += `<text x="1100" y="${perf_y + 55}" text-anchor="middle" fill="${AMBER}" font-family="JetBrains Mono,monospace" font-size="9" font-weight="600">CALIBRATION</text>`;
+    s += `<text x="1100" y="${perf_y + 75}" text-anchor="middle" fill="${TEXT_MED}" font-family="JetBrains Mono,monospace" font-size="8">Reference: 1kHz @ -18dBFS</text>`;
+    s += `<text x="1100" y="${perf_y + 90}" text-anchor="middle" fill="${TEXT_MED}" font-family="JetBrains Mono,monospace" font-size="8">Target: 2 yellow steps</text>`;
+    s += `<text x="1100" y="${perf_y + 105}" text-anchor="middle" fill="${TEXT_MED}" font-family="JetBrains Mono,monospace" font-size="8">on Ch17 / Ch18</text>`;
+    s += `<text x="1100" y="${perf_y + 125}" text-anchor="middle" fill="${TEXT_DIM}" font-family="JetBrains Mono,monospace" font-size="7">All compressors: 0dB GR during cal</text>`;
+
+    svg.innerHTML = s;
+  </script>
+</Base>
