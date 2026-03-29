@@ -113,28 +113,21 @@ import Base from '../layouts/Base.astro';
       // OFF=90, 50≈120, 55≈150, 60≈170, 65≈195, 70≈220, 75≈248,
       // -80≈278, 30≈305, 35≈330, 40≈352, 45≈18 (past 0/360)
 
-      const gainPositions: {label: string, deg: number}[] = [
-        {label: 'OFF', deg: 90},
-        {label: '50',  deg: 120},
-        {label: '55',  deg: 148},
-        {label: '60',  deg: 172},
-        {label: '65',  deg: 198},
-        {label: '70',  deg: 222},
-        {label: '75',  deg: 250},
-        {label: '-80', deg: 280},
-        {label: '30',  deg: 310},
-        {label: '35',  deg: 335},
-        {label: '40',  deg: 358},
-        {label: '45',  deg: 22},
-      ];
+      // 12 positions evenly spaced over ~295° of sweep
+      // OFF at bottom (90°), going clockwise (increasing SVG degrees)
+      // Gap of ~65° between 45 and OFF (the dead zone at lower-right)
+      const numLabels = ['OFF','50','55','60','65','70','75','-80','30','35','40','45'];
+      const sweepTotal = 295; // degrees of active sweep
+      const gainPositions = numLabels.map((label, i) => ({
+        label,
+        deg: 90 + (i / (numLabels.length - 1)) * sweepTotal
+      }));
 
       // ── WHITE DOTS between positions ──
-      // Draw dots in an arc from OFF (90°) clockwise through to 45 (22°/382°)
-      // That's 90° → 382° = 292° of sweep
       const dotCount = 48;
       for (let i = 0; i <= dotCount; i++) {
         const t = i / dotCount;
-        const deg = 90 + t * 292; // 90 to 382
+        const deg = 90 + t * sweepTotal;
         const a = deg * Math.PI / 180;
         // Larger dot at number positions (every 4th)
         const isNum = i % 4 === 0;
@@ -167,8 +160,9 @@ import Base from '../layouts/Base.astro';
       // Subtle sheen
       s += `<ellipse cx="${cx - 3}" cy="${cy - 3}" rx="${r * 0.3}" ry="${r * 0.2}" fill="#aa3333" opacity="0.12"/>`;
 
-      // ── WHITE POINTER LINE ── at 35 position = 335°
-      const pa35 = 335 * Math.PI / 180;
+      // ── WHITE POINTER LINE ── at 35 position (index 9)
+      const deg35 = 90 + (9 / (numLabels.length - 1)) * sweepTotal;
+      const pa35 = deg35 * Math.PI / 180;
       const pxI = cx + Math.cos(pa35) * 4;
       const pyI = cy + Math.sin(pa35) * 4;
       const pxO = cx + Math.cos(pa35) * (r - 2);
