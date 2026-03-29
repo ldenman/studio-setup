@@ -1,0 +1,65 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  active?: string;
+}
+
+const { title, description = "Lake's recording studio. Neve preamp, 1176, LA-2A, patchbay-normalled. Plug in and go.", active = '' } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content={description}>
+  <title>{title} | Lake's Studio</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>~</text></svg>">
+</head>
+<body>
+
+<div class="vu-bar"></div>
+
+<nav class="nav">
+  <div class="nav__inner">
+    <a href="/" class="nav__logo"><span>//</span> LAKE'S STUDIO</a>
+    <button class="nav__toggle" id="nav-toggle">menu</button>
+    <div class="nav__links" id="nav-links">
+      <a href="/" class:list={[{ active: active === 'home' }]}>Home</a>
+      <a href="/recording" class:list={[{ active: active === 'recording' }]}>Recording</a>
+      <a href="/production" class:list={[{ active: active === 'production' }]}>Production</a>
+      <a href="/mixing" class:list={[{ active: active === 'mixing' }]}>Mixing</a>
+      <a href="/sound-design" class:list={[{ active: active === 'sound-design' }]}>Sound Design</a>
+      <a href="/tools" class:list={[{ active: active === 'tools' }]}>Tools</a>
+      <a href="/blog" class:list={[{ active: active === 'blog' }]}>Blog</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <slot />
+</main>
+
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__left">
+      // Lake's Studio &mdash; analog chain, digital brain
+    </div>
+    <div class="footer__right">
+      <a href="mailto:studio@lake.fm">studio@lake.fm</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const toggle = document.getElementById('nav-toggle');
+  const links = document.getElementById('nav-links');
+  toggle?.addEventListener('click', () => links?.classList.toggle('open'));
+</script>
+
+<style is:global>
+  @import '../styles/global.css';
+</style>
+</body>
+</html>

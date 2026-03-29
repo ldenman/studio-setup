@@ -1,0 +1,96 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+---
+
+<Base title="Home" active="home">
+  <div class="container">
+
+    <section class="hero">
+      <span class="hero__label">Recording Studio</span>
+      <h1>Plug in.<br>Hit <em>record</em>.</h1>
+      <p>
+        Neve preamp, 1176 compressor, LA-2A leveling amp &mdash; permanently wired through a 48-point patchbay. Wing Rack for routing. Logic Pro for tracking. Model 12 for mixing. The outboard is already in the path.
+      </p>
+    </section>
+
+    <div class="vu-bar"></div>
+
+    <section>
+      <h3>The Signal Chain</h3>
+      <div class="signal-flow mt-sm">
+<span class="comment">  // vocal</span>
+  <span class="node">MIC</span> <span class="arrow">&rarr;</span> <span class="node">Ch1</span> <span class="arrow">&rarr;</span> Bus 1 <span class="arrow">&rarr;</span> <span class="patchbay">[P1]</span> <span class="arrow">&rarr;</span> <span class="gear">HA73</span> <span class="arrow">&rarr;</span> <span class="patchbay">[P2]</span> <span class="arrow">&rarr;</span> <span class="gear">WA76</span> <span class="arrow">&rarr;</span> <span class="patchbay">[P3]</span> <span class="arrow">&rarr;</span> <span class="gear">OPTO</span> <span class="arrow">&rarr;</span> <span class="patchbay">[P4]</span> <span class="arrow">&rarr;</span> <span class="node">Ch17</span>
+
+<span class="comment">  // guitar</span>
+  <span class="node">DI</span> <span class="arrow">&rarr;</span> <span class="node">Ch2</span> <span class="arrow">&rarr;</span> Bus 2 <span class="arrow">&rarr;</span> <span class="patchbay">[P5]</span> <span class="arrow">&rarr;</span> <span class="gear">HA73</span> <span class="arrow">&rarr;</span> <span class="patchbay">[P6]</span> <span class="arrow">&rarr;</span> <span class="gear">WA76</span> <span class="arrow">&rarr;</span> <span class="patchbay">[P7]</span> <span class="arrow">&rarr;</span> <span class="gear">DIST</span> <span class="arrow">&rarr;</span> <span class="patchbay">[P8]</span> <span class="arrow">&rarr;</span> <span class="node">Ch18</span>
+
+<span class="comment">  // everything normalled. zero cables to patch. just play.</span></div>
+    </section>
+
+    <section>
+      <h3>Gear</h3>
+      <div class="grid-3 mt-sm">
+        <div class="card">
+          <span class="card__label">Console</span>
+          <h4>Behringer Wing Rack</h4>
+          <p>48 channels, 16 buses, 8 matrices, 16 FX slots. OSC controlled. The brain.</p>
+        </div>
+        <div class="card">
+          <span class="card__label">Outboard</span>
+          <h4>Neve &middot; 1176 &middot; LA-2A &middot; Distressor</h4>
+          <p>HA73-EQX2 for color. WA76-D2 for transients. Opto for leveling. Distressor for everything else.</p>
+        </div>
+        <div class="card">
+          <span class="card__label">Mixing Console</span>
+          <h4>Tascam Model 12</h4>
+          <p>Receives processed stems from the Wing via matrices. Real faders. Analog EQ. Tape saturation via AUX 1 loop.</p>
+        </div>
+      </div>
+      <div class="grid-3 mt-sm">
+        <div class="card">
+          <span class="card__label">Recorder</span>
+          <h4>Logic Pro</h4>
+          <p>Primary multi-track recorder. Session players for bass, piano, drums. Unlimited tracks, full undo.</p>
+        </div>
+        <div class="card">
+          <span class="card__label">Patchbay</span>
+          <h4>Samson S-Patch Plus</h4>
+          <p>48 points, half-normalled. Default chains always connected. Insert a cable to reroute.</p>
+        </div>
+        <div class="card">
+          <span class="card__label">Automation</span>
+          <h4>OSC + Scripts</h4>
+          <p>Every setting scriptable. Channel names, routing, snapshots &mdash; one command away.</p>
+        </div>
+      </div>
+    </section>
+
+    {posts.length > 0 && (
+      <section>
+        <h3>From the Studio</h3>
+        <ul class="post-list mt-sm">
+          {posts.map(post => (
+            <li class="post-item">
+              <span class="post-date">{post.data.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+              <div>
+                <a href={`/blog/${post.id}`} class="post-title">{post.data.title}</a>
+                <p class="post-desc">{post.data.description}</p>
+                {post.data.tags && (
+                  <div class="post-tags">
+                    {post.data.tags.map(tag => <span class="tag">{tag}</span>)}
+                  </div>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+  </div>
+</Base>

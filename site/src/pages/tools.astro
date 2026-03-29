@@ -1,0 +1,107 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Tools" active="tools">
+  <div class="container">
+
+    <section class="page-header">
+      <h3>Utilities</h3>
+      <h1>Tools</h1>
+      <p>BPM calculator, OSC commands, Wing color map. The quick-reference shelf.</p>
+    </section>
+
+    <div class="vu-bar"></div>
+
+    <section>
+      <h3>BPM &rarr; Delay Calculator</h3>
+      <div class="mt-sm" style="display:flex;align-items:center;gap:16px">
+        <span class="text-dim" style="font-size:12px">BPM</span>
+        <input type="number" class="bpm-input" id="bpm-input" value="120" min="40" max="300">
+      </div>
+      <div class="bpm-grid" id="bpm-grid">
+        <div class="bpm-cell"><div class="bpm-cell__val" id="v-quarter">500</div><div class="bpm-cell__label">1/4 note</div></div>
+        <div class="bpm-cell"><div class="bpm-cell__val" id="v-dotted8">375</div><div class="bpm-cell__label">Dotted 1/8</div></div>
+        <div class="bpm-cell"><div class="bpm-cell__val" id="v-eighth">250</div><div class="bpm-cell__label">1/8 note</div></div>
+        <div class="bpm-cell"><div class="bpm-cell__val" id="v-sixteenth">125</div><div class="bpm-cell__label">1/16 note</div></div>
+        <div class="bpm-cell"><div class="bpm-cell__val" id="v-triplet">333</div><div class="bpm-cell__label">1/4 triplet</div></div>
+        <div class="bpm-cell"><div class="bpm-cell__val" id="v-mod">2.00</div><div class="bpm-cell__label">1/4 Hz (mod)</div></div>
+      </div>
+    </section>
+
+    <section>
+      <h3>Wing Color Map</h3>
+      <div class="color-grid mt-sm">
+        <div class="color-swatch"><div class="color-swatch__dot" style="background:#7088a0"></div>1 Gray Blue</div>
+        <div class="color-swatch"><div class="color-swatch__dot" style="background:#4a90d9"></div>2 Medium Blue</div>
+        <div class="color-swatch"><div class="color-swatch__dot" style="background:#2c3e6e"></div>3 Dark Blue</div>
+        <div class="color-swatch"><div class="color-swatch__dot" style="background:#1abc9c"></div>4 Turquoise</div>
+        <div class="color-swatch"><div class="color-swatch__dot" style="background:#27ae60"></div>5 Green</div>
+        <div class="color-swatch"><div class="color-swatch__dot" style="background:#6b8e23"></div>6 Olive Green</div>
+        <div class="color-swatch"><div class="color-swatch__dot" style="background:#f1c40f"></div>7 Yellow</div>
+        <div class="color-swatch"><div class="color-swatch__dot" style="background:#e67e22"></div>8 Orange</div>
+        <div class="color-swatch"><div class="color-swatch__dot" style="background:#c0392b"></div>9 Red</div>
+        <div class="color-swatch"><div class="color-swatch__dot" style="background:#e8a090"></div>10 Coral</div>
+        <div class="color-swatch"><div class="color-swatch__dot" style="background:#e07098"></div>11 Pink</div>
+        <div class="color-swatch"><div class="color-swatch__dot" style="background:#9b59b6"></div>12 Mauve</div>
+      </div>
+    </section>
+
+    <section>
+      <h3>Common OSC Commands</h3>
+      <table class="mt-sm">
+        <tr><th>Action</th><th>Command</th></tr>
+        <tr><td>Mute channel</td><td><code class="osc-cmd">oscsend 192.168.2.2 2223 /ch/N/mute i 1</code></td></tr>
+        <tr><td>Set fader (dB)</td><td><code class="osc-cmd">oscsend 192.168.2.2 2223 /ch/N/fdr f -10.0</code></td></tr>
+        <tr><td>Set name (input source)</td><td><code class="osc-cmd">oscsend 192.168.2.2 2223 /io/in/LCL/N/name s "Name"</code></td></tr>
+        <tr><td>Set color (input source)</td><td><code class="osc-cmd">oscsend 192.168.2.2 2223 /io/in/LCL/N/col i 9</code></td></tr>
+        <tr><td>Load FX model</td><td><code class="osc-cmd">oscsend 192.168.2.2 2223 /fx/N/mdl s "PLATE"</code></td></tr>
+        <tr><td>Set EQ model</td><td><code class="osc-cmd">oscsend 192.168.2.2 2223 /ch/N/eq/mdl s "E84"</code></td></tr>
+        <tr><td>Set comp model</td><td><code class="osc-cmd">oscsend 192.168.2.2 2223 /ch/N/dyn/mdl s "76LA"</code></td></tr>
+        <tr><td>Channel insert</td><td><code class="osc-cmd">oscsend 192.168.2.2 2223 /ch/N/postins/ins s "FX12"</code></td></tr>
+        <tr><td>Set delay time</td><td><code class="osc-cmd">oscsend 192.168.2.2 2223 /fx/N/time f 500.0</code></td></tr>
+        <tr><td>Process order</td><td><code class="osc-cmd">oscsend 192.168.2.2 2223 /ch/N/proc s "GDEI"</code></td></tr>
+        <tr><td>Query any value</td><td><code class="osc-cmd">oscsend 192.168.2.2 2223 /ch/N/fdr</code></td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h3>wingctl &mdash; Advanced Control</h3>
+      <table class="mt-sm">
+        <tr><th>Action</th><th>Command</th></tr>
+        <tr><td>Read parameter</td><td><code>tools/wingctl get /ch/1/fdr</code></td></tr>
+        <tr><td>Set parameter</td><td><code>tools/wingctl set /ch/1/fdr -10.0</code></td></tr>
+        <tr><td>Dump channel</td><td><code>tools/wingctl node /ch/5</code></td></tr>
+        <tr><td>Read all meters</td><td><code>tools/wingctl meter all</code></td></tr>
+        <tr><td>Connection info</td><td><code>tools/wingctl info</code></td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h3>Network</h3>
+      <table class="mt-sm">
+        <tr><th>Device</th><th>Address</th><th>Protocol</th></tr>
+        <tr><td>Wing Rack (OSC)</td><td>192.168.2.2:2223</td><td>UDP</td></tr>
+        <tr><td>Wing Rack (wapi)</td><td>192.168.2.2:2222</td><td>TCP</td></tr>
+        <tr><td>Wing Edit</td><td>192.168.2.2</td><td>Ethernet</td></tr>
+      </table>
+    </section>
+
+  </div>
+
+  <script>
+    const bpmInput = document.getElementById('bpm-input');
+    function update() {
+      const bpm = parseFloat(bpmInput?.value || '120') || 120;
+      const q = 60000 / bpm;
+      const el = (id: string) => document.getElementById(id);
+      el('v-quarter')!.textContent = Math.round(q).toString();
+      el('v-dotted8')!.textContent = Math.round(q * 0.75).toString();
+      el('v-eighth')!.textContent = Math.round(q / 2).toString();
+      el('v-sixteenth')!.textContent = Math.round(q / 4).toString();
+      el('v-triplet')!.textContent = Math.round(q * 2 / 3).toString();
+      el('v-mod')!.textContent = (bpm / 60).toFixed(2);
+    }
+    bpmInput?.addEventListener('input', update);
+  </script>
+</Base>

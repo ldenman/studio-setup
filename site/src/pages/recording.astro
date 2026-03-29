@@ -1,0 +1,97 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Recording" active="recording">
+  <div class="container">
+
+    <section class="page-header">
+      <h3>Signal Path</h3>
+      <h1>Recording</h1>
+      <p>Live instruments through permanently wired outboard. Logic Pro captures the clean processed signal. No tape baked in &mdash; that happens during mixing.</p>
+    </section>
+
+    <div class="vu-bar"></div>
+
+    <section>
+      <h3>Vocal Chain &mdash; Patchbay P1-P4</h3>
+      <div class="signal-flow mt-sm">
+<span class="node">Vocal Mic</span>
+  <span class="arrow">|</span>
+<span class="node">Wing Ch1</span> <span class="comment">// preamp gain, GATE dynamics</span>
+  <span class="arrow">|</span> Bus 1 (pre-fader, clean)
+  <span class="arrow">|</span>
+<span class="node">Wing Out 1</span> <span class="arrow">&rarr;</span> <span class="patchbay">[P1]</span> <span class="arrow">&rarr;</span> <span class="gear">HA73 A</span> <span class="comment">// Neve EQ, color</span>
+                          <span class="patchbay">[P2]</span> <span class="arrow">&rarr;</span> <span class="gear">WA76 A</span> <span class="comment">// 1176, transient control</span>
+                          <span class="patchbay">[P3]</span> <span class="arrow">&rarr;</span> <span class="gear">Opto</span>   <span class="comment">// LA-2A, leveling</span>
+                          <span class="patchbay">[P4]</span> <span class="arrow">&rarr;</span> <span class="node">Wing LCL 17</span>
+  <span class="arrow">|</span>
+<span class="node">Ch17 Vocal Processed</span> <span class="comment">// DE-ES dynamics</span>
+  <span class="arrow">|</span> Bus 7 (pre-fader) <span class="arrow">&rarr;</span> USR/1 <span class="arrow">&rarr;</span> USB 1 <span class="arrow">&rarr;</span> <span class="node">Logic Pro</span></div>
+
+      <h3 class="mt-lg">Guitar Chain &mdash; Patchbay P5-P8</h3>
+      <div class="signal-flow mt-sm">
+<span class="node">Guitar DI</span>
+  <span class="arrow">|</span>
+<span class="node">Wing Ch2</span> <span class="comment">// preamp gain</span>
+  <span class="arrow">|</span> Bus 5 (Electric) or Bus 6 (Acoustic) <span class="comment">// amp sim mode</span>
+  <span class="arrow">|</span> Bus 2 (guitar send, clean)
+  <span class="arrow">|</span>
+<span class="node">Wing Out 2</span> <span class="arrow">&rarr;</span> <span class="patchbay">[P5]</span> <span class="arrow">&rarr;</span> <span class="gear">HA73 B</span> <span class="comment">// Neve EQ, color</span>
+                          <span class="patchbay">[P6]</span> <span class="arrow">&rarr;</span> <span class="gear">WA76 B</span> <span class="comment">// 1176, transient control</span>
+                          <span class="patchbay">[P7]</span> <span class="arrow">&rarr;</span> <span class="gear">Distressor</span> <span class="comment">// compression + saturation</span>
+                          <span class="patchbay">[P8]</span> <span class="arrow">&rarr;</span> <span class="node">Wing LCL 18</span>
+  <span class="arrow">|</span>
+<span class="node">Ch18 Guitar Processed</span>
+  <span class="arrow">|</span> Bus 8 (pre-fader) <span class="arrow">&rarr;</span> USB <span class="arrow">&rarr;</span> <span class="node">Logic Pro</span></div>
+    </section>
+
+    <section>
+      <h3>Channel Layout</h3>
+      <table class="mt-sm">
+        <tr><th>Ch</th><th>Name</th><th>Source</th><th>Notes</th></tr>
+        <tr><td>1</td><td>Vocal Dry</td><td>LCL/1 (mic)</td><td>GATE dynamics. Sends to Bus 1.</td></tr>
+        <tr><td>2</td><td>Guitar Dry</td><td>LCL/2 (DI)</td><td>Sends to Bus 5/6 (amp sim), Bus 2 (outboard)</td></tr>
+        <tr><td>5</td><td>Gtr Acoustic DI</td><td>USR/5</td><td>Clean DI from Ch2 PRE tap. Bypasses outboard.</td></tr>
+        <tr><td>6</td><td>Gtr Ac Mics</td><td>LCL/3+4</td><td>Stereo condensers, phantom power, XLR direct</td></tr>
+        <tr><td>17</td><td>Vocal Processed</td><td>LCL/17</td><td>Outboard return. DE-ES dynamics.</td></tr>
+        <tr><td>18</td><td>Guitar Processed</td><td>LCL/18</td><td>Outboard return.</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h3>What Gets Recorded</h3>
+      <div class="grid-2 mt-sm">
+        <div class="card">
+          <span class="card__label">Baked In</span>
+          <h4>Outboard Processing</h4>
+          <p>Gate + Neve EQ/color + 1176 compression + LA-2A leveling (vocal) or Distressor (guitar) + de-esser. This is committed to the recording.</p>
+        </div>
+        <div class="card">
+          <span class="card__label">Monitoring Only</span>
+          <h4>Amp Sims + Reverb + Tape</h4>
+          <p>Amp sims (RACKAMP, ANGEL, DELUXE) and reverb (PLATE) are added during monitoring. Tape saturation is a mixing effect via the Model 12 AUX 1 loop. None of this is recorded.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h3>Patchbay</h3>
+      <table class="mt-sm">
+        <tr><th>Point</th><th>Top (Output)</th><th>Bottom (Input)</th><th>Chain</th></tr>
+        <tr><td>P1</td><td>Wing Out 1</td><td>HA73 A In</td><td>Vocal</td></tr>
+        <tr><td>P2</td><td>HA73 A Out</td><td>WA76 A In</td><td>Vocal</td></tr>
+        <tr><td>P3</td><td>WA76 A Out</td><td>Opto In</td><td>Vocal</td></tr>
+        <tr><td>P4</td><td>Opto Out</td><td>Wing LCL 17</td><td>Vocal</td></tr>
+        <tr><td>P5</td><td>Wing Out 2</td><td>HA73 B In</td><td>Guitar</td></tr>
+        <tr><td>P6</td><td>HA73 B Out</td><td>WA76 B In</td><td>Guitar</td></tr>
+        <tr><td>P7</td><td>WA76 B Out</td><td>Distressor In</td><td>Guitar</td></tr>
+        <tr><td>P8</td><td>Distressor Out</td><td>Wing LCL 18</td><td>Guitar</td></tr>
+        <tr><td>P9</td><td>Wing Out 3 / USR/3</td><td>Model 12 Ch 6</td><td>Tape Return</td></tr>
+        <tr><td>P23</td><td>Wing Out 7 / MX1 L</td><td>Speaker R</td><td>Monitors</td></tr>
+        <tr><td>P24</td><td>Wing Out 8 / MX1 R</td><td>Speaker L</td><td>Monitors</td></tr>
+      </table>
+    </section>
+
+  </div>
+</Base>

@@ -1,0 +1,80 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Production" active="production">
+  <div class="container">
+
+    <section class="page-header">
+      <h3>Workflow</h3>
+      <h1>Production</h1>
+      <p>Logic Pro is the primary recorder and session player host. The Wing Rack handles monitoring. The Model 12 handles mixing. Everything runs simultaneously.</p>
+    </section>
+
+    <div class="vu-bar"></div>
+
+    <section>
+      <h3>Session Players</h3>
+      <p class="mt-sm">Logic Pro provides virtual session players routed into the Wing Rack alongside live instruments. They're heard through the Wing and mixed on the Model 12 &mdash; never recorded back to themselves.</p>
+      <table class="mt-md">
+        <tr><th>Channel</th><th>Instrument</th><th>USB Input</th><th>Matrix</th><th>Model 12 Ch</th></tr>
+        <tr><td>Ch9</td><td>Bass</td><td>USB 9-10</td><td>MX6 Mix Bass</td><td>5</td></tr>
+        <tr><td>Ch11</td><td>Piano / Synth</td><td>USB 13-14</td><td>MX8 Mix Piano</td><td>9/10</td></tr>
+        <tr><td>Ch12</td><td>Drums</td><td>USB 15-16</td><td>MX7 Mix Drums</td><td>7/8</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h3>Tracking Workflow</h3>
+      <div class="grid-2 mt-sm">
+        <div class="card">
+          <span class="card__label">Step 1</span>
+          <h4>Set up in Logic</h4>
+          <p>Create tracks, arm for recording. Session players on separate tracks. Set input to Wing USB channels. Input monitoring OFF &mdash; listen through the Wing for zero latency.</p>
+        </div>
+        <div class="card">
+          <span class="card__label">Step 2</span>
+          <h4>Track through outboard</h4>
+          <p>Live instruments flow through the outboard chain automatically. Clean processed signal records to Logic. Monitoring goes through matrices to the Model 12.</p>
+        </div>
+        <div class="card">
+          <span class="card__label">Step 3</span>
+          <h4>Overdub</h4>
+          <p>Previous takes play back from Logic through tape return channels (Ch25-32) with per-track FX. New takes record simultaneously. No mode switching.</p>
+        </div>
+        <div class="card">
+          <span class="card__label">Step 4</span>
+          <h4>Mix on Model 12</h4>
+          <p>All tracks flow through Wing matrices to the Model 12. Real faders, analog EQ, compression. Tape saturation via AUX 1 loop. Stereo mixdown captured on 11/12.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h3>Guitar Modes</h3>
+      <p class="mt-sm">Ch2 sends to amp sim buses before outboard. Mute/unmute to switch modes instantly.</p>
+      <table class="mt-md">
+        <tr><th>Mode</th><th>Path</th><th>Amp Sim</th><th>Notes</th></tr>
+        <tr><td>Electric Lead</td><td>Ch2 &rarr; Bus 5 &rarr; Bus 2 &rarr; outboard</td><td>FX12 ANGEL (Mesa-style)</td><td>Dark, lower gain</td></tr>
+        <tr><td>Electric Rhythm</td><td>Ch2 &rarr; Bus 5 &rarr; Bus 2 &rarr; outboard</td><td>FX1 DELUXE (Fender clean)</td><td>Bright, clean</td></tr>
+        <tr><td>Acoustic DI</td><td>Ch2 &rarr; Bus 6 &rarr; Bus 2 &rarr; outboard</td><td>FX11 RACKAMP (clean/bright)</td><td>For piezo/DI acoustic</td></tr>
+        <tr><td>Clean DI</td><td>Ch2 &rarr; Bus 2 direct &rarr; outboard</td><td>None</td><td>Bypass all amp sims</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h3>Tape Returns &mdash; Logic Playback</h3>
+      <p class="mt-sm">Recorded tracks return from Logic to dedicated Wing channels for playback with per-track FX. Outboard is already baked in.</p>
+      <table class="mt-md">
+        <tr><th>Channel</th><th>USB In</th><th>Content</th><th>Default Routing</th></tr>
+        <tr><td>Ch25</td><td>USB 17</td><td>Track 1</td><td>MX2 (vocal) or per project</td></tr>
+        <tr><td>Ch26</td><td>USB 18</td><td>Track 2</td><td>Bus 10 (rhythm amp sim) &rarr; MX3</td></tr>
+        <tr><td>Ch27</td><td>USB 19</td><td>Track 3</td><td>Bus 11 (lead amp sim) &rarr; MX4</td></tr>
+        <tr><td>Ch28-30</td><td>USB 20-22</td><td>Tracks 4-6</td><td>Per project</td></tr>
+        <tr><td>Ch31</td><td>USB 23-24</td><td>Tracks 7/8</td><td>Per project (stereo)</td></tr>
+        <tr><td>Ch32</td><td>USB 25-26</td><td>Tracks 9/10</td><td>Per project (stereo)</td></tr>
+      </table>
+    </section>
+
+  </div>
+</Base>

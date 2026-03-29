@@ -1,0 +1,40 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<Base title="Blog" active="blog">
+  <div class="container">
+
+    <section class="page-header">
+      <h3>From the Studio</h3>
+      <h1>Blog</h1>
+      <p>Session notes, gear discoveries, routing adventures, and the occasional existential crisis about gain staging.</p>
+    </section>
+
+    <div class="vu-bar"></div>
+
+    <section>
+      <ul class="post-list">
+        {posts.map(post => (
+          <li class="post-item">
+            <span class="post-date">{post.data.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+            <div>
+              <a href={`/blog/${post.id}`} class="post-title">{post.data.title}</a>
+              <p class="post-desc">{post.data.description}</p>
+              {post.data.tags && (
+                <div class="post-tags">
+                  {post.data.tags.map(tag => <span class="tag">{tag}</span>)}
+                </div>
+              )}
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+  </div>
+</Base>
