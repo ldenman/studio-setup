@@ -8,94 +8,72 @@ import Base from '../layouts/Base.astro';
     <section class="page-header">
       <h3>Analog Console</h3>
       <h1>Mixing</h1>
-      <p>The Tascam Model 12 receives processed stems from the Wing via matrices. Real faders, analog EQ, compression. Every mix pass captured on tracks 11/12.</p>
+      <p>The Tascam Model 12 receives processed stems from the Wing. Real faders, analog EQ, hands on the console. Every mix pass captured automatically.</p>
     </section>
 
     <div class="vu-bar"></div>
 
-    <section>
-      <h3>Mix Signal Flow</h3>
-      <div class="signal-flow mt-sm">
-<span class="comment">  // sources</span>
-  <span class="node">Logic</span> <span class="arrow">&rarr;</span> Wing Ch25-32 (tape returns) + Ch9-12 (session players)
-  <span class="arrow">|</span>
-<span class="comment">  // processing</span>
-  Wing adds: amp sims (Bus 10/11), reverb (Bus 3), vocal doubler (MX2), bass octaver (MX6)
-  <span class="arrow">|</span>
-<span class="comment">  // routing</span>
-  Wing Matrices MX2-MX8 <span class="arrow">&rarr;</span> USB 33-42 <span class="arrow">&rarr;</span> Loopback <span class="arrow">&rarr;</span> <span class="node">Model 12 Ch 1-10</span>
-  <span class="arrow">|</span>
-<span class="comment">  // mixing</span>
-  <span class="gear">Model 12</span>: faders, EQ, compression, AUX sends
-  <span class="arrow">|</span>
-  Tracks 11/12: stereo mixdown (always recording)
-  <span class="arrow">|</span>
-<span class="comment">  // monitoring</span>
-  Model 12 Main Out <span class="arrow">&rarr;</span> USB <span class="arrow">&rarr;</span> Loopback <span class="arrow">&rarr;</span> <span class="node">Wing Ch7</span> (solo to hear mix)</div>
+    <section class="ruled">
+      <h3>Why an Analog Console</h3>
+      <div class="prose mt-sm">
+        <p>
+          Mixing in the box is powerful, but there's something about reaching for a fader instead of clicking a mouse. The Model 12 gives every stem its own physical channel &mdash; vocal, rhythm guitar, lead guitar, bass, drums, piano, and overdubs each get a dedicated fader with analog EQ and compression.
+        </p>
+        <p>
+          The Wing's matrix buses serve as a permanent routing layer. Each matrix feeds a specific Model 12 channel over USB. Wire it once, and every project automatically lands on the right fader. The Wing handles effects and processing upstream; the Model 12 handles balance and tone.
+        </p>
+      </div>
     </section>
 
-    <section>
-      <h3>Mix Matrices</h3>
-      <p class="mt-sm">Permanent routing layer. Wire once, change sources per project. Each matrix feeds a dedicated USB output to a Model 12 channel.</p>
-      <table class="mt-md">
-        <tr><th>Matrix</th><th>Name</th><th>USB Out</th><th>M12 Ch</th><th>Source</th><th>Post-Insert</th></tr>
-        <tr><td>MX2</td><td>Mix Vocal</td><td>33</td><td>1</td><td>Ch25 + Ch17 (live)</td><td>FX3 DOUBLE/THICK</td></tr>
-        <tr><td>MX3</td><td>Mix Rhythm</td><td>34</td><td>2</td><td>Bus 10 (FX7 RACKAMP)</td><td>&mdash;</td></tr>
-        <tr><td>MX4</td><td>Mix Lead</td><td>35</td><td>3</td><td>Bus 11 (FX12 ANGEL)</td><td>&mdash;</td></tr>
-        <tr><td>MX5</td><td>Mix Overdub</td><td>36</td><td>4</td><td>Per project</td><td>&mdash;</td></tr>
-        <tr><td>MX6</td><td>Mix Bass</td><td>37</td><td>5</td><td>Ch9 (Logic bass)</td><td>FX4 SUB/MID</td></tr>
-        <tr><td>MX7</td><td>Mix Drums</td><td>39-40</td><td>7/8</td><td>Ch12 (Logic drums)</td><td>&mdash;</td></tr>
-        <tr><td>MX8</td><td>Mix Piano</td><td>41-42</td><td>9/10</td><td>Ch11 (Logic piano)</td><td>&mdash;</td></tr>
-      </table>
-    </section>
-
-    <section>
-      <h3>Tape Saturation &mdash; AUX 1 Loop</h3>
-      <div class="signal-flow mt-sm">
-<span class="comment">  // parallel tape saturation via Model 12 AUX 1 send/return</span>
-
-  <span class="gear">Model 12 AUX 1 Out</span> (pre-fader, per-channel knob)
-  <span class="arrow">|</span> TRS &rarr; XLR cable (direct, no patchbay)
-  <span class="arrow">|</span>
-  <span class="node">Wing LCL 3</span> (gain 10dB, phantom OFF)
-  <span class="arrow">|</span>
-  <span class="node">Ch33 Tape Send</span>
-  <span class="arrow">|</span> pre-insert: <span class="gear">FX13 TAPE</span> (drive 10, speed 30)
-  <span class="arrow">|</span> post-insert: <span class="gear">FX6 TAPE-DL</span> (flutter 55, no delay feedback)
-  <span class="arrow">|</span>
-  USR/3 (POST tap) <span class="arrow">&rarr;</span> USB 38 <span class="arrow">&rarr;</span> Loopback <span class="arrow">&rarr;</span> <span class="node">Model 12 Ch 6</span>
-
-<span class="comment">  // WARNING: do NOT send drums to AUX 1</span>
-<span class="comment">  // round-trip latency causes audible slapback on transients</span></div>
-
-      <div class="grid-2 mt-md">
+    <section class="ruled">
+      <h3>What Lands on Each Fader</h3>
+      <div class="grid-3 mt-sm">
         <div class="card">
-          <span class="card__label">How It Works</span>
-          <h4>Parallel Processing</h4>
-          <p>The dry signal goes through the Model 12's main bus. AUX 1 sends a copy through the Wing's TAPE effects and returns on Ch 6. Blend with the Ch 6 fader. AUX 1 knobs control per-channel send amount.</p>
+          <h4>Vocal</h4>
+          <p>Processed vocal with optional doubler effect from the Wing. Outboard warmth already baked in.</p>
         </div>
         <div class="card">
-          <span class="card__label">Limitation</span>
-          <h4>Mono Sum + Latency</h4>
-          <p>AUX 1 is mono &mdash; collapses stereo to center. The USB round-trip adds a few ms of delay, audible on drums as slapback. Keep AUX 1 down on percussive material.</p>
+          <h4>Rhythm Guitar</h4>
+          <p>Guitar through amp sim and outboard. Clean Fender tone or raw DI depending on the session.</p>
+        </div>
+        <div class="card">
+          <h4>Lead Guitar</h4>
+          <p>Same outboard chain, different amp sim. Mesa-style dark tone for leads and solos.</p>
+        </div>
+        <div class="card">
+          <h4>Bass</h4>
+          <p>Logic's session player bass with optional sub-octave thickener from the Wing.</p>
+        </div>
+        <div class="card">
+          <h4>Drums</h4>
+          <p>Logic's session player drums in stereo. Full kit width across the mix.</p>
+        </div>
+        <div class="card">
+          <h4>Piano / Synth</h4>
+          <p>Logic's session player keys in stereo. Fills out the harmonic foundation.</p>
         </div>
       </div>
     </section>
 
-    <section>
-      <h3>Model 12 Channel Map</h3>
-      <table class="mt-sm">
-        <tr><th>M12 Ch</th><th>Source</th><th>Content</th><th>AUX 1 (Tape)</th><th>AUX 2 (FX)</th></tr>
-        <tr><td>1</td><td>MX2 / USB 33</td><td>Vocal</td><td>To taste</td><td>Reverb</td></tr>
-        <tr><td>2</td><td>MX3 / USB 34</td><td>Rhythm Guitar</td><td>To taste</td><td>Reverb</td></tr>
-        <tr><td>3</td><td>MX4 / USB 35</td><td>Lead Guitar</td><td>To taste</td><td>Reverb</td></tr>
-        <tr><td>4</td><td>MX5 / USB 36</td><td>Overdub</td><td>Per project</td><td>Per project</td></tr>
-        <tr><td>5</td><td>MX6 / USB 37</td><td>Bass</td><td>To taste</td><td>&mdash;</td></tr>
-        <tr><td>6</td><td>USR/3 / USB 38</td><td>Tape Return</td><td>&mdash;</td><td>&mdash;</td></tr>
-        <tr><td>7/8</td><td>MX7 / USB 39-40</td><td>Drums</td><td>OFF</td><td>To taste</td></tr>
-        <tr><td>9/10</td><td>MX8 / USB 41-42</td><td>Piano/Synth</td><td>To taste</td><td>&mdash;</td></tr>
-        <tr><td>11/12</td><td>Internal</td><td>Stereo Mixdown</td><td colspan="2">Always recording</td></tr>
-      </table>
+    <section class="ruled">
+      <h3>Tape Saturation</h3>
+      <div class="prose mt-sm">
+        <p>
+          Tape character is added in Logic using the T-RackS Tape Machine plugin &mdash; a Tascam 388 emulation that adds compression, harmonic saturation, and gentle frequency shaping. Each track gets its own instance with settings tuned to the instrument. By the time stems reach the Model 12, the tape character is already part of the sound.
+        </p>
+      </div>
+    </section>
+
+    <section class="ruled">
+      <h3>The Mix Pass</h3>
+      <div class="prose mt-sm">
+        <p>
+          Set levels, shape EQ, add compression. The Model 12 captures every mix to tracks 11 and 12 automatically &mdash; a stereo mixdown that's always recording. Try a pass, listen back, adjust, try again. Every version is saved. No bouncing, no exporting. Just press play and mix.
+        </p>
+        <p>
+          The Model 12's main output returns to the Wing for monitoring on headphones or speakers. Solo the mix return channel to hear exactly what the Model 12 is producing, isolated from everything else.
+        </p>
+      </div>
     </section>
 
   </div>

@@ -5,7 +5,7 @@ interface Props {
   active?: string;
 }
 
-const { title, description = "Lake's recording studio. Neve preamp, 1176, LA-2A, patchbay-normalled. Plug in and go.", active = '' } = Astro.props;
+const { title, description = "Vocals and guitar through a Neve preamp, 1176, and LA-2A — permanently wired, zero setup. Lake's home studio.", active = '' } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -31,9 +31,11 @@ const { title, description = "Lake's recording studio. Neve preamp, 1176, LA-2A,
       <a href="/production" class:list={[{ active: active === 'production' }]}>Production</a>
       <a href="/mixing" class:list={[{ active: active === 'mixing' }]}>Mixing</a>
       <a href="/sound-design" class:list={[{ active: active === 'sound-design' }]}>Sound Design</a>
+      <span class="nav__sep"></span>
       <a href="/tools" class:list={[{ active: active === 'tools' }]}>Tools</a>
       <a href="/rack" class:list={[{ active: active === 'rack' }]}>Rack Room</a>
       <a href="/front-panels" class:list={[{ active: active === 'front-panels' }]}>Front Panels</a>
+      <span class="nav__sep"></span>
       <a href="/blog" class:list={[{ active: active === 'blog' }]}>Blog</a>
     </div>
   </div>
@@ -46,7 +48,7 @@ const { title, description = "Lake's recording studio. Neve preamp, 1176, LA-2A,
 <footer class="footer">
   <div class="footer__inner">
     <div class="footer__left">
-      // Lake's Studio &mdash; analog chain, digital brain
+      // Lake's Studio &mdash; plug in and go
     </div>
     <div class="footer__right">
       <a href="mailto:studio@lake.fm">studio@lake.fm</a>

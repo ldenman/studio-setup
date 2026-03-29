@@ -1,0 +1,443 @@
+;; studio.edn — Single source of truth for all studio configuration
+;; All structured data lives here. Docs reference this file for config.
+;; Last updated: 2026-03-29
+
+{:studio
+ {:name "Lake's Studio"
+  :priorities [:zero-latency :zero-phase :zero-noise]}
+
+ :network
+ {:wing {:ip "192.168.2.2" :osc-port 2223 :wapi-port 2222}
+  :wing-sync {:path "~/src/wing-sync"}}
+
+ :gear
+ {:wing {:model "Behringer Wing Rack" :role :mixer-fx-monitor}
+  :model-12 {:model "Tascam Model 12" :role :mixing-console}
+  :recorder {:app :logic-pro :role :primary-recorder}
+  :outboard
+  {:ha73 {:model "HA73-EQX2" :type "Neve 1073 preamp/EQ clone" :channels :dual}
+   :wa76 {:model "WA76-D2 Black" :type "1176 compressor clone" :channels :dual :features [:parallel-comp :stereo-link]}
+   :distressor {:model "Empirical Labs Distressor" :type "compressor" :channels :single}
+   :opto {:model "Audioscape Opto" :type "LA-2A compressor clone" :channels :single}}
+  :patchbay {:model "Samson S-Patch Plus" :points 48 :mode :normalled :connector "TRS"}
+  :speakers {:output [:wing-out-7 :wing-out-8] :source "MX1 (MON.PH)"}}
+
+ :colors
+ {1 "Gray Blue" 2 "Medium Blue" 3 "Dark Blue" 4 "Turquoise"
+  5 "Green" 6 "Olive Green" 7 "Yellow" 8 "Orange"
+  9 "Red" 10 "Coral" 11 "Pink" 12 "Mauve"}
+
+ ;; ===== CHANNELS =====
+ :channels
+ {1  {:name "Vocal Dry"       :color 2  :src "LCL/1"  :src-detail "mic"
+      :dynamics :gate  :main false
+      :sends {1 {:lvl 0 :mode :pre :note "vocal outboard chain"}}}
+  2  {:name "Guitar Dry"      :color 9  :src "LCL/2"  :src-detail "DI"
+      :main false
+      :sends {5 {:lvl 0 :mode :pre} 6 {:lvl 0 :mode :pre}
+              2 {:lvl 0 :mode :pre :default :off :note "enable for clean DI bypass of amp sims"}}}
+  3  {:name "(planned: Gtr Rhythm)" :src "Local" :status :open}
+  4  {:name "(planned: Gtr Lead)"   :src "Local" :status :open}
+  5  {:name "Gtr Acoustic DI"  :color 7  :src "USR/5"  :src-detail "from Ch2 PRE tap"
+      :main true  :default-mute true
+      :note "Clean DI bypasses outboard. Muted by default."}
+  6  {:name "Gtr Ac Mics"      :color 7  :src "LCL/3+4"  :src-detail "stereo condensers, phantom power, XLR direct"
+      :mode :stereo  :main false  :default-mute true
+      :sends {6 {:lvl 0 :mode :pre} 9 {:lvl 0 :mode :pre}}
+      :note "Sends to Bus 6 (Acoustic), NOT on main. Must be unmuted for signal to flow."}
+  7  {:name "Model 12 Mix"     :color 8  :src "USB/3-4"  :mode :stereo
+      :src-detail "Model 12 Main Out L/R via Loopback"
+      :main true  :note "Solo this channel to monitor Model 12 mix during mixing phase"}
+  8  {:name "Open"             :src "Local" :status :open}
+  9  {:name "Bass"             :color 5  :src "USB/9-10"  :mode :stereo
+      :src-detail "Logic session player"  :main true}
+  10 {:name "(open)"           :src "USB/11-12"  :note "was Keyboard -- use Piano/Synth on Ch11 instead" :status :open}
+  11 {:name "Piano/Synth"      :color 5  :src "USB/13-14"  :mode :stereo
+      :src-detail "Logic session player"  :main true}
+  12 {:name "Drums"            :color 5  :src "USB/15-16"  :mode :stereo
+      :src-detail "Logic session player"  :main true}
+  13 {:status :open} 14 {:status :open} 15 {:status :open} 16 {:status :open}
+  17 {:name "Vocal Processed"  :color 2  :src "LCL/17"  :src-detail "outboard return"
+      :dynamics :de-es  :fader -12  :main true
+      :sends {7 {:lvl 0 :mode :pre :note "recording bus"}}}
+  18 {:name "Guitar Processed" :color 9  :src "LCL/18"  :src-detail "outboard return"
+      :fader -12  :main true
+      :sends {8 {:lvl 0 :mode :pre :note "recording bus"}}}
+  19 {:status :open} 20 {:status :open} 21 {:status :open}
+  22 {:status :open} 23 {:status :open} 24 {:status :open}
+  25 {:name "Tape Return 1"    :color 10  :src "USB/17"  :src-detail "Logic Track 1 via Loopback"
+      :main true  :note "Individual track return. Bus sends per project."}
+  26 {:name "Tape Return 2"    :color 10  :src "USB/18"  :src-detail "Logic Track 2 via Loopback"
+      :main true  :note "Individual track return. Bus sends per project."}
+  27 {:name "Tape Return 3"    :color 10  :src "USB/19"  :src-detail "Logic Track 3 via Loopback"
+      :main true}
+  28 {:name "Tape Return 4"    :color 10  :src "USB/20"  :src-detail "Logic Track 4 via Loopback"
+      :main true}
+  29 {:name "Tape Return 5"    :color 10  :src "USB/21"  :src-detail "Logic Track 5 via Loopback"
+      :main true}
+  30 {:name "Tape Return 6"    :color 10  :src "USB/22"  :src-detail "Logic Track 6 via Loopback"
+      :main true}
+  31 {:name "Tape Return 7/8"  :color 10  :src "USB/23-24"  :mode :stereo
+      :src-detail "Logic Tracks 7/8 via Loopback"  :main true}
+  32 {:name "Tape Return 9/10" :color 10  :src "USB/25-26"  :mode :stereo
+      :src-detail "Logic Tracks 9/10 via Loopback"  :main true}
+  33 {:name "Tape Send"        :color 10  :src "LCL/3"
+      :src-detail "Model 12 AUX 1 Out, gain 10dB, phantom OFF"
+      :main false
+      :pre-insert {:fx 13 :model "TAPE"}
+      :post-insert {:fx 6 :model "TAPE-DL"}
+      :note "Tape aux loop. Feeds USR/3 (POST tap) -> USB 38 -> M12 Ch 6."}
+  34 {:status :open} 35 {:status :open} 36 {:status :open}
+  37 {:status :open} 38 {:status :open} 39 {:status :open} 40 {:status :open}}
+
+ ;; ===== BUSES =====
+ :buses
+ {1  {:name "Vocal Send"     :color 2  :out {:wing-out 1 :io-in-idx 1}
+      :purpose "Pre-fader send from Ch1 -> vocal outboard chain (P1-P4). Clean signal -- no TAPE."}
+  2  {:name "Guitar Send"    :color 9  :out {:wing-out 2 :io-in-idx 3}
+      :purpose "Receives from Bus 5 (Electric) and Bus 6 (Acoustic) -> guitar outboard chain (P5-P8). No pre-insert."}
+  3  {:name "Reverb"         :color 5  :out :main-only
+      :pre-insert {:fx 2 :model "PLATE"}
+      :sources ["Bus 1" "Bus 2"]
+      :purpose "Shared plate reverb. Assigned to Main 1."}
+  4  {:name "Mic Send"       :out {:wing-out 4 :io-in-idx 8}
+      :purpose "Condenser mic R send to P10 (R only). Out 3 reassigned to Bus 8 for guitar analog recording."}
+  5  {:name "Electric"       :color 9  :out :bus-2-send  :default-mute true
+      :pre-insert {:fx 6 :model "ANGEL" :note "lead; FX1 DELUXE available for rhythm"}
+      :sources ["Ch2 pre-fader"]
+      :purpose "Electric amp sim bus. Muted by default. Sends to Bus 2."}
+  6  {:name "Acoustic"       :color 7  :out :bus-2-send
+      :pre-insert {:fx 11 :model "RACKAMP" :settings {:pre 7 :buzz 1 :punch 2 :crunch 1 :drive 1 :output 8 :leq 3 :heq 7.5}}
+      :sources ["Ch2 pre-fader" "Ch6 pre-fader"]
+      :purpose "Acoustic amp sim bus. Active by default. Sends to Bus 2."}
+  7  {:name "Vocal Rec"      :color 2  :out :usr-only
+      :sources ["Ch17 pre-fader"]
+      :purpose "No pre-insert. Feeds USR/1 -> USB 1 -> Logic. Not on main."}
+  8  {:name "Guitar Rec"     :color 9  :out {:wing-out 3 :io-in-idx 15}
+      :sources ["Ch18 pre-fader"]
+      :purpose "No pre-insert. -> P9 (analog to Model 12). Not on main."}
+  9  {:name "Mic Rec"        :color 7  :out :usr-only
+      :sources ["Ch6 pre-fader"]
+      :purpose "No pre-insert. Feeds USR/6+7 -> USB 5/6 -> Logic. OFF by default. Not on main."}
+  10 {:name "Rhythm Monitor"  :out :mx3-send
+      :pre-insert {:fx 7 :model "RACKAMP"}
+      :sources ["Ch26" "Ch18"]
+      :purpose "Rhythm guitar amp sim for mixing. Sends to MX3. Not on main."}
+  11 {:name "Lead Monitor"    :out :mx4-send
+      :pre-insert {:fx 12 :model "ANGEL"}
+      :sources ["Ch27" "Ch18"]
+      :purpose "Lead guitar amp sim for mixing. Sends to MX4. Not on main."}
+  12 {:status :open} 13 {:status :open} 14 {:status :open}
+  15 {:status :open} 16 {:status :open}}
+
+ ;; Bus output in-index reference:
+ ;; Bus 1L=1 1R=2, Bus 2L=3 2R=4, Bus 3L=5 3R=6, Bus 4L=7 4R=8,
+ ;; Bus 5L=9 5R=10, Bus 6L=11 6R=12, Bus 7L=13 7R=14, Bus 8L=15 8R=16,
+ ;; Bus 9L=17 9R=18
+
+ ;; ===== MATRICES =====
+ :matrices
+ {1 {:name "Speakers"      :usb-out "Out 7-8"  :source "MON.PH direct input"
+     :note "Monitor output. /mtx/1/dir/in=MON.PH. Main 1 send to MX1 is OFF."}
+  2 {:name "Mix Vocal"     :color 2   :usb-out 33  :m12-ch 1
+     :source "Ch25 (vocal tape return)"
+     :post-insert {:fx 3 :model "DOUBLE" :mode "THICK"}}
+  3 {:name "Mix Rhythm"    :color 9   :usb-out 34  :m12-ch 2
+     :source "Bus 10 (RACKAMP)"}
+  4 {:name "Mix Lead"      :color 9   :usb-out 35  :m12-ch 3
+     :source "Bus 11 (ANGEL)"}
+  5 {:name "Mix Overdub"   :color 10  :usb-out 36  :m12-ch 4
+     :source "As needed per project"}
+  6 {:name "Mix Bass"      :color 5   :usb-out 37  :m12-ch 5
+     :source "Ch9 (Logic bass)"
+     :post-insert {:fx 4 :model "SUB" :mode "MID"}}
+  7 {:name "Mix Drums"     :color 5   :usb-out [39 40]  :m12-ch "7/8"
+     :source "Ch12 (Logic drums, stereo)"}
+  8 {:name "Mix Piano"     :color 5   :usb-out [41 42]  :m12-ch "9/10"
+     :source "Ch11 (Logic piano/synth, stereo)"}}
+
+ ;; ===== USR ROUTING (Virtual Patchbay) =====
+ ;; USR `in` uses simple bus/channel numbering (Bus 7 = in=7), NOT stereo indices.
+ :usr
+ {1 {:name "Vocal Dry"      :grp "BUS" :in 7  :tap "PRE" :lr "L"    :usb-out 1  :default :on
+     :purpose "Clean outboard vocal for recording (no tape)"}
+  2 {:name "(free)"          :note "Freed -- guitar recording now uses analog (Out 3 -> P9)"}
+  3 {:name "Tape Return"     :grp "CH"  :in 33 :tap "POST" :lr "L+R" :usb-out 38 :default :on
+     :purpose "Tape-processed signal (TAPE + TAPE-DL) from M12 AUX 1 loop -> M12 Ch 6"}
+  4 {:name "(free)"          :status :open}
+  5 {:name "Gtr Acoustic DI" :grp "CH"  :in 2  :tap "PRE"  :lr "L+R"
+     :purpose "Clean DI tap for Ch5; bypasses outboard"}
+  6 {:name "Mic Dry L"       :grp "BUS" :in 9  :tap "PRE"  :lr "L"   :usb-out 5  :default :off
+     :purpose "Condenser mic L recording (enable when recording condensers)"}
+  7 {:name "Mic Dry R"       :grp "BUS" :in 9  :tap "PRE"  :lr "R"   :usb-out 6  :default :off
+     :purpose "Condenser mic R recording (enable when recording condensers)"}
+  8 {:name "Re-amp Out"      :grp "CH"  :in 18 :tap "PRE"  :lr "L"   :usb-out 3  :default :off
+     :purpose "Guitar Processed output for re-amping. MUST disable USB 3 after use."}}
+
+ ;; ===== USB OUTPUT ROUTING =====
+ :usb-out
+ {1       {:source "USR/1 (Vocal Dry)"       :dest "Logic"      :default :on}
+  3       {:source "USR/8 (Re-amp Out)"       :dest "Logic"      :default :off
+           :note "Enable only during re-amping; disable after"}
+  5       {:source "USR/6 (Mic Dry L)"        :dest "Logic"      :default :off}
+  6       {:source "USR/7 (Mic Dry R)"        :dest "Logic"      :default :off}
+  33      {:source "MX2 (Mix Vocal)"          :dest "M12 Ch 1"   :default :on}
+  34      {:source "MX3 (Mix Rhythm)"         :dest "M12 Ch 2"   :default :on}
+  35      {:source "MX4 (Mix Lead)"           :dest "M12 Ch 3"   :default :on}
+  36      {:source "MX5 (Mix Overdub)"        :dest "M12 Ch 4"   :default :on}
+  37      {:source "MX6 (Mix Bass)"           :dest "M12 Ch 5"   :default :on}
+  38      {:source "USR/3 (Tape Return)"      :dest "M12 Ch 6"   :default :on}
+  "39-40" {:source "MX7 (Mix Drums)"          :dest "M12 Ch 7/8" :default :on}
+  "41-42" {:source "MX8 (Mix Piano)"          :dest "M12 Ch 9/10" :default :on}}
+
+ ;; ===== USB INPUT ROUTING (Model 12 -> Wing) =====
+ :usb-in
+ {"3-4"   {:source "Model 12 Main L/R"  :wing-ch 7  :note "Stereo main return for mix monitoring"}
+  17      {:source "M12 Track 1"  :wing-ch 25 :name "Tape Return 1"}
+  18      {:source "M12 Track 2"  :wing-ch 26 :name "Tape Return 2"}
+  19      {:source "M12 Track 3"  :wing-ch 27 :name "Tape Return 3"}
+  20      {:source "M12 Track 4"  :wing-ch 28 :name "Tape Return 4"}
+  21      {:source "M12 Track 5"  :wing-ch 29 :name "Tape Return 5"}
+  22      {:source "M12 Track 6"  :wing-ch 30 :name "Tape Return 6"}
+  "23-24" {:source "M12 Tracks 7/8"  :wing-ch 31 :name "Tape Return 7/8" :mode :stereo}
+  "25-26" {:source "M12 Tracks 9/10" :wing-ch 32 :name "Tape Return 9/10" :mode :stereo}}
+
+ ;; ===== LOOPBACK ROUTING (Wing USB -> Model 12) =====
+ :loopback
+ {:wing-to-m12
+  {33      {:m12-usb-in 1   :m12-ch 1    :content "Vocal (MX2)"}
+   34      {:m12-usb-in 2   :m12-ch 2    :content "Rhythm guitar (MX3)"}
+   35      {:m12-usb-in 3   :m12-ch 3    :content "Lead guitar (MX4)"}
+   36      {:m12-usb-in 4   :m12-ch 4    :content "Overdub (MX5)"}
+   37      {:m12-usb-in 5   :m12-ch 5    :content "Bass (MX6)"}
+   38      {:m12-usb-in 6   :m12-ch 6    :content "Tape return (USR/3, Ch33 post-TAPE)"}
+   "39-40" {:m12-usb-in "7-8"  :m12-ch "7/8"  :content "Drums stereo (MX7)"}
+   "41-42" {:m12-usb-in "9-10" :m12-ch "9/10" :content "Piano/Synth stereo (MX8)"}}
+  :logic-to-wing
+  {"9-10"  {:wing-ch 9  :content "Bass (Logic session player)"}
+   "11-12" {:wing-ch 10 :content "Keyboard (unused -- use Ch11)"}
+   "13-14" {:wing-ch 11 :content "Piano/Synth (Logic session player)"}
+   "15-16" {:wing-ch 12 :content "Drums (Logic session player)"}}}
+
+ ;; ===== PATCHBAY =====
+ :patchbay
+ {1  {:top "Wing Out 1 (Bus 1)"     :bottom "HA73 A In"       :chain :vocal    :normalled true}
+  2  {:top "HA73 A Out"              :bottom "WA76 A In"       :chain :vocal    :normalled true}
+  3  {:top "WA76 A Out"              :bottom "Opto In"         :chain :vocal    :normalled true}
+  4  {:top "Opto Out"                :bottom "Wing LCL In 17"  :chain :vocal    :normalled true}
+  5  {:top "Wing Out 2 (Bus 2)"     :bottom "HA73 B In"       :chain :guitar   :normalled true}
+  6  {:top "HA73 B Out"              :bottom "WA76 B In"       :chain :guitar   :normalled true}
+  7  {:top "WA76 B Out"              :bottom "Distressor In"   :chain :guitar   :normalled true}
+  8  {:top "Distressor Out"          :bottom "Wing LCL In 18"  :chain :guitar   :normalled true}
+  9  {:top "Wing Out 3 (Bus 8L)"    :bottom "Model 12 line in" :chain :tape-return :normalled true
+      :note "Guitar analog recording path"}
+  10 {:top "Wing Out 4 (Bus 4R)"    :bottom "(open)"           :chain :acoustic-mic :normalled true
+      :note "Condenser mic R send"}
+  11 {:status :open} 12 {:status :open} 13 {:status :open} 14 {:status :open}
+  15 {:status :open} 16 {:status :open} 17 {:status :open} 18 {:status :open}
+  19 {:status :open} 20 {:status :open} 21 {:status :open} 22 {:status :open}
+  23 {:top "Wing Out 7 (MX1 L)"     :bottom "Speakers L"       :chain :monitors  :note "Direct wired, not normalled"}
+  24 {:top "Wing Out 8 (MX1 R)"     :bottom "Speakers R"       :chain :monitors  :note "Direct wired, not normalled"}}
+
+ ;; ===== FX SLOTS =====
+ :fx
+ {1  {:model "DELUXE"   :location :available
+      :purpose "Electric guitar amp sim (Fender Deluxe) -- rhythm mode option for Bus 5"}
+  2  {:model "PLATE"    :location {:bus 3 :insert :pre}
+      :purpose "Shared plate reverb return"}
+  3  {:model "DOUBLE"   :location {:mx 2 :insert :post} :settings {:mode "THICK"}
+      :purpose "Vocal doubler on Mix Vocal matrix"}
+  4  {:model "SUB"      :location {:mx 6 :insert :post} :settings {:mode "MID"}
+      :purpose "Bass octaver on Mix Bass matrix"}
+  5  {:status :free}
+  6  {:model "TAPE-DL"  :location {:ch 33 :insert :post}
+      :settings {:time "60ms" :feedback 0 :drive 30 :flutter 55}
+      :purpose "Tape delay on tape aux loop"}
+  7  {:model "RACKAMP"  :location {:bus 10 :insert :pre}
+      :purpose "Rhythm guitar amp sim for mixing"}
+  8  {:status :free}
+  9  {:status :free}
+  10 {:status :free}
+  11 {:model "RACKAMP"  :location {:bus 6 :insert :pre}
+      :settings {:pre 7 :buzz 1 :punch 2 :crunch 1 :drive 1 :output 8 :leq 3 :heq 7.5}
+      :purpose "Acoustic amp sim (clean/bright)"}
+  12 {:model "ANGEL"    :location {:bus 11 :insert :pre}
+      :purpose "Lead guitar amp sim for mixing"}
+  13 {:model "TAPE"     :location {:ch 33 :insert :pre}
+      :settings {:drive 10 :speed 30}
+      :purpose "Tape saturation on tape aux loop"}
+  14 {:status :free}
+  15 {:status :free}
+  16 {:status :free}}
+
+ ;; ===== SIGNAL CHAINS =====
+ :signal-chains
+ {:vocal-outboard
+  {:path ["Mic" "Ch1 (LCL/1, GATE)" "Bus 1 (pre-fader 0dB)" "Wing Out 1"
+          "P1" "HA73 A" "P2" "WA76 A" "P3" "Opto" "P4"
+          "Ch17 (LCL/17, DE-ES)" "Main 1"]}
+
+  :vocal-recording
+  {:path ["Ch1 (GATE)" "Bus 1" "outboard (HA73 A -> WA76 A -> Opto)"
+          "Ch17 (DE-ES)" "Bus 7 (pre-fader)" "USR/1 (Bus 7L)" "USB 1" "Logic"]
+   :note "Records gate + outboard + de-esser. No tape, no reverb."}
+
+  :guitar-electric
+  {:path ["DI" "Ch2 (LCL/2)" "Bus 5 (pre-fader)" "FX6/ANGEL or FX1/DELUXE (Bus 5 pre-insert)"
+          "Bus 2" "Wing Out 2" "P5" "HA73 B" "P6" "WA76 B" "P7" "Distressor" "P8"
+          "Ch18 (LCL/18)" "Main 1"]}
+
+  :guitar-acoustic
+  {:path ["DI" "Ch2 (LCL/2)" "Bus 6 (pre-fader)" "FX11/RACKAMP (Bus 6 pre-insert)"
+          "Bus 2" "Wing Out 2" "P5" "HA73 B" "P6" "WA76 B" "P7" "Distressor" "P8"
+          "Ch18 (LCL/18)" "Main 1"]}
+
+  :guitar-recording-with-amp
+  {:path ["Ch2" "Bus 5/6 (amp sim)" "Bus 2" "outboard (HA73 B -> WA76 B -> Distressor)"
+          "Ch18" "Bus 8 (pre-fader)" "Wing Out 3" "P9" "Model 12"]
+   :note "Bus 5 or 6 unmuted, Ch2->Bus 2 send OFF. Records outboard only."}
+
+  :guitar-recording-clean
+  {:path ["Ch2" "Bus 2 (direct send)" "outboard (HA73 B -> WA76 B -> Distressor)"
+          "Ch18" "Bus 8 (pre-fader)" "Wing Out 3" "P9" "Model 12"]
+   :note "Bus 5+6 muted, Ch2->Bus 2 send ON. Records outboard only."}
+
+  :acoustic-mic-outboard
+  {:path ["Condensers" "LCL/3+4" "Ch6" "Bus 6 (pre-fader)"
+          "FX11/RACKAMP (Bus 6 pre-insert)" "Bus 2" "outboard chain"]}
+
+  :acoustic-mic-recording
+  {:path ["Ch6" "Bus 9 (pre-fader)" "USR/6 (Bus 9L) + USR/7 (Bus 9R)"
+          "USB 5/6" "Logic"]
+   :note "USB 5/6 OFF by default. Enable when recording condensers."}
+
+  :acoustic-di-bypass
+  {:path ["DI" "Ch2" "USR/5 (PRE tap)" "Ch5" "Main 1"]
+   :note "Clean DI, no outboard. Muted by default."}
+
+  :reverb
+  {:path ["Ch1/Ch2" "Bus 3 send" "FX2/PLATE (Bus 3 pre-insert)" "Bus 3" "Main 1"]}
+
+  :tape-aux-loop
+  {:path ["Model 12 AUX 1 Out" "Wing LCL/3" "Ch33"
+          "FX13/TAPE (pre-insert)" "FX6/TAPE-DL (post-insert)"
+          "USR/3 (POST tap)" "USB 38" "Loopback" "Model 12 Ch 6"]
+   :note "Per-channel AUX 1 knobs control send amount. Do not send drums to tape."}
+
+  :reamp
+  {:path ["Ch13 (Tape Playback)" "Bus 5 (amp sim)" "Bus 2"
+          "outboard" "Ch18" "USR/8" "USB 3" "Loopback" "Model 12 Track 3"]
+   :note "MUST disable USB 3 after re-amping."}}
+
+ ;; ===== MODEL 12 TRACK ASSIGNMENTS =====
+ :model-12
+ {:tracks
+  {1     {:mode :usb   :source "Vocal dry (Wing USB Out 1 / USR/1 / Bus 7)" :format :mono}
+   2     {:mode :mtr   :source "Guitar processed (Wing Out 3 -> P9 -> analog line in)" :format :mono}
+   "3-6" {:mode :mtr   :source "Previous takes / overdub slots. Track 3 for re-amp (USB 3)." :format :mono}
+   "7/8" {:mode :mtr   :source "Free. Can be USB for condenser mics (USB 5/6)." :format :stereo}
+   "9/10" {:mode :mtr  :source "Free for overdubs" :format :stereo}
+   "11/12" {:mode :internal :source "Model 12 main capture (always recording)" :format :stereo}}
+
+  :mixing-channels
+  {1     {:usb-in 33      :wing-source "MX2 (Ch25 vocal tape return)"    :content "Processed vocal"}
+   2     {:usb-in 34      :wing-source "MX3 (Bus 10 RACKAMP)"           :content "Rhythm guitar"}
+   3     {:usb-in 35      :wing-source "MX4 (Bus 11 ANGEL)"             :content "Lead guitar"}
+   4     {:usb-in 36      :wing-source "MX5 (per project)"              :content "Overdub"}
+   5     {:usb-in 37      :wing-source "MX6 (Ch9 Logic bass)"           :content "Bass"}
+   6     {:usb-in 38      :wing-source "USR/3 (Ch33 TAPE + TAPE-DL)"   :content "Tape aux return"}
+   "7/8" {:usb-in "39-40" :wing-source "MX7 (Ch12 Logic drums)"        :content "Drums stereo"}
+   "9/10" {:usb-in "41-42" :wing-source "MX8 (Ch11 Logic piano/synth)" :content "Piano/Synth stereo"}
+   "11/12" {:usb-in :internal :content "Stereo mixdown capture (always recording)"}}}
+
+ ;; ===== WING I/O (Physical Connections) =====
+ :wing-io
+ {:inputs
+  {1 {:connector "XLR/TRS combo" :connected "Vocal Mic (LCL/1 -> Ch1)"}
+   2 {:connector "XLR/TRS combo" :connected "Guitar DI (LCL/2 -> Ch2)"}
+   3 {:connector "XLR/TRS combo" :connected "Condenser Mic L (LCL/3 -> Ch6 L)"}
+   4 {:connector "XLR/TRS combo" :connected "Condenser Mic R (LCL/4 -> Ch6 R)"}
+   5 {:connector "XLR/TRS combo" :status :open}
+   6 {:connector "XLR/TRS combo" :status :open}
+   7 {:connector "XLR/TRS combo" :status :open}
+   8 {:connector "XLR/TRS combo" :status :open}
+   :aux-1 {:connector "TRS" :connected "LCL/17 -> Ch17 (Vocal Processed, from P4)"}
+   :aux-2 {:connector "TRS" :connected "LCL/18 -> Ch18 (Guitar Processed, from P8)"}}
+  :outputs
+  {1 {:connector "XLR" :connected "P1 top (Bus 1 -> HA73 A, vocal chain)"}
+   2 {:connector "XLR" :connected "P5 top (Bus 2 -> HA73 B, guitar chain)"}
+   3 {:connector "XLR" :connected "P9 top (Bus 8 Guitar Rec -> Model 12 line in)"}
+   4 {:connector "XLR" :connected "P10 top (Bus 4R -> Condenser Mic R send)"}
+   5 {:connector "XLR" :status :open}
+   6 {:connector "XLR" :status :open}
+   7 {:connector "XLR" :connected "Speakers L (MX1 MON.PH)"}
+   8 {:connector "XLR" :connected "Speakers R (MX1 MON.PH)"}
+   :main-l {:connector "XLR" :status :open :note "Not connected to speakers"}
+   :main-r {:connector "XLR" :status :open :note "Not connected to speakers"}}
+  :digital
+  {:usb-b   {:connected "Mac (48ch audio + MIDI)"}
+   :eth-1   {:connected "Mac (OSC control, Wing Edit)"}
+   :eth-2   {:status :open}
+   :aes50-a {:status :open} :aes50-b {:status :open} :aes50-c {:status :open}
+   :stageconnect {:status :open}
+   :aes-ebu-in {:status :open} :aes-ebu-out {:status :open}
+   :midi-in {:status :open} :midi-out {:status :open}
+   :gpio-1 {:status :open} :gpio-2 {:status :open}
+   :sd-1 {:status :open} :sd-2 {:status :open}
+   :expansion {:status :open}}
+  :front
+  {:headphones {:connected "Headphones"}}}
+
+ ;; ===== CALIBRATION =====
+ :calibration
+ {:reference {:tone "1kHz sine" :level "-18dBFS" :target "2 yellow steps on Wing meter"}
+  :vocal
+  {:ha73-a {:gain-knob 35 :output "1 o'clock" :input :line :eq :flat}
+   :wa76-a {:input 48 :output 18 :ratio "4:1" :attack 3 :release 7 :gr "0dB during cal"}
+   :opto   {:gain "10-15" :mode :compress :peak-reduction :off-during-cal}}
+  :guitar
+  {:ha73-b {:gain-knob 35 :output "4 o'clock" :input :line :eq "flat or slight low shelf"}
+   :wa76-b {:input 48 :output 24 :ratio "4:1" :attack 5 :release 6 :gr "0dB during cal"}
+   :distressor {:input 2 :output 7 :ratio "4:1" :dist-2 :engaged :attack "5-6" :release :auto}}}
+
+ ;; ===== STEREO PAIRS =====
+ :stereo-pairs
+ {:ch6  {:src "LCL/3+4"   :mode "ST" :note "Gtr Ac Mics"}
+  :ch7  {:src "USB/3-4"   :mode "ST" :note "Model 12 Mix"}
+  :ch9  {:src "USB/9-10"  :mode "ST" :note "Bass"}
+  :ch11 {:src "USB/13-14" :mode "ST" :note "Piano/Synth"}
+  :ch12 {:src "USB/15-16" :mode "ST" :note "Drums"}}
+
+ ;; ===== TAPE SATURATION CONFIG =====
+ :tape-saturation
+ {:method "IK Multimedia T-RackS Tape Machine plugin in Logic"
+  :model "Tascam 388 emulation"
+  :placement "Insert on every Logic playback track"
+  :note "Per-track tape settings. Zero latency (plugin delay compensation). Zero phase issues."
+  :aux-loop
+  {:source "Model 12 AUX 1 Out"
+   :wing-input "LCL/3 (Ch33, gain 10dB, phantom OFF)"
+   :pre-insert {:fx 13 :model "TAPE" :drive 10 :speed 30}
+   :post-insert {:fx 6 :model "TAPE-DL" :time "60ms" :feedback 0 :drive 30 :flutter 55}
+   :return "USR/3 (POST tap) -> USB 38 -> M12 Ch 6"
+   :warning "Do not send drums to tape -- transient latency creates audible slapback"}}
+
+ ;; ===== TRANSPORT SYNC =====
+ :transport
+ {:master :model-12
+  :protocol [:mtc :midi-clock]
+  :logic-settings
+  {:bar-1-smpte "00:00:00:00.00"
+   :listen-mmc true
+   :clock-start "1 1 1 1"
+   :auto-sync-in true}
+  :note "Model 12 owns the timeline. Logic slaves to MTC. If Logic jumps to negative bars, check SMPTE offset."}
+
+ ;; ===== PER-PROJECT ROUTING NOTES =====
+ :per-project
+ {:tape-return-sends
+  {:vocal "Bus 3 (reverb). Outboard already baked in."
+   :guitar "Bus 10/11 (amp sim) + Bus 3 (reverb). Outboard already baked in."
+   :unused "Mute the return channel."}
+  :feedback-prevention
+  "Tape returns on Main 1 but never re-enter Model 12. USB 1-6 go to Logic. USB 33-42 go to Model 12 from processed sources. USB 3 (re-amp) MUST be OFF when not in use."}}

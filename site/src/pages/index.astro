@@ -14,58 +14,68 @@ const posts = (await getCollection('blog'))
       <span class="hero__label">Recording Studio</span>
       <h1>Plug in.<br>Hit <em>record</em>.</h1>
       <p>
-        Neve preamp, 1176 compressor, LA-2A leveling amp &mdash; permanently wired through a 48-point patchbay. Wing Rack for routing. Logic Pro for tracking. Model 12 for mixing. The outboard is already in the path.
+        Walk in, plug in, and your sound is already running through analog warmth before you play a note. The outboard chain is permanently wired and calibrated &mdash; Neve preamp into 1176 into LA-2A. No setup. No patching. Just play.
       </p>
+      <svg viewBox="0 0 380 48" xmlns="http://www.w3.org/2000/svg" style="margin-top: 24px; max-width: 380px; display: block;" aria-label="Signal flow: Instrument to Outboard to Recorder">
+        <rect x="0" y="12" width="100" height="24" rx="2" fill="var(--charcoal)" />
+        <text x="50" y="28" text-anchor="middle" fill="var(--cream)" font-family="var(--mono)" font-size="9" letter-spacing="0.5">INSTRUMENT</text>
+        <line x1="104" y1="24" x2="130" y2="24" stroke="var(--stone)" stroke-width="1.5" />
+        <polygon points="130,20 138,24 130,28" fill="var(--stone)" />
+        <rect x="140" y="12" width="100" height="24" rx="2" fill="var(--amber)" />
+        <text x="190" y="28" text-anchor="middle" fill="var(--cream)" font-family="var(--mono)" font-size="9" letter-spacing="0.5">OUTBOARD</text>
+        <line x1="244" y1="24" x2="270" y2="24" stroke="var(--stone)" stroke-width="1.5" />
+        <polygon points="270,20 278,24 270,28" fill="var(--stone)" />
+        <rect x="280" y="12" width="100" height="24" rx="2" fill="var(--charcoal)" />
+        <text x="330" y="28" text-anchor="middle" fill="var(--cream)" font-family="var(--mono)" font-size="9" letter-spacing="0.5">RECORDER</text>
+      </svg>
     </section>
 
     <div class="vu-bar"></div>
 
     <section>
-      <h3>The Signal Chain</h3>
-      <div class="signal-flow mt-sm">
-<span class="comment">  // vocal</span>
-  <span class="node">MIC</span> <span class="arrow">&rarr;</span> <span class="node">Ch1</span> <span class="arrow">&rarr;</span> Bus 1 <span class="arrow">&rarr;</span> <span class="patchbay">[P1]</span> <span class="arrow">&rarr;</span> <span class="gear">HA73</span> <span class="arrow">&rarr;</span> <span class="patchbay">[P2]</span> <span class="arrow">&rarr;</span> <span class="gear">WA76</span> <span class="arrow">&rarr;</span> <span class="patchbay">[P3]</span> <span class="arrow">&rarr;</span> <span class="gear">OPTO</span> <span class="arrow">&rarr;</span> <span class="patchbay">[P4]</span> <span class="arrow">&rarr;</span> <span class="node">Ch17</span>
-
-<span class="comment">  // guitar</span>
-  <span class="node">DI</span> <span class="arrow">&rarr;</span> <span class="node">Ch2</span> <span class="arrow">&rarr;</span> Bus 2 <span class="arrow">&rarr;</span> <span class="patchbay">[P5]</span> <span class="arrow">&rarr;</span> <span class="gear">HA73</span> <span class="arrow">&rarr;</span> <span class="patchbay">[P6]</span> <span class="arrow">&rarr;</span> <span class="gear">WA76</span> <span class="arrow">&rarr;</span> <span class="patchbay">[P7]</span> <span class="arrow">&rarr;</span> <span class="gear">DIST</span> <span class="arrow">&rarr;</span> <span class="patchbay">[P8]</span> <span class="arrow">&rarr;</span> <span class="node">Ch18</span>
-
-<span class="comment">  // everything normalled. zero cables to patch. just play.</span></div>
+      <h3>How It Works</h3>
+      <div class="prose mt-sm">
+        <p>
+          Every instrument passes through real analog outboard gear on the way to the recorder. Vocals get the Neve warmth, 1176 snap, and optical leveling. Guitar gets the same Neve color, a second 1176 for punch, and the Distressor for character. The patchbay keeps it all normalled &mdash; the chains are always connected, always calibrated, always ready.
+        </p>
+        <p>
+          The Behringer Wing Rack handles routing and monitoring. Logic Pro records. The Tascam Model 12 mixes with real faders and analog EQ. Three devices, each doing what it does best.
+        </p>
+      </div>
     </section>
 
     <section>
       <h3>Gear</h3>
-      <div class="grid-3 mt-sm">
+      <div class="grid-auto mt-sm">
         <div class="card">
           <span class="card__label">Console</span>
           <h4>Behringer Wing Rack</h4>
-          <p>48 channels, 16 buses, 8 matrices, 16 FX slots. OSC controlled. The brain.</p>
+          <p>The digital brain. Routes every signal, handles monitoring, runs effects &mdash; all controllable from the command line.</p>
         </div>
         <div class="card">
           <span class="card__label">Outboard</span>
           <h4>Neve &middot; 1176 &middot; LA-2A &middot; Distressor</h4>
-          <p>HA73-EQX2 for color. WA76-D2 for transients. Opto for leveling. Distressor for everything else.</p>
+          <p>Four pieces of analog processing that give every recording its character before it ever hits the DAW.</p>
         </div>
         <div class="card">
           <span class="card__label">Mixing Console</span>
           <h4>Tascam Model 12</h4>
-          <p>Receives processed stems from the Wing via matrices. Real faders. Analog EQ. Tape saturation via AUX 1 loop.</p>
+          <p>Hands-on mixing with real faders and analog EQ. Every stem gets its own channel. Every mix pass is captured.</p>
         </div>
-      </div>
-      <div class="grid-3 mt-sm">
         <div class="card">
           <span class="card__label">Recorder</span>
           <h4>Logic Pro</h4>
-          <p>Primary multi-track recorder. Session players for bass, piano, drums. Unlimited tracks, full undo.</p>
+          <p>Multi-track recording with unlimited tracks. Also hosts session players for bass, piano, synth, and drums.</p>
         </div>
         <div class="card">
           <span class="card__label">Patchbay</span>
           <h4>Samson S-Patch Plus</h4>
-          <p>48 points, half-normalled. Default chains always connected. Insert a cable to reroute.</p>
+          <p>The outboard chains are always connected. Insert a cable only when you want to reroute something.</p>
         </div>
         <div class="card">
           <span class="card__label">Automation</span>
-          <h4>OSC + Scripts</h4>
-          <p>Every setting scriptable. Channel names, routing, snapshots &mdash; one command away.</p>
+          <h4>Scripted Everything</h4>
+          <p>Channel names, routing, console snapshots &mdash; the entire mixer state is scriptable and repeatable.</p>
         </div>
       </div>
     </section>

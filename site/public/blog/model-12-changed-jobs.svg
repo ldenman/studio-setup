@@ -1,0 +1,51 @@
+<svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Left side: tape recorder (old role) -->
+  <!-- Tape reel 1 -->
+  <circle cx="200" cy="180" r="55" fill="none" stroke="#4a4740" stroke-width="2" />
+  <circle cx="200" cy="180" r="20" fill="none" stroke="#4a4740" stroke-width="1.5" />
+  <circle cx="200" cy="180" r="4" fill="#4a4740" />
+  <!-- Tape reel 2 -->
+  <circle cx="340" cy="180" r="55" fill="none" stroke="#4a4740" stroke-width="2" />
+  <circle cx="340" cy="180" r="20" fill="none" stroke="#4a4740" stroke-width="1.5" />
+  <circle cx="340" cy="180" r="4" fill="#4a4740" />
+  <!-- Tape path between reels -->
+  <path d="M 220 135 Q 270 110 320 135" fill="none" stroke="#4a4740" stroke-width="1.5" />
+  <!-- Deck body -->
+  <rect x="135" y="245" width="270" height="12" rx="2" fill="#4a4740" opacity="0.3" />
+  <!-- X mark (crossed out) -->
+  <line x1="180" y1="120" x2="360" y2="240" stroke="#a85a4a" stroke-width="3" stroke-linecap="round" opacity="0.7" />
+  <line x1="360" y1="120" x2="180" y2="240" stroke="#a85a4a" stroke-width="3" stroke-linecap="round" opacity="0.7" />
+
+  <!-- Arrow in the middle -->
+  <line x1="430" y1="190" x2="490" y2="190" stroke="#b8792a" stroke-width="2.5" />
+  <polygon points="490,183 505,190 490,197" fill="#b8792a" />
+
+  <!-- Right side: mixing console (new role) -->
+  <!-- Console body -->
+  <rect x="530" y="140" width="200" height="120" rx="3" fill="none" stroke="#4a4740" stroke-width="2" />
+  <!-- Faders -->
+  <rect x="555" y="170" width="8" height="60" rx="2" fill="#eae8e0" stroke="#4a4740" stroke-width="1" />
+  <rect x="557" y="195" width="4" height="12" rx="1" fill="#b8792a" />
+  <rect x="580" y="170" width="8" height="60" rx="2" fill="#eae8e0" stroke="#4a4740" stroke-width="1" />
+  <rect x="582" y="185" width="4" height="12" rx="1" fill="#b8792a" />
+  <rect x="605" y="170" width="8" height="60" rx="2" fill="#eae8e0" stroke="#4a4740" stroke-width="1" />
+  <rect x="607" y="205" width="4" height="12" rx="1" fill="#b8792a" />
+  <rect x="630" y="170" width="8" height="60" rx="2" fill="#eae8e0" stroke="#4a4740" stroke-width="1" />
+  <rect x="632" y="190" width="4" height="12" rx="1" fill="#b8792a" />
+  <rect x="655" y="170" width="8" height="60" rx="2" fill="#eae8e0" stroke="#4a4740" stroke-width="1" />
+  <rect x="657" y="200" width="4" height="12" rx="1" fill="#b8792a" />
+  <rect x="680" y="170" width="8" height="60" rx="2" fill="#eae8e0" stroke="#4a4740" stroke-width="1" />
+  <rect x="682" y="180" width="4" height="12" rx="1" fill="#b8792a" />
+  <rect x="705" y="170" width="8" height="60" rx="2" fill="#eae8e0" stroke="#4a4740" stroke-width="1" />
+  <rect x="707" y="192" width="4" height="12" rx="1" fill="#b8792a" />
+  <!-- Knobs row -->
+  <circle cx="559" cy="155" r="4" fill="none" stroke="#a09d93" stroke-width="1" />
+  <circle cx="584" cy="155" r="4" fill="none" stroke="#a09d93" stroke-width="1" />
+  <circle cx="609" cy="155" r="4" fill="none" stroke="#a09d93" stroke-width="1" />
+  <circle cx="634" cy="155" r="4" fill="none" stroke="#a09d93" stroke-width="1" />
+  <circle cx="659" cy="155" r="4" fill="none" stroke="#a09d93" stroke-width="1" />
+  <circle cx="684" cy="155" r="4" fill="none" stroke="#a09d93" stroke-width="1" />
+  <circle cx="709" cy="155" r="4" fill="none" stroke="#a09d93" stroke-width="1" />
+  <!-- Master section -->
+  <line x1="722" y1="148" x2="722" y2="252" stroke="#4a4740" stroke-width="1" stroke-dasharray="3,3" />
+</svg>

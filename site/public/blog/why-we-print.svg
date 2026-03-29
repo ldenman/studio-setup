@@ -1,0 +1,37 @@
+<svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+  <rect x="200" y="100" width="160" height="50" rx="4" fill="none" stroke="#b8792a" stroke-width="2" />
+  <rect x="200" y="160" width="160" height="50" rx="4" fill="none" stroke="#b8792a" stroke-width="2" />
+  <rect x="200" y="220" width="160" height="50" rx="4" fill="none" stroke="#b8792a" stroke-width="2" />
+  <circle cx="230" cy="125" r="6" fill="#b8792a" opacity="0.4" />
+  <circle cx="260" cy="125" r="6" fill="#b8792a" opacity="0.4" />
+  <circle cx="290" cy="125" r="6" fill="#b8792a" opacity="0.4" />
+  <line x1="320" y1="118" x2="340" y2="118" stroke="#b8792a" stroke-width="1.5" opacity="0.3" />
+  <line x1="320" y1="125" x2="340" y2="125" stroke="#b8792a" stroke-width="1.5" opacity="0.3" />
+  <line x1="320" y1="132" x2="340" y2="132" stroke="#b8792a" stroke-width="1.5" opacity="0.3" />
+  <circle cx="230" cy="185" r="6" fill="#b8792a" opacity="0.4" />
+  <circle cx="260" cy="185" r="6" fill="#b8792a" opacity="0.4" />
+  <line x1="300" y1="178" x2="340" y2="178" stroke="#b8792a" stroke-width="1.5" opacity="0.3" />
+  <line x1="300" y1="185" x2="340" y2="185" stroke="#b8792a" stroke-width="1.5" opacity="0.3" />
+  <line x1="300" y1="192" x2="340" y2="192" stroke="#b8792a" stroke-width="1.5" opacity="0.3" />
+  <circle cx="230" cy="245" r="8" fill="#b8792a" opacity="0.4" />
+  <circle cx="270" cy="245" r="4" fill="#b8792a" opacity="0.4" />
+  <circle cx="290" cy="245" r="4" fill="#b8792a" opacity="0.4" />
+  <rect x="315" y="238" width="30" height="14" rx="2" fill="none" stroke="#b8792a" stroke-width="1" opacity="0.3" />
+  <line x1="280" y1="80" x2="280" y2="100" stroke="#4a4740" stroke-width="2" />
+  <polygon points="274,82 280,70 286,82" fill="#4a4740" />
+  <line x1="280" y1="270" x2="280" y2="300" stroke="#4a4740" stroke-width="2" />
+  <line x1="280" y1="300" x2="520" y2="300" stroke="#4a4740" stroke-width="2" />
+  <line x1="520" y1="300" x2="520" y2="220" stroke="#4a4740" stroke-width="2" />
+  <polygon points="514,225 520,210 526,225" fill="#4a4740" />
+  <circle cx="520" cy="170" r="55" fill="none" stroke="#4a4740" stroke-width="2" />
+  <circle cx="520" cy="170" r="20" fill="none" stroke="#4a4740" stroke-width="1.5" />
+  <circle cx="520" cy="170" r="4" fill="#4a4740" />
+  <line x1="520" y1="150" x2="520" y2="125" stroke="#4a4740" stroke-width="1" opacity="0.3" />
+  <line x1="537" y1="180" x2="555" y2="195" stroke="#4a4740" stroke-width="1" opacity="0.3" />
+  <line x1="503" y1="180" x2="485" y2="195" stroke="#4a4740" stroke-width="1" opacity="0.3" />
+  <circle cx="620" cy="170" r="35" fill="none" stroke="#4a4740" stroke-width="1.5" opacity="0.5" />
+  <circle cx="620" cy="170" r="12" fill="none" stroke="#4a4740" stroke-width="1" opacity="0.5" />
+  <circle cx="620" cy="170" r="3" fill="#4a4740" opacity="0.5" />
+  <line x1="575" y1="155" x2="585" y2="155" stroke="#4a4740" stroke-width="1.5" opacity="0.4" />
+  <line x1="575" y1="185" x2="585" y2="185" stroke="#4a4740" stroke-width="1.5" opacity="0.4" />
+</svg>

@@ -2,8 +2,8 @@
 import Base from '../layouts/Base.astro';
 ---
 
-<Base title="Rack Room" active="">
-  <div style="max-width:1500px;margin:0 auto;padding:0 16px">
+<Base title="Rack Room" active="rack">
+  <div class="container--wide">
     <section class="page-header">
       <h3>Interactive</h3>
       <h1>Rack Room</h1>
@@ -12,6 +12,7 @@ import Base from '../layouts/Base.astro';
   </div>
 
   <div id="app">
+    <div style="background: linear-gradient(to bottom, var(--cream), #2a2825); height: 32px; border-radius: 2px 2px 0 0; max-width: 1400px; margin: 0 auto; padding: 0 8px;"></div>
     <div class="info-bar" id="info">HOVER OVER ANY JACK</div>
     <div class="viewport">
       <svg id="svg" viewBox="0 0 1400 1300" preserveAspectRatio="xMidYMid meet"></svg>

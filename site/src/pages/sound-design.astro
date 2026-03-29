@@ -6,115 +6,85 @@ import Base from '../layouts/Base.astro';
   <div class="container">
 
     <section class="page-header">
-      <h3>Effects + Presets</h3>
+      <h3>Tonal Palette</h3>
       <h1>Sound Design</h1>
-      <p>16 FX slots on the Wing, 4 outboard units, and a full plugin suite. Starting points for every session.</p>
+      <p>Outboard gear, amp sims, effects, and software plugins. The tools that shape the sound at every stage.</p>
     </section>
 
-    <div class="vu-bar"></div>
+    <div class="vu-bar" style="background: rgba(168,90,74,0.35)"></div>
 
-    <section>
-      <h3>Current FX Slot Map</h3>
-      <table class="mt-sm">
-        <tr><th>Slot</th><th>Effect</th><th>Location</th><th>Purpose</th></tr>
-        <tr><td>FX1</td><td>DELUXE</td><td>Bus 5 pre-insert</td><td>Fender clean rhythm guitar</td></tr>
-        <tr><td>FX2</td><td>PLATE</td><td>Bus 3 pre-insert</td><td>Plate reverb</td></tr>
-        <tr><td>FX3</td><td>DOUBLE/THICK</td><td>MX2 post-insert</td><td>Vocal doubler (mix 65%)</td></tr>
-        <tr><td>FX4</td><td>SUB/MID</td><td>MX6 post-insert</td><td>Bass octaver (oct1 70%)</td></tr>
-        <tr><td>FX6</td><td>TAPE-DL</td><td>Ch33 post-insert</td><td>Tape flutter/warble (drive 30, flutter 55)</td></tr>
-        <tr><td>FX7</td><td>RACKAMP</td><td>Bus 10 pre-insert</td><td>Rhythm guitar monitor (clean/hi-fi)</td></tr>
-        <tr><td>FX11</td><td>RACKAMP</td><td>Bus 6 pre-insert</td><td>Acoustic guitar (clean/bright, bypassed)</td></tr>
-        <tr><td>FX12</td><td>ANGEL</td><td>Bus 11 pre-insert</td><td>Lead guitar monitor (dark, drive 1.5)</td></tr>
-        <tr><td>FX13</td><td>TAPE</td><td>Ch33 pre-insert</td><td>Tape saturation (drive 10, speed 30)</td></tr>
-        <tr><td>FX5,8-10,14-15</td><td>NONE</td><td>&mdash;</td><td>Available (6 free slots)</td></tr>
-        <tr><td>FX16</td><td>NONE</td><td>&mdash;</td><td>Will not load (possible DSP limit)</td></tr>
-      </table>
-    </section>
-
-    <section>
-      <h3>Guitar Amp Sims</h3>
-      <div class="grid-3 mt-sm">
+    <section class="ruled">
+      <h3>Outboard Character</h3>
+      <div class="grid-2 mt-sm">
         <div class="card">
-          <span class="card__label">Lead</span>
-          <h4>ANGEL</h4>
-          <p>Mesa-style. Dark, controlled gain. Drive 1.5, treble 3, presence 3. On Bus 11.</p>
+          <span class="card__label">Preamp / EQ</span>
+          <h4>HA73-EQX2</h4>
+          <p>Neve 1073 style. Two channels of transformer-coupled warmth with 3-band EQ. Adds harmonic richness and weight that digital preamps can't replicate. The foundation of every recording's tone.</p>
         </div>
         <div class="card">
-          <span class="card__label">Rhythm</span>
-          <h4>DELUXE</h4>
-          <p>Fender clean. Bright, sparkly. Drive 5, volume 10, bright ON. On Bus 5.</p>
+          <span class="card__label">FET Compressor</span>
+          <h4>WA76-D2</h4>
+          <p>1176 style. Fast attack, program-dependent release. Catches transients and adds that distinctive FET bite. Two channels &mdash; one for vocal, one for guitar. The workhorse.</p>
         </div>
         <div class="card">
-          <span class="card__label">Acoustic</span>
-          <h4>RACKAMP</h4>
-          <p>Clean/bright preamp. Pre 7, buzz 0, punch 1, drive 0, output 8. On Bus 6.</p>
+          <span class="card__label">Optical Leveling</span>
+          <h4>Audioscape Opto</h4>
+          <p>LA-2A style. Slow, smooth optical compression that gently rides the level without squashing dynamics. Sits at the end of the vocal chain where it evens everything out.</p>
+        </div>
+        <div class="card">
+          <span class="card__label">Versatile Compression</span>
+          <h4>Distressor</h4>
+          <p>Does everything. Gentle leveling, aggressive limiting, harmonic distortion modes. Sits at the end of the guitar chain where it adds character that changes with how hard you play.</p>
         </div>
       </div>
     </section>
 
-    <section>
-      <h3>Wing Reverbs</h3>
-      <table class="mt-sm">
-        <tr><th>Model</th><th>Name</th><th>Character</th></tr>
-        <tr><td>HALL</td><td>Hall Reverb</td><td>Large, lush</td></tr>
-        <tr><td>ROOM</td><td>Room Reverb</td><td>Natural room</td></tr>
-        <tr><td>PLATE</td><td>Plate Reverb</td><td>Bright, smooth &mdash; great for vocals</td></tr>
-        <tr><td>V-ROOM</td><td>Vintage Room / VSS3</td><td>TC Electronic character</td></tr>
-        <tr><td>V-PLATE</td><td>Vintage Plate</td><td>Classic plate</td></tr>
-        <tr><td>GATED</td><td>Gated Reverb</td><td>80s gated snare</td></tr>
-        <tr><td>SHIMMER</td><td>Shimmer Reverb</td><td>Ethereal, octave-up</td></tr>
-        <tr><td>SPRING</td><td>Spring Reverb</td><td>Surf, vintage</td></tr>
-      </table>
+    <section class="ruled">
+      <h3>Guitar Amp Sims</h3>
+      <div class="prose mt-sm">
+        <p>
+          The Wing's built-in amp sims run on dedicated buses before the outboard chain. Three presets cover the range: a Mesa-style lead with dark, controlled gain; a Fender-style clean with bright sparkle; and a transparent acoustic preset for piezo DIs. Switching is instant &mdash; mute one bus, unmute another.
+        </p>
+        <p>
+          During playback, the same amp sims process recorded tracks. A rhythm guitar recorded clean can be re-amped through the Mesa sim and the full outboard chain, giving a completely different character to the same performance.
+        </p>
+      </div>
     </section>
 
-    <section>
-      <h3>Wing Delays</h3>
-      <table class="mt-sm">
-        <tr><th>Model</th><th>Name</th><th>Character</th></tr>
-        <tr><td>ST-DL</td><td>Stereo Delay</td><td>Clean, precise, BPM-syncable</td></tr>
-        <tr><td>TAP-DL</td><td>Ultratap Delay</td><td>Multi-tap rhythmic</td></tr>
-        <tr><td>TAPE-DL</td><td>Tape Delay</td><td>Warm, saturated, flutter</td></tr>
-        <tr><td>OILCAN</td><td>Oil Can Delay</td><td>Vintage warble</td></tr>
-        <tr><td>BBD-DL</td><td>BBD Delay</td><td>Analog bucket brigade</td></tr>
-      </table>
+    <section class="ruled">
+      <h3>Wing Effects</h3>
+      <div class="prose mt-sm">
+        <p>
+          The Wing carries 16 effect slots with models ranging from classic reverbs (plate, hall, spring, shimmer) to tape delays, chorus, flanging, and dynamics processors modeled after the 1176, LA-2A, Neve 33609, SSL G Bus, Fairchild 670, and Distressor.
+        </p>
+        <p>
+          Currently active: plate reverb for depth, a vocal doubler/thickener for width, a sub-octave generator adding mid presence to the bass, and the three guitar amp sims. Six slots are free for session-specific effects.
+        </p>
+      </div>
     </section>
 
-    <section>
-      <h3>Wing Dynamics</h3>
-      <table class="mt-sm">
-        <tr><th>Model</th><th>Name</th><th>Based On</th><th>Character</th></tr>
-        <tr><td>COMP</td><td>Wing Compressor</td><td>&mdash;</td><td>Full-featured, versatile</td></tr>
-        <tr><td>76LA</td><td>76 Limiter Amp</td><td>UREI 1176</td><td>Fast FET, aggressive</td></tr>
-        <tr><td>LA</td><td>Leveling Amp 2A</td><td>LA-2A</td><td>Smooth optical</td></tr>
-        <tr><td>ECL33</td><td>Even Comp/Limiter</td><td>Neve 33609</td><td>Punchy, musical</td></tr>
-        <tr><td>SBUS</td><td>Soul G Bus Comp</td><td>SSL G Bus</td><td>Mix glue</td></tr>
-        <tr><td>F670</td><td>Fairkid 670</td><td>Fairchild 670</td><td>Warm tube, slow</td></tr>
-        <tr><td>NSTR</td><td>No Stressor</td><td>Distressor</td><td>Versatile, all ratios + NUKE</td></tr>
-      </table>
-    </section>
-
-    <section>
+    <section class="ruled">
       <h3>Software</h3>
       <div class="grid-2 mt-sm">
         <div class="card">
           <span class="card__label">Channel Strip</span>
           <h4>IK Multimedia MixBox</h4>
-          <p>70+ modules. Black 76, White 2A, Model 670, British EQ, Tape Cassette, Phonograph. Up to 8 rack slots per instance.</p>
+          <p>70+ modules including models of the Black 76, White 2A, Model 670, and British EQ. Up to 8 rack slots per instance for building custom processing chains in the DAW.</p>
         </div>
         <div class="card">
           <span class="card__label">Amp Sim</span>
           <h4>IK Multimedia AmpliTube 5</h4>
-          <p>111 amps, 106 cabs, 111 stomps. Fender, Marshall, Mesa, Orange. Full signal chain in the DAW.</p>
+          <p>Over 100 amps and cabs modeled after Fender, Marshall, Mesa, and Orange. Full signal chain when you want to go deeper than the Wing's built-in sims.</p>
         </div>
         <div class="card">
           <span class="card__label">Tone Modeling</span>
           <h4>IK Multimedia TONEX</h4>
-          <p>AI tone capture. 1,250+ factory models. Model your own gear in 5 minutes. 56,000+ community models on ToneNET.</p>
+          <p>AI-powered tone capture. Model your own gear or browse thousands of community captures. Drop any real amp tone into the DAW.</p>
         </div>
         <div class="card">
-          <span class="card__label">Tape</span>
+          <span class="card__label">Tape Emulation</span>
           <h4>T-RackS Tape Machine</h4>
-          <p>Tascam 388 emulation. Tape compression, harmonic saturation, frequency shaping. Alternative to the Wing's TAPE FX.</p>
+          <p>Tascam 388 emulation for tape compression, harmonic saturation, and frequency shaping. Runs as an insert on every playback track with per-instrument settings.</p>
         </div>
       </div>
     </section>

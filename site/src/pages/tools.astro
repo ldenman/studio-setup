@@ -8,14 +8,17 @@ import Base from '../layouts/Base.astro';
     <section class="page-header">
       <h3>Utilities</h3>
       <h1>Tools</h1>
-      <p>BPM calculator, OSC commands, Wing color map. The quick-reference shelf.</p>
+      <p>Quick-reference tools for sessions. BPM calculator for syncing delays, Wing color map for channel organization.</p>
     </section>
 
     <div class="vu-bar"></div>
 
     <section>
       <h3>BPM &rarr; Delay Calculator</h3>
-      <div class="mt-sm" style="display:flex;align-items:center;gap:16px">
+      <div class="prose mt-sm">
+        <p>Enter a tempo to calculate delay times for common note values. Use these to sync the Wing's delay effects to the song.</p>
+      </div>
+      <div class="mt-md" style="display:flex;align-items:center;gap:16px">
         <span class="text-dim" style="font-size:12px">BPM</span>
         <input type="number" class="bpm-input" id="bpm-input" value="120" min="40" max="300">
       </div>
@@ -31,7 +34,10 @@ import Base from '../layouts/Base.astro';
 
     <section>
       <h3>Wing Color Map</h3>
-      <div class="color-grid mt-sm">
+      <div class="prose mt-sm">
+        <p>Channel colors on the Wing correspond to signal type. Blue for vocals, red for guitar, green for session players, coral for tape returns, orange for the mix bus.</p>
+      </div>
+      <div class="color-grid mt-md">
         <div class="color-swatch"><div class="color-swatch__dot" style="background:#7088a0"></div>1 Gray Blue</div>
         <div class="color-swatch"><div class="color-swatch__dot" style="background:#4a90d9"></div>2 Medium Blue</div>
         <div class="color-swatch"><div class="color-swatch__dot" style="background:#2c3e6e"></div>3 Dark Blue</div>
@@ -48,43 +54,12 @@ import Base from '../layouts/Base.astro';
     </section>
 
     <section>
-      <h3>Common OSC Commands</h3>
-      <table class="mt-sm">
-        <tr><th>Action</th><th>Command</th></tr>
-        <tr><td>Mute channel</td><td><code class="osc-cmd">oscsend 192.168.2.2 2223 /ch/N/mute i 1</code></td></tr>
-        <tr><td>Set fader (dB)</td><td><code class="osc-cmd">oscsend 192.168.2.2 2223 /ch/N/fdr f -10.0</code></td></tr>
-        <tr><td>Set name (input source)</td><td><code class="osc-cmd">oscsend 192.168.2.2 2223 /io/in/LCL/N/name s "Name"</code></td></tr>
-        <tr><td>Set color (input source)</td><td><code class="osc-cmd">oscsend 192.168.2.2 2223 /io/in/LCL/N/col i 9</code></td></tr>
-        <tr><td>Load FX model</td><td><code class="osc-cmd">oscsend 192.168.2.2 2223 /fx/N/mdl s "PLATE"</code></td></tr>
-        <tr><td>Set EQ model</td><td><code class="osc-cmd">oscsend 192.168.2.2 2223 /ch/N/eq/mdl s "E84"</code></td></tr>
-        <tr><td>Set comp model</td><td><code class="osc-cmd">oscsend 192.168.2.2 2223 /ch/N/dyn/mdl s "76LA"</code></td></tr>
-        <tr><td>Channel insert</td><td><code class="osc-cmd">oscsend 192.168.2.2 2223 /ch/N/postins/ins s "FX12"</code></td></tr>
-        <tr><td>Set delay time</td><td><code class="osc-cmd">oscsend 192.168.2.2 2223 /fx/N/time f 500.0</code></td></tr>
-        <tr><td>Process order</td><td><code class="osc-cmd">oscsend 192.168.2.2 2223 /ch/N/proc s "GDEI"</code></td></tr>
-        <tr><td>Query any value</td><td><code class="osc-cmd">oscsend 192.168.2.2 2223 /ch/N/fdr</code></td></tr>
-      </table>
-    </section>
-
-    <section>
-      <h3>wingctl &mdash; Advanced Control</h3>
-      <table class="mt-sm">
-        <tr><th>Action</th><th>Command</th></tr>
-        <tr><td>Read parameter</td><td><code>tools/wingctl get /ch/1/fdr</code></td></tr>
-        <tr><td>Set parameter</td><td><code>tools/wingctl set /ch/1/fdr -10.0</code></td></tr>
-        <tr><td>Dump channel</td><td><code>tools/wingctl node /ch/5</code></td></tr>
-        <tr><td>Read all meters</td><td><code>tools/wingctl meter all</code></td></tr>
-        <tr><td>Connection info</td><td><code>tools/wingctl info</code></td></tr>
-      </table>
-    </section>
-
-    <section>
-      <h3>Network</h3>
-      <table class="mt-sm">
-        <tr><th>Device</th><th>Address</th><th>Protocol</th></tr>
-        <tr><td>Wing Rack (OSC)</td><td>192.168.2.2:2223</td><td>UDP</td></tr>
-        <tr><td>Wing Rack (wapi)</td><td>192.168.2.2:2222</td><td>TCP</td></tr>
-        <tr><td>Wing Edit</td><td>192.168.2.2</td><td>Ethernet</td></tr>
-      </table>
+      <h3>Automation</h3>
+      <div class="prose mt-sm">
+        <p>
+          The entire mixer is programmable. Every fader, mute, effect, and routing decision can be scripted, so sessions start the same way every time. A custom control tool reads and writes any parameter on the console, and startup scripts handle all the repetitive setup automatically.
+        </p>
+      </div>
     </section>
 
   </div>

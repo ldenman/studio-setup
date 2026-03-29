@@ -30,6 +30,9 @@ const { Content } = await render(post);
           </span>
         )}
       </div>
+      {post.data.hero && (
+        <img src={post.data.hero} alt="" role="presentation" style="width:100%;max-width:680px;height:auto;border-radius:2px;margin-bottom:32px;border:1px solid var(--linen)" />
+      )}
       <div class="article__body">
         <Content />
       </div>

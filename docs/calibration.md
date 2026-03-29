@@ -61,15 +61,7 @@ Play/sing at normal performance level and verify the chain behaves as expected. 
 
 ## Calibrated Settings
 
-**Vocal chain (1kHz sine @ -18dBFS):**
-- HA73 A: Red gain knob 35, output 1 o'clock → 2 yellow steps on Ch17
-- WA76 A: Input 48, output 18, ratio 4:1, 0dB gain reduction → 2 yellow steps on Ch17
-- Opto: Gain between 10 and 15, compress mode, peak reduction off → 2 yellow steps on Ch17
-
-**Guitar chain (same reference tone):**
-- HA73 B: Red gain knob 35, output 4 o'clock → 2 yellow steps on Ch18
-- WA76 B: Input 48, output 24, ratio 4:1, 0dB gain reduction → 2 yellow steps on Ch18
-- Distressor: Input 2, output 7, no compression → 2 yellow steps on Ch18
+See `studio.edn` `:calibration` for current calibrated values for both vocal and guitar chains.
 
 ## Re-calibrate When
 - Swapping outboard units in the chain (e.g., Distressor for Opto)

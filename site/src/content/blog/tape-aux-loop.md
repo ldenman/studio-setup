@@ -1,39 +1,31 @@
 ---
-title: "Building a Tape Saturation Loop with AUX 1"
+title: "The Tape Saturation Experiment"
 date: 2026-03-28
-description: "Using the Model 12's AUX 1 send to route through the Wing's TAPE effects and back — parallel tape saturation with per-channel control."
-tags: ["tape", "effects", "model-12"]
+description: "We tried building a hardware tape saturation loop using the Model 12's aux send. It worked — until it didn't."
+tags: ["tape", "effects", "lessons"]
+hero: "/blog/tape-aux-loop.svg"
 ---
 
-We wanted tape saturation on the mix but didn't want to burn FX slots on every matrix. The solution: use the Model 12's AUX 1 as a tape send, route it through the Wing's TAPE effects, and return it on a spare channel.
+*Updated March 29: This approach was later replaced by software tape emulation in Logic (T-RackS Tape Machine). The hardware loop worked but introduced phase issues on percussive material that we couldn't live with. Kept here as a record of the experiment.*
 
-## The Signal Path
+---
 
-```
-Model 12 AUX 1 Out (pre-fader)
-  → TRS-to-XLR cable
-  → Wing LCL 3 (gain 10dB, phantom OFF)
-  → Ch33 Tape Send
-    pre-insert: FX13 TAPE (drive 10, speed 30)
-    post-insert: FX6 TAPE-DL (flutter 55, no feedback)
-  → USR/3 (POST tap)
-  → USB 38
-  → Loopback
-  → Model 12 Ch 6
-```
+We wanted tape saturation on the mix without burning through effects slots on every channel. The idea: use the Model 12's aux send as a tape bus, route it through the Wing's tape emulation effects, and return it on a spare channel. Each instrument gets its own send knob — turn it up for more tape character.
 
-Each Model 12 channel has an AUX 1 knob. Turn it up to send more of that instrument to the tape. Ch 6 fader controls the return level. It's parallel processing — the dry signal and the tape return coexist.
+## How It Worked
 
-## The Gotchas
+The aux send on the Model 12 is pre-fader and per-channel. The signal leaves the Model 12, enters the Wing on a dedicated channel with tape saturation and tape delay effects, then returns to the Model 12 on a spare fader. It's parallel processing — the dry signal and the tape-colored signal coexist. Blend with the return fader.
 
-**Phantom power.** LCL 3 was previously used for condenser mics. It had 48V phantom and 37.5dB gain. Plugging a line-level output into that was... noisy. Always check phantom power and gain when repurposing Wing inputs.
+## Where It Fell Apart
 
-**Drums don't work.** The USB round-trip adds a few milliseconds of latency. On sustained sounds like guitar and vocals, it's inaudible. On drums, those few milliseconds create an audible slapback on every transient. Keep AUX 1 down on the drum channel.
+**Drums exposed the latency.** The digital round-trip through USB adds a few milliseconds of delay. On sustained sounds — guitar, vocals, bass — it's inaudible. On drums, those few milliseconds create a slapback on every transient. The kick gets a flam. The snare doubles. You can't fix it; you can only avoid sending drums to the tape bus.
 
-**It's mono.** AUX 1 sums to mono before sending. The tape return on Ch 6 is center-panned. At high return levels, it pulls stereo content toward center. Keep the blend modest.
+**The aux is mono.** Everything sums to a single channel before it leaves the Model 12. The tape return sits dead center. At higher blend levels, it pulls the stereo image inward. You have to keep the blend modest or accept the narrowing.
 
-## The USR Tap Lesson
+**Phase is phase.** Even on sustained sounds, a parallel path with latency is a parallel path with latency. The comb filtering is subtle, but it's there. Once we heard it, we couldn't unhear it.
 
-We initially set USR/3 to PRE tap, which captures before the post-insert. The TAPE-DL on the post-insert was completely bypassed. Switching to POST tap captured the full chain — both TAPE and TAPE-DL.
+## What We Learned
 
-Rule: USR PRE = before post-inserts. USR POST = after everything.
+The experiment proved the concept — per-instrument tape saturation with a single send knob is a great workflow. But the implementation needed to move to software, where the tape effect sits directly on each track with no round-trip delay and no phase issues. Same creative result, cleaner execution.
+
+Sometimes the best hardware solution is knowing when to use software instead.

@@ -8,89 +8,70 @@ import Base from '../layouts/Base.astro';
     <section class="page-header">
       <h3>Signal Path</h3>
       <h1>Recording</h1>
-      <p>Live instruments through permanently wired outboard. Logic Pro captures the clean processed signal. No tape baked in &mdash; that happens during mixing.</p>
+      <p>Every recording passes through real analog gear. The outboard chain is permanently wired and calibrated &mdash; just plug in and play.</p>
     </section>
 
-    <div class="vu-bar"></div>
+    <div class="vu-bar" style="background: rgba(74,122,154,0.35)"></div>
 
-    <section>
-      <h3>Vocal Chain &mdash; Patchbay P1-P4</h3>
-      <div class="signal-flow mt-sm">
-<span class="node">Vocal Mic</span>
-  <span class="arrow">|</span>
-<span class="node">Wing Ch1</span> <span class="comment">// preamp gain, GATE dynamics</span>
-  <span class="arrow">|</span> Bus 1 (pre-fader, clean)
-  <span class="arrow">|</span>
-<span class="node">Wing Out 1</span> <span class="arrow">&rarr;</span> <span class="patchbay">[P1]</span> <span class="arrow">&rarr;</span> <span class="gear">HA73 A</span> <span class="comment">// Neve EQ, color</span>
-                          <span class="patchbay">[P2]</span> <span class="arrow">&rarr;</span> <span class="gear">WA76 A</span> <span class="comment">// 1176, transient control</span>
-                          <span class="patchbay">[P3]</span> <span class="arrow">&rarr;</span> <span class="gear">Opto</span>   <span class="comment">// LA-2A, leveling</span>
-                          <span class="patchbay">[P4]</span> <span class="arrow">&rarr;</span> <span class="node">Wing LCL 17</span>
-  <span class="arrow">|</span>
-<span class="node">Ch17 Vocal Processed</span> <span class="comment">// DE-ES dynamics</span>
-  <span class="arrow">|</span> Bus 7 (pre-fader) <span class="arrow">&rarr;</span> USR/1 <span class="arrow">&rarr;</span> USB 1 <span class="arrow">&rarr;</span> <span class="node">Logic Pro</span></div>
-
-      <h3 class="mt-lg">Guitar Chain &mdash; Patchbay P5-P8</h3>
-      <div class="signal-flow mt-sm">
-<span class="node">Guitar DI</span>
-  <span class="arrow">|</span>
-<span class="node">Wing Ch2</span> <span class="comment">// preamp gain</span>
-  <span class="arrow">|</span> Bus 5 (Electric) or Bus 6 (Acoustic) <span class="comment">// amp sim mode</span>
-  <span class="arrow">|</span> Bus 2 (guitar send, clean)
-  <span class="arrow">|</span>
-<span class="node">Wing Out 2</span> <span class="arrow">&rarr;</span> <span class="patchbay">[P5]</span> <span class="arrow">&rarr;</span> <span class="gear">HA73 B</span> <span class="comment">// Neve EQ, color</span>
-                          <span class="patchbay">[P6]</span> <span class="arrow">&rarr;</span> <span class="gear">WA76 B</span> <span class="comment">// 1176, transient control</span>
-                          <span class="patchbay">[P7]</span> <span class="arrow">&rarr;</span> <span class="gear">Distressor</span> <span class="comment">// compression + saturation</span>
-                          <span class="patchbay">[P8]</span> <span class="arrow">&rarr;</span> <span class="node">Wing LCL 18</span>
-  <span class="arrow">|</span>
-<span class="node">Ch18 Guitar Processed</span>
-  <span class="arrow">|</span> Bus 8 (pre-fader) <span class="arrow">&rarr;</span> USB <span class="arrow">&rarr;</span> <span class="node">Logic Pro</span></div>
+    <section class="ruled">
+      <h3>The Vocal Chain</h3>
+      <div class="prose mt-sm">
+        <p>
+          The vocal mic feeds the Wing's first channel, where a noise gate catches bleed between phrases. From there, the signal leaves the digital world entirely &mdash; out through the patchbay into the HA73 Neve-style preamp for warmth and EQ color, then into the WA76 (an 1176 clone) for fast transient control, and finally through the Audioscape Opto (an LA-2A style leveling amp) that smooths everything out with its slow optical response.
+        </p>
+        <p>
+          The processed signal returns to the Wing with a de-esser catching any sibilance the compression emphasized. Logic records the result &mdash; gate, Neve color, 1176 punch, and optical leveling all committed to the take. No going back, no option paralysis. Just the sound.
+        </p>
+      </div>
     </section>
 
-    <section>
-      <h3>Channel Layout</h3>
-      <table class="mt-sm">
-        <tr><th>Ch</th><th>Name</th><th>Source</th><th>Notes</th></tr>
-        <tr><td>1</td><td>Vocal Dry</td><td>LCL/1 (mic)</td><td>GATE dynamics. Sends to Bus 1.</td></tr>
-        <tr><td>2</td><td>Guitar Dry</td><td>LCL/2 (DI)</td><td>Sends to Bus 5/6 (amp sim), Bus 2 (outboard)</td></tr>
-        <tr><td>5</td><td>Gtr Acoustic DI</td><td>USR/5</td><td>Clean DI from Ch2 PRE tap. Bypasses outboard.</td></tr>
-        <tr><td>6</td><td>Gtr Ac Mics</td><td>LCL/3+4</td><td>Stereo condensers, phantom power, XLR direct</td></tr>
-        <tr><td>17</td><td>Vocal Processed</td><td>LCL/17</td><td>Outboard return. DE-ES dynamics.</td></tr>
-        <tr><td>18</td><td>Guitar Processed</td><td>LCL/18</td><td>Outboard return.</td></tr>
-      </table>
+    <section class="ruled">
+      <h3>The Guitar Chain</h3>
+      <div class="prose mt-sm">
+        <p>
+          Guitar comes in as a DI and hits the Wing's amp sim buses first &mdash; a choice between a Mesa-style lead tone, a Fender clean, or a transparent acoustic preset. The amp-sim'd signal then leaves the Wing through the patchbay into the same Neve preamp (channel B) for EQ and saturation, a second 1176 for punch, and the Distressor for its particular brand of musical compression.
+        </p>
+        <p>
+          The recording captures everything the outboard does to the signal. Amp sims can be included or bypassed depending on whether you want them baked in or applied later during playback. Either way, the Neve and compressors are always in the path.
+        </p>
+      </div>
     </section>
 
-    <section>
-      <h3>What Gets Recorded</h3>
+    <section class="ruled">
+      <h3>What Gets Committed</h3>
       <div class="grid-2 mt-sm">
         <div class="card">
           <span class="card__label">Baked In</span>
           <h4>Outboard Processing</h4>
-          <p>Gate + Neve EQ/color + 1176 compression + LA-2A leveling (vocal) or Distressor (guitar) + de-esser. This is committed to the recording.</p>
+          <p>Noise gate, Neve EQ and color, 1176 compression, LA-2A leveling (vocal) or Distressor (guitar), and de-esser. This is the sound.</p>
         </div>
         <div class="card">
-          <span class="card__label">Monitoring Only</span>
-          <h4>Amp Sims + Reverb + Tape</h4>
-          <p>Amp sims (RACKAMP, ANGEL, DELUXE) and reverb (PLATE) are added during monitoring. Tape saturation is a mixing effect via the Model 12 AUX 1 loop. None of this is recorded.</p>
+          <span class="card__label">Added Later</span>
+          <h4>Effects + Tape</h4>
+          <p>Amp sims, reverb, delay, and tape saturation are applied during monitoring or mixing. The recording stays clean of time-based effects.</p>
         </div>
       </div>
     </section>
 
-    <section>
-      <h3>Patchbay</h3>
-      <table class="mt-sm">
-        <tr><th>Point</th><th>Top (Output)</th><th>Bottom (Input)</th><th>Chain</th></tr>
-        <tr><td>P1</td><td>Wing Out 1</td><td>HA73 A In</td><td>Vocal</td></tr>
-        <tr><td>P2</td><td>HA73 A Out</td><td>WA76 A In</td><td>Vocal</td></tr>
-        <tr><td>P3</td><td>WA76 A Out</td><td>Opto In</td><td>Vocal</td></tr>
-        <tr><td>P4</td><td>Opto Out</td><td>Wing LCL 17</td><td>Vocal</td></tr>
-        <tr><td>P5</td><td>Wing Out 2</td><td>HA73 B In</td><td>Guitar</td></tr>
-        <tr><td>P6</td><td>HA73 B Out</td><td>WA76 B In</td><td>Guitar</td></tr>
-        <tr><td>P7</td><td>WA76 B Out</td><td>Distressor In</td><td>Guitar</td></tr>
-        <tr><td>P8</td><td>Distressor Out</td><td>Wing LCL 18</td><td>Guitar</td></tr>
-        <tr><td>P9</td><td>Wing Out 3 / USR/3</td><td>Model 12 Ch 6</td><td>Tape Return</td></tr>
-        <tr><td>P23</td><td>Wing Out 7 / MX1 L</td><td>Speaker R</td><td>Monitors</td></tr>
-        <tr><td>P24</td><td>Wing Out 8 / MX1 R</td><td>Speaker L</td><td>Monitors</td></tr>
-      </table>
+    <section class="ruled">
+      <h3>The Patchbay</h3>
+      <div class="prose mt-sm">
+        <p>
+          A 48-point Samson patchbay keeps the outboard chains permanently connected. Points 1 through 4 are the vocal chain. Points 5 through 8 are guitar. Everything is normalled &mdash; signal flows through the default chain without any cables plugged in.
+        </p>
+        <p>
+          Want to swap the Distressor into the vocal chain? Patch a cable from its output to the vocal return. Want to bypass the 1176? Patch straight from the Neve to the next unit. The patchbay makes the outboard modular without ever having to reach behind the rack.
+        </p>
+      </div>
+    </section>
+
+    <section class="ruled">
+      <h3>Zero Latency Monitoring</h3>
+      <div class="prose mt-sm">
+        <p>
+          The Wing handles all monitoring. Logic's input monitoring stays off. The musician hears their performance through the full outboard chain in real time &mdash; no round-trip through the computer, no plugin delay compensation, no compromise. What you hear while playing is what gets recorded.
+        </p>
+      </div>
     </section>
 
   </div>
