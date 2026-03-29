@@ -446,6 +446,269 @@ graph TD
 
 ---
 
+## Loopback Software Configuration
+
+```mermaid
+graph LR
+    subgraph Wing Rack USB
+        W_OUT1[USB Out 1<br/>USR/1 Vocal Rec]
+        W_OUT33[USB Out 33<br/>MX2 Mix Vocal]
+        W_OUT34[USB Out 34<br/>MX3 Mix Rhythm]
+        W_OUT35[USB Out 35<br/>MX4 Mix Lead]
+        W_OUT36[USB Out 36<br/>MX5 Mix Overdub]
+        W_OUT37[USB Out 37<br/>MX6 Mix Bass]
+        W_OUT38[USB Out 38<br/>USR/3 Tape Return]
+        W_OUT39[USB Out 39-40<br/>MX7 Mix Drums L/R]
+        W_OUT41[USB Out 41-42<br/>MX8 Mix Piano L/R]
+        W_IN3[USB In 3-4<br/>Ch7 Model 12 Mix]
+        W_IN9[USB In 9-16<br/>Ch9-12 Session Players]
+        W_IN17[USB In 17-26<br/>Ch25-32 Tape Returns]
+    end
+
+    subgraph Loopback
+        LB[Loopback<br/>Virtual Audio Router]
+    end
+
+    subgraph Logic Pro
+        L_REC[Recording Inputs]
+        L_SP[Session Player Outputs<br/>Bass, Piano, Drums]
+        L_PLAY[Track Playback Outputs]
+    end
+
+    subgraph Model 12 USB
+        M_IN1[USB In 1<br/>Ch 1 Vocal]
+        M_IN2[USB In 2<br/>Ch 2 Rhythm]
+        M_IN3[USB In 3<br/>Ch 3 Lead]
+        M_IN4[USB In 4<br/>Ch 4 Overdub]
+        M_IN5[USB In 5<br/>Ch 5 Bass]
+        M_IN6[USB In 6<br/>Ch 6 Tape Return]
+        M_IN78[USB In 7-8<br/>Ch 7/8 Drums]
+        M_IN910[USB In 9-10<br/>Ch 9/10 Piano]
+        M_OUT[USB Stereo Out<br/>Main Mix L/R]
+    end
+
+    W_OUT1 --> LB --> L_REC
+    W_OUT33 --> LB --> M_IN1
+    W_OUT34 --> LB --> M_IN2
+    W_OUT35 --> LB --> M_IN3
+    W_OUT36 --> LB --> M_IN4
+    W_OUT37 --> LB --> M_IN5
+    W_OUT38 --> LB --> M_IN6
+    W_OUT39 --> LB --> M_IN78
+    W_OUT41 --> LB --> M_IN910
+    L_SP --> LB --> W_IN9
+    L_PLAY --> LB --> W_IN17
+    M_OUT --> LB --> W_IN3
+
+    NOTE[Loopback is the virtual patchbay between<br/>Wing, Logic, and Model 12. All three devices<br/>connect to the Mac via USB. Loopback routes<br/>audio between them with no physical cables.]
+
+    style NOTE fill:#ffe,stroke:#999
+    style LB fill:#FF8C00,color:#fff
+    style L_REC fill:#4CAF50,color:#fff
+    style L_SP fill:#4CAF50,color:#fff
+    style L_PLAY fill:#4CAF50,color:#fff
+```
+
+---
+
+## Physical Back Panel Wiring
+
+```mermaid
+graph TD
+    subgraph Wing Rack Back Panel
+        direction LR
+        LCL1[LCL 1<br/>Vocal Mic<br/>XLR]
+        LCL2[LCL 2<br/>Guitar DI<br/>TRS]
+        LCL3[LCL 3<br/>Model 12 AUX 1 Out<br/>TRS to XLR cable]
+        LCL4[LCL 4<br/>Condenser R<br/>XLR direct]
+        LCL17[LCL 17<br/>Vocal Outboard Return<br/>from P4]
+        LCL18[LCL 18<br/>Guitar Outboard Return<br/>from P8]
+        OUT1[Out 1<br/>Vocal Outboard Send<br/>to P1]
+        OUT2[Out 2<br/>Guitar Outboard Send<br/>to P5]
+        OUT3[Out 3<br/>Tape Return<br/>USR/3 to P9]
+        OUT4[Out 4<br/>Mic Send R<br/>to P10]
+        OUT7[Out 7<br/>MX1 L Speaker<br/>to P23]
+        OUT8[Out 8<br/>MX1 R Speaker<br/>to P24]
+        USB_W[USB<br/>to Mac]
+    end
+
+    subgraph Patchbay Front Connections
+        PB[Samson 48-point<br/>Normalled TRS]
+    end
+
+    subgraph Model 12 Back Panel
+        M12_AUX1[AUX 1 Out<br/>to Wing LCL 3]
+        M12_USB[USB<br/>to Mac]
+        M12_CH6[Ch 6 Line In<br/>from P9 front cable]
+    end
+
+    subgraph Mac
+        MAC[Mac USB Hub<br/>Wing + Model 12<br/>Loopback software]
+    end
+
+    LCL1 --- PB
+    OUT1 --- PB
+    OUT2 --- PB
+    LCL17 --- PB
+    LCL18 --- PB
+    OUT3 --- PB
+    OUT7 --- PB
+    OUT8 --- PB
+    M12_AUX1 -->|TRS to XLR cable<br/>direct, no patchbay| LCL3
+    PB -->|P9 front cable| M12_CH6
+    USB_W --> MAC
+    M12_USB --> MAC
+
+    NOTE[Wing and Model 12 connect to Mac via USB.<br/>Outboard chains are normalled through patchbay.<br/>Condenser mics bypass patchbay via XLR direct<br/>for phantom power. Model 12 AUX 1 connects<br/>directly to Wing LCL 3 with TRS-XLR cable.]
+
+    style NOTE fill:#ffe,stroke:#999
+    style MAC fill:#333,color:#fff
+    style PB fill:#DAA520,color:#fff
+```
+
+---
+
+## FX Slot Map
+
+```mermaid
+graph TD
+    subgraph Active FX Slots
+        FX1[FX1 DELUXE<br/>Bus 5 Electric pre-insert<br/>Fender clean rhythm]
+        FX2[FX2 PLATE<br/>Bus 3 Reverb pre-insert<br/>Plate reverb]
+        FX3[FX3 DOUBLE THICK<br/>MX2 Mix Vocal post-insert<br/>Vocal doubler, mix 65%]
+        FX4[FX4 SUB MID<br/>MX6 Mix Bass post-insert<br/>Bass octaver, oct1 70%]
+        FX6[FX6 TAPE-DL<br/>Ch33 Tape Send post-insert<br/>Flutter/warble, drive 30]
+        FX7[FX7 RACKAMP<br/>Bus 10 Rhythm Mon pre-insert<br/>Clean/hi-fi guitar]
+        FX11[FX11 RACKAMP<br/>Bus 6 Acoustic pre-insert<br/>Clean/bright, bypassed]
+        FX12[FX12 ANGEL<br/>Bus 11 Lead Mon pre-insert<br/>Drive 1.5, dark lead]
+        FX13[FX13 TAPE<br/>Ch33 Tape Send pre-insert<br/>Drive 10, speed 30]
+    end
+
+    subgraph Free FX Slots
+        FX5[FX5 NONE]
+        FX8[FX8 NONE]
+        FX9[FX9 NONE]
+        FX10[FX10 NONE]
+        FX14[FX14 NONE]
+        FX15[FX15 NONE]
+        FX16[FX16 NONE<br/>will not load, DSP limit?]
+    end
+
+    NOTE[9 active, 7 free. FX16 may be unavailable<br/>due to DSP limits. Each FX can only be on<br/>one insert at a time. Reassigning silently<br/>removes it from the original location.]
+
+    style FX1 fill:#DC143C,color:#fff
+    style FX2 fill:#228B22,color:#fff
+    style FX3 fill:#4169E1,color:#fff
+    style FX4 fill:#228B22,color:#fff
+    style FX6 fill:#FF6B6B,color:#fff
+    style FX7 fill:#DC143C,color:#fff
+    style FX11 fill:#DAA520,color:#fff
+    style FX12 fill:#DC143C,color:#fff
+    style FX13 fill:#FF6B6B,color:#fff
+    style FX5 fill:#666,color:#fff
+    style FX8 fill:#666,color:#fff
+    style FX9 fill:#666,color:#fff
+    style FX10 fill:#666,color:#fff
+    style FX14 fill:#666,color:#fff
+    style FX15 fill:#666,color:#fff
+    style FX16 fill:#666,color:#fff
+    style NOTE fill:#ffe,stroke:#999
+```
+
+---
+
+## Model 12 Channel Map
+
+```mermaid
+graph TD
+    subgraph Model 12 Mixing Phase - All Channels USB Mode
+        M1[Ch 1 Vocal<br/>from MX2 via USB 33<br/>Outboard baked in]
+        M2[Ch 2 Rhythm Guitar<br/>from MX3 via USB 34<br/>RACKAMP amp sim]
+        M3[Ch 3 Lead Guitar<br/>from MX4 via USB 35<br/>ANGEL amp sim]
+        M4[Ch 4 Overdub<br/>from MX5 via USB 36<br/>Per project]
+        M5[Ch 5 Bass<br/>from MX6 via USB 37<br/>Logic session player + SUB octaver]
+        M6[Ch 6 Tape Return<br/>from USR/3 via USB 38<br/>Parallel tape saturation]
+        M78[Ch 7/8 Drums<br/>from MX7 via USB 39-40<br/>Logic session player, stereo]
+        M910[Ch 9/10 Piano Synth<br/>from MX8 via USB 41-42<br/>Logic session player, stereo]
+        M1112[Ch 11/12 Stereo Mixdown<br/>Internal capture<br/>Always recording]
+    end
+
+    subgraph Model 12 Controls
+        FADERS[Per-channel Faders<br/>EQ, Compression]
+        AUX1[AUX 1 Tape Send<br/>Per-channel knob<br/>to Wing Ch33 TAPE]
+        AUX2[AUX 2 Internal FX<br/>Built-in reverb/delay]
+        MAIN_OUT[Stereo Main Out<br/>to Wing Ch7 via USB]
+    end
+
+    M1 --> FADERS
+    M2 --> FADERS
+    M3 --> FADERS
+    M4 --> FADERS
+    M5 --> FADERS
+    M6 --> FADERS
+    M78 --> FADERS
+    M910 --> FADERS
+    FADERS --> M1112
+    FADERS --> MAIN_OUT
+
+    M1 -.-> AUX1
+    M2 -.-> AUX1
+    M3 -.-> AUX1
+    M5 -.-> AUX1
+    M910 -.-> AUX1
+    M1 -.-> AUX2
+    M2 -.-> AUX2
+    M3 -.-> AUX2
+
+    NOTE[Model 12 is the analog mixing console.<br/>Real faders, real EQ, real compression.<br/>AUX 1 sends to Wing tape saturation.<br/>Do NOT send drums to AUX 1 - slapback.<br/>11/12 captures every mix pass automatically.]
+
+    style M1 fill:#4169E1,color:#fff
+    style M2 fill:#DC143C,color:#fff
+    style M3 fill:#DC143C,color:#fff
+    style M4 fill:#FF6B6B,color:#fff
+    style M5 fill:#228B22,color:#fff
+    style M6 fill:#FF8C00,color:#fff
+    style M78 fill:#228B22,color:#fff
+    style M910 fill:#228B22,color:#fff
+    style M1112 fill:#333,color:#fff
+    style NOTE fill:#ffe,stroke:#999
+```
+
+---
+
+## Condenser Mic Routing
+
+```mermaid
+graph TD
+    MICS[Condenser Mics<br/>Stereo pair] -->|XLR direct<br/>phantom power required<br/>bypasses patchbay| LCL34[Wing LCL 3 + LCL 4<br/>48V phantom power ON]
+
+    LCL34 --> CH6[Ch6 Gtr Ac Mics<br/>Stereo mode]
+
+    CH6 -->|Bus 6 send<br/>pre-fader| BUS6[Bus 6 Acoustic<br/>FX11 RACKAMP]
+    CH6 -->|Bus 9 send<br/>pre-fader| BUS9[Bus 9 Mic Rec<br/>No TAPE]
+    CH6 -->|Bus 4 send<br/>pre-fader| BUS4[Bus 4 Mic Send<br/>Out 4 to P10]
+
+    BUS6 -->|send| BUS2[Bus 2 Guitar Send<br/>to outboard B side]
+    BUS9 -->|USR/6 L + USR/7 R| USB56[USB 5/6<br/>OFF by default]
+    USB56 --> LOGIC[Logic Pro<br/>Condenser tracks]
+
+    BUS6 --> MX3[MX3 Mix Rhythm<br/>or MX4 Mix Lead]
+    MX3 --> M12[Model 12]
+
+    WARNING[IMPORTANT: LCL 3 is currently used for<br/>Model 12 AUX 1 tape send. When using<br/>condenser mics, LCL 3 cannot be used<br/>for both simultaneously. Reconnect mic<br/>to LCL 3 and re-enable phantom power<br/>and gain. Disable tape aux loop first.]
+
+    NOTE[Patchbay is TRS and cannot carry phantom<br/>power. Condensers must connect directly<br/>via XLR. USB 5/6 are OFF by default.<br/>Enable in Loopback when recording.]
+
+    style CH6 fill:#DAA520,color:#fff
+    style BUS6 fill:#DAA520,color:#fff
+    style BUS9 fill:#DAA520,color:#fff
+    style LOGIC fill:#4CAF50,color:#fff
+    style NOTE fill:#ffe,stroke:#999
+    style WARNING fill:#DC143C,color:#fff
+```
+
+---
+
 ## USB / Loopback Routing
 
 ```mermaid
