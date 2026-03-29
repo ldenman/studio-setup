@@ -291,8 +291,8 @@ import Base from '../layouts/Base.astro';
           s += `<line x1="${sx-2}" y1="${sy}" x2="${sx+2}" y2="${sy}" stroke="#2a2a26" stroke-width="0.7"/>`;
         });
         // Label (left side)
-        s += `<text x="${PANEL_L + 35}" y="${u.y + u.h/2 - 4}" fill="#3a3a36" font-family="JetBrains Mono,monospace" font-size="11" font-weight="600" letter-spacing="2">${u.label}</text>`;
-        if (u.sub) s += `<text x="${PANEL_L + 35}" y="${u.y + u.h/2 + 10}" fill="#252524" font-family="JetBrains Mono,monospace" font-size="7" letter-spacing="1">${u.sub}</text>`;
+        s += `<text x="${PANEL_L + 35}" y="${u.y + u.h/2 - 4}" fill="#66665a" font-family="JetBrains Mono,monospace" font-size="11" font-weight="600" letter-spacing="2">${u.label}</text>`;
+        if (u.sub) s += `<text x="${PANEL_L + 35}" y="${u.y + u.h/2 + 10}" fill="#3a3a36" font-family="JetBrains Mono,monospace" font-size="7" letter-spacing="1">${u.sub}</text>`;
 
         // Jacks
         u.jacks.forEach(j => {
@@ -317,7 +317,7 @@ import Base from '../layouts/Base.astro';
           }
           // Label below
           if (j.label) {
-            s += `<text x="${j.x}" y="${gy + r + 12}" text-anchor="middle" fill="${col}" font-family="JetBrains Mono,monospace" font-size="7" font-weight="500" opacity="0.8">${j.label}</text>`;
+            s += `<text x="${j.x}" y="${gy + r + 13}" text-anchor="middle" fill="${col}" font-family="JetBrains Mono,monospace" font-size="8" font-weight="500" opacity="0.9">${j.label}</text>`;
           }
           s += `</g>`;
         });
@@ -337,30 +337,44 @@ import Base from '../layouts/Base.astro';
       });
 
       // ── Cables ──
+      // Route cables along rack rails to avoid crossing over panels
+      // Cables going UP route along the LEFT rail
+      // Cables going DOWN route along the RIGHT rail
+      // Same-height cables curve gently between jacks
+
+      let cableIdx = 0;
       cables.forEach(c => {
         const a = J[c.from], b = J[c.to];
         if (!a || !b) return;
         const col = CC[c.chain] || CC.none;
         const dy = b.y - a.y;
         const dx = b.x - a.x;
-
-        // Cables sag downward like real cables on the back of a rack
-        // More vertical distance = more sag offset to the side
-        const sagDir = a.x < 700 ? -1 : 1; // sag left if on left side, right if on right
-        const sagAmt = Math.min(Math.abs(dy) * 0.25, 60) * sagDir;
+        const absDy = Math.abs(dy);
+        cableIdx++;
 
         let path: string;
-        if (Math.abs(dy) < 20) {
-          // Same unit — gentle horizontal curve
+
+        if (absDy < 25) {
+          // Same rack unit — direct horizontal with slight droop
+          const sag = Math.min(Math.abs(dx) * 0.08, 12);
           const mid = (a.x + b.x) / 2;
-          path = `M${a.x},${a.y} Q${mid},${a.y + 15} ${b.x},${b.y}`;
+          path = `M${a.x},${a.y} Q${mid},${a.y + sag} ${b.x},${b.y}`;
+        } else if (absDy < 100 && Math.abs(dx) < 200) {
+          // Adjacent units, nearby jacks — short direct cable with sag
+          const sag = 15 + cableIdx * 3;
+          const midX = (a.x + b.x) / 2;
+          const sagX = midX + (c.chain === 'vocal' ? -sag : sag);
+          path = `M${a.x},${a.y} C${sagX},${a.y} ${sagX},${b.y} ${b.x},${b.y}`;
         } else {
-          // Between units — cable droops to the side
-          const cx1 = a.x + sagAmt;
-          const cy1 = a.y + dy * 0.6;
-          const cx2 = b.x + sagAmt;
-          const cy2 = a.y + dy * 0.4;
-          path = `M${a.x},${a.y} C${cx1},${cy1} ${cx2},${cy2} ${b.x},${b.y}`;
+          // Long cables — route along the rack rail
+          // Vocal/returns go LEFT rail, guitar/tape go RIGHT rail
+          const isLeft = c.chain === 'vocal' || c.chain === 'monitor';
+          const railX = isLeft
+            ? RACK_L - 5 - (cableIdx % 6) * 4  // stagger along left rail
+            : RACK_R + 5 + (cableIdx % 6) * 4;  // stagger along right rail
+
+          // Go horizontal to rail, down/up the rail, horizontal to destination
+          path = `M${a.x},${a.y} C${railX},${a.y} ${railX},${b.y} ${b.x},${b.y}`;
         }
 
         s += `<path class="cb" data-chain="${c.chain}" data-label="${c.label}" d="${path}" fill="none" stroke="${col}" stroke-width="2.5" stroke-linecap="round" opacity="0.2" style="cursor:pointer;pointer-events:stroke"/>`;
