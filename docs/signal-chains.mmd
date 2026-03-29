@@ -20,33 +20,45 @@ graph TD
         DIST -->|P8| CH18[Ch18 Guitar Processed]
     end
 
-    subgraph Recording - to Logic
-        CH17 -->|Bus 7 Vocal Rec<br/>pre-fader| BUS7[Bus 7 Vocal Rec<br/>FX9 TAPE]
-        CH18 -->|Bus 8 Guitar Rec<br/>pre-fader| BUS8[Bus 8 Guitar Rec<br/>FX10 TAPE]
+    subgraph Recording - Clean to Logic
+        CH17 -->|Bus 7 Vocal Rec<br/>pre-fader, clean| BUS7[Bus 7 Vocal Rec<br/>no TAPE]
+        CH18 -->|Bus 8 Guitar Rec<br/>pre-fader, clean| BUS8[Bus 8 Guitar Rec<br/>no TAPE]
         BUS7 -->|USB| LOGIC[Logic Pro<br/>Primary Recorder]
-        BUS8 -->|USB / Out 3 analog| LOGIC
+        BUS8 -->|USB| LOGIC
     end
 
-    subgraph Monitoring - what you hear
-        CH17 -->|direct| MAIN[Main 1<br/>Headphones / Speakers]
-        CH18 -->|Bus 10 or 11| AMP[Bus 10 Gtr Rhythm Mon RACKAMP<br/>Bus 11 Gtr Lead Mon ANGEL<br/>amp sim added post-outboard]
-        AMP --> MAIN
+    subgraph Monitoring - Through Matrices to Model 12
+        CH17 -->|send| MX2[MX2 Mix Vocal<br/>USB 33 → M12 Ch 1]
+        CH18 -->|Bus 10 or 11| AMP[Bus 10 Rhythm Mon FX7 RACKAMP<br/>Bus 11 Lead Mon FX12 ANGEL<br/>amp sim added post-outboard]
+        AMP --> MX34[MX3 Mix Rhythm USB 34<br/>MX4 Mix Lead USB 35]
+        MX2 -->|USB 33-42| M12[Model 12<br/>Mixing Console]
+        MX34 --> M12
     end
 
     subgraph Tape Returns - Logic Playback
         LOGIC -->|USB 17-26| TR[Ch25-32 Tape Returns]
         TR -->|Bus 3 Reverb| BUS3[Bus 3 Reverb<br/>FX2 PLATE]
         TR -->|Bus 10/11 for guitar| AMP2[Amp Sim<br/>same monitoring buses]
-        BUS3 --> MAIN
-        AMP2 --> MAIN
-        TR -->|direct| MAIN
+        TR -->|matrix sends| MX_TR[Matrices → Model 12]
     end
 
     subgraph Session Players
-        SP[Logic Session Players<br/>Bass, Keys, Synth, Drums] -->|USB 9-16| CH9[Ch9-12] --> MAIN
+        SP[Logic Session Players<br/>Bass, Keys, Synth, Drums] -->|USB 9-16| CH9[Ch9-12]
+        CH9 --> MX_SP[MX6 Bass / MX7 Drums / MX8 Piano]
+        MX_SP --> M12
     end
 
-    NOTE[Recording = outboard + tape only. No amp sim baked in.<br/>Monitoring = amp sim added on top, post-outboard.<br/>Playback = tape returns through same amp sim + reverb buses.<br/>All paths run simultaneously.]
+    subgraph Tape Aux Loop - Mixing Phase
+        M12_AUX[Model 12 AUX 1 Out] -->|analog| CH33[Ch33 Tape FX<br/>FX13 TAPE pre-insert<br/>FX6 TAPE-DL post-insert]
+        CH33 -->|USR/3 POST → USB 38| M12_CH6[Model 12 Ch 6]
+    end
+
+    subgraph Model 12 Monitor Return
+        M12 -->|USB 3/4| CH7[Ch7 Model 12 Mix]
+        CH7 --> MAIN[Main 1<br/>Headphones / Speakers]
+    end
+
+    NOTE[Recording = clean outboard only. No tape, no amp sim baked in.<br/>Monitoring = through matrices to Model 12, not Main.<br/>Tape saturation = mixing phase via Model 12 AUX 1 loop.<br/>Solo Ch7 on Main to hear Model 12 mix. All buses OFF Main.]
 
     style CH1 fill:#4169E1,color:#fff
     style CH17 fill:#4169E1,color:#fff
@@ -54,6 +66,7 @@ graph TD
     style HA73A fill:#4169E1,color:#fff
     style WA76A fill:#4169E1,color:#fff
     style OPTO fill:#4169E1,color:#fff
+    style MX2 fill:#FF6B6B,color:#fff
     style CH2 fill:#DC143C,color:#fff
     style CH18 fill:#DC143C,color:#fff
     style BUS8 fill:#DC143C,color:#fff
@@ -62,10 +75,16 @@ graph TD
     style DIST fill:#DC143C,color:#fff
     style AMP fill:#DC143C,color:#fff
     style AMP2 fill:#DC143C,color:#fff
+    style MX34 fill:#FF6B6B,color:#fff
+    style MX_TR fill:#FF6B6B,color:#fff
+    style MX_SP fill:#FF6B6B,color:#fff
     style BUS3 fill:#228B22,color:#fff
     style LOGIC fill:#4CAF50,color:#fff
     style MAIN fill:#333,color:#fff
+    style M12 fill:#333,color:#fff
+    style CH7 fill:#333,color:#fff
     style TR fill:#FF6B6B,color:#fff
     style SP fill:#4CAF50,color:#fff
     style CH9 fill:#228B22,color:#fff
+    style CH33 fill:#FF6B6B,color:#fff
     style NOTE fill:#ffe,stroke:#999
