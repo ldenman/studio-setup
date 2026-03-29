@@ -13,7 +13,7 @@ import Base from '../layouts/Base.astro';
 
   <div id="panels">
     <div class="info" id="info">Hover over any control</div>
-    <svg id="svg" viewBox="0 0 1400 400" preserveAspectRatio="xMidYMid meet"></svg>
+    <svg id="svg" viewBox="0 0 1400 160" preserveAspectRatio="xMidYMid meet"></svg>
   </div>
 
   <style>
@@ -30,316 +30,301 @@ import Base from '../layouts/Base.astro';
     const svg = document.getElementById('svg')!;
     const info = document.getElementById('info')!;
 
-    // ════════════════════════════════════════════════
-    // HERITAGE AUDIO HA73-EQX2 — NEVE 1073 CLONE
-    // Channel A (Vocal Chain) — Calibrated
+    // ════════════════════════════════════════════════════════════
+    // HERITAGE AUDIO HA73-EQX2 ELITE — Channel A (Vocal)
     //
-    // Physical reference: 2U, dark grey/charcoal faceplate
-    // Classic 1073 layout: DI → preamp gain (red) →
-    //   output attenuator (stepped) → EQ section →
-    //   HPF → switches
+    // Reference: actual product photos from Sweetwater + user
+    // Faceplate: very dark, near-black with subtle navy tint
+    // Layout L→R: Logo | "1" | DI jack | GAIN (red, chrome bezel)
+    //   | OUTPUT (silver, small) | EQ section (blue freq selectors
+    //   + silver gain knobs) | HPF | toggle switches | ELITE SERIES
     //
-    // EQ: 3-band Neve style with stepped frequency selectors
-    //   HIGH: 12kHz shelf, gain ±16dB
-    //   MID: 7.2k/4.8k/3.2k/1.6k/0.7k/0.36k peak, gain ±16dB
-    //   LOW: 220/110/60/35 Hz shelf, gain ±16dB
-    //   HPF: 300/160/80/50 Hz, 18dB/oct
-    //
-    // Calibrated: Gain 35, Output 1 o'clock, EQ flat/bypassed
-    // ════════════════════════════════════════════════
+    // Calibrated: Gain 35, Output 1 o'clock, EQ bypassed
+    // ════════════════════════════════════════════════════════════
 
-    const PX = 30;   // Panel x
-    const PY = 30;   // Panel y
-    const PW = 1340; // Panel width
-    const PH = 340;  // Panel height (2U)
+    const PX = 20, PY = 20;
+    const PW = 1360, PH = 110; // 1U height
+    const CY = PY + PH / 2; // vertical center
 
-    // Neve faceplate colors
-    const FACEPLATE = '#2a2a2d';      // Dark charcoal grey
-    const FACEPLATE_EDGE = '#3a3a3d';
-    const NEVE_TEXT = '#c0c0b8';      // Cream/silver text
-    const NEVE_DIM = '#666660';       // Dim markings
-    const RED_KNOB = '#8b1a1a';       // Heritage red gain knob
-    const RED_KNOB_EDGE = '#a52a2a';
-    const SILVER_KNOB = '#555558';    // Silver/grey pointer knobs
-    const SILVER_EDGE = '#6a6a6d';
-    const BLACK_KNOB = '#1a1a1c';     // Black selector knobs
-    const BLACK_EDGE = '#2a2a2d';
-    const INDICATOR = '#e8e8d8';      // White indicator line
-    const VOCAL_HL = '#6a9ab8';       // Vocal chain highlight
+    // Colors matched from photos
+    const FP = '#12121a';         // Faceplate — near-black with navy tint
+    const FP_EDGE = '#222230';
+    const TXT = '#b0b0a8';        // Silver text on faceplate
+    const TXT_DIM = '#555560';
+    const WHT = '#ddddd0';        // White markings
+    const RED_FILL = '#7a1818';   // Red knob body
+    const RED_LIGHT = '#9a2828';  // Red knob highlight
+    const RED_DARK = '#4a0e0e';   // Red center cap
+    const CHROME = '#888890';     // Chrome bezel
+    const CHROME_DK = '#555560';
+    const BLUE_KNOB = '#2a2a5a';  // Neve-blue EQ frequency selector knobs
+    const BLUE_EDGE = '#3a3a6a';
+    const BLUE_DOT = '#4a4a8a';   // Blue knob indicator dot
+    const SILVER_KNOB = '#606068';// Silver EQ gain / output knobs
+    const SILVER_EDGE = '#707078';
+    const VOCAL = '#6a9ab8';
 
     let s = '';
 
     // ── FACEPLATE ──
-    // Dark charcoal with subtle horizontal brushed texture
-    s += `<rect x="${PX}" y="${PY}" width="${PW}" height="${PH}" rx="4" fill="${FACEPLATE}" stroke="${FACEPLATE_EDGE}" stroke-width="2"/>`;
-    // Brushed metal texture
-    for (let i = 0; i < PH; i += 1.5) {
-      const op = 0.03 + Math.random() * 0.04;
-      s += `<line x1="${PX}" y1="${PY + i}" x2="${PX + PW}" y2="${PY + i}" stroke="#222225" stroke-width="0.5" opacity="${op}"/>`;
+    s += `<rect x="${PX}" y="${PY}" width="${PW}" height="${PH}" rx="3" fill="${FP}" stroke="${FP_EDGE}" stroke-width="1.5"/>`;
+    // Subtle horizontal brushed texture
+    for (let i = 0; i < PH; i += 1) {
+      const op = 0.01 + Math.random() * 0.02;
+      s += `<line x1="${PX}" y1="${PY + i}" x2="${PX + PW}" y2="${PY + i}" stroke="#181825" stroke-width="0.5" opacity="${op}"/>`;
     }
 
-    // Rack screws (hex style, 4 corners + middle)
-    const screwPositions = [
-      [PX + 14, PY + 14], [PX + PW - 14, PY + 14],
-      [PX + 14, PY + PH - 14], [PX + PW - 14, PY + PH - 14],
-      [PX + 14, PY + PH/2], [PX + PW - 14, PY + PH/2],
-    ];
-    screwPositions.forEach(([sx, sy]) => {
-      s += `<circle cx="${sx}" cy="${sy}" r="6" fill="#1a1a1c" stroke="#333336" stroke-width="1"/>`;
-      // Hex pattern
-      for (let a = 0; a < 6; a++) {
-        const angle = a * 60 * Math.PI / 180;
-        const x1 = sx + Math.cos(angle) * 3;
-        const y1 = sy + Math.sin(angle) * 3;
-        const x2 = sx + Math.cos(angle + Math.PI/3) * 3;
-        const y2 = sy + Math.sin(angle + Math.PI/3) * 3;
-        s += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#444" stroke-width="0.5"/>`;
-      }
+    // Rack screws — hex style at corners
+    [[PX+12, PY+12],[PX+PW-12, PY+12],[PX+12, PY+PH-12],[PX+PW-12, PY+PH-12]].forEach(([sx,sy]) => {
+      s += `<circle cx="${sx}" cy="${sy}" r="5" fill="#0a0a10" stroke="#333340" stroke-width="0.8"/>`;
+      s += `<line x1="${sx-2}" y1="${sy}" x2="${sx+2}" y2="${sy}" stroke="#333340" stroke-width="0.6"/>`;
+      s += `<line x1="${sx}" y1="${sy-2}" x2="${sx}" y2="${sy+2}" stroke="#333340" stroke-width="0.6"/>`;
     });
 
-    // ── BRAND / MODEL TEXT ──
-    s += `<text x="${PX + 50}" y="${PY + 30}" fill="${NEVE_TEXT}" font-family="DM Serif Display,serif" font-size="16" opacity="0.7">Heritage Audio</text>`;
-    s += `<text x="${PX + 50}" y="${PY + 48}" fill="${NEVE_DIM}" font-family="JetBrains Mono,monospace" font-size="9" letter-spacing="2">HA-73 EQX2 ELITE</text>`;
-    s += `<text x="${PX + PW - 50}" y="${PY + 30}" text-anchor="end" fill="${VOCAL_HL}" font-family="JetBrains Mono,monospace" font-size="9" letter-spacing="2" opacity="0.6">CHANNEL A — VOCAL</text>`;
-    s += `<text x="${PX + PW - 50}" y="${PY + 48}" text-anchor="end" fill="${NEVE_DIM}" font-family="JetBrains Mono,monospace" font-size="8">Calibrated: 1kHz @ -18dBFS → 2 yellow on Ch17</text>`;
+    // ── HERITAGE AUDIO LOGO ──
+    s += `<text x="${PX + 42}" y="${CY - 8}" fill="${TXT}" font-family="DM Serif Display,serif" font-size="11" font-style="italic" opacity="0.8">Heritage</text>`;
+    s += `<text x="${PX + 42}" y="${CY + 6}" fill="${TXT}" font-family="DM Serif Display,serif" font-size="8" opacity="0.6">Audio</text>`;
 
-    // ── HELPER: Neve-style stepped rotary knob ──
-    function neveKnob(cx: number, cy: number, r: number, value: number, min: number, max: number,
-      label: string, valLabel: string, style: 'red'|'silver'|'black', positions: string[], note: string,
-      rotation?: 'standard'|'clock'): string {
-      let k = '';
-      const pct = (value - min) / (max - min);
-      const rot = rotation || 'clock';
-      // 'standard': min at bottom-left (-135°), max at bottom-right (+135°) — for gain knobs
-      // 'clock': min at 7 o'clock (120°), max at 5 o'clock (420°) — 12 o'clock = center
-      const startAngle = rot === 'standard' ? -135 : 120;
-      const sweep = rot === 'standard' ? 270 : 300;
-      const angle = startAngle + pct * sweep;
+    // Channel number
+    s += `<text x="${PX + 115}" y="${CY + 5}" fill="${TXT}" font-family="DM Serif Display,serif" font-size="18" opacity="0.4">1</text>`;
 
-      // Position markings around the knob
-      positions.forEach((pos, i) => {
-        const t = i / (positions.length - 1);
-        const a = (startAngle + t * sweep) * Math.PI / 180;
-        const tx = cx + Math.cos(a) * (r + 16);
-        const ty = cy + Math.sin(a) * (r + 16);
-        const isActive = Math.abs(t - pct) < 0.05;
-        k += `<text x="${tx}" y="${ty + 3}" text-anchor="middle" fill="${isActive ? INDICATOR : NEVE_DIM}" font-family="JetBrains Mono,monospace" font-size="${pos.length > 2 ? 5 : 6}" opacity="${isActive ? 1 : 0.5}">${pos}</text>`;
-      });
+    // ── DI JACK ──
+    s += `<g class="ctrl" data-note="Front panel 1/4 inch DI input — instrument level, bypasses rear XLR" style="cursor:pointer">`;
+    s += `<circle cx="${PX + 145}" cy="${CY}" r="6" fill="#080810" stroke="#333340" stroke-width="1"/>`;
+    s += `<circle cx="${PX + 145}" cy="${CY}" r="2.5" fill="#050508"/>`;
+    s += `</g>`;
 
-      // Knob shadow
-      k += `<circle cx="${cx + 1}" cy="${cy + 2}" r="${r + 1}" fill="#0a0a0c" opacity="0.5"/>`;
-
-      // Knob body
-      let fillCol: string, strokeCol: string;
-      if (style === 'red') {
-        fillCol = RED_KNOB; strokeCol = RED_KNOB_EDGE;
-        // Gradient effect on red knob
-        k += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${fillCol}" stroke="${strokeCol}" stroke-width="2"/>`;
-        k += `<circle cx="${cx - r*0.15}" cy="${cy - r*0.15}" r="${r * 0.7}" fill="none" stroke="#a03030" stroke-width="0.5" opacity="0.3"/>`;
-      } else if (style === 'silver') {
-        fillCol = SILVER_KNOB; strokeCol = SILVER_EDGE;
-        k += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${fillCol}" stroke="${strokeCol}" stroke-width="1.5"/>`;
-        // Knurled edge texture
-        for (let a = 0; a < 360; a += 12) {
-          const rad = a * Math.PI / 180;
-          const x1 = cx + Math.cos(rad) * (r - 1);
-          const y1 = cy + Math.sin(rad) * (r - 1);
-          const x2 = cx + Math.cos(rad) * r;
-          const y2 = cy + Math.sin(rad) * r;
-          k += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#777" stroke-width="0.5"/>`;
-        }
-      } else {
-        fillCol = BLACK_KNOB; strokeCol = BLACK_EDGE;
-        k += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${fillCol}" stroke="${strokeCol}" stroke-width="1.5"/>`;
-      }
-
-      // Pointer/indicator line
-      const pa = angle * Math.PI / 180;
-      const px = cx + Math.cos(pa) * (r * 0.75);
-      const py = cy + Math.sin(pa) * (r * 0.75);
-      k += `<line x1="${cx}" y1="${cy}" x2="${px}" y2="${py}" stroke="${INDICATOR}" stroke-width="${style === 'red' ? 2.5 : 2}" stroke-linecap="round"/>`;
-
-      // Center cap
-      if (style === 'red') {
-        k += `<circle cx="${cx}" cy="${cy}" r="3" fill="#6a1515"/>`;
-      } else {
-        k += `<circle cx="${cx}" cy="${cy}" r="2.5" fill="${fillCol}" stroke="${strokeCol}" stroke-width="0.5"/>`;
-      }
-
-      // Label
-      k += `<text x="${cx}" y="${cy + r + 28}" text-anchor="middle" fill="${NEVE_TEXT}" font-family="JetBrains Mono,monospace" font-size="8" font-weight="500" letter-spacing="1">${label}</text>`;
-      // Value
-      k += `<text x="${cx}" y="${cy + r + 40}" text-anchor="middle" fill="${VOCAL_HL}" font-family="JetBrains Mono,monospace" font-size="9" font-weight="600">${valLabel}</text>`;
-
-      // Wrap in interactive group
-      return `<g class="ctrl" data-note="${note}" style="cursor:pointer">${k}</g>`;
-    }
-
-    // ── HELPER: Toggle switch ──
-    function neveSwitch(cx: number, cy: number, label: string, active: boolean, note: string): string {
-      let k = '';
-      k += `<g class="ctrl" data-note="${note}" style="cursor:pointer">`;
-      // Switch housing
-      k += `<rect x="${cx - 10}" y="${cy - 14}" width="20" height="28" rx="3" fill="#1a1a1c" stroke="#333" stroke-width="0.8"/>`;
-      // Toggle position
-      const ty = active ? cy - 6 : cy + 6;
-      k += `<rect x="${cx - 6}" y="${ty - 4}" width="12" height="8" rx="2" fill="${active ? '#666' : '#333'}" stroke="#555" stroke-width="0.5"/>`;
-      // LED indicator
-      if (active) {
-        k += `<circle cx="${cx}" cy="${cy - 22}" r="3" fill="#cc3333" opacity="0.9"/>`;
-        k += `<circle cx="${cx}" cy="${cy - 22}" r="5" fill="#cc3333" opacity="0.15"/>`;
-      }
-      // Label
-      k += `<text x="${cx}" y="${cy + 26}" text-anchor="middle" fill="${NEVE_DIM}" font-family="JetBrains Mono,monospace" font-size="7" letter-spacing="0.5">${label}</text>`;
-      k += `</g>`;
-      return k;
-    }
-
-    // ── HELPER: DI jack ──
-    function diJack(cx: number, cy: number): string {
-      let k = '';
-      k += `<g class="ctrl" data-note="Front panel 1/4 inch DI input — instrument level" style="cursor:pointer">`;
-      k += `<circle cx="${cx}" cy="${cy}" r="10" fill="#0e0e10" stroke="#3a3a3d" stroke-width="1.5"/>`;
-      k += `<circle cx="${cx}" cy="${cy}" r="4" fill="#080808"/>`;
-      k += `<text x="${cx}" y="${cy + 20}" text-anchor="middle" fill="${NEVE_DIM}" font-family="JetBrains Mono,monospace" font-size="7">DI</text>`;
-      k += `</g>`;
-      return k;
-    }
-
-    // ── LAYOUT ──
-    // Left to right: DI | GAIN (red) | OUTPUT (stepped) | HIGH EQ | MID EQ | LOW EQ | HPF | switches
-    // Based on 1073 layout: preamp section left, EQ center-right, switches far right
-
-    const ROW_Y = PY + 190; // Main knob row vertical center
-
-    // Section divider lines
-    const sections = [
-      { x: PX + 120, label: 'PREAMP' },
-      { x: PX + 380, label: 'EQ — HIGH' },
-      { x: PX + 560, label: 'EQ — MID' },
-      { x: PX + 780, label: 'EQ — LOW' },
-      { x: PX + 960, label: 'FILTER' },
-      { x: PX + 1100, label: 'SWITCHES' },
-    ];
-    sections.forEach((sec, i) => {
-      s += `<line x1="${sec.x}" y1="${PY + 60}" x2="${sec.x}" y2="${PY + PH - 20}" stroke="#333336" stroke-width="0.5" opacity="0.4"/>`;
-      s += `<text x="${sec.x + 8}" y="${PY + 72}" fill="${NEVE_DIM}" font-family="JetBrains Mono,monospace" font-size="6" letter-spacing="1.5" opacity="0.6">${sec.label}</text>`;
-    });
-
-    // DI input
-    s += diJack(PX + 75, ROW_Y);
-
-    // GAIN — large red knob with chrome bezel
-    // Real unit: OFF at bottom (6 o'clock), numbers go clockwise: 30,35,40...75,-80
-    // Calibrated: 35 (just past OFF, about 5 o'clock)
-    // Custom rendering — the real knob has numbers on the faceplate, not tick marks
+    // ══════════════════════════════
+    // GAIN KNOB — Large red, chrome bezel
+    // Numbers on faceplate: OFF, 30, 35, 40...75, -80
+    // Calibrated: 35
+    // ══════════════════════════════
     {
-      const cx = PX + 200, cy = ROW_Y, r = 34;
-      // Chrome bezel ring
-      s += `<circle cx="${cx}" cy="${cy}" r="${r + 4}" fill="none" stroke="#888" stroke-width="3"/>`;
-      s += `<circle cx="${cx}" cy="${cy}" r="${r + 2}" fill="none" stroke="#555" stroke-width="1"/>`;
+      const cx = PX + 230, cy = CY, r = 24;
+      // Actual layout from photo — clockwise from OFF at bottom:
+      // OFF(6:00) → 50(5:15) → 55(4:45) → 60(4:15) → 65(3:45) → 70(3:00)
+      // → 75(2:15) → -80(1:00) → 30(12:00) → 35(11:00) → 40(10:00) → 45(9:00?)
+      // Then gap back to OFF. High gain on left, low gain on right, -80 near top.
+      //
+      // In SVG degrees (0=right, 90=down, 180=left, 270=up):
+      // OFF = 90° (bottom). Going clockwise = decreasing degrees in SVG.
+      // But SVG goes counterclockwise for positive angles.
+      // Clockwise in SVG: angle INCREASES (90→180→270→360→90)
+      // OFF=90, 50≈120, 55≈150, 60≈170, 65≈195, 70≈220, 75≈248,
+      // -80≈278, 30≈305, 35≈330, 40≈352, 45≈18 (past 0/360)
 
-      // Number positions on faceplate (clockwise from OFF at bottom)
-      // OFF=6:00, 30=~5:00, 35=~4:30, 40=~4:00, 45=~3:30 ... 75=~8:00, -80=~7:00
-      const gainNums = ['OFF','30','35','40','45','50','55','60','65','70','75','80'];
-      const startDeg = 180; // 6 o'clock = 180° in SVG (bottom)
-      const endDeg = 180 - 330; // almost full rotation back to ~7 o'clock
-      gainNums.forEach((num, i) => {
-        const t = i / (gainNums.length - 1);
-        // Go clockwise from bottom: 180° → 180° - 330° = -150° (which is 210°)
-        // But we want clockwise, so: 180 - t * 330
-        const a = (180 + t * 330) * Math.PI / 180;
-        const tx = cx + Math.cos(a) * (r + 18);
-        const ty = cy + Math.sin(a) * (r + 18);
-        const isActive = num === '35';
-        // Tick mark
-        const tx1 = cx + Math.cos(a) * (r + 8);
-        const ty1 = cy + Math.sin(a) * (r + 8);
-        const tx2 = cx + Math.cos(a) * (r + 12);
-        const ty2 = cy + Math.sin(a) * (r + 12);
-        s += `<line x1="${tx1}" y1="${ty1}" x2="${tx2}" y2="${ty2}" stroke="${isActive ? '#fff' : '#ccc'}" stroke-width="1.5"/>`;
-        s += `<text x="${tx}" y="${ty + 3}" text-anchor="middle" fill="${isActive ? '#fff' : '#bbb'}" font-family="JetBrains Mono,monospace" font-size="${num === 'OFF' ? 6 : 7}" font-weight="${isActive ? '700' : '400'}">${num === '80' ? '-80' : num}</text>`;
+      const gainPositions: {label: string, deg: number}[] = [
+        {label: 'OFF', deg: 90},
+        {label: '50',  deg: 120},
+        {label: '55',  deg: 148},
+        {label: '60',  deg: 172},
+        {label: '65',  deg: 198},
+        {label: '70',  deg: 222},
+        {label: '75',  deg: 250},
+        {label: '-80', deg: 280},
+        {label: '30',  deg: 310},
+        {label: '35',  deg: 335},
+        {label: '40',  deg: 358},
+        {label: '45',  deg: 22},
+      ];
+
+      // ── WHITE DOTS between positions ──
+      // Draw dots in an arc from OFF (90°) clockwise through to 45 (22°/382°)
+      // That's 90° → 382° = 292° of sweep
+      const dotCount = 48;
+      for (let i = 0; i <= dotCount; i++) {
+        const t = i / dotCount;
+        const deg = 90 + t * 292; // 90 to 382
+        const a = deg * Math.PI / 180;
+        // Larger dot at number positions (every 4th)
+        const isNum = i % 4 === 0;
+        const dotSize = isNum ? 2.2 : 1;
+        const dr = r + 9;
+        s += `<circle cx="${cx + Math.cos(a) * dr}" cy="${cy + Math.sin(a) * dr}" r="${dotSize}" fill="#ffffff"/>`;
+      }
+
+      // ── NUMBER LABELS ──
+      const numR = r + 22;
+      gainPositions.forEach(({label, deg}) => {
+        const a = deg * Math.PI / 180;
+        const tx = cx + Math.cos(a) * numR;
+        const ty = cy + Math.sin(a) * numR;
+        s += `<text x="${tx}" y="${ty + 3}" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="${label === 'OFF' ? 7 : 9}" font-weight="700">${label}</text>`;
       });
 
-      // Red knob body
-      s += `<g class="ctrl" data-note="Preamp gain — large red knob with chrome bezel. Calibrated to 35 for -18dBFS reference tone. Range: OFF → 30 → 80." style="cursor:pointer">`;
-      s += `<circle cx="${cx + 1}" cy="${cy + 2}" r="${r}" fill="#080808" opacity="0.4"/>`;
-      s += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${RED_KNOB}" stroke="${RED_KNOB_EDGE}" stroke-width="2"/>`;
-      // Subtle gradient/sheen
-      s += `<circle cx="${cx - 6}" cy="${cy - 6}" r="${r * 0.6}" fill="none" stroke="#a03535" stroke-width="0.5" opacity="0.4"/>`;
+      // ── CHROME BEZEL ── wide, reflective ring
+      s += `<circle cx="${cx}" cy="${cy}" r="${r + 3}" fill="#4a4a4e"/>`;
+      s += `<circle cx="${cx}" cy="${cy}" r="${r + 2}" fill="#555558" stroke="#6a6a6e" stroke-width="0.5"/>`;
+      // Top highlight on bezel
+      s += `<path d="M${cx - r},${cy - 3} A${r},${r} 0 0,1 ${cx + r},${cy - 3}" fill="none" stroke="#999" stroke-width="1" opacity="0.3"/>`;
 
-      // Pointer — at 35 position (1/11 of range past OFF)
-      const pct35 = 1 / 11; // 35 is the second position after OFF
-      const pointerAngle = (180 + pct35 * 330) * Math.PI / 180;
-      const px = cx + Math.cos(pointerAngle) * (r * 0.78);
-      const py = cy + Math.sin(pointerAngle) * (r * 0.78);
-      s += `<line x1="${cx}" y1="${cy}" x2="${px}" y2="${py}" stroke="#eee" stroke-width="3" stroke-linecap="round"/>`;
+      // ── RED KNOB ── sculpted with raised center and skirt
+      s += `<g class="ctrl" data-note="GAIN — red knob, chrome bezel. OFF → 30 → 35 → ... → 75 → -80. Calibrated to 35." style="cursor:pointer">`;
+      // Outer red skirt
+      s += `<circle cx="${cx}" cy="${cy}" r="${r - 1}" fill="${RED_FILL}"/>`;
+      // Raised inner plateau (darker)
+      s += `<circle cx="${cx}" cy="${cy}" r="${r * 0.5}" fill="${RED_DARK}" stroke="${RED_FILL}" stroke-width="0.8"/>`;
+      // Subtle sheen
+      s += `<ellipse cx="${cx - 3}" cy="${cy - 3}" rx="${r * 0.3}" ry="${r * 0.2}" fill="#aa3333" opacity="0.12"/>`;
 
-      // Center cap (darker red)
-      s += `<circle cx="${cx}" cy="${cy}" r="5" fill="#5a1212" stroke="#7a2222" stroke-width="1"/>`;
+      // ── WHITE POINTER LINE ── at 35 position = 335°
+      const pa35 = 335 * Math.PI / 180;
+      const pxI = cx + Math.cos(pa35) * 4;
+      const pyI = cy + Math.sin(pa35) * 4;
+      const pxO = cx + Math.cos(pa35) * (r - 2);
+      const pyO = cy + Math.sin(pa35) * (r - 2);
+      s += `<line x1="${pxI}" y1="${pyI}" x2="${pxO}" y2="${pyO}" stroke="#eeeeee" stroke-width="2.5" stroke-linecap="round"/>`;
+      s += `</g>`;
+    }
+
+    // ══════════════════════════════
+    // OUTPUT — smaller silver stepped knob
+    // Calibrated: "1 o'clock" (just past top)
+    // ══════════════════════════════
+    {
+      const cx = PX + 400, cy = CY, r = 16;
+      // Tick marks
+      for (let i = 0; i < 12; i++) {
+        const t = i / 11;
+        const a = (90 + t * 300) * Math.PI / 180;
+        const t1x = cx + Math.cos(a) * (r + 5);
+        const t1y = cy + Math.sin(a) * (r + 5);
+        const t2x = cx + Math.cos(a) * (r + 9);
+        const t2y = cy + Math.sin(a) * (r + 9);
+        s += `<line x1="${t1x}" y1="${t1y}" x2="${t2x}" y2="${t2y}" stroke="${WHT}" stroke-width="0.8" opacity="0.4"/>`;
+      }
+
+      s += `<g class="ctrl" data-note="OUTPUT — stepped attenuator. Calibrated to 1 o'clock position." style="cursor:pointer">`;
+      // Knurled silver knob
+      s += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${SILVER_KNOB}" stroke="${SILVER_EDGE}" stroke-width="1"/>`;
+      for (let a = 0; a < 360; a += 10) {
+        const rad = a * Math.PI / 180;
+        s += `<line x1="${cx + Math.cos(rad)*(r-1)}" y1="${cy + Math.sin(rad)*(r-1)}" x2="${cx + Math.cos(rad)*r}" y2="${cy + Math.sin(rad)*r}" stroke="#7a7a80" stroke-width="0.4"/>`;
+      }
+      // Pointer — 1 o'clock ≈ 55% of range, starting from bottom
+      const pct = 0.55;
+      const pa = (90 + pct * 300) * Math.PI / 180;
+      s += `<line x1="${cx}" y1="${cy}" x2="${cx + Math.cos(pa)*r*0.7}" y2="${cy + Math.sin(pa)*r*0.7}" stroke="${WHT}" stroke-width="1.5" stroke-linecap="round"/>`;
+      s += `<circle cx="${cx}" cy="${cy}" r="2" fill="${SILVER_EDGE}"/>`;
       s += `</g>`;
 
-      // Label
-      s += `<text x="${cx}" y="${cy + r + 32}" text-anchor="middle" fill="${NEVE_TEXT}" font-family="JetBrains Mono,monospace" font-size="8" font-weight="500" letter-spacing="1">GAIN</text>`;
-      s += `<text x="${cx}" y="${cy + r + 44}" text-anchor="middle" fill="${VOCAL_HL}" font-family="JetBrains Mono,monospace" font-size="9" font-weight="600">35</text>`;
+      s += `<text x="${cx}" y="${cy + r + 16}" text-anchor="middle" fill="${TXT_DIM}" font-family="JetBrains Mono,monospace" font-size="6" letter-spacing="1">OUTPUT</text>`;
     }
 
-    // OUTPUT — Neve stepped attenuator
-    // Calibrated: "1 o'clock" position ≈ 65% of range
-    // 1073 output is typically a stepped rotary from OFF through various attenuation levels
-    const outputPositions = ['OFF','−20','−16','−12','−8','−4','0','+4'];
-    s += neveKnob(PX + 330, ROW_Y, 24, 65, 0, 100, 'OUTPUT', '1 o\'clock',
-      'silver', outputPositions, 'Output level — stepped Neve attenuator. Calibrated to 1 o\'clock for unity gain through chain.');
+    // ══════════════════════════════
+    // EQ SECTION — Neve blue frequency selectors + silver gain
+    // Three bands: HIGH (12kHz), MID (7.2k-360Hz), LOW (220-35Hz)
+    // Each has a frequency selector (blue) and a gain knob (silver)
+    // All bypassed/flat for calibration
+    // ══════════════════════════════
 
-    // HIGH EQ — frequency selector + gain
-    // 12kHz shelf (fixed on 1073), gain ±16dB
-    // Calibrated: FLAT (0dB, center position)
-    const hiFreqPositions = ['OFF','12k'];
-    s += neveKnob(PX + 430, ROW_Y - 35, 16, 0, 0, 1, 'HF', 'OFF',
-      'black', hiFreqPositions, 'High shelf frequency selector — 12kHz or OFF');
-    const hiGainPositions = ['-16','-8','0','+8','+16'];
-    s += neveKnob(PX + 430, ROW_Y + 40, 18, 0, -16, 16, 'HF GAIN', '0dB',
-      'silver', hiGainPositions, 'High shelf gain — ±16dB. Calibrated FLAT (0dB).');
+    function blueSelector(cx: number, cy: number, r: number, label: string, freqs: string[], note: string) {
+      let k = '';
+      // Tick marks for positions
+      freqs.forEach((f, i) => {
+        const t = i / (freqs.length - 1);
+        const a = (90 + t * 300) * Math.PI / 180;
+        const tx = cx + Math.cos(a) * (r + 10);
+        const ty = cy + Math.sin(a) * (r + 10);
+        k += `<text x="${tx}" y="${ty + 2}" text-anchor="middle" fill="${TXT_DIM}" font-family="JetBrains Mono,monospace" font-size="4.5" opacity="0.6">${f}</text>`;
+      });
 
-    // MID EQ — frequency selector (6 positions) + gain
-    const midFreqPositions = ['.36','.7','1.6','3.2','4.8','7.2'];
-    s += neveKnob(PX + 570, ROW_Y - 35, 18, 0, 0, 5, 'MF', 'OFF',
-      'black', midFreqPositions, 'Mid peak frequency selector — 360Hz to 7.2kHz (6 positions)');
-    const midGainPositions = ['-16','-8','0','+8','+16'];
-    s += neveKnob(PX + 570, ROW_Y + 40, 18, 0, -16, 16, 'MF GAIN', '0dB',
-      'silver', midGainPositions, 'Mid peak gain — ±16dB. Calibrated FLAT (0dB).');
+      k += `<g class="ctrl" data-note="${note}" style="cursor:pointer">`;
+      // Blue knob
+      k += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${BLUE_KNOB}" stroke="${BLUE_EDGE}" stroke-width="1.5"/>`;
+      // Indicator dot at current position (OFF = bottom)
+      const pa = 90 * Math.PI / 180; // OFF at bottom
+      k += `<circle cx="${cx + Math.cos(pa)*r*0.6}" cy="${cy + Math.sin(pa)*r*0.6}" r="2" fill="${BLUE_DOT}"/>`;
+      k += `</g>`;
 
-    // LOW EQ — frequency selector (4 positions) + gain
-    const loFreqPositions = ['35','60','110','220'];
-    s += neveKnob(PX + 720, ROW_Y - 35, 18, 0, 0, 3, 'LF', 'OFF',
-      'black', loFreqPositions, 'Low shelf frequency selector — 35Hz to 220Hz (4 positions)');
-    const loGainPositions = ['-16','-8','0','+8','+16'];
-    s += neveKnob(PX + 720, ROW_Y + 40, 18, 0, -16, 16, 'LF GAIN', '0dB',
-      'silver', loGainPositions, 'Low shelf gain — ±16dB. Calibrated FLAT (0dB).');
+      k += `<text x="${cx}" y="${cy + r + 16}" text-anchor="middle" fill="${TXT_DIM}" font-family="JetBrains Mono,monospace" font-size="5.5" letter-spacing="0.5">${label}</text>`;
+      return k;
+    }
 
-    // HPF — stepped rotary
-    const hpfPositions = ['OFF','50','80','160','300'];
-    s += neveKnob(PX + 870, ROW_Y, 18, 0, 0, 4, 'HPF', 'OFF',
-      'black', hpfPositions, 'High-pass filter — 18dB/oct. OFF / 50 / 80 / 160 / 300 Hz');
+    function silverGain(cx: number, cy: number, r: number, label: string, note: string) {
+      let k = '';
+      k += `<g class="ctrl" data-note="${note}" style="cursor:pointer">`;
+      k += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${SILVER_KNOB}" stroke="${SILVER_EDGE}" stroke-width="1"/>`;
+      // Knurling
+      for (let a = 0; a < 360; a += 12) {
+        const rad = a * Math.PI / 180;
+        k += `<line x1="${cx + Math.cos(rad)*(r-0.5)}" y1="${cy + Math.sin(rad)*(r-0.5)}" x2="${cx + Math.cos(rad)*r}" y2="${cy + Math.sin(rad)*r}" stroke="#7a7a80" stroke-width="0.3"/>`;
+      }
+      // Pointer at center (0dB / flat)
+      const pa = (90 + 0.5 * 300) * Math.PI / 180; // center of range
+      k += `<line x1="${cx}" y1="${cy}" x2="${cx + Math.cos(pa)*r*0.65}" y2="${cy + Math.sin(pa)*r*0.65}" stroke="${WHT}" stroke-width="1.2" stroke-linecap="round"/>`;
+      k += `<circle cx="${cx}" cy="${cy}" r="1.5" fill="${SILVER_EDGE}"/>`;
+      k += `</g>`;
+      k += `<text x="${cx}" y="${cy + r + 14}" text-anchor="middle" fill="${TXT_DIM}" font-family="JetBrains Mono,monospace" font-size="5" letter-spacing="0.5">${label}</text>`;
+      return k;
+    }
 
-    // Switches
-    s += neveSwitch(PX + 1000, ROW_Y - 40, '48V', false, 'Phantom power — OFF for line level input from Wing Out 1');
-    s += neveSwitch(PX + 1050, ROW_Y - 40, 'PAD', false, 'Input pad — -20dB. OFF for normal operation.');
-    s += neveSwitch(PX + 1100, ROW_Y - 40, 'POL', false, 'Polarity reverse — OFF (normal phase)');
-    s += neveSwitch(PX + 1000, ROW_Y + 30, 'EQL', false, 'EQ bypass — OFF (EQ section bypassed during calibration)');
-    s += neveSwitch(PX + 1050, ROW_Y + 30, 'MIC', false, 'Mic/Line selector — LINE mode (receiving from Wing output)');
-    s += neveSwitch(PX + 1100, ROW_Y + 30, 'IMP', false, 'Impedance — 1200Ω (default)');
+    // EQ spacing
+    const eqStart = PX + 500;
+    const eqGap = 80;
 
-    // ── SIGNAL FLOW ANNOTATION ──
-    s += `<text x="${PX + PW/2}" y="${PY + PH - 15}" text-anchor="middle" fill="${NEVE_DIM}" font-family="JetBrains Mono,monospace" font-size="7" letter-spacing="1">SIGNAL: Wing Out 1 → P1 → HA73 A LINE IN → GAIN 35 → OUTPUT → P2 → WA76 A IN</text>`;
+    // HIGH: 12kHz shelf
+    s += blueSelector(eqStart, CY - 20, 13, 'HF FREQ', ['OFF','12k'], 'High shelf frequency — 12kHz or OFF. Currently OFF (bypassed).');
+    s += silverGain(eqStart, CY + 30, 11, 'HF GAIN', 'High shelf gain ±16dB — at center (0dB, flat).');
+
+    // MID: 360Hz - 7.2kHz peak
+    s += blueSelector(eqStart + eqGap, CY - 20, 13, 'MF FREQ', ['.36','.7','1.6','3.2','4.8','7.2'], 'Mid peak frequency — 360Hz to 7.2kHz. Currently OFF.');
+    s += silverGain(eqStart + eqGap, CY + 30, 11, 'MF GAIN', 'Mid peak gain ±16dB — at center (0dB, flat).');
+
+    // LOW: 35-220Hz shelf
+    s += blueSelector(eqStart + eqGap*2, CY - 20, 13, 'LF FREQ', ['35','60','110','220'], 'Low shelf frequency — 35Hz to 220Hz. Currently OFF.');
+    s += silverGain(eqStart + eqGap*2, CY + 30, 11, 'LF GAIN', 'Low shelf gain ±16dB — at center (0dB, flat).');
+
+    // ══════════════════════════════
+    // HPF — blue selector
+    // ══════════════════════════════
+    s += blueSelector(eqStart + eqGap*3 + 20, CY, 13, 'HPF', ['OFF','50','80','160','300'], 'High-pass filter 18dB/oct — OFF / 50 / 80 / 160 / 300 Hz. Currently OFF.');
+
+    // ══════════════════════════════
+    // TOGGLE SWITCHES
+    // ══════════════════════════════
+    const swStart = PX + 960;
+    const swGap = 50;
+
+    function toggle(cx: number, cy: number, label: string, active: boolean, note: string, hasLed: boolean = false) {
+      let k = '';
+      k += `<g class="ctrl" data-note="${note}" style="cursor:pointer">`;
+      // Switch body
+      k += `<rect x="${cx-5}" y="${cy-10}" width="10" height="20" rx="2" fill="#0a0a10" stroke="#333340" stroke-width="0.8"/>`;
+      // Toggle lever
+      const ly = active ? cy - 5 : cy + 5;
+      k += `<rect x="${cx-3.5}" y="${ly-3}" width="7" height="6" rx="1.5" fill="${active ? '#666' : '#2a2a30'}" stroke="#444" stroke-width="0.3"/>`;
+      // LED
+      if (hasLed && active) {
+        k += `<circle cx="${cx}" cy="${cy - 18}" r="2.5" fill="#cc2222" opacity="0.9"/>`;
+        k += `<circle cx="${cx}" cy="${cy - 18}" r="4" fill="#cc2222" opacity="0.1"/>`;
+      }
+      k += `</g>`;
+      k += `<text x="${cx}" y="${cy + 20}" text-anchor="middle" fill="${TXT_DIM}" font-family="JetBrains Mono,monospace" font-size="5" letter-spacing="0.5">${label}</text>`;
+      return k;
+    }
+
+    s += toggle(swStart, CY - 15, '48V', false, 'Phantom power — OFF (line level from Wing)', true);
+    s += toggle(swStart + swGap, CY - 15, 'PAD', false, 'Input pad -20dB — OFF');
+    s += toggle(swStart + swGap*2, CY - 15, 'PHASE', false, 'Polarity reverse — OFF (normal)');
+    s += toggle(swStart, CY + 35, 'EQ', false, 'EQ bypass — OFF (EQ section bypassed for calibration)');
+    s += toggle(swStart + swGap, CY + 35, 'MIC/LINE', false, 'Input selector — LINE mode');
+    s += toggle(swStart + swGap*2, CY + 35, 'IMP', false, 'Impedance — 1200 ohm (default)');
+
+    // ── ELITE SERIES TEXT ──
+    s += `<text x="${PX + PW - 50}" y="${PY + 35}" text-anchor="end" fill="${TXT}" font-family="JetBrains Mono,monospace" font-size="7" letter-spacing="3" opacity="0.4">ELITE SERIES</text>`;
+
+    // ── CHANNEL / CHAIN INDICATOR ──
+    s += `<text x="${PX + PW - 50}" y="${PY + PH - 15}" text-anchor="end" fill="${VOCAL}" font-family="JetBrains Mono,monospace" font-size="7" letter-spacing="1" opacity="0.5">CHANNEL A — VOCAL CHAIN</text>`;
+    s += `<text x="${PX + 50}" y="${PY + PH - 15}" fill="${TXT_DIM}" font-family="JetBrains Mono,monospace" font-size="6">Wing Out 1 → P1 → HA73 A → P2 → WA76 A | Gain 35, Output 1 o'clock, EQ bypassed</text>`;
 
     svg.innerHTML = s;
 
-    // ── EVENTS ──
+    // Events
     svg.querySelectorAll('.ctrl').forEach(el => {
       el.addEventListener('mouseenter', () => {
         info.textContent = (el as SVGGElement).dataset.note || '';
-        info.style.color = VOCAL_HL;
+        info.style.color = VOCAL;
       });
       el.addEventListener('mouseleave', () => {
         info.textContent = 'Hover over any control';
