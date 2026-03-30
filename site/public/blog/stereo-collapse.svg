@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400">
+  <rect width="800" height="400" fill="#2a2825"/>
+
+  <!-- Left waveform (vocal-blue) — wide stereo original -->
+  <g opacity="0.35">
+    <!-- Left channel wave -->
+    <path d="M 50 140 Q 80 100, 110 140 Q 140 180, 170 140 Q 200 95, 230 140 Q 260 185, 290 140 Q 320 105, 350 140" fill="none" stroke="#4a7a9a" stroke-width="2.5"/>
+    <!-- Right channel wave (different shape = stereo) -->
+    <path d="M 50 180 Q 85 215, 110 180 Q 145 145, 170 180 Q 205 220, 230 180 Q 255 140, 290 180 Q 315 210, 350 180" fill="none" stroke="#4a7a9a" stroke-width="2.5"/>
+    <!-- L and R labels -->
+    <text x="30" y="144" fill="#4a7a9a" font-family="monospace" font-size="11" text-anchor="end">L</text>
+    <text x="30" y="184" fill="#4a7a9a" font-family="monospace" font-size="11" text-anchor="end">R</text>
+  </g>
+
+  <!-- Arrow from stereo to collapsed -->
+  <g>
+    <line x1="370" y1="160" x2="430" y2="160" stroke="#4a4740" stroke-width="2"/>
+    <polygon points="430,155 440,160 430,165" fill="#4a4740"/>
+    <!-- MONO label on arrow -->
+    <text x="405" y="148" fill="#b8792a" font-family="monospace" font-size="10" text-anchor="middle">MONO</text>
+  </g>
+
+  <!-- Collapsed mono signal (amber, single centered line) -->
+  <g>
+    <!-- Single collapsed waveform — average of L+R -->
+    <path d="M 460 160 Q 490 125, 520 160 Q 550 195, 580 160 Q 610 120, 640 160 Q 670 200, 700 160 Q 730 130, 760 160" fill="none" stroke="#b8792a" stroke-width="3"/>
+    <!-- Center line -->
+    <line x1="460" y1="160" x2="760" y2="160" stroke="#b8792a" stroke-width="0.5" opacity="0.3"/>
+    <!-- L+R summed label -->
+    <text x="610" y="210" fill="#b8792a" font-family="monospace" font-size="11" text-anchor="middle" opacity="0.7">L+R summed</text>
+  </g>
+
+  <!-- Bottom section: the fix — stereo restored -->
+
+  <!-- Left: same stereo input -->
+  <g opacity="0.35">
+    <path d="M 50 300 Q 80 260, 110 300 Q 140 340, 170 300 Q 200 255, 230 300 Q 260 345, 290 300 Q 320 265, 350 300" fill="none" stroke="#5a8a4a" stroke-width="2.5"/>
+    <path d="M 50 340 Q 85 375, 110 340 Q 145 305, 170 340 Q 205 380, 230 340 Q 255 300, 290 340 Q 315 370, 350 340" fill="none" stroke="#5a8a4a" stroke-width="2.5"/>
+    <text x="30" y="304" fill="#5a8a4a" font-family="monospace" font-size="11" text-anchor="end">L</text>
+    <text x="30" y="344" fill="#5a8a4a" font-family="monospace" font-size="11" text-anchor="end">R</text>
+  </g>
+
+  <!-- Arrow from stereo to stereo preserved -->
+  <g>
+    <line x1="370" y1="320" x2="430" y2="320" stroke="#4a4740" stroke-width="2"/>
+    <polygon points="430,315 440,320 430,325" fill="#4a4740"/>
+    <text x="405" y="308" fill="#5a8a4a" font-family="monospace" font-size="10" text-anchor="middle">ST</text>
+  </g>
+
+  <!-- Right: stereo preserved (green, two distinct waves) -->
+  <g>
+    <path d="M 460 300 Q 490 260, 520 300 Q 550 340, 580 300 Q 610 255, 640 300 Q 670 345, 700 300 Q 730 265, 760 300" fill="none" stroke="#5a8a4a" stroke-width="2.5"/>
+    <path d="M 460 340 Q 495 375, 520 340 Q 555 305, 580 340 Q 615 380, 640 340 Q 665 300, 700 340 Q 725 370, 760 340" fill="none" stroke="#5a8a4a" stroke-width="2.5"/>
+    <text x="610" y="370" fill="#5a8a4a" font-family="monospace" font-size="11" text-anchor="middle" opacity="0.7">L / R preserved</text>
+  </g>
+
+  <!-- Divider line between top and bottom -->
+  <line x1="30" y1="235" x2="770" y2="235" stroke="#4a4740" stroke-width="1" stroke-dasharray="4,6" opacity="0.5"/>
+
+  <!-- Title area -->
+  <text x="400" y="45" fill="#f4f3ee" font-family="sans-serif" font-size="22" font-weight="bold" text-anchor="middle" letter-spacing="2">STEREO COLLAPSE</text>
+  <text x="400" y="68" fill="#4a4740" font-family="monospace" font-size="12" text-anchor="middle">default: mono</text>
+
+  <!-- Before / After labels -->
+  <text x="400" y="100" fill="#b8792a" font-family="monospace" font-size="11" text-anchor="middle" opacity="0.6">before</text>
+  <text x="400" y="260" fill="#5a8a4a" font-family="monospace" font-size="11" text-anchor="middle" opacity="0.6">after</text>
+</svg>

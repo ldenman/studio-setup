@@ -1,0 +1,51 @@
+<svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background subtle grid suggesting a patch matrix -->
+  <line x1="100" y1="60" x2="100" y2="340" stroke="#4a4740" stroke-width="0.5" opacity="0.2" />
+  <line x1="200" y1="60" x2="200" y2="340" stroke="#4a4740" stroke-width="0.5" opacity="0.2" />
+  <line x1="400" y1="60" x2="400" y2="340" stroke="#4a4740" stroke-width="0.5" opacity="0.2" />
+  <line x1="600" y1="60" x2="600" y2="340" stroke="#4a4740" stroke-width="0.5" opacity="0.2" />
+  <line x1="700" y1="60" x2="700" y2="340" stroke="#4a4740" stroke-width="0.5" opacity="0.2" />
+
+  <!-- FX Slot box (center) -->
+  <rect x="340" y="130" width="120" height="50" rx="4" stroke="#b8792a" stroke-width="2" fill="none" />
+  <text x="400" y="152" font-family="monospace" font-size="12" fill="#b8792a" text-anchor="middle" font-weight="bold">FX12</text>
+  <text x="400" y="168" font-family="monospace" font-size="9" fill="#b8792a" text-anchor="middle" opacity="0.7">ANGEL</text>
+
+  <!-- Bus 11 (left, original home - now orphaned) -->
+  <rect x="80" y="220" width="140" height="45" rx="4" stroke="#4a4740" stroke-width="1.5" fill="none" opacity="0.5" />
+  <text x="150" y="240" font-family="monospace" font-size="11" fill="#4a4740" text-anchor="middle" opacity="0.4">BUS 11</text>
+  <text x="150" y="255" font-family="monospace" font-size="9" fill="#a85a4a" text-anchor="middle">$stat=N/A</text>
+
+  <!-- Dashed line from FX12 to Bus 11 (broken connection) -->
+  <path d="M 340 170 Q 260 200, 200 220" stroke="#a85a4a" stroke-width="2" stroke-dasharray="6,4" fill="none" opacity="0.5" />
+  <!-- X mark on the broken connection -->
+  <line x1="258" y1="188" x2="278" y2="208" stroke="#a85a4a" stroke-width="2.5" />
+  <line x1="278" y1="188" x2="258" y2="208" stroke="#a85a4a" stroke-width="2.5" />
+
+  <!-- New bus (right, stole the FX) -->
+  <rect x="580" y="220" width="140" height="45" rx="4" stroke="#5a8a4a" stroke-width="1.5" fill="none" />
+  <text x="650" y="240" font-family="monospace" font-size="11" fill="#5a8a4a" text-anchor="middle">NEW BUS</text>
+  <text x="650" y="255" font-family="monospace" font-size="9" fill="#5a8a4a" text-anchor="middle">FX12 active</text>
+
+  <!-- Solid line from FX12 to new bus (active connection) -->
+  <path d="M 460 170 Q 540 200, 600 220" stroke="#5a8a4a" stroke-width="2.5" fill="none" />
+  <polygon points="594,216 606,220 598,226" fill="#5a8a4a" />
+
+  <!-- Guitar signal flow into Bus 11 (still flowing but unprocessed) -->
+  <line x1="150" y1="100" x2="150" y2="220" stroke="#4a7a9a" stroke-width="2" />
+  <polygon points="144,218 150,228 156,218" fill="#4a7a9a" />
+  <text x="150" y="90" font-family="monospace" font-size="10" fill="#4a7a9a" text-anchor="middle">GUITAR</text>
+
+  <!-- Signal continues out of Bus 11 (clean, wrong) -->
+  <line x1="150" y1="265" x2="150" y2="330" stroke="#4a7a9a" stroke-width="1.5" opacity="0.4" />
+  <text x="150" y="350" font-family="monospace" font-size="9" fill="#4a4740" text-anchor="middle" opacity="0.5">clean / wrong</text>
+
+  <!-- Arrow showing the theft motion -->
+  <path d="M 270 155 L 330 155" stroke="#b8792a" stroke-width="1" stroke-dasharray="3,3" fill="none" opacity="0.4" />
+  <path d="M 460 155 L 570 155" stroke="#b8792a" stroke-width="1.5" fill="none" />
+  <polygon points="564,150 574,155 564,160" fill="#b8792a" />
+
+  <!-- "no warning" label -->
+  <text x="400" y="105" font-family="monospace" font-size="10" fill="#a85a4a" text-anchor="middle" opacity="0.7">no warning</text>
+  <text x="400" y="118" font-family="monospace" font-size="10" fill="#a85a4a" text-anchor="middle" opacity="0.7">silent reassignment</text>
+</svg>

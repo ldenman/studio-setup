@@ -1,0 +1,70 @@
+<svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Source: single input at left -->
+  <circle cx="80" cy="200" r="12" fill="none" stroke="#4a4740" stroke-width="2" />
+  <circle cx="80" cy="200" r="4" fill="#4a4740" />
+
+  <!-- Shared path to outboard -->
+  <line x1="92" y1="200" x2="220" y2="200" stroke="#4a4740" stroke-width="2" />
+
+  <!-- Outboard chain: three boxes -->
+  <rect x="220" y="178" width="70" height="44" rx="3" fill="none" stroke="#b8792a" stroke-width="2" />
+  <circle cx="240" cy="200" r="5" fill="#b8792a" opacity="0.5" />
+  <circle cx="258" cy="200" r="5" fill="#b8792a" opacity="0.5" />
+  <circle cx="276" cy="200" r="5" fill="#b8792a" opacity="0.5" />
+
+  <line x1="290" y1="200" x2="310" y2="200" stroke="#b8792a" stroke-width="2" />
+
+  <rect x="310" y="178" width="70" height="44" rx="3" fill="none" stroke="#b8792a" stroke-width="2" />
+  <rect x="325" y="188" width="40" height="6" rx="2" fill="#b8792a" opacity="0.3" />
+  <rect x="325" y="198" width="28" height="6" rx="2" fill="#b8792a" opacity="0.5" />
+  <rect x="325" y="208" width="35" height="6" rx="2" fill="#b8792a" opacity="0.4" />
+
+  <line x1="380" y1="200" x2="400" y2="200" stroke="#b8792a" stroke-width="2" />
+
+  <rect x="400" y="178" width="70" height="44" rx="3" fill="none" stroke="#b8792a" stroke-width="2" />
+  <circle cx="435" cy="200" r="12" fill="none" stroke="#b8792a" stroke-width="1.5" opacity="0.4" />
+  <circle cx="435" cy="200" r="5" fill="none" stroke="#b8792a" stroke-width="1" opacity="0.6" />
+
+  <!-- Split point -->
+  <line x1="470" y1="200" x2="530" y2="200" stroke="#4a4740" stroke-width="2" />
+  <circle cx="530" cy="200" r="5" fill="#4a4740" />
+
+  <!-- Fork: upper path = recording (clean, amber) -->
+  <line x1="530" y1="200" x2="560" y2="120" stroke="#b8792a" stroke-width="2" />
+  <line x1="560" y1="120" x2="640" y2="120" stroke="#b8792a" stroke-width="2" />
+
+  <!-- Recording destination: simple rectangle with "record" indicator -->
+  <rect x="640" y="98" width="90" height="44" rx="3" fill="none" stroke="#b8792a" stroke-width="2" />
+  <circle cx="685" cy="120" r="8" fill="#a85a4a" opacity="0.7" />
+  <circle cx="685" cy="120" r="3" fill="#a85a4a" />
+
+  <!-- Label line for recording path -->
+  <line x1="600" y1="105" x2="600" y2="75" stroke="#b8792a" stroke-width="0.5" opacity="0.4" />
+  <text x="600" y="68" font-family="monospace" font-size="11" fill="#b8792a" text-anchor="middle" opacity="0.6">recording</text>
+
+  <!-- Fork: lower path = monitoring (with amp sim block, blue) -->
+  <line x1="530" y1="200" x2="560" y2="280" stroke="#4a7a9a" stroke-width="2" />
+  <line x1="560" y1="280" x2="590" y2="280" stroke="#4a7a9a" stroke-width="2" />
+
+  <!-- Amp sim block on monitoring path -->
+  <rect x="590" y="258" width="60" height="44" rx="3" fill="none" stroke="#4a7a9a" stroke-width="2" />
+  <!-- Amp sim: stylized speaker cone -->
+  <circle cx="620" cy="280" r="12" fill="none" stroke="#4a7a9a" stroke-width="1.5" opacity="0.5" />
+  <circle cx="620" cy="280" r="5" fill="none" stroke="#4a7a9a" stroke-width="1" opacity="0.7" />
+  <circle cx="620" cy="280" r="2" fill="#4a7a9a" opacity="0.5" />
+
+  <line x1="650" y1="280" x2="680" y2="280" stroke="#4a7a9a" stroke-width="2" />
+
+  <!-- Monitoring destination: headphones -->
+  <circle cx="715" cy="280" r="18" fill="none" stroke="#4a7a9a" stroke-width="2" />
+  <line x1="700" y1="268" x2="697" y2="258" stroke="#4a7a9a" stroke-width="2.5" stroke-linecap="round" />
+  <line x1="730" y1="268" x2="733" y2="258" stroke="#4a7a9a" stroke-width="2.5" stroke-linecap="round" />
+  <path d="M697,258 Q715,240 733,258" fill="none" stroke="#4a7a9a" stroke-width="2" />
+
+  <!-- Label line for monitoring path -->
+  <line x1="620" y1="315" x2="620" y2="340" stroke="#4a7a9a" stroke-width="0.5" opacity="0.4" />
+  <text x="620" y="355" font-family="monospace" font-size="11" fill="#4a7a9a" text-anchor="middle" opacity="0.6">monitoring</text>
+
+  <!-- Subtle grid lines -->
+  <line x1="530" y1="80" x2="530" y2="340" stroke="#4a4740" stroke-width="0.5" opacity="0.1" stroke-dasharray="4,4" />
+</svg>

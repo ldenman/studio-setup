@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400">
+  <rect width="800" height="400" fill="#2a2825"/>
+
+  <!-- Left side: Channel strip with crossed-out name -->
+  <rect x="60" y="50" width="140" height="300" rx="8" fill="#4a4740" stroke="#4a4740" stroke-width="1"/>
+
+  <!-- Channel strip label area -->
+  <rect x="75" y="70" width="110" height="36" rx="4" fill="#2a2825" stroke="#a85a4a" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="130" y="93" text-anchor="middle" fill="#a85a4a" font-family="monospace" font-size="12" text-decoration="line-through">My Name</text>
+
+  <!-- Channel fader -->
+  <rect x="115" y="130" width="30" height="160" rx="4" fill="#2a2825" stroke="#4a4740" stroke-width="1"/>
+  <rect x="110" y="200" width="40" height="12" rx="2" fill="#f4f3ee" opacity="0.6"/>
+
+  <!-- Channel label -->
+  <text x="130" y="320" text-anchor="middle" fill="#f4f3ee" font-family="monospace" font-size="11" opacity="0.5">/ch/5/name</text>
+  <text x="130" y="338" text-anchor="middle" fill="#a85a4a" font-family="monospace" font-size="10">IGNORED</text>
+
+  <!-- X mark over channel name -->
+  <line x1="72" y1="67" x2="188" y2="109" stroke="#a85a4a" stroke-width="2" opacity="0.7"/>
+  <line x1="188" y1="67" x2="72" y2="109" stroke="#a85a4a" stroke-width="2" opacity="0.7"/>
+
+  <!-- Arrow from right to left showing "identity flows from source" -->
+  <path d="M 340 190 C 290 190, 260 190, 220 190" stroke="#b8792a" stroke-width="2" fill="none" marker-end="url(#arrowAmber)"/>
+  <defs>
+    <marker id="arrowAmber" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M 0 0 L 8 3 L 0 6 Z" fill="#b8792a"/>
+    </marker>
+  </defs>
+
+  <text x="280" y="175" text-anchor="middle" fill="#b8792a" font-family="monospace" font-size="10">IDENTITY</text>
+  <text x="280" y="210" text-anchor="middle" fill="#b8792a" font-family="monospace" font-size="10">FLOWS</text>
+
+  <!-- Right side: Input source with name that sticks -->
+  <rect x="360" y="50" width="180" height="300" rx="8" fill="#4a4740" stroke="#b8792a" stroke-width="2"/>
+
+  <!-- Input source label area - this one works -->
+  <rect x="380" y="70" width="140" height="36" rx="4" fill="#2a2825" stroke="#4a7a9a" stroke-width="2"/>
+  <text x="450" y="93" text-anchor="middle" fill="#4a7a9a" font-family="monospace" font-size="12" font-weight="bold">Vocal LA2A</text>
+
+  <!-- Input source type labels -->
+  <text x="450" y="130" text-anchor="middle" fill="#f4f3ee" font-family="monospace" font-size="10" opacity="0.7">INPUT SOURCE</text>
+
+  <!-- Three source types -->
+  <rect x="385" y="150" width="130" height="28" rx="4" fill="#2a2825"/>
+  <text x="450" y="169" text-anchor="middle" fill="#f4f3ee" font-family="monospace" font-size="10">/io/in/LCL/N</text>
+
+  <rect x="385" y="190" width="130" height="28" rx="4" fill="#2a2825"/>
+  <text x="450" y="209" text-anchor="middle" fill="#4a7a9a" font-family="monospace" font-size="10">/io/in/USR/N</text>
+
+  <rect x="385" y="230" width="130" height="28" rx="4" fill="#2a2825"/>
+  <text x="450" y="249" text-anchor="middle" fill="#f4f3ee" font-family="monospace" font-size="10">/io/in/AUX/N</text>
+
+  <text x="450" y="290" text-anchor="middle" fill="#5a8a4a" font-family="monospace" font-size="11" font-weight="bold">NAME HERE</text>
+  <text x="450" y="310" text-anchor="middle" fill="#5a8a4a" font-family="monospace" font-size="11" font-weight="bold">COLOR HERE</text>
+  <text x="450" y="338" text-anchor="middle" fill="#5a8a4a" font-family="monospace" font-size="10">DISPLAYED</text>
+
+  <!-- Display mockup at far right -->
+  <rect x="600" y="100" width="160" height="200" rx="8" fill="#2a2825" stroke="#4a4740" stroke-width="1"/>
+  <text x="680" y="88" text-anchor="middle" fill="#f4f3ee" font-family="monospace" font-size="11" opacity="0.5">SCRIBBLE STRIP</text>
+
+  <!-- Simulated LCD display -->
+  <rect x="620" y="130" width="120" height="50" rx="4" fill="#1a1815"/>
+  <text x="680" y="155" text-anchor="middle" fill="#4a7a9a" font-family="monospace" font-size="14" font-weight="bold">Vocal LA2A</text>
+  <text x="680" y="172" text-anchor="middle" fill="#4a7a9a" font-family="monospace" font-size="9">CH 5</text>
+
+  <!-- Color bar under display -->
+  <rect x="620" y="185" width="120" height="6" rx="2" fill="#4a7a9a"/>
+
+  <!-- Arrow from input source to display -->
+  <path d="M 540 155 L 615 155" stroke="#4a7a9a" stroke-width="1.5" fill="none" stroke-dasharray="4,3" marker-end="url(#arrowBlue)"/>
+  <defs>
+    <marker id="arrowBlue" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M 0 0 L 8 3 L 0 6 Z" fill="#4a7a9a"/>
+    </marker>
+  </defs>
+
+  <!-- Meter bars on display -->
+  <rect x="640" y="210" width="8" height="60" rx="2" fill="#1a1815"/>
+  <rect x="640" y="240" width="8" height="30" rx="2" fill="#5a8a4a"/>
+  <rect x="660" y="210" width="8" height="60" rx="2" fill="#1a1815"/>
+  <rect x="660" y="245" width="8" height="25" rx="2" fill="#5a8a4a"/>
+  <rect x="700" y="210" width="8" height="60" rx="2" fill="#1a1815"/>
+  <rect x="700" y="250" width="8" height="20" rx="2" fill="#5a8a4a"/>
+  <rect x="720" y="210" width="8" height="60" rx="2" fill="#1a1815"/>
+  <rect x="720" y="255" width="8" height="15" rx="2" fill="#5a8a4a"/>
+</svg>
