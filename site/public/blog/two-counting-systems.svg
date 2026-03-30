@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400">
+  <rect width="800" height="400" fill="#2a2825"/>
+
+  <!-- Left side: Simple numbering -->
+  <text x="200" y="50" text-anchor="middle" fill="#b8792a" font-family="monospace" font-size="14" font-weight="bold">USR NUMBERING</text>
+
+  <!-- Simple number boxes -->
+  <g transform="translate(120, 70)">
+    <rect x="0" y="0" width="160" height="36" rx="4" fill="none" stroke="#4a4740" stroke-width="1.5"/>
+    <text x="20" y="24" fill="#f4f3ee" font-family="monospace" font-size="13">in = 8</text>
+    <line x1="110" y1="0" x2="110" y2="36" stroke="#4a4740" stroke-width="1"/>
+    <text x="135" y="24" fill="#5a8a4a" font-family="monospace" font-size="12" font-weight="bold">Bus 8</text>
+  </g>
+
+  <!-- Arrow showing direct mapping -->
+  <g transform="translate(120, 120)">
+    <rect x="0" y="0" width="160" height="36" rx="4" fill="none" stroke="#4a4740" stroke-width="1.5"/>
+    <text x="20" y="24" fill="#f4f3ee" font-family="monospace" font-size="13">in = 5</text>
+    <line x1="110" y1="0" x2="110" y2="36" stroke="#4a4740" stroke-width="1"/>
+    <text x="135" y="24" fill="#5a8a4a" font-family="monospace" font-size="12" font-weight="bold">Bus 5</text>
+  </g>
+
+  <g transform="translate(120, 170)">
+    <rect x="0" y="0" width="160" height="36" rx="4" fill="none" stroke="#4a4740" stroke-width="1.5"/>
+    <text x="20" y="24" fill="#f4f3ee" font-family="monospace" font-size="13">in = 1</text>
+    <line x1="110" y1="0" x2="110" y2="36" stroke="#4a4740" stroke-width="1"/>
+    <text x="135" y="24" fill="#5a8a4a" font-family="monospace" font-size="12" font-weight="bold">Bus 1</text>
+  </g>
+
+  <text x="200" y="240" text-anchor="middle" fill="#4a7a9a" font-family="monospace" font-size="11">8 = 8</text>
+  <text x="200" y="258" text-anchor="middle" fill="#4a4740" font-family="monospace" font-size="11">simple</text>
+
+  <!-- Divider -->
+  <line x1="400" y1="30" x2="400" y2="370" stroke="#4a4740" stroke-width="1" stroke-dasharray="6,4"/>
+  <text x="400" y="20" text-anchor="middle" fill="#4a4740" font-family="monospace" font-size="11">vs</text>
+
+  <!-- Right side: Stereo indexing -->
+  <text x="600" y="50" text-anchor="middle" fill="#a85a4a" font-family="monospace" font-size="14" font-weight="bold">STEREO INDEXING</text>
+
+  <!-- Stereo index mapping -->
+  <g transform="translate(480, 70)">
+    <rect x="0" y="0" width="240" height="36" rx="4" fill="none" stroke="#4a4740" stroke-width="1.5"/>
+    <text x="12" y="24" fill="#f4f3ee" font-family="monospace" font-size="13">in = 15</text>
+    <line x1="110" y1="0" x2="110" y2="36" stroke="#4a4740" stroke-width="1"/>
+    <text x="122" y="24" fill="#5a8a4a" font-family="monospace" font-size="12" font-weight="bold">Bus 8 L</text>
+    <line x1="195" y1="0" x2="195" y2="36" stroke="#4a4740" stroke-width="1"/>
+    <text x="205" y="24" fill="#a85a4a" font-family="monospace" font-size="11">(8*2)-1</text>
+  </g>
+
+  <g transform="translate(480, 120)">
+    <rect x="0" y="0" width="240" height="36" rx="4" fill="none" stroke="#4a4740" stroke-width="1.5"/>
+    <text x="12" y="24" fill="#f4f3ee" font-family="monospace" font-size="13">in = 16</text>
+    <line x1="110" y1="0" x2="110" y2="36" stroke="#4a4740" stroke-width="1"/>
+    <text x="122" y="24" fill="#5a8a4a" font-family="monospace" font-size="12" font-weight="bold">Bus 8 R</text>
+    <line x1="195" y1="0" x2="195" y2="36" stroke="#4a4740" stroke-width="1"/>
+    <text x="205" y="24" fill="#a85a4a" font-family="monospace" font-size="11">8 * 2</text>
+  </g>
+
+  <g transform="translate(480, 170)">
+    <rect x="0" y="0" width="240" height="36" rx="4" fill="none" stroke="#4a4740" stroke-width="1.5"/>
+    <text x="12" y="24" fill="#f4f3ee" font-family="monospace" font-size="13">in = 8</text>
+    <line x1="110" y1="0" x2="110" y2="36" stroke="#4a4740" stroke-width="1"/>
+    <text x="122" y="24" fill="#a85a4a" font-family="monospace" font-size="12" font-weight="bold">Bus 4 R</text>
+    <line x1="195" y1="0" x2="195" y2="36" stroke="#4a4740" stroke-width="1"/>
+    <text x="205" y="24" fill="#a85a4a" font-family="monospace" font-size="11">wrong!</text>
+  </g>
+
+  <text x="600" y="240" text-anchor="middle" fill="#a85a4a" font-family="monospace" font-size="11">8 = Bus 4 R</text>
+  <text x="600" y="258" text-anchor="middle" fill="#4a4740" font-family="monospace" font-size="11">stereo pairs</text>
+
+  <!-- Bottom: the lesson -->
+  <rect x="100" y="290" width="600" height="70" rx="6" fill="#2a2825" stroke="#b8792a" stroke-width="1.5"/>
+  <text x="400" y="315" text-anchor="middle" fill="#b8792a" font-family="monospace" font-size="12" font-weight="bold">ALWAYS VERIFY</text>
+  <text x="400" y="338" text-anchor="middle" fill="#f4f3ee" font-family="monospace" font-size="11">wing_node /io/out/LCL/7  --  read it back, every time</text>
+</svg>

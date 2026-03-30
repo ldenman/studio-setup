@@ -1,0 +1,118 @@
+<svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Five amp silhouettes in a row, each with distinct character -->
+
+  <!-- Background subtle grid lines -->
+  <line x1="0" y1="350" x2="800" y2="350" stroke="#4a4740" stroke-width="0.5" opacity="0.15" />
+  <line x1="0" y1="300" x2="800" y2="300" stroke="#4a4740" stroke-width="0.5" opacity="0.08" />
+
+  <!-- Amp 1: RACKAMP - clean, rack-style box -->
+  <g transform="translate(80, 120)">
+    <rect x="0" y="0" width="80" height="140" rx="4" fill="none" stroke="#4a4740" stroke-width="2" />
+    <rect x="10" y="15" width="60" height="8" rx="2" fill="none" stroke="#4a4740" stroke-width="1" opacity="0.4" />
+    <rect x="10" y="30" width="60" height="8" rx="2" fill="none" stroke="#4a4740" stroke-width="1" opacity="0.4" />
+    <!-- Knobs -->
+    <circle cx="25" cy="60" r="6" fill="none" stroke="#5a8a4a" stroke-width="1.5" />
+    <circle cx="55" cy="60" r="6" fill="none" stroke="#5a8a4a" stroke-width="1.5" />
+    <circle cx="25" cy="85" r="6" fill="none" stroke="#5a8a4a" stroke-width="1.5" />
+    <circle cx="55" cy="85" r="6" fill="none" stroke="#5a8a4a" stroke-width="1.5" />
+    <!-- Power LED -->
+    <circle cx="40" cy="115" r="3" fill="#5a8a4a" opacity="0.8" />
+    <circle cx="40" cy="115" r="6" fill="#5a8a4a" opacity="0.15" />
+  </g>
+  <text x="120" y="290" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#4a4740" letter-spacing="1.5">RACKAMP</text>
+  <text x="120" y="308" text-anchor="middle" font-family="Georgia, serif" font-size="9" fill="#5a8a4a" opacity="0.7">workhorse</text>
+
+  <!-- Amp 2: DELUXE - combo amp shape, rounded -->
+  <g transform="translate(220, 110)">
+    <rect x="0" y="0" width="80" height="150" rx="8" fill="none" stroke="#4a4740" stroke-width="2" />
+    <!-- Speaker grille -->
+    <rect x="10" y="60" width="60" height="60" rx="4" fill="none" stroke="#4a4740" stroke-width="1" opacity="0.3" />
+    <line x1="15" y1="72" x2="65" y2="72" stroke="#4a4740" stroke-width="0.5" opacity="0.2" />
+    <line x1="15" y1="84" x2="65" y2="84" stroke="#4a4740" stroke-width="0.5" opacity="0.2" />
+    <line x1="15" y1="96" x2="65" y2="96" stroke="#4a4740" stroke-width="0.5" opacity="0.2" />
+    <line x1="15" y1="108" x2="65" y2="108" stroke="#4a4740" stroke-width="0.5" opacity="0.2" />
+    <!-- Top panel knobs -->
+    <circle cx="20" cy="25" r="5" fill="none" stroke="#b8792a" stroke-width="1.5" />
+    <circle cx="40" cy="25" r="5" fill="none" stroke="#b8792a" stroke-width="1.5" />
+    <circle cx="60" cy="25" r="5" fill="none" stroke="#b8792a" stroke-width="1.5" />
+    <!-- Jewel light -->
+    <circle cx="40" cy="45" r="3" fill="#b8792a" opacity="0.8" />
+    <circle cx="40" cy="45" r="6" fill="#b8792a" opacity="0.15" />
+  </g>
+  <text x="260" y="290" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#4a4740" letter-spacing="1.5">DELUXE</text>
+  <text x="260" y="308" text-anchor="middle" font-family="Georgia, serif" font-size="9" fill="#b8792a" opacity="0.7">touch</text>
+
+  <!-- Amp 3: ANGEL - aggressive, angular head -->
+  <g transform="translate(360, 130)">
+    <rect x="0" y="0" width="80" height="50" rx="2" fill="none" stroke="#4a4740" stroke-width="2.5" />
+    <!-- Angular vents -->
+    <line x1="10" y1="12" x2="70" y2="12" stroke="#a85a4a" stroke-width="1" opacity="0.5" />
+    <line x1="10" y1="20" x2="70" y2="20" stroke="#a85a4a" stroke-width="1" opacity="0.5" />
+    <!-- Knob row -->
+    <circle cx="16" cy="35" r="4" fill="none" stroke="#a85a4a" stroke-width="1.5" />
+    <circle cx="32" cy="35" r="4" fill="none" stroke="#a85a4a" stroke-width="1.5" />
+    <circle cx="48" cy="35" r="4" fill="none" stroke="#a85a4a" stroke-width="1.5" />
+    <circle cx="64" cy="35" r="4" fill="none" stroke="#a85a4a" stroke-width="1.5" />
+    <!-- Cabinet below -->
+    <rect x="-5" y="60" width="90" height="100" rx="3" fill="none" stroke="#4a4740" stroke-width="2" />
+    <!-- Speaker circle -->
+    <circle cx="40" cy="110" r="30" fill="none" stroke="#4a4740" stroke-width="1" opacity="0.25" />
+    <circle cx="40" cy="110" r="20" fill="none" stroke="#4a4740" stroke-width="0.5" opacity="0.15" />
+    <circle cx="40" cy="110" r="4" fill="#4a4740" opacity="0.2" />
+    <!-- Power LED -->
+    <circle cx="40" cy="5" r="2.5" fill="#a85a4a" opacity="0.9" />
+    <circle cx="40" cy="5" r="5" fill="#a85a4a" opacity="0.15" />
+  </g>
+  <text x="400" y="305" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#4a4740" letter-spacing="1.5">ANGEL</text>
+  <text x="400" y="323" text-anchor="middle" font-family="Georgia, serif" font-size="9" fill="#a85a4a" opacity="0.7">lead</text>
+
+  <!-- Amp 4: UKROCK - classic British stack -->
+  <g transform="translate(500, 125)">
+    <rect x="0" y="0" width="80" height="45" rx="2" fill="none" stroke="#4a4740" stroke-width="2" />
+    <!-- Gold panel -->
+    <rect x="8" y="8" width="64" height="12" rx="1" fill="none" stroke="#b8792a" stroke-width="0.8" opacity="0.4" />
+    <!-- Knobs -->
+    <circle cx="20" cy="32" r="4" fill="none" stroke="#4a4740" stroke-width="1.5" />
+    <circle cx="36" cy="32" r="4" fill="none" stroke="#4a4740" stroke-width="1.5" />
+    <circle cx="52" cy="32" r="4" fill="none" stroke="#4a4740" stroke-width="1.5" />
+    <circle cx="68" cy="32" r="4" fill="none" stroke="#4a4740" stroke-width="1.5" />
+    <!-- 4x12 cab -->
+    <rect x="-3" y="55" width="86" height="105" rx="3" fill="none" stroke="#4a4740" stroke-width="2" />
+    <!-- Four speakers -->
+    <circle cx="22" cy="82" r="14" fill="none" stroke="#4a4740" stroke-width="0.8" opacity="0.25" />
+    <circle cx="58" cy="82" r="14" fill="none" stroke="#4a4740" stroke-width="0.8" opacity="0.25" />
+    <circle cx="22" cy="118" r="14" fill="none" stroke="#4a4740" stroke-width="0.8" opacity="0.25" />
+    <circle cx="58" cy="118" r="14" fill="none" stroke="#4a4740" stroke-width="0.8" opacity="0.25" />
+    <!-- Speaker dust caps -->
+    <circle cx="22" cy="82" r="3" fill="#4a4740" opacity="0.15" />
+    <circle cx="58" cy="82" r="3" fill="#4a4740" opacity="0.15" />
+    <circle cx="22" cy="118" r="3" fill="#4a4740" opacity="0.15" />
+    <circle cx="58" cy="118" r="3" fill="#4a4740" opacity="0.15" />
+  </g>
+  <text x="540" y="305" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#4a4740" letter-spacing="1.5">UKROCK</text>
+  <text x="540" y="323" text-anchor="middle" font-family="Georgia, serif" font-size="9" fill="#4a4740" opacity="0.6">brit</text>
+
+  <!-- Amp 5: JAZZC - minimal, clean, small combo -->
+  <g transform="translate(640, 155)">
+    <rect x="0" y="0" width="70" height="105" rx="6" fill="none" stroke="#4a4740" stroke-width="1.5" />
+    <!-- Single speaker -->
+    <circle cx="35" cy="65" r="25" fill="none" stroke="#4a4740" stroke-width="0.8" opacity="0.2" />
+    <circle cx="35" cy="65" r="15" fill="none" stroke="#4a4740" stroke-width="0.5" opacity="0.12" />
+    <circle cx="35" cy="65" r="3" fill="#4a4740" opacity="0.1" />
+    <!-- Minimal top panel -->
+    <circle cx="20" cy="18" r="4" fill="none" stroke="#4a7a9a" stroke-width="1.2" />
+    <circle cx="50" cy="18" r="4" fill="none" stroke="#4a7a9a" stroke-width="1.2" />
+    <!-- Subtle LED -->
+    <circle cx="35" cy="38" r="2" fill="#4a7a9a" opacity="0.5" />
+  </g>
+  <text x="675" y="290" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#4a4740" letter-spacing="1.5">JAZZC</text>
+  <text x="675" y="308" text-anchor="middle" font-family="Georgia, serif" font-size="9" fill="#4a7a9a" opacity="0.7">clean</text>
+
+  <!-- Signal flow arrow across the bottom -->
+  <line x1="60" y1="370" x2="740" y2="370" stroke="#4a4740" stroke-width="1" opacity="0.2" />
+  <polygon points="740,366 750,370 740,374" fill="#4a4740" opacity="0.2" />
+  <text x="400" y="390" text-anchor="middle" font-family="Georgia, serif" font-size="9" fill="#4a4740" opacity="0.3" letter-spacing="3">SIGNAL CHAIN</text>
+
+  <!-- Title area -->
+  <text x="400" y="50" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#4a4740" opacity="0.25" letter-spacing="4">BEHRINGER WING AMP SIMS</text>
+</svg>

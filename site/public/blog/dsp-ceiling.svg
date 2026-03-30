@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400">
+  <rect width="800" height="400" fill="#2a2825"/>
+
+  <!-- Title area subtle line -->
+  <line x1="60" y1="60" x2="740" y2="60" stroke="#4a4740" stroke-width="1" stroke-dasharray="4,4"/>
+
+  <!-- 16 FX slot boxes in two rows -->
+  <!-- Row 1: Premium slots 1-8 -->
+  <g transform="translate(60, 90)">
+    <!-- Slot 1 - loaded (reverb) -->
+    <rect x="0" y="0" width="75" height="100" rx="4" fill="#4a7a9a" opacity="0.8"/>
+    <text x="37.5" y="20" text-anchor="middle" fill="#f4f3ee" font-family="monospace" font-size="11" font-weight="bold">FX1</text>
+    <rect x="15" y="30" width="45" height="55" rx="2" fill="#2a2825" opacity="0.4"/>
+    <text x="37.5" y="55" text-anchor="middle" fill="#f4f3ee" font-family="monospace" font-size="8">REV</text>
+    <text x="37.5" y="70" text-anchor="middle" fill="#b8792a" font-family="monospace" font-size="7">LOADED</text>
+
+    <!-- Slot 2 - loaded (amp sim, heavy) -->
+    <rect x="85" y="0" width="75" height="100" rx="4" fill="#a85a4a" opacity="0.9"/>
+    <text x="122.5" y="20" text-anchor="middle" fill="#f4f3ee" font-family="monospace" font-size="11" font-weight="bold">FX2</text>
+    <rect x="100" y="30" width="45" height="55" rx="2" fill="#2a2825" opacity="0.4"/>
+    <text x="122.5" y="55" text-anchor="middle" fill="#f4f3ee" font-family="monospace" font-size="8">AMP</text>
+    <text x="122.5" y="70" text-anchor="middle" fill="#b8792a" font-family="monospace" font-size="7">HEAVY</text>
+
+    <!-- Slot 3 - loaded -->
+    <rect x="170" y="0" width="75" height="100" rx="4" fill="#4a7a9a" opacity="0.6"/>
+    <text x="207.5" y="20" text-anchor="middle" fill="#f4f3ee" font-family="monospace" font-size="11" font-weight="bold">FX3</text>
+    <rect x="185" y="30" width="45" height="55" rx="2" fill="#2a2825" opacity="0.4"/>
+    <text x="207.5" y="55" text-anchor="middle" fill="#f4f3ee" font-family="monospace" font-size="8">DLY</text>
+    <text x="207.5" y="70" text-anchor="middle" fill="#b8792a" font-family="monospace" font-size="7">LOADED</text>
+
+    <!-- Slot 4 - loaded -->
+    <rect x="255" y="0" width="75" height="100" rx="4" fill="#4a7a9a" opacity="0.6"/>
+    <text x="292.5" y="20" text-anchor="middle" fill="#f4f3ee" font-family="monospace" font-size="11" font-weight="bold">FX4</text>
+    <rect x="270" y="30" width="45" height="55" rx="2" fill="#2a2825" opacity="0.4"/>
+    <text x="292.5" y="55" text-anchor="middle" fill="#f4f3ee" font-family="monospace" font-size="8">REV</text>
+    <text x="292.5" y="70" text-anchor="middle" fill="#b8792a" font-family="monospace" font-size="7">LOADED</text>
+
+    <!-- Slot 5 - loaded (amp sim, heavy) -->
+    <rect x="340" y="0" width="75" height="100" rx="4" fill="#a85a4a" opacity="0.9"/>
+    <text x="377.5" y="20" text-anchor="middle" fill="#f4f3ee" font-family="monospace" font-size="11" font-weight="bold">FX5</text>
+    <rect x="355" y="30" width="45" height="55" rx="2" fill="#2a2825" opacity="0.4"/>
+    <text x="377.5" y="55" text-anchor="middle" fill="#f4f3ee" font-family="monospace" font-size="8">AMP</text>
+    <text x="377.5" y="70" text-anchor="middle" fill="#b8792a" font-family="monospace" font-size="7">HEAVY</text>
+
+    <!-- Slot 6 - empty -->
+    <rect x="425" y="0" width="75" height="100" rx="4" fill="#4a4740" opacity="0.4" stroke="#4a4740" stroke-width="1"/>
+    <text x="462.5" y="20" text-anchor="middle" fill="#4a4740" font-family="monospace" font-size="11" font-weight="bold">FX6</text>
+    <text x="462.5" y="60" text-anchor="middle" fill="#4a4740" font-family="monospace" font-size="8">NONE</text>
+
+    <!-- Slot 7 - loaded -->
+    <rect x="510" y="0" width="75" height="100" rx="4" fill="#4a7a9a" opacity="0.6"/>
+    <text x="547.5" y="20" text-anchor="middle" fill="#f4f3ee" font-family="monospace" font-size="11" font-weight="bold">FX7</text>
+    <rect x="525" y="30" width="45" height="55" rx="2" fill="#2a2825" opacity="0.4"/>
+    <text x="547.5" y="55" text-anchor="middle" fill="#f4f3ee" font-family="monospace" font-size="8">DES</text>
+    <text x="547.5" y="70" text-anchor="middle" fill="#b8792a" font-family="monospace" font-size="7">LOADED</text>
+
+    <!-- Slot 8 - loaded -->
+    <rect x="595" y="0" width="75" height="100" rx="4" fill="#4a7a9a" opacity="0.6"/>
+    <text x="632.5" y="20" text-anchor="middle" fill="#f4f3ee" font-family="monospace" font-size="11" font-weight="bold">FX8</text>
+    <rect x="610" y="30" width="45" height="55" rx="2" fill="#2a2825" opacity="0.4"/>
+    <text x="632.5" y="55" text-anchor="middle" fill="#f4f3ee" font-family="monospace" font-size="8">DLY</text>
+    <text x="632.5" y="70" text-anchor="middle" fill="#b8792a" font-family="monospace" font-size="7">LOADED</text>
+  </g>
+
+  <!-- Row labels -->
+  <text x="40" y="145" text-anchor="end" fill="#4a4740" font-family="monospace" font-size="9" transform="rotate(-90, 40, 145)">PREMIUM</text>
+  <text x="40" y="285" text-anchor="end" fill="#4a4740" font-family="monospace" font-size="9" transform="rotate(-90, 40, 285)">STANDARD</text>
+
+  <!-- Row 2: Standard slots 9-16 -->
+  <g transform="translate(60, 220)">
+    <!-- Slot 9 - loaded -->
+    <rect x="0" y="0" width="75" height="100" rx="4" fill="#5a8a4a" opacity="0.6"/>
+    <text x="37.5" y="20" text-anchor="middle" fill="#f4f3ee" font-family="monospace" font-size="11" font-weight="bold">FX9</text>
+    <rect x="15" y="30" width="45" height="55" rx="2" fill="#2a2825" opacity="0.4"/>
+    <text x="37.5" y="55" text-anchor="middle" fill="#f4f3ee" font-family="monospace" font-size="8">EQ</text>
+    <text x="37.5" y="70" text-anchor="middle" fill="#b8792a" font-family="monospace" font-size="7">LOADED</text>
+
+    <!-- Slots 10-15 empty -->
+    <rect x="85" y="0" width="75" height="100" rx="4" fill="#4a4740" opacity="0.4" stroke="#4a4740" stroke-width="1"/>
+    <text x="122.5" y="20" text-anchor="middle" fill="#4a4740" font-family="monospace" font-size="11" font-weight="bold">FX10</text>
+    <text x="122.5" y="60" text-anchor="middle" fill="#4a4740" font-family="monospace" font-size="8">NONE</text>
+
+    <rect x="170" y="0" width="75" height="100" rx="4" fill="#5a8a4a" opacity="0.6"/>
+    <text x="207.5" y="20" text-anchor="middle" fill="#f4f3ee" font-family="monospace" font-size="11" font-weight="bold">FX11</text>
+    <rect x="185" y="30" width="45" height="55" rx="2" fill="#2a2825" opacity="0.4"/>
+    <text x="207.5" y="55" text-anchor="middle" fill="#f4f3ee" font-family="monospace" font-size="8">AMP</text>
+    <text x="207.5" y="70" text-anchor="middle" fill="#b8792a" font-family="monospace" font-size="7">LOADED</text>
+
+    <rect x="255" y="0" width="75" height="100" rx="4" fill="#5a8a4a" opacity="0.6"/>
+    <text x="292.5" y="20" text-anchor="middle" fill="#f4f3ee" font-family="monospace" font-size="11" font-weight="bold">FX12</text>
+    <rect x="270" y="30" width="45" height="55" rx="2" fill="#2a2825" opacity="0.4"/>
+    <text x="292.5" y="55" text-anchor="middle" fill="#f4f3ee" font-family="monospace" font-size="8">AMP</text>
+    <text x="292.5" y="70" text-anchor="middle" fill="#b8792a" font-family="monospace" font-size="7">LOADED</text>
+
+    <rect x="340" y="0" width="75" height="100" rx="4" fill="#4a4740" opacity="0.4" stroke="#4a4740" stroke-width="1"/>
+    <text x="377.5" y="20" text-anchor="middle" fill="#4a4740" font-family="monospace" font-size="11" font-weight="bold">FX13</text>
+    <text x="377.5" y="60" text-anchor="middle" fill="#4a4740" font-family="monospace" font-size="8">NONE</text>
+
+    <rect x="425" y="0" width="75" height="100" rx="4" fill="#4a4740" opacity="0.4" stroke="#4a4740" stroke-width="1"/>
+    <text x="462.5" y="20" text-anchor="middle" fill="#4a4740" font-family="monospace" font-size="11" font-weight="bold">FX14</text>
+    <text x="462.5" y="60" text-anchor="middle" fill="#4a4740" font-family="monospace" font-size="8">NONE</text>
+
+    <rect x="510" y="0" width="75" height="100" rx="4" fill="#4a4740" opacity="0.4" stroke="#4a4740" stroke-width="1"/>
+    <text x="547.5" y="20" text-anchor="middle" fill="#4a4740" font-family="monospace" font-size="11" font-weight="bold">FX15</text>
+    <text x="547.5" y="60" text-anchor="middle" fill="#4a4740" font-family="monospace" font-size="8">NONE</text>
+
+    <!-- Slot 16 - REFUSED (the star of our story) -->
+    <rect x="595" y="0" width="75" height="100" rx="4" fill="none" stroke="#a85a4a" stroke-width="2" stroke-dasharray="6,3"/>
+    <text x="632.5" y="20" text-anchor="middle" fill="#a85a4a" font-family="monospace" font-size="11" font-weight="bold">FX16</text>
+    <line x1="610" y1="40" x2="655" y2="80" stroke="#a85a4a" stroke-width="2"/>
+    <line x1="655" y1="40" x2="610" y2="80" stroke="#a85a4a" stroke-width="2"/>
+    <text x="632.5" y="95" text-anchor="middle" fill="#a85a4a" font-family="monospace" font-size="7">REFUSED</text>
+  </g>
+
+  <!-- DSP budget bar at bottom -->
+  <text x="60" y="355" fill="#f4f3ee" font-family="monospace" font-size="11">DSP BUDGET</text>
+  <rect x="160" y="343" width="480" height="16" rx="3" fill="#4a4740" opacity="0.5"/>
+  <rect x="160" y="343" width="456" height="16" rx="3" fill="#b8792a" opacity="0.8"/>
+  <text x="650" y="355" fill="#f4f3ee" font-family="monospace" font-size="11">95%</text>
+
+  <!-- Subtle label -->
+  <text x="400" y="388" text-anchor="middle" fill="#4a4740" font-family="monospace" font-size="10">16 SLOTS IS A BUDGET, NOT A GUARANTEE</text>
+</svg>

@@ -1,0 +1,75 @@
+<svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="800" height="400" fill="#f4f3ee" />
+
+  <!-- Grid of parameter blocks - representing all the automatable parameters -->
+  <!-- Row 1 -->
+  <rect x="60" y="60" width="80" height="36" rx="3" fill="none" stroke="#5a8a4a" stroke-width="1.5" opacity="0.6" />
+  <rect x="155" y="60" width="80" height="36" rx="3" fill="none" stroke="#5a8a4a" stroke-width="1.5" opacity="0.6" />
+  <rect x="250" y="60" width="80" height="36" rx="3" fill="none" stroke="#5a8a4a" stroke-width="1.5" opacity="0.6" />
+  <rect x="345" y="60" width="80" height="36" rx="3" fill="none" stroke="#5a8a4a" stroke-width="1.5" opacity="0.6" />
+  <rect x="440" y="60" width="80" height="36" rx="3" fill="none" stroke="#5a8a4a" stroke-width="1.5" opacity="0.6" />
+  <rect x="535" y="60" width="80" height="36" rx="3" fill="none" stroke="#5a8a4a" stroke-width="1.5" opacity="0.6" />
+  <rect x="630" y="60" width="80" height="36" rx="3" fill="none" stroke="#5a8a4a" stroke-width="1.5" opacity="0.6" />
+
+  <!-- Row 2 -->
+  <rect x="60" y="110" width="80" height="36" rx="3" fill="none" stroke="#5a8a4a" stroke-width="1.5" opacity="0.6" />
+  <rect x="155" y="110" width="80" height="36" rx="3" fill="none" stroke="#5a8a4a" stroke-width="1.5" opacity="0.6" />
+  <rect x="250" y="110" width="80" height="36" rx="3" fill="none" stroke="#5a8a4a" stroke-width="1.5" opacity="0.6" />
+  <rect x="345" y="110" width="80" height="36" rx="3" fill="none" stroke="#5a8a4a" stroke-width="1.5" opacity="0.6" />
+  <rect x="440" y="110" width="80" height="36" rx="3" fill="none" stroke="#5a8a4a" stroke-width="1.5" opacity="0.6" />
+  <rect x="535" y="110" width="80" height="36" rx="3" fill="none" stroke="#5a8a4a" stroke-width="1.5" opacity="0.6" />
+  <rect x="630" y="110" width="80" height="36" rx="3" fill="none" stroke="#5a8a4a" stroke-width="1.5" opacity="0.6" />
+
+  <!-- Row 3 -->
+  <rect x="60" y="160" width="80" height="36" rx="3" fill="none" stroke="#5a8a4a" stroke-width="1.5" opacity="0.6" />
+  <rect x="155" y="160" width="80" height="36" rx="3" fill="none" stroke="#5a8a4a" stroke-width="1.5" opacity="0.6" />
+  <rect x="250" y="160" width="80" height="36" rx="3" fill="none" stroke="#5a8a4a" stroke-width="1.5" opacity="0.6" />
+
+  <!-- THE one parameter that can't be automated - highlighted, different color -->
+  <rect x="345" y="160" width="80" height="36" rx="3" fill="none" stroke="#a85a4a" stroke-width="2.5" />
+  <text x="385" y="182" font-family="monospace" font-size="8" fill="#a85a4a" text-anchor="middle">dynsc/src</text>
+
+  <rect x="440" y="160" width="80" height="36" rx="3" fill="none" stroke="#5a8a4a" stroke-width="1.5" opacity="0.6" />
+  <rect x="535" y="160" width="80" height="36" rx="3" fill="none" stroke="#5a8a4a" stroke-width="1.5" opacity="0.6" />
+  <rect x="630" y="160" width="80" height="36" rx="3" fill="none" stroke="#5a8a4a" stroke-width="1.5" opacity="0.6" />
+
+  <!-- Row 4 -->
+  <rect x="60" y="210" width="80" height="36" rx="3" fill="none" stroke="#5a8a4a" stroke-width="1.5" opacity="0.6" />
+  <rect x="155" y="210" width="80" height="36" rx="3" fill="none" stroke="#5a8a4a" stroke-width="1.5" opacity="0.6" />
+  <rect x="250" y="210" width="80" height="36" rx="3" fill="none" stroke="#5a8a4a" stroke-width="1.5" opacity="0.6" />
+  <rect x="345" y="210" width="80" height="36" rx="3" fill="none" stroke="#5a8a4a" stroke-width="1.5" opacity="0.6" />
+  <rect x="440" y="210" width="80" height="36" rx="3" fill="none" stroke="#5a8a4a" stroke-width="1.5" opacity="0.6" />
+  <rect x="535" y="210" width="80" height="36" rx="3" fill="none" stroke="#5a8a4a" stroke-width="1.5" opacity="0.6" />
+  <rect x="630" y="210" width="80" height="36" rx="3" fill="none" stroke="#5a8a4a" stroke-width="1.5" opacity="0.6" />
+
+  <!-- Row 5 -->
+  <rect x="60" y="260" width="80" height="36" rx="3" fill="none" stroke="#5a8a4a" stroke-width="1.5" opacity="0.6" />
+  <rect x="155" y="260" width="80" height="36" rx="3" fill="none" stroke="#5a8a4a" stroke-width="1.5" opacity="0.6" />
+  <rect x="250" y="260" width="80" height="36" rx="3" fill="none" stroke="#5a8a4a" stroke-width="1.5" opacity="0.6" />
+  <rect x="345" y="260" width="80" height="36" rx="3" fill="none" stroke="#5a8a4a" stroke-width="1.5" opacity="0.6" />
+  <rect x="440" y="260" width="80" height="36" rx="3" fill="none" stroke="#5a8a4a" stroke-width="1.5" opacity="0.6" />
+  <rect x="535" y="260" width="80" height="36" rx="3" fill="none" stroke="#5a8a4a" stroke-width="1.5" opacity="0.6" />
+  <rect x="630" y="260" width="80" height="36" rx="3" fill="none" stroke="#5a8a4a" stroke-width="1.5" opacity="0.6" />
+
+  <!-- Small checkmarks on the green blocks (a few representative ones) -->
+  <text x="100" y="84" font-family="monospace" font-size="10" fill="#5a8a4a" text-anchor="middle" opacity="0.5">fdr</text>
+  <text x="195" y="84" font-family="monospace" font-size="10" fill="#5a8a4a" text-anchor="middle" opacity="0.5">mute</text>
+  <text x="290" y="84" font-family="monospace" font-size="10" fill="#5a8a4a" text-anchor="middle" opacity="0.5">eq/f</text>
+  <text x="385" y="84" font-family="monospace" font-size="10" fill="#5a8a4a" text-anchor="middle" opacity="0.5">dyn/thr</text>
+  <text x="480" y="84" font-family="monospace" font-size="10" fill="#5a8a4a" text-anchor="middle" opacity="0.5">send/lvl</text>
+  <text x="575" y="84" font-family="monospace" font-size="10" fill="#5a8a4a" text-anchor="middle" opacity="0.5">fx/mdl</text>
+  <text x="670" y="84" font-family="monospace" font-size="10" fill="#5a8a4a" text-anchor="middle" opacity="0.5">name</text>
+
+  <!-- Arrow pointing to the red block -->
+  <line x1="385" y1="210" x2="385" y2="202" stroke="#a85a4a" stroke-width="1.5" />
+  <polygon points="381,210 385,203 389,210" fill="#a85a4a" />
+
+  <!-- "SELF" label below the red block showing it reverting -->
+  <text x="385" y="320" font-family="monospace" font-size="14" fill="#a85a4a" text-anchor="middle" font-weight="bold">SELF</text>
+  <text x="385" y="340" font-family="monospace" font-size="9" fill="#4a4740" text-anchor="middle" opacity="0.6">always reverts</text>
+
+  <!-- Curved arrow showing the revert cycle -->
+  <path d="M 430 172 C 460 172, 470 200, 470 230 C 470 280, 430 310, 400 314" stroke="#a85a4a" stroke-width="1.5" fill="none" stroke-dasharray="4,3" />
+  <polygon points="404,310 398,317 404,318" fill="#a85a4a" />
+</svg>
