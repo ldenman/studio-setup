@@ -144,3 +144,34 @@ Lessons learned during studio sessions. Updated after each session.
 - Virtual routing panel showing Loopback/USB connections between Wing, Logic, and Model 12
 - Blog with content collections (3 sample posts about studio architecture)
 - Cable routing lesson: route long cables along rack rails (left for vocal/monitor, right for guitar/tape) to avoid crossing over gear panels
+
+---
+
+## 2026-03-29 — Mix Bus EQ, Lead Guitar, Blog & Site Updates
+
+### Mix Bus Processing
+- Added HPF 60Hz and LPF 14kHz on all mix matrices (MX2-MX8) to tame rumble and iPhone shrillness
+- Matrix EQ uses numbered params, not named: band 1 type at `/mtx/N/eq/4`, band 8 type at `/mtx/N/eq/26`
+- Band types accept "CUT" in addition to "SHV" and "PEQ" — this enables HPF/LPF on matrices
+- Matrix EQ must be explicitly enabled (`/mtx/N/eq/on i 1`) — it's off by default
+
+### Routing Fixes
+- Ch11 (Piano/Synth) was set to USB input 13 but Logic was sending on USB 11-12. Changed `/ch/11/in/conn/in` from 13 to 11. **studio.edn still says USB/13-14 for Ch11 — needs updating to match.**
+- Ch12 (Drums) had a stale send to Bus 12 ("Rhythm Tape") at 0dB — disabled
+- Ch12 RED3 dynamics model was loaded but off — removed (set to OFF)
+- Ch12 fader was at +6dB with no EQ — hot and unprocessed
+
+### Lead Guitar Setup
+- Ch2→Bus 11 send was off (level at -144dB). Activated: on=1, lvl=0, mode=PRE
+- Bus 5 (Electric/rhythm) was muted, Bus 11 (ANGEL/lead) was unmuted — correct for lead mode
+
+### Wing Parameter Discovery
+- Matrices have NO `/mtx/N/flt/...` filter section (returns error). Must use EQ band 1/8 with CUT type instead.
+- Matrix EQ band layout (numbered): band 1 = params 1-4 (gain, freq, Q, type), bands 2-7 = 3 params each (gain, freq, Q), band 8 = params 23-26 (gain, freq, Q, type), param 27 = master gain
+
+### Documentation
+- Created `wing-osc.edn` — compact OSC parameter schema (48% fewer tokens than WING-OSC-REFERENCE.md). Schemas use `:like` inheritance so bus/main/matrix don't repeat channel params.
+- Updated CLAUDE.md to reference wing-osc.edn as primary OSC reference alongside studio.edn
+
+### Copy
+- "Neve" → "Neve-style" across all blog posts and site pages where it refers to our HA73 clone. Wing FX model references (Neve 33609 etc.) left as-is since they describe what the digital models emulate.
