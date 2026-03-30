@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2a2825"/>
+      <stop offset="100%" stop-color="#4a4740"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="400" fill="url(#bg)"/>
+
+  <!-- Four tape reels showing evolution, left to right -->
+  <!-- Each reel gets progressively simpler/cleaner -->
+
+  <!-- Reel 1: Channel Insert (crossed out) -->
+  <g transform="translate(120, 180)">
+    <circle cx="0" cy="0" r="55" fill="none" stroke="#a85a4a" stroke-width="2.5" opacity="0.5"/>
+    <circle cx="0" cy="0" r="35" fill="none" stroke="#a85a4a" stroke-width="1.5" opacity="0.5"/>
+    <circle cx="0" cy="0" r="12" fill="#a85a4a" opacity="0.3"/>
+    <!-- Tape path -->
+    <path d="M -55 0 Q -55 -30 -40 -50" fill="none" stroke="#a85a4a" stroke-width="1.5" opacity="0.4"/>
+    <!-- X mark -->
+    <line x1="-30" y1="-30" x2="30" y2="30" stroke="#a85a4a" stroke-width="3" opacity="0.7"/>
+    <line x1="30" y1="-30" x2="-30" y2="30" stroke="#a85a4a" stroke-width="3" opacity="0.7"/>
+    <text x="0" y="85" text-anchor="middle" fill="#a85a4a" font-family="monospace" font-size="11" opacity="0.7">INSERTS</text>
+  </g>
+
+  <!-- Reel 2: Recording Bus (crossed out) -->
+  <g transform="translate(300, 180)">
+    <circle cx="0" cy="0" r="55" fill="none" stroke="#b8792a" stroke-width="2.5" opacity="0.5"/>
+    <circle cx="0" cy="0" r="35" fill="none" stroke="#b8792a" stroke-width="1.5" opacity="0.5"/>
+    <circle cx="0" cy="0" r="12" fill="#b8792a" opacity="0.3"/>
+    <path d="M -55 0 Q -55 -30 -40 -50" fill="none" stroke="#b8792a" stroke-width="1.5" opacity="0.4"/>
+    <!-- X mark -->
+    <line x1="-30" y1="-30" x2="30" y2="30" stroke="#b8792a" stroke-width="3" opacity="0.7"/>
+    <line x1="30" y1="-30" x2="-30" y2="30" stroke="#b8792a" stroke-width="3" opacity="0.7"/>
+    <text x="0" y="85" text-anchor="middle" fill="#b8792a" font-family="monospace" font-size="11" opacity="0.7">REC BUS</text>
+  </g>
+
+  <!-- Reel 3: Aux Loop (crossed out) -->
+  <g transform="translate(480, 180)">
+    <circle cx="0" cy="0" r="55" fill="none" stroke="#4a7a9a" stroke-width="2.5" opacity="0.5"/>
+    <circle cx="0" cy="0" r="35" fill="none" stroke="#4a7a9a" stroke-width="1.5" opacity="0.5"/>
+    <circle cx="0" cy="0" r="12" fill="#4a7a9a" opacity="0.3"/>
+    <path d="M -55 0 Q -55 -30 -40 -50" fill="none" stroke="#4a7a9a" stroke-width="1.5" opacity="0.4"/>
+    <!-- X mark -->
+    <line x1="-30" y1="-30" x2="30" y2="30" stroke="#4a7a9a" stroke-width="3" opacity="0.7"/>
+    <line x1="30" y1="-30" x2="-30" y2="30" stroke="#4a7a9a" stroke-width="3" opacity="0.7"/>
+    <text x="0" y="85" text-anchor="middle" fill="#4a7a9a" font-family="monospace" font-size="11" opacity="0.7">AUX LOOP</text>
+  </g>
+
+  <!-- Reel 4: Software Plugin (active, glowing) -->
+  <g transform="translate(660, 180)">
+    <circle cx="0" cy="0" r="55" fill="none" stroke="#5a8a4a" stroke-width="3"/>
+    <circle cx="0" cy="0" r="35" fill="none" stroke="#5a8a4a" stroke-width="2"/>
+    <circle cx="0" cy="0" r="12" fill="#5a8a4a" opacity="0.6"/>
+    <!-- Spinning tape suggestion -->
+    <path d="M -12 0 Q -20 -15 -35 -8" fill="none" stroke="#5a8a4a" stroke-width="1.5"/>
+    <path d="M 12 0 Q 20 15 35 8" fill="none" stroke="#5a8a4a" stroke-width="1.5"/>
+    <!-- Tape path between reels -->
+    <path d="M -55 -10 Q -70 -40 -55 -55" fill="none" stroke="#5a8a4a" stroke-width="2"/>
+    <text x="0" y="85" text-anchor="middle" fill="#5a8a4a" font-family="monospace" font-size="11" font-weight="bold">SOFTWARE</text>
+  </g>
+
+  <!-- Connecting arrows between reels -->
+  <g stroke="#f4f3ee" stroke-width="1" opacity="0.3" fill="none">
+    <path d="M 175 180 L 240 180" marker-end="url(#arrow)"/>
+    <path d="M 355 180 L 420 180" marker-end="url(#arrow)"/>
+    <path d="M 535 180 L 600 180" marker-end="url(#arrow)"/>
+  </g>
+
+  <!-- Arrow markers -->
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M 0 0 L 8 3 L 0 6" fill="none" stroke="#f4f3ee" stroke-width="1" opacity="0.3"/>
+    </marker>
+  </defs>
+
+  <!-- Chevron arrows -->
+  <path d="M 182 175 L 192 180 L 182 185" fill="none" stroke="#f4f3ee" stroke-width="1.5" opacity="0.3"/>
+  <path d="M 362 175 L 372 180 L 362 185" fill="none" stroke="#f4f3ee" stroke-width="1.5" opacity="0.3"/>
+  <path d="M 542 175 L 552 180 L 542 185" fill="none" stroke="#f4f3ee" stroke-width="1.5" opacity="0.3"/>
+
+  <!-- Horizontal connecting lines -->
+  <line x1="178" y1="180" x2="242" y2="180" stroke="#f4f3ee" stroke-width="1" opacity="0.2"/>
+  <line x1="358" y1="180" x2="422" y2="180" stroke="#f4f3ee" stroke-width="1" opacity="0.2"/>
+  <line x1="538" y1="180" x2="602" y2="180" stroke="#f4f3ee" stroke-width="1" opacity="0.2"/>
+
+  <!-- Subtle waveform along bottom -->
+  <path d="M 0 370 Q 50 360 100 370 Q 150 380 200 370 Q 250 360 300 370 Q 350 380 400 370 Q 450 360 500 370 Q 550 380 600 370 Q 650 360 700 370 Q 750 380 800 370" fill="none" stroke="#b8792a" stroke-width="1" opacity="0.15"/>
+
+</svg>

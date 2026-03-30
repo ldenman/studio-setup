@@ -23,7 +23,7 @@ import Base from '../layouts/Base.astro';
       <span><i style="background:#d4943a"></i>Tape</span>
       <span><i style="background:#7aaa6a"></i>USB/DAW</span>
       <span><i style="background:#e8a090"></i>Monitor</span>
-      <span><i style="background:#555"></i>Normalled</span>
+      <span><i style="background:var(--stone)"></i>Normalled</span>
     </div>
 
     <div class="virtual-label">VIRTUAL ROUTING — LOOPBACK + USB</div>
@@ -37,22 +37,22 @@ import Base from '../layouts/Base.astro';
     #app { max-width: 1400px; margin: 0 auto; padding: 0 8px 80px; }
     .info-bar {
       font-family: var(--mono); font-size: 11px; letter-spacing: 1px;
-      color: #d4943a; padding: 10px 16px; margin-bottom: 4px;
-      background: #0a0a08; border: 1px solid #1a1a18; border-radius: 2px;
+      color: var(--amber); padding: 10px 16px; margin-bottom: 4px;
+      background: var(--cream); border: 1px solid var(--linen); border-radius: 2px;
     }
-    .viewport { background: #060608; border: 1px solid #1a1a18; border-radius: 2px; overflow-x: auto; }
+    .viewport { background: #060608; border: 1px solid var(--linen); border-radius: 2px; overflow-x: auto; }
     #svg { display: block; width: 100%; min-height: 650px; }
     .legend {
       display: flex; gap: 18px; margin-top: 10px; flex-wrap: wrap;
-      font-family: var(--mono); font-size: 10px; color: #55554e;
+      font-family: var(--mono); font-size: 10px; color: var(--stone);
     }
     .legend span { display: flex; align-items: center; gap: 6px; }
     .legend i { width: 8px; height: 8px; border-radius: 50%; display: block; }
     .virtual-label {
       font-family: var(--mono); font-size: 10px; letter-spacing: 3px;
-      color: #7aaa6a; padding: 24px 0 8px; text-transform: uppercase;
+      color: var(--session-green); padding: 24px 0 8px; text-transform: uppercase;
     }
-    .viewport.virtual { background: #060a06; border-color: #1a2a1a; }
+    .viewport.virtual { background: #060a06; border-color: var(--linen); }
     #vsvg { display: block; width: 100%; min-height: 400px; }
   </style>
 
@@ -194,10 +194,10 @@ import Base from '../layouts/Base.astro';
     })());
 
     // ── HA73-EQX2 (1U) ──
-    addUnit('HA73-EQX2', 'Neve 1073 Preamp/EQ — Dual Channel', U1, '#111', [
-      { id:'ha-ai', xPct:0.10, yOff:40, chain:'vocal',  label:'A IN',  note:'HA73 Ch A Input — Neve EQ + transformer color', type:'xlr', io:'in' },
+    addUnit('HA73-EQX2', 'Neve 1073 Style Preamp/EQ — Dual Channel', U1, '#111', [
+      { id:'ha-ai', xPct:0.10, yOff:40, chain:'vocal',  label:'A IN',  note:'HA73 Ch A Input — Neve-style EQ + transformer color', type:'xlr', io:'in' },
       { id:'ha-ao', xPct:0.25, yOff:40, chain:'vocal',  label:'A OUT', note:'HA73 Ch A Output',                              type:'xlr', io:'out' },
-      { id:'ha-bi', xPct:0.60, yOff:40, chain:'guitar', label:'B IN',  note:'HA73 Ch B Input — Neve EQ + transformer color', type:'xlr', io:'in' },
+      { id:'ha-bi', xPct:0.60, yOff:40, chain:'guitar', label:'B IN',  note:'HA73 Ch B Input — Neve-style EQ + transformer color', type:'xlr', io:'in' },
       { id:'ha-bo', xPct:0.75, yOff:40, chain:'guitar', label:'B OUT', note:'HA73 Ch B Output',                              type:'xlr', io:'out' },
     ]);
 

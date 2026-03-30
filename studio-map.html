@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lake's Studio</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0c0c0b; color: #d4d0c8; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 11px; padding: 24px; }
+h1 { font-size: 16px; color: #e8e4dc; margin-bottom: 4px; letter-spacing: 2px; text-transform: uppercase; }
+.subtitle { color: #888; font-size: 11px; margin-bottom: 24px; }
+svg { width: 100%; height: auto; }
+.node { cursor: default; }
+.node rect { rx: 4; ry: 4; stroke-width: 1.2; }
+.node text { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 10px; fill: #d4d0c8; }
+.node .label { font-size: 9px; fill: #888; }
+.node .title { font-weight: bold; font-size: 10px; }
+.link { fill: none; stroke-width: 1.5; opacity: 0.6; }
+.link:hover { opacity: 1; stroke-width: 2.5; }
+.chain-vocal { stroke: #5b8abf; }
+.chain-guitar { stroke: #bf5b5b; }
+.chain-session { stroke: #6abf6a; }
+.chain-mix { stroke: #bf8f5b; }
+.chain-monitor { stroke: #888; }
+.chain-tape { stroke: #c97ab8; }
+.section-label { font-size: 13px; fill: #666; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; }
+.gear-label { font-size: 9px; fill: #555; }
+.zone { fill: #151514; stroke: #222; stroke-width: 1; rx: 8; ry: 8; }
+.zone-label { font-size: 11px; fill: #444; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; }
+/* colors matching Wing */
+.col-blue rect { fill: #1a2a40; stroke: #3a6a9f; }
+.col-red rect { fill: #3a1a1a; stroke: #9f3a3a; }
+.col-green rect { fill: #1a3a1a; stroke: #3a9f3a; }
+.col-yellow rect { fill: #3a3a1a; stroke: #9f9f3a; }
+.col-orange rect { fill: #3a2a1a; stroke: #bf7a3a; }
+.col-coral rect { fill: #3a2020; stroke: #bf6060; }
+.col-gray rect { fill: #1e1e1e; stroke: #555; }
+.col-pink rect { fill: #301a2a; stroke: #9f5090; }
+.outboard rect { fill: #1a1a10; stroke: #8a7a4a; }
+.outboard .title { fill: #c8b878; }
+.fx-slot rect { fill: #101020; stroke: #5050a0; }
+.fx-slot .title { fill: #8888cc; }
+</style>
+</head>
+<body>
+<h1>Lake's Studio Signal Flow</h1>
+<p class="subtitle">Behringer Wing Rack + Outboard + Model 12 + Logic Pro</p>
+
+<svg viewBox="0 0 1400 1050" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Background zones -->
+  <rect class="zone" x="10" y="40" width="300" height="330" />
+  <text class="zone-label" x="24" y="62">Inputs</text>
+
+  <rect class="zone" x="330" y="40" width="300" height="330" />
+  <text class="zone-label" x="344" y="62">Wing Channels</text>
+
+  <rect class="zone" x="650" y="40" width="220" height="330" />
+  <text class="zone-label" x="664" y="62">Buses &amp; FX</text>
+
+  <rect class="zone" x="890" y="40" width="220" height="200" />
+  <text class="zone-label" x="904" y="62">Outboard</text>
+
+  <rect class="zone" x="890" y="260" width="220" height="110" />
+  <text class="zone-label" x="904" y="282">Processed Returns</text>
+
+  <rect class="zone" x="10" y="400" width="620" height="200" />
+  <text class="zone-label" x="24" y="422">Logic Pro (Session Players &amp; Tape Returns)</text>
+
+  <rect class="zone" x="650" y="400" width="460" height="200" />
+  <text class="zone-label" x="664" y="422">Mix Matrices → Model 12</text>
+
+  <rect class="zone" x="10" y="630" width="620" height="140" />
+  <text class="zone-label" x="24" y="652">Recording Outputs (USB → Logic)</text>
+
+  <rect class="zone" x="650" y="630" width="460" height="140" />
+  <text class="zone-label" x="664" y="652">Monitoring</text>
+
+  <rect class="zone" x="10" y="800" width="1100" height="220" />
+  <text class="zone-label" x="24" y="822">Patchbay (Samson 48-pt TRS, Normalled)</text>
+
+  <!-- ==================== INPUTS ==================== -->
+  <!-- Vocal Mic -->
+  <g class="node col-blue" transform="translate(30, 80)">
+    <rect width="120" height="36" />
+    <text class="label" x="6" y="12">LCL/1 — XLR</text>
+    <text class="title" x="6" y="26">Vocal Mic</text>
+  </g>
+
+  <!-- Guitar DI -->
+  <g class="node col-red" transform="translate(30, 130)">
+    <rect width="120" height="36" />
+    <text class="label" x="6" y="12">LCL/2 — DI</text>
+    <text class="title" x="6" y="26">Guitar DI</text>
+  </g>
+
+  <!-- Condensers -->
+  <g class="node col-yellow" transform="translate(30, 180)">
+    <rect width="120" height="36" />
+    <text class="label" x="6" y="12">LCL/3+4 — XLR ST</text>
+    <text class="title" x="6" y="26">Condenser Mics</text>
+  </g>
+
+  <!-- Model 12 return -->
+  <g class="node col-orange" transform="translate(30, 240)">
+    <rect width="120" height="36" />
+    <text class="label" x="6" y="12">USB/3-4 — Stereo</text>
+    <text class="title" x="6" y="26">Model 12 Mix</text>
+  </g>
+
+  <!-- Outboard returns (inputs) -->
+  <g class="node col-blue" transform="translate(170, 290)">
+    <rect width="120" height="36" />
+    <text class="label" x="6" y="12">LCL/17 — TRS Aux</text>
+    <text class="title" x="6" y="26">Vocal Return</text>
+  </g>
+  <g class="node col-red" transform="translate(170, 340)">
+    <rect width="120" height="36" />
+    <text class="label" x="6" y="12">LCL/18 — TRS Aux</text>
+    <text class="title" x="6" y="26">Guitar Return</text>
+  </g>
+
+  <!-- ==================== WING CHANNELS ==================== -->
+  <g class="node col-blue" transform="translate(350, 80)">
+    <rect width="130" height="36" />
+    <text class="label" x="6" y="12">Ch1 — GATE</text>
+    <text class="title" x="6" y="26">Vocal Dry</text>
+  </g>
+
+  <g class="node col-red" transform="translate(350, 130)">
+    <rect width="130" height="36" />
+    <text class="label" x="6" y="12">Ch2</text>
+    <text class="title" x="6" y="26">Guitar Dry</text>
+  </g>
+
+  <g class="node col-yellow" transform="translate(350, 180)">
+    <rect width="130" height="36" />
+    <text class="label" x="6" y="12">Ch6 — Stereo</text>
+    <text class="title" x="6" y="26">Gtr Ac Mics</text>
+  </g>
+
+  <g class="node col-orange" transform="translate(350, 240)">
+    <rect width="130" height="36" />
+    <text class="label" x="6" y="12">Ch7 — Stereo</text>
+    <text class="title" x="6" y="26">Model 12 Mix</text>
+  </g>
+
+  <g class="node col-blue" transform="translate(350, 290)">
+    <rect width="130" height="36" />
+    <text class="label" x="6" y="12">Ch17 — DE-ES, fdr -12</text>
+    <text class="title" x="6" y="26">Vocal Processed</text>
+  </g>
+
+  <g class="node col-red" transform="translate(350, 340)">
+    <rect width="130" height="36" />
+    <text class="label" x="6" y="12">Ch18 — fdr -12</text>
+    <text class="title" x="6" y="26">Guitar Processed</text>
+  </g>
+
+  <!-- ==================== BUSES & FX ==================== -->
+  <g class="node col-blue" transform="translate(670, 80)">
+    <rect width="170" height="32" />
+    <text class="label" x="6" y="12">Bus 1 → Out 1</text>
+    <text class="title" x="6" y="26">Vocal Send</text>
+  </g>
+
+  <g class="node col-red" transform="translate(670, 120)">
+    <rect width="170" height="32" />
+    <text class="label" x="6" y="12">Bus 2 → Out 2</text>
+    <text class="title" x="6" y="26">Guitar Send</text>
+  </g>
+
+  <g class="node fx-slot" transform="translate(670, 160)">
+    <rect width="170" height="32" />
+    <text class="label" x="6" y="12">Bus 3 — FX2 PLATE</text>
+    <text class="title" x="6" y="26">Reverb → Main 1</text>
+  </g>
+
+  <g class="node col-red" transform="translate(670, 200)">
+    <rect width="170" height="32" />
+    <text class="label" x="6" y="12">Bus 5 — FX6 ANGEL</text>
+    <text class="title" x="6" y="26">Electric → Bus 2</text>
+  </g>
+
+  <g class="node col-yellow" transform="translate(670, 240)">
+    <rect width="170" height="32" />
+    <text class="label" x="6" y="12">Bus 6 — FX11 RACKAMP</text>
+    <text class="title" x="6" y="26">Acoustic → Bus 2</text>
+  </g>
+
+  <g class="node col-blue" transform="translate(670, 280)">
+    <rect width="170" height="32" />
+    <text class="label" x="6" y="12">Bus 7</text>
+    <text class="title" x="6" y="26">Vocal Rec → USR/1</text>
+  </g>
+
+  <g class="node col-red" transform="translate(670, 320)">
+    <rect width="170" height="32" />
+    <text class="label" x="6" y="12">Bus 8 → Out 3 → P9</text>
+    <text class="title" x="6" y="26">Guitar Rec → M12</text>
+  </g>
+
+  <!-- ==================== OUTBOARD ==================== -->
+  <g class="node outboard" transform="translate(910, 80)">
+    <rect width="180" height="44" />
+    <text class="title" x="6" y="16">HA73-EQX2</text>
+    <text class="label" x="6" y="30">Neve 1073 preamp/EQ</text>
+    <text class="label" x="6" y="40">A = Vocal | B = Guitar</text>
+  </g>
+  <g class="node outboard" transform="translate(910, 134)">
+    <rect width="180" height="44" />
+    <text class="title" x="6" y="16">WA76-D2</text>
+    <text class="label" x="6" y="30">1176 compressor</text>
+    <text class="label" x="6" y="40">A = Vocal | B = Guitar</text>
+  </g>
+  <g class="node outboard" transform="translate(910, 188)">
+    <rect width="85" height="36" />
+    <text class="title" x="6" y="16">Opto</text>
+    <text class="label" x="6" y="28">LA-2A (Vocal)</text>
+  </g>
+  <g class="node outboard" transform="translate(1005, 188)">
+    <rect width="85" height="36" />
+    <text class="title" x="6" y="16">Distressor</text>
+    <text class="label" x="6" y="28">Gtr comp</text>
+  </g>
+
+  <!-- Processed returns at outboard zone -->
+  <g class="node col-blue" transform="translate(910, 300)">
+    <rect width="85" height="50" />
+    <text class="label" x="6" y="14">Opto Out</text>
+    <text class="title" x="6" y="28">→ Ch17</text>
+    <text class="label" x="6" y="42">Vocal Processed</text>
+  </g>
+  <g class="node col-red" transform="translate(1005, 300)">
+    <rect width="85" height="50" />
+    <text class="label" x="6" y="14">Distressor Out</text>
+    <text class="title" x="6" y="28">→ Ch18</text>
+    <text class="label" x="6" y="42">Guitar Processed</text>
+  </g>
+
+  <!-- ==================== SIGNAL FLOW LINES ==================== -->
+  <!-- Vocal chain: Mic → Ch1 → Bus 1 → Outboard → Ch17 -->
+  <line class="link chain-vocal" x1="150" y1="98" x2="350" y2="98" />
+  <line class="link chain-vocal" x1="480" y1="98" x2="670" y2="96" />
+  <line class="link chain-vocal" x1="840" y1="96" x2="910" y2="96" />
+  <line class="link chain-vocal" x1="1000" y1="112" x2="1000" y2="134" />
+  <line class="link chain-vocal" x1="950" y1="178" x2="950" y2="188" />
+  <line class="link chain-vocal" x1="950" y1="224" x2="950" y2="300" />
+
+  <!-- Guitar chain: DI → Ch2 → Bus 5/6 → Bus 2 → Outboard → Ch18 -->
+  <line class="link chain-guitar" x1="150" y1="148" x2="350" y2="148" />
+  <line class="link chain-guitar" x1="480" y1="148" x2="670" y2="216" />
+  <line class="link chain-guitar" x1="480" y1="148" x2="670" y2="256" />
+  <line class="link chain-guitar" x1="770" y1="220" x2="770" y2="136" />
+  <line class="link chain-guitar" x1="770" y1="252" x2="770" y2="140" />
+  <line class="link chain-guitar" x1="840" y1="136" x2="910" y2="108" />
+  <line class="link chain-guitar" x1="1060" y1="178" x2="1060" y2="188" />
+  <line class="link chain-guitar" x1="1050" y1="224" x2="1050" y2="300" />
+
+  <!-- Outboard return to channels -->
+  <line class="link chain-vocal" x1="290" y1="308" x2="350" y2="308" />
+  <line class="link chain-guitar" x1="290" y1="358" x2="350" y2="358" />
+
+  <!-- ==================== LOGIC SESSION PLAYERS ==================== -->
+  <g class="node col-green" transform="translate(30, 440)">
+    <rect width="130" height="36" />
+    <text class="label" x="6" y="12">USB 9-10 → Ch9</text>
+    <text class="title" x="6" y="26">Bass</text>
+  </g>
+  <g class="node col-green" transform="translate(170, 440)">
+    <rect width="130" height="36" />
+    <text class="label" x="6" y="12">USB 11-12 → Ch11</text>
+    <text class="title" x="6" y="26">Piano/Synth</text>
+  </g>
+  <g class="node col-green" transform="translate(310, 440)">
+    <rect width="130" height="36" />
+    <text class="label" x="6" y="12">USB 15-16 → Ch12</text>
+    <text class="title" x="6" y="26">Drums</text>
+  </g>
+
+  <!-- Tape Returns -->
+  <g class="node col-coral" transform="translate(30, 500)">
+    <rect width="265" height="36" />
+    <text class="label" x="6" y="12">USB 17-22 → Ch25-30 (mono)</text>
+    <text class="title" x="6" y="26">Tape Returns 1-6</text>
+  </g>
+  <g class="node col-coral" transform="translate(310, 500)">
+    <rect width="265" height="36" />
+    <text class="label" x="6" y="12">USB 23-26 → Ch31-32 (stereo pairs)</text>
+    <text class="title" x="6" y="26">Tape Returns 7-10</text>
+  </g>
+
+  <!-- Tape Send (aux loop) -->
+  <g class="node col-pink" transform="translate(30, 555)">
+    <rect width="265" height="36" />
+    <text class="label" x="6" y="12">Ch33 — FX13/TAPE + FX6/TAPE-DL</text>
+    <text class="title" x="6" y="26">Tape Aux Loop → USR/3 → M12 Ch6</text>
+  </g>
+
+  <!-- All go to Main 1 label -->
+  <text class="gear-label" x="470" y="475" style="fill: #6abf6a">→ Main 1 (headphones)</text>
+  <text class="gear-label" x="470" y="535" style="fill: #bf6060">→ Main 1 (headphones)</text>
+
+  <!-- ==================== MIX MATRICES ==================== -->
+  <g class="node col-blue" transform="translate(670, 440)">
+    <rect width="200" height="28" />
+    <text class="title" x="6" y="18">MX2 Mix Vocal → M12 Ch1</text>
+  </g>
+  <g class="node col-red" transform="translate(670, 474)">
+    <rect width="200" height="28" />
+    <text class="title" x="6" y="18">MX3 Mix Rhythm → M12 Ch2</text>
+  </g>
+  <g class="node col-red" transform="translate(670, 508)">
+    <rect width="200" height="28" />
+    <text class="title" x="6" y="18">MX4 Mix Lead → M12 Ch3</text>
+  </g>
+  <g class="node col-coral" transform="translate(670, 542)">
+    <rect width="200" height="28" />
+    <text class="title" x="6" y="18">MX5 Mix Overdub → M12 Ch4</text>
+  </g>
+
+  <g class="node col-green" transform="translate(890, 440)">
+    <rect width="200" height="28" />
+    <text class="title" x="6" y="18">MX6 Mix Bass → M12 Ch5</text>
+  </g>
+  <g class="node col-green" transform="translate(890, 474)">
+    <rect width="200" height="28" />
+    <text class="title" x="6" y="18">MX7 Mix Drums → M12 Ch7/8</text>
+  </g>
+  <g class="node col-green" transform="translate(890, 508)">
+    <rect width="200" height="28" />
+    <text class="title" x="6" y="18">MX8 Mix Piano → M12 Ch9/10</text>
+  </g>
+
+  <!-- FX inserts on matrices -->
+  <g class="node fx-slot" transform="translate(890, 542)">
+    <rect width="200" height="42" />
+    <text class="label" x="6" y="14">Matrix FX inserts:</text>
+    <text class="title" x="6" y="28">MX2: DOUBLE | MX6: SUB</text>
+    <text class="label" x="6" y="38">All: HPF 60Hz / LPF 14kHz</text>
+  </g>
+
+  <!-- ==================== RECORDING OUTPUTS ==================== -->
+  <g class="node col-blue" transform="translate(30, 670)">
+    <rect width="170" height="36" />
+    <text class="label" x="6" y="12">USR/1 → USB 1</text>
+    <text class="title" x="6" y="26">Vocal Dry → Logic</text>
+  </g>
+  <g class="node col-red" transform="translate(210, 670)">
+    <rect width="170" height="36" />
+    <text class="label" x="6" y="12">Bus 8 → Out 3 → P9</text>
+    <text class="title" x="6" y="26">Guitar → M12 (analog)</text>
+  </g>
+  <g class="node col-yellow" transform="translate(390, 670)">
+    <rect width="170" height="36" />
+    <text class="label" x="6" y="12">USR/6+7 → USB 5/6</text>
+    <text class="title" x="6" y="26">Mic Dry L/R → Logic</text>
+  </g>
+  <g class="node col-gray" transform="translate(30, 720)">
+    <rect width="170" height="36" />
+    <text class="label" x="6" y="12">USR/8 → USB 3</text>
+    <text class="title" x="6" y="26">Re-amp Out (off default)</text>
+  </g>
+
+  <!-- ==================== MONITORING ==================== -->
+  <g class="node col-gray" transform="translate(670, 670)">
+    <rect width="200" height="36" />
+    <text class="label" x="6" y="12">MX1 — MON.PH direct</text>
+    <text class="title" x="6" y="26">Speakers (Out 7/8)</text>
+  </g>
+  <g class="node col-gray" transform="translate(670, 720)">
+    <rect width="200" height="36" />
+    <text class="label" x="6" y="12">Main 1 → Headphones</text>
+    <text class="title" x="6" y="26">All sources summed</text>
+  </g>
+  <text class="gear-label" x="890" y="690" style="fill: #888">Speakers muted during</text>
+  <text class="gear-label" x="890" y="702" style="fill: #888">tracking (open mics)</text>
+
+  <!-- ==================== PATCHBAY ==================== -->
+  <!-- Vocal chain -->
+  <g transform="translate(30, 840)">
+    <text style="font-size:10px; fill:#5b8abf; font-weight:bold">VOCAL CHAIN (P1-P4, normalled)</text>
+    <g transform="translate(0, 14)">
+      <rect width="110" height="48" rx="3" fill="#1a2a40" stroke="#3a6a9f" stroke-width="1" />
+      <text style="font-size:8px; fill:#888" x="4" y="12">P1 top</text>
+      <text style="font-size:9px; fill:#d4d0c8; font-weight:bold" x="4" y="24">Out 1 (Bus 1)</text>
+      <text style="font-size:8px; fill:#888" x="4" y="36">P1 bot</text>
+      <text style="font-size:9px; fill:#d4d0c8" x="4" y="46">→ HA73 A In</text>
+    </g>
+    <text style="font-size:14px; fill:#3a6a9f" x="118" y="44">→</text>
+    <g transform="translate(134, 14)">
+      <rect width="110" height="48" rx="3" fill="#1a2a40" stroke="#3a6a9f" stroke-width="1" />
+      <text style="font-size:8px; fill:#888" x="4" y="12">P2 top</text>
+      <text style="font-size:9px; fill:#d4d0c8; font-weight:bold" x="4" y="24">HA73 A Out</text>
+      <text style="font-size:8px; fill:#888" x="4" y="36">P2 bot</text>
+      <text style="font-size:9px; fill:#d4d0c8" x="4" y="46">→ WA76 A In</text>
+    </g>
+    <text style="font-size:14px; fill:#3a6a9f" x="252" y="44">→</text>
+    <g transform="translate(268, 14)">
+      <rect width="110" height="48" rx="3" fill="#1a2a40" stroke="#3a6a9f" stroke-width="1" />
+      <text style="font-size:8px; fill:#888" x="4" y="12">P3 top</text>
+      <text style="font-size:9px; fill:#d4d0c8; font-weight:bold" x="4" y="24">WA76 A Out</text>
+      <text style="font-size:8px; fill:#888" x="4" y="36">P3 bot</text>
+      <text style="font-size:9px; fill:#d4d0c8" x="4" y="46">→ Opto In</text>
+    </g>
+    <text style="font-size:14px; fill:#3a6a9f" x="386" y="44">→</text>
+    <g transform="translate(402, 14)">
+      <rect width="110" height="48" rx="3" fill="#1a2a40" stroke="#3a6a9f" stroke-width="1" />
+      <text style="font-size:8px; fill:#888" x="4" y="12">P4 top</text>
+      <text style="font-size:9px; fill:#d4d0c8; font-weight:bold" x="4" y="24">Opto Out</text>
+      <text style="font-size:8px; fill:#888" x="4" y="36">P4 bot</text>
+      <text style="font-size:9px; fill:#d4d0c8" x="4" y="46">→ LCL/17</text>
+    </g>
+  </g>
+
+  <!-- Guitar chain -->
+  <g transform="translate(30, 920)">
+    <text style="font-size:10px; fill:#bf5b5b; font-weight:bold">GUITAR CHAIN (P5-P8, normalled)</text>
+    <g transform="translate(0, 14)">
+      <rect width="110" height="48" rx="3" fill="#3a1a1a" stroke="#9f3a3a" stroke-width="1" />
+      <text style="font-size:8px; fill:#888" x="4" y="12">P5 top</text>
+      <text style="font-size:9px; fill:#d4d0c8; font-weight:bold" x="4" y="24">Out 2 (Bus 2)</text>
+      <text style="font-size:8px; fill:#888" x="4" y="36">P5 bot</text>
+      <text style="font-size:9px; fill:#d4d0c8" x="4" y="46">→ HA73 B In</text>
+    </g>
+    <text style="font-size:14px; fill:#9f3a3a" x="118" y="44">→</text>
+    <g transform="translate(134, 14)">
+      <rect width="110" height="48" rx="3" fill="#3a1a1a" stroke="#9f3a3a" stroke-width="1" />
+      <text style="font-size:8px; fill:#888" x="4" y="12">P6 top</text>
+      <text style="font-size:9px; fill:#d4d0c8; font-weight:bold" x="4" y="24">HA73 B Out</text>
+      <text style="font-size:8px; fill:#888" x="4" y="36">P6 bot</text>
+      <text style="font-size:9px; fill:#d4d0c8" x="4" y="46">→ WA76 B In</text>
+    </g>
+    <text style="font-size:14px; fill:#9f3a3a" x="252" y="44">→</text>
+    <g transform="translate(268, 14)">
+      <rect width="110" height="48" rx="3" fill="#3a1a1a" stroke="#9f3a3a" stroke-width="1" />
+      <text style="font-size:8px; fill:#888" x="4" y="12">P7 top</text>
+      <text style="font-size:9px; fill:#d4d0c8; font-weight:bold" x="4" y="24">WA76 B Out</text>
+      <text style="font-size:8px; fill:#888" x="4" y="36">P7 bot</text>
+      <text style="font-size:9px; fill:#d4d0c8" x="4" y="46">→ Distressor In</text>
+    </g>
+    <text style="font-size:14px; fill:#9f3a3a" x="386" y="44">→</text>
+    <g transform="translate(402, 14)">
+      <rect width="110" height="48" rx="3" fill="#3a1a1a" stroke="#9f3a3a" stroke-width="1" />
+      <text style="font-size:8px; fill:#888" x="4" y="12">P8 top</text>
+      <text style="font-size:9px; fill:#d4d0c8; font-weight:bold" x="4" y="24">Distressor Out</text>
+      <text style="font-size:8px; fill:#888" x="4" y="36">P8 bot</text>
+      <text style="font-size:9px; fill:#d4d0c8" x="4" y="46">→ LCL/18</text>
+    </g>
+  </g>
+
+  <!-- Other patchbay points -->
+  <g transform="translate(600, 840)">
+    <text style="font-size:10px; fill:#888; font-weight:bold">OTHER PATCH POINTS</text>
+    <g transform="translate(0, 14)">
+      <rect width="130" height="48" rx="3" fill="#1e1e1e" stroke="#555" stroke-width="1" />
+      <text style="font-size:8px; fill:#888" x="4" y="12">P9</text>
+      <text style="font-size:9px; fill:#d4d0c8; font-weight:bold" x="4" y="24">Out 3 (Bus 8)</text>
+      <text style="font-size:9px; fill:#d4d0c8" x="4" y="38">→ M12 line in</text>
+      <text style="font-size:8px; fill:#888" x="4" y="46">Guitar analog rec</text>
+    </g>
+    <g transform="translate(145, 14)">
+      <rect width="130" height="48" rx="3" fill="#1e1e1e" stroke="#555" stroke-width="1" />
+      <text style="font-size:8px; fill:#888" x="4" y="12">P23-24</text>
+      <text style="font-size:9px; fill:#d4d0c8; font-weight:bold" x="4" y="24">Out 7/8 (MX1)</text>
+      <text style="font-size:9px; fill:#d4d0c8" x="4" y="38">→ Speakers L/R</text>
+      <text style="font-size:8px; fill:#888" x="4" y="46">Direct wired</text>
+    </g>
+  </g>
+
+  <!-- Legend -->
+  <g transform="translate(600, 930)">
+    <text style="font-size:10px; fill:#888; font-weight:bold">SIGNAL CHAINS</text>
+    <line x1="0" y1="16" x2="30" y2="16" stroke="#5b8abf" stroke-width="2" />
+    <text style="font-size:9px; fill:#5b8abf" x="36" y="20">Vocal</text>
+    <line x1="80" y1="16" x2="110" y2="16" stroke="#bf5b5b" stroke-width="2" />
+    <text style="font-size:9px; fill:#bf5b5b" x="116" y="20">Guitar</text>
+    <line x1="160" y1="16" x2="190" y2="16" stroke="#6abf6a" stroke-width="2" />
+    <text style="font-size:9px; fill:#6abf6a" x="196" y="20">Session Players</text>
+    <line x1="290" y1="16" x2="320" y2="16" stroke="#bf8f5b" stroke-width="2" />
+    <text style="font-size:9px; fill:#bf8f5b" x="326" y="20">Mix</text>
+    <line x1="360" y1="16" x2="390" y2="16" stroke="#c97ab8" stroke-width="2" />
+    <text style="font-size:9px; fill:#c97ab8" x="396" y="20">Tape</text>
+  </g>
+
+</svg>
+</body>
+</html>

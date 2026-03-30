@@ -1,0 +1,50 @@
+<svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Seven fader slots representing the Model 12 mixing surface -->
+  <!-- Fader tracks (slots) -->
+  <rect x="100" y="60" width="8" height="280" rx="4" fill="#4a4740" opacity="0.3" />
+  <rect x="200" y="60" width="8" height="280" rx="4" fill="#4a4740" opacity="0.3" />
+  <rect x="300" y="60" width="8" height="280" rx="4" fill="#4a4740" opacity="0.3" />
+  <rect x="400" y="60" width="8" height="280" rx="4" fill="#4a4740" opacity="0.3" />
+  <rect x="500" y="60" width="8" height="280" rx="4" fill="#4a4740" opacity="0.3" />
+  <rect x="600" y="60" width="8" height="280" rx="4" fill="#4a4740" opacity="0.3" />
+  <rect x="700" y="60" width="8" height="280" rx="4" fill="#4a4740" opacity="0.3" />
+
+  <!-- Fader caps at different positions (a mix in progress) -->
+  <rect x="92" y="155" width="24" height="12" rx="2" fill="#b8792a" />
+  <rect x="192" y="195" width="24" height="12" rx="2" fill="#b8792a" />
+  <rect x="292" y="220" width="24" height="12" rx="2" fill="#b8792a" />
+  <rect x="392" y="245" width="24" height="12" rx="2" fill="#b8792a" />
+  <rect x="492" y="185" width="24" height="12" rx="2" fill="#b8792a" />
+  <rect x="592" y="210" width="24" height="12" rx="2" fill="#b8792a" />
+  <rect x="692" y="230" width="24" height="12" rx="2" fill="#b8792a" />
+
+  <!-- Fader labels -->
+  <text x="104" y="370" font-family="monospace" font-size="10" fill="#4a4740" text-anchor="middle">VOX</text>
+  <text x="204" y="370" font-family="monospace" font-size="10" fill="#4a4740" text-anchor="middle">RTM</text>
+  <text x="304" y="370" font-family="monospace" font-size="10" fill="#4a4740" text-anchor="middle">LEAD</text>
+  <text x="404" y="370" font-family="monospace" font-size="10" fill="#4a4740" text-anchor="middle">OVD</text>
+  <text x="504" y="370" font-family="monospace" font-size="10" fill="#4a4740" text-anchor="middle">BASS</text>
+  <text x="604" y="370" font-family="monospace" font-size="10" fill="#4a4740" text-anchor="middle">DRM</text>
+  <text x="704" y="370" font-family="monospace" font-size="10" fill="#4a4740" text-anchor="middle">PNO</text>
+
+  <!-- Stereo output indicator (recording) -->
+  <circle cx="400" cy="30" r="6" fill="#a85a4a" opacity="0.9" />
+  <text x="415" y="34" font-family="monospace" font-size="11" fill="#a85a4a" letter-spacing="2">REC 11/12</text>
+
+  <!-- Subtle tick marks on fader tracks -->
+  <line x1="88" y1="200" x2="94" y2="200" stroke="#4a4740" stroke-width="0.5" opacity="0.4" />
+  <line x1="188" y1="200" x2="194" y2="200" stroke="#4a4740" stroke-width="0.5" opacity="0.4" />
+  <line x1="288" y1="200" x2="294" y2="200" stroke="#4a4740" stroke-width="0.5" opacity="0.4" />
+  <line x1="388" y1="200" x2="394" y2="200" stroke="#4a4740" stroke-width="0.5" opacity="0.4" />
+  <line x1="488" y1="200" x2="494" y2="200" stroke="#4a4740" stroke-width="0.5" opacity="0.4" />
+  <line x1="588" y1="200" x2="594" y2="200" stroke="#4a4740" stroke-width="0.5" opacity="0.4" />
+  <line x1="688" y1="200" x2="694" y2="200" stroke="#4a4740" stroke-width="0.5" opacity="0.4" />
+
+  <line x1="114" y1="200" x2="120" y2="200" stroke="#4a4740" stroke-width="0.5" opacity="0.4" />
+  <line x1="214" y1="200" x2="220" y2="200" stroke="#4a4740" stroke-width="0.5" opacity="0.4" />
+  <line x1="314" y1="200" x2="320" y2="200" stroke="#4a4740" stroke-width="0.5" opacity="0.4" />
+  <line x1="414" y1="200" x2="420" y2="200" stroke="#4a4740" stroke-width="0.5" opacity="0.4" />
+  <line x1="514" y1="200" x2="520" y2="200" stroke="#4a4740" stroke-width="0.5" opacity="0.4" />
+  <line x1="614" y1="200" x2="620" y2="200" stroke="#4a4740" stroke-width="0.5" opacity="0.4" />
+  <line x1="714" y1="200" x2="720" y2="200" stroke="#4a4740" stroke-width="0.5" opacity="0.4" />
+</svg>

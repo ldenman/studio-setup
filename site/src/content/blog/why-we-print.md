@@ -1,12 +1,12 @@
 ---
 title: "Why We Print the Outboard"
 date: 2026-03-26
-description: "Committing Neve color, 1176 compression, and optical leveling to the recording — with no undo. Why that's a feature."
+description: "Committing Neve-style color, 1176 compression, and optical leveling to the recording — with no undo. Why that's a feature."
 tags: ["philosophy", "outboard", "recording"]
 hero: "/blog/why-we-print.svg"
 ---
 
-Every vocal and every guitar that gets recorded here passes through a chain of analog outboard gear before it hits the recorder. Neve preamp for color and EQ. An 1176-style compressor for transient control. Then either an optical leveler for vocals or a Distressor for guitar. Four boxes, hardwired, normalled through a patchbay.
+Every vocal and every guitar that gets recorded here passes through a chain of analog outboard gear before it hits the recorder. Neve-style preamp for color and EQ. An 1176-style compressor for transient control. Then either an optical leveler for vocals or a Distressor for guitar. Four boxes, hardwired, normalled through a patchbay.
 
 And we print it. The recording captures the full chain — preamp color, compression, leveling, all of it. There's no "dry" safety copy running in parallel. No recall sheet. No undo.
 
@@ -20,7 +20,7 @@ When the 1176 catches a vocal peak and pushes it back, that's not processing. Th
 
 ## What the Chain Actually Does
 
-The Neve adds weight. Not in a dramatic way — it's more like the difference between a photo taken in natural light versus fluorescent. Same subject, different texture. The low end fills out, the upper mids get a little more forward. It sounds like a record before anything else touches it.
+The Neve-style preamp adds weight. Not in a dramatic way — it's more like the difference between a photo taken in natural light versus fluorescent. Same subject, different texture. The low end fills out, the upper mids get a little more forward. It sounds like a record before anything else touches it.
 
 The 1176 is the fast one. It grabs transients — the consonants in a vocal, the pick attack on a guitar — and pulls them back before they clip. Set conservatively, you barely notice it's working until you bypass it and everything sounds spiky and uncontrolled.
 

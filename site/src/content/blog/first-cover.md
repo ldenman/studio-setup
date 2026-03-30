@@ -10,7 +10,7 @@ Picked the simplest song I could think of to break in the studio. Bob Dylan's *K
 
 ## Two Guitar Tones
 
-**Rhythm** got a Fender clean amp sim — bright, open, neck pickup with the tone rolled back. The kind of warm Strat sound where all the grit comes from the outboard chain downstream, not the amp. The Neve adds body, the 1176 catches the pick attack, and the Distressor adds just enough compression to hold it together.
+**Rhythm** got a Fender clean amp sim — bright, open, neck pickup with the tone rolled back. The kind of warm Strat sound where all the grit comes from the outboard chain downstream, not the amp. The Neve-style preamp adds body, the 1176 catches the pick attack, and the Distressor adds just enough compression to hold it together.
 
 **Lead** went darker. A Mesa-style sim with the gain pulled way down — more of a thick, singing sustain than the usual high-gain snarl. The outboard chain adds its own character on top, so the amp sim doesn't need to do much.
 
@@ -18,7 +18,7 @@ Switching between the two tones is instant. The outboard chain stays the same ei
 
 ## Vocal Chain
 
-Full outboard path — Neve for color, 1176 for transient control, optical leveling to smooth everything out. Added a doubler effect on the vocal mix bus with wide stereo spread. Gives it width without sounding obviously processed. The kind of thing where you'd miss it if it was gone but wouldn't notice it's there.
+Full outboard path — Neve-style preamp for color, 1176 for transient control, optical leveling to smooth everything out. Added a doubler effect on the vocal mix bus with wide stereo spread. Gives it width without sounding obviously processed. The kind of thing where you'd miss it if it was gone but wouldn't notice it's there.
 
 ## The Backing Band
 

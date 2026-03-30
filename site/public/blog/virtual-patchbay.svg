@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400">
+  <rect width="800" height="400" fill="#2a2825"/>
+
+  <!-- Left panel: Source channels -->
+  <rect x="40" y="60" width="160" height="280" rx="6" fill="#4a4740" stroke="#b8792a" stroke-width="1"/>
+  <text x="120" y="48" text-anchor="middle" fill="#f4f3ee" font-family="monospace" font-size="13" font-weight="bold">CHANNELS</text>
+
+  <!-- Channel jacks -->
+  <circle cx="170" cy="110" r="10" fill="#2a2825" stroke="#f4f3ee" stroke-width="1.5"/>
+  <text x="80" y="114" text-anchor="start" fill="#4a7a9a" font-family="monospace" font-size="11">Vocal</text>
+
+  <circle cx="170" cy="160" r="10" fill="#2a2825" stroke="#f4f3ee" stroke-width="1.5"/>
+  <text x="80" y="164" text-anchor="start" fill="#a85a4a" font-family="monospace" font-size="11">Guitar</text>
+
+  <circle cx="170" cy="210" r="10" fill="#2a2825" stroke="#f4f3ee" stroke-width="1.5"/>
+  <text x="80" y="214" text-anchor="start" fill="#5a8a4a" font-family="monospace" font-size="11">Bus 7</text>
+
+  <circle cx="170" cy="260" r="10" fill="#2a2825" stroke="#f4f3ee" stroke-width="1.5"/>
+  <text x="80" y="264" text-anchor="start" fill="#b8792a" font-family="monospace" font-size="11">Ch 33</text>
+
+  <circle cx="170" cy="310" r="10" fill="#2a2825" stroke="#f4f3ee" stroke-width="1.5"/>
+  <text x="80" y="314" text-anchor="start" fill="#a85a4a" font-family="monospace" font-size="11">Ch 18</text>
+
+  <!-- Center panel: USR virtual patchbay -->
+  <rect x="280" y="60" width="240" height="280" rx="6" fill="#4a4740" stroke="#b8792a" stroke-width="2"/>
+  <text x="400" y="48" text-anchor="middle" fill="#b8792a" font-family="monospace" font-size="14" font-weight="bold">USR PATCHBAY</text>
+
+  <!-- USR input jacks (left side) -->
+  <circle cx="310" cy="110" r="10" fill="#2a2825" stroke="#4a7a9a" stroke-width="2"/>
+  <circle cx="310" cy="160" r="10" fill="#2a2825" stroke="#a85a4a" stroke-width="2"/>
+  <circle cx="310" cy="210" r="10" fill="#2a2825" stroke="#5a8a4a" stroke-width="2"/>
+  <circle cx="310" cy="260" r="10" fill="#2a2825" stroke="#b8792a" stroke-width="2"/>
+  <circle cx="310" cy="310" r="10" fill="#2a2825" stroke="#a85a4a" stroke-width="2"/>
+
+  <!-- USR labels -->
+  <text x="400" y="104" text-anchor="middle" fill="#4a7a9a" font-family="monospace" font-size="10">USR/1</text>
+  <text x="400" y="117" text-anchor="middle" fill="#f4f3ee" font-family="monospace" font-size="9">Vocal Dry</text>
+
+  <text x="400" y="154" text-anchor="middle" fill="#a85a4a" font-family="monospace" font-size="10">USR/5</text>
+  <text x="400" y="167" text-anchor="middle" fill="#f4f3ee" font-family="monospace" font-size="9">Guitar DI</text>
+
+  <text x="400" y="204" text-anchor="middle" fill="#5a8a4a" font-family="monospace" font-size="10">USR/6</text>
+  <text x="400" y="217" text-anchor="middle" fill="#f4f3ee" font-family="monospace" font-size="9">Mic Dry L</text>
+
+  <text x="400" y="254" text-anchor="middle" fill="#b8792a" font-family="monospace" font-size="10">USR/3</text>
+  <text x="400" y="267" text-anchor="middle" fill="#f4f3ee" font-family="monospace" font-size="9">Tape Return</text>
+
+  <text x="400" y="304" text-anchor="middle" fill="#a85a4a" font-family="monospace" font-size="10">USR/8</text>
+  <text x="400" y="317" text-anchor="middle" fill="#f4f3ee" font-family="monospace" font-size="9">Re-amp Out</text>
+
+  <!-- USR output jacks (right side) -->
+  <circle cx="490" cy="110" r="10" fill="#2a2825" stroke="#4a7a9a" stroke-width="2"/>
+  <circle cx="490" cy="160" r="10" fill="#2a2825" stroke="#a85a4a" stroke-width="2"/>
+  <circle cx="490" cy="210" r="10" fill="#2a2825" stroke="#5a8a4a" stroke-width="2"/>
+  <circle cx="490" cy="260" r="10" fill="#2a2825" stroke="#b8792a" stroke-width="2"/>
+  <circle cx="490" cy="310" r="10" fill="#2a2825" stroke="#a85a4a" stroke-width="2"/>
+
+  <!-- Right panel: Destinations -->
+  <rect x="600" y="60" width="160" height="280" rx="6" fill="#4a4740" stroke="#b8792a" stroke-width="1"/>
+  <text x="680" y="48" text-anchor="middle" fill="#f4f3ee" font-family="monospace" font-size="13" font-weight="bold">OUTPUTS</text>
+
+  <!-- Destination jacks -->
+  <circle cx="630" cy="110" r="10" fill="#2a2825" stroke="#f4f3ee" stroke-width="1.5"/>
+  <text x="660" y="114" text-anchor="start" fill="#4a7a9a" font-family="monospace" font-size="11">USB 1</text>
+
+  <circle cx="630" cy="160" r="10" fill="#2a2825" stroke="#f4f3ee" stroke-width="1.5"/>
+  <text x="660" y="164" text-anchor="start" fill="#a85a4a" font-family="monospace" font-size="11">Ch 5</text>
+
+  <circle cx="630" cy="210" r="10" fill="#2a2825" stroke="#f4f3ee" stroke-width="1.5"/>
+  <text x="660" y="214" text-anchor="start" fill="#5a8a4a" font-family="monospace" font-size="11">USB 5</text>
+
+  <circle cx="630" cy="260" r="10" fill="#2a2825" stroke="#f4f3ee" stroke-width="1.5"/>
+  <text x="660" y="264" text-anchor="start" fill="#b8792a" font-family="monospace" font-size="11">USB 38</text>
+
+  <circle cx="630" cy="310" r="10" fill="#2a2825" stroke="#f4f3ee" stroke-width="1.5"/>
+  <text x="660" y="314" text-anchor="start" fill="#a85a4a" font-family="monospace" font-size="11">USB 3</text>
+
+  <!-- Cables: Source to USR inputs -->
+  <line x1="180" y1="110" x2="300" y2="110" stroke="#4a7a9a" stroke-width="2" stroke-linecap="round"/>
+  <line x1="180" y1="160" x2="300" y2="160" stroke="#a85a4a" stroke-width="2" stroke-linecap="round"/>
+  <line x1="180" y1="210" x2="300" y2="210" stroke="#5a8a4a" stroke-width="2" stroke-linecap="round"/>
+  <line x1="180" y1="260" x2="300" y2="260" stroke="#b8792a" stroke-width="2" stroke-linecap="round"/>
+  <line x1="180" y1="310" x2="300" y2="310" stroke="#a85a4a" stroke-width="2" stroke-linecap="round" stroke-dasharray="6,4"/>
+
+  <!-- Cables: USR outputs to Destinations -->
+  <line x1="500" y1="110" x2="620" y2="110" stroke="#4a7a9a" stroke-width="2" stroke-linecap="round"/>
+  <line x1="500" y1="160" x2="620" y2="160" stroke="#a85a4a" stroke-width="2" stroke-linecap="round"/>
+  <line x1="500" y1="210" x2="620" y2="210" stroke="#5a8a4a" stroke-width="2" stroke-linecap="round"/>
+  <line x1="500" y1="260" x2="620" y2="260" stroke="#b8792a" stroke-width="2" stroke-linecap="round"/>
+  <line x1="500" y1="310" x2="620" y2="310" stroke="#a85a4a" stroke-width="2" stroke-linecap="round" stroke-dasharray="6,4"/>
+
+  <!-- Dashed line label for re-amp -->
+  <text x="400" y="370" text-anchor="middle" fill="#f4f3ee" font-family="monospace" font-size="9" opacity="0.5">dashed = off by default</text>
+</svg>

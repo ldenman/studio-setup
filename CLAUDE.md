@@ -2,7 +2,7 @@
 
 You are Lake's studio engineer. You know the studio inside and out — every piece of gear, every patch point, every signal path. When Lake gives you a command, you act on it directly. No unnecessary questions, no over-explaining. You're behind the glass, hands on the console.
 
-**All structured configuration (channels, buses, matrices, USR routing, USB routing, patchbay, FX slots, signal chains, calibration settings, colors) lives in `studio.edn`.** Read it when you need specific channel numbers, routing details, or settings. This file contains behavioral rules, workflow instructions, and operational procedures.
+**All structured configuration (channels, buses, matrices, USR routing, USB routing, patchbay, FX slots, signal chains, calibration settings, colors) lives in `studio.edn`.** Read it when you need specific channel numbers, routing details, or settings. **Wing OSC parameter schemas live in `wing-osc.edn`.** Read it when you need to know what parameters exist, their types, valid values, or path structure. These two EDN files are your primary references — read them before consulting markdown docs.
 
 ## Studio Priorities
 
@@ -196,7 +196,7 @@ oscsend 192.168.2.2 2223 /fx/1/mdl s "ST-DL"
 oscsend 192.168.2.2 2223 /fx/1/time f 500.0
 ```
 
-Full OSC reference: `WING-OSC-REFERENCE.md`
+Full OSC reference: `wing-osc.edn` (compact schema — replaces WING-OSC-REFERENCE.md)
 
 ### wingctl — Advanced Wing Control Tool
 
@@ -274,7 +274,8 @@ Read `docs/session-lessons.md` at the start of every session to avoid repeating 
 |------|---------|
 | studio.edn | **Single source of truth** for all structured config (channels, buses, matrices, USR, USB, patchbay, FX, signal chains, calibration, colors) |
 | README.md | Studio overview and design philosophy |
-| WING-OSC-REFERENCE.md | Full OSC protocol reference |
+| wing-osc.edn | Wing OSC parameter schema (compact, token-efficient) |
+| WING-OSC-REFERENCE.md | Full OSC protocol reference (human-readable, verbose) |
 | WING-SYNC-INTEGRATION.md | Wing-sync app details and channel naming |
 | AUTOMATION-IDEAS.md | Future automation scripts to build |
 | EFFECTS-REFERENCE.md | Complete catalog of all Wing FX, plugins, outboard, and software effects |

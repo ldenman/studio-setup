@@ -26,7 +26,7 @@ const { Content } = await render(post);
         {post.data.date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
         {post.data.tags && (
           <span style="margin-left:16px">
-            {post.data.tags.map(tag => <span class="tag" style="margin-left:4px">{tag}</span>)}
+            {post.data.tags.map(tag => <a href={`/blog/tag/${tag}`} class="tag" style="margin-left:4px">{tag}</a>)}
           </span>
         )}
       </div>

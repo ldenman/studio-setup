@@ -30,7 +30,7 @@ There's something about reaching for a fader instead of clicking a mouse that ch
 
 ## What Stayed the Same
 
-The outboard chains didn't change at all. Vocals and guitar still pass through the Neve, the 1176s, and the rest of the analog chain before being recorded. The Model 12's role change was purely about where the multi-track recordings live and how the final mix gets assembled.
+The outboard chains didn't change at all. Vocals and guitar still pass through the Neve-style preamp, the 1176s, and the rest of the analog chain before being recorded. The Model 12's role change was purely about where the multi-track recordings live and how the final mix gets assembled.
 
 The Model 12 still captures its own stereo mixdown on its internal tracks, which serves as an automatic backup of every mix pass. Press record, mix with the faders, and the result is on the Tascam's SD card when you're done.
 

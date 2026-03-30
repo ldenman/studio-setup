@@ -1,0 +1,450 @@
+;; wing-osc.edn — Behringer Wing Rack OSC/wapi parameter reference
+;; Compact schema for Claude. Replaces WING-OSC-REFERENCE.md.
+;; Path convention: /node-type/N/param, N = 1-based index
+;; Types: :s = string, :i = int, :f = float
+;; $ prefix = read-only. GRP = source group placeholder.
+
+{:connection
+ {:ip "192.168.2.2" :osc-port 2223 :wapi-port 2222
+  :protocol "OSC over UDP" :max-tcp 16
+  :discovery "oscsend IP 2223 /?"
+  :root-nodes "$stat cfg $syscfg io ch aux bus main mtx dca mgrp fx cards play rec $ctl"}
+
+ :commands
+ {:set    "oscsend IP 2223 /path TYPE VALUE"
+  :query  "oscsend IP 2223 /path  ;; no args = read"
+  :batch  "/ ,s /ch.1.fdr=-1,mute=0,.2.fdr=0,mute=1"
+  :port   "/%PORT/path  ;; reply on specific UDP port"
+  :errors ["NODE NOT FOUND" "VALUE ERROR" "BUFFER OVERFLOW" "INCOMPLETE DATA"]}
+
+ ;; ===== SHARED PARAMETER SCHEMAS =====
+ ;; Referenced by :like in node types below
+
+ :schemas
+ {:identity
+  {:name     {:t :s :max 16 :note "strip name (display comes from input source)"}
+   :$name    {:t :s :ro true :note "display name from input source"}
+   :icon     {:t :i :range [0 999]}
+   :led      {:t :i :values [0 1]}
+   :col      {:t :i :range [1 12]}
+   :$col     {:t :i :ro true}
+   :tags     {:t :s}}
+
+  :level
+  {:fdr      {:t :f :range [-144 10] :unit "dB"}
+   :pan      {:t :f :range [-100 100]}
+   :wid      {:t :f :range [0 100] :unit "%"}
+   :mute     {:t :i :values [0 1] :note "KILLS ALL signal incl pre-fader sends"}
+   :$solo    {:t :i :ro true}
+   :solosafe {:t :i :values [0 1]}
+   :mon      {:t :s :values ["A" "B"]}}
+
+  :input
+  {:in/conn/grp    {:t :s :values ["LCL" "USB" "USR" "AUX" "A" "B" "C" "SC" "CRD" "MOD" "AES" "PLAY" "OSC" "OFF"]}
+   :in/conn/in     {:t :i}
+   :in/conn/altgrp {:t :s}
+   :in/conn/altin  {:t :i}
+   :in/set/trim    {:t :f :unit "dB"}
+   :in/set/inv     {:t :i :values [0 1] :note "polarity invert"}
+   :in/set/bal     {:t :f}
+   :in/set/dly     {:t :f :unit "ms"}
+   :in/set/srcauto {:t :i :values [0 1]}
+   :in/set/altsrc  {:t :i :values [0 1]}}
+
+  :filter
+  {:flt/lc   {:t :i :values [0 1] :note "low cut on/off"}
+   :flt/lcf  {:t :f :unit "Hz"}
+   :flt/lcs  {:t :i :values [12 24] :note "slope dB/oct"}
+   :flt/hc   {:t :i :values [0 1] :note "high cut on/off"}
+   :flt/hcf  {:t :f :unit "Hz"}
+   :flt/hcs  {:t :i :values [12 24]}
+   :flt/tf   {:t :i :values [0 1] :note "tilt filter on/off"}
+   :flt/mdl  {:t :s :values ["TILT" "MAXER" "AP1" "AP2"]}}
+
+  :pre-eq
+  {:peq/on {:t :i :values [0 1]}
+   :peq/Ng {:t :f :unit "dB" :note "N=1-3"}
+   :peq/Nf {:t :f :unit "Hz"}
+   :peq/Nq {:t :f}}
+
+  ;; Channel EQ: 6-band (named paths)
+  :eq-6band
+  {:eq/on   {:t :i :values [0 1]}
+   :eq/mdl  {:t :s :values ["STD" "SOUL" "E88" "E84" "F110" "PULSAR" "MACH4"]}
+   :eq/mix  {:t :f :range [0 125] :unit "%"}
+   :eq/lg   {:t :f :unit "dB" :note "low shelf gain"}
+   :eq/lf   {:t :f :unit "Hz" :note "low shelf freq"}
+   :eq/lq   {:t :f}
+   :eq/leq  {:t :s :values ["SHV" "PEQ"] :note "low shelf type"}
+   :eq/Ng   {:t :f :unit "dB" :note "N=1-4, band gain"}
+   :eq/Nf   {:t :f :unit "Hz" :note "N=1-4, band freq"}
+   :eq/Nq   {:t :f :note "N=1-4, band Q"}
+   :eq/hg   {:t :f :unit "dB" :note "high shelf gain"}
+   :eq/hf   {:t :f :unit "Hz"}
+   :eq/hq   {:t :f}
+   :eq/heq  {:t :s :values ["SHV" "PEQ"]}}
+
+  ;; Bus/Main/Matrix EQ: 8-band (numbered paths)
+  ;; Band layout: 4 params per band (gain, freq, Q, [type on bands 1+8])
+  ;; Band 1: /eq/1=gain /eq/2=freq /eq/3=Q /eq/4=type
+  ;; Band 2: /eq/5=gain /eq/6=freq /eq/7=Q
+  ;; ... (3 params each for bands 2-7)
+  ;; Band 8: /eq/23=gain /eq/24=freq /eq/25=Q /eq/26=type /eq/27=master-gain
+  :eq-8band
+  {:eq/on   {:t :i :values [0 1]}
+   :eq/mdl  {:t :s :values ["STD" "SOUL" "E88" "E84" "F110" "PULSAR" "MACH4"]}
+   :eq/mix  {:t :f :range [0 125] :unit "%"}
+   :band-1  {:idx [1 2 3 4] :params [:gain :freq :Q :type]
+             :type-values ["SHV" "PEQ" "CUT"]}
+   :band-2-7 {:idx-start 5 :stride 3 :params [:gain :freq :Q]}
+   :band-8  {:idx [23 24 25 26] :params [:gain :freq :Q :type]
+             :type-values ["SHV" "PEQ" "CUT"]}
+   :master  {:idx 27 :param :gain}}
+
+  :gate
+  {:gate/on    {:t :i :values [0 1]}
+   :gate/mdl   {:t :s :values ["GATE" "DUCK" "E88" "9000G" "D241G" "DS902" "DEQ" "WAVE" "WARM" "76LA" "LA" "RIDE"]}
+   :gate/thr   {:t :f :unit "dB"}
+   :gate/range {:t :f :unit "dB"}
+   :gate/att   {:t :f :unit "ms"}
+   :gate/hld   {:t :f :unit "ms"}
+   :gate/rel   {:t :f :unit "ms"}
+   :gatesc/type {:t :s :values ["OFF" "BP" "LP6" "LP12" "HP6" "HP12"]}
+   :gatesc/f   {:t :f :unit "Hz"}
+   :gatesc/q   {:t :f}
+   :gatesc/src {:t :s :values ["SELF"] :note "external also possible but OSC can't set it"}
+   :gatesc/tap {:t :s :values ["IN"]}}
+
+  :dynamics
+  {:dyn/on    {:t :i :values [0 1]}
+   :dyn/mdl   {:t :s :values ["COMP" "EXP" "B160" "B560" "D241C" "ECL33" "9000C" "SBUS"
+                               "RED3" "76LA" "LA" "F670" "BLISS" "NSTR" "WAVE" "RIDE" "OFF"]}
+   :dyn/mix   {:t :f :range [0 100] :unit "%" :note "parallel compression"}
+   :dyn/gain  {:t :f :unit "dB" :note "makeup gain"}
+   :dyn/thr   {:t :f :unit "dB"}
+   :dyn/knee  {:t :f :range [0 5]}
+   :dyn/ratio {:t :f}
+   :dyn/det   {:t :s :values ["PEAK" "RMS"]}
+   :dyn/att   {:t :f :unit "ms"}
+   :dyn/hld   {:t :f :unit "ms"}
+   :dyn/rel   {:t :f :unit "ms"}
+   :dyn/env   {:t :s :values ["LIN" "LOG"]}
+   :dyn/auto  {:t :i :values [0 1] :note "auto makeup gain"}
+   :dynsc/type {:t :s :values ["OFF" "BP" "LP6" "LP12" "HP6" "HP12"]}
+   :dynsc/f   {:t :f :unit "Hz"}
+   :dynsc/q   {:t :f}
+   :dynsc/src {:t :s :values ["SELF"]}
+   :dynsc/tap {:t :s :values ["IN"]}
+   :dynxo/depth {:t :f :unit "dB"}
+   :dynxo/type  {:t :s}
+   :dynxo/f     {:t :f :unit "Hz"}}
+
+  :sends-to-bus
+  {:main/M/on   {:t :i :values [0 1] :note "M=1-4"}
+   :main/M/lvl  {:t :f :unit "dB"}
+   :main/M/pre  {:t :i :values [0 1]}
+   :send/B/on   {:t :i :values [0 1] :note "B=1-16"}
+   :send/B/lvl  {:t :f :unit "dB"}
+   :send/B/mode {:t :s :values ["PRE" "POST" "GRP"]}
+   :send/B/pan  {:t :f}
+   :send/B/pon  {:t :i :values [0 1]}
+   :send/B/plink {:t :i :values [0 1]}}
+
+  :sends-to-matrix
+  {:send/M/on  {:t :i :values [0 1] :note "M=1-8, matrix send"}
+   :send/M/lvl {:t :f :unit "dB"}}
+
+  :inserts
+  {:preins/on   {:t :i :values [0 1]}
+   :preins/ins  {:t :s :note "FX slot e.g. FX9, or NONE"}
+   :postins/on  {:t :i :values [0 1]}
+   :postins/ins {:t :s}
+   :postins/mode {:t :s :values ["FX"]}
+   :postins/w   {:t :f :range [0 1] :note "wet/dry"}}
+
+  :processing
+  {:proc {:t :s :note "order: G(ate) E(Q) D(ynamics) I(nsert), e.g. GEDI, GDEI"}
+   :ptap {:t :s :note "pre-tap point for sends"}}}
+
+ ;; ===== NODE TYPES =====
+
+ :node-types
+ {:channel
+  {:path "/ch/N" :count 40
+   :includes [:identity :level :input :filter :pre-eq :eq-6band
+              :gate :dynamics :sends-to-bus :inserts :processing]
+   :extra
+   {:send/MX/on  {:t :i :note "MX=MX1-MX8, matrix send"}
+    :send/MX/lvl {:t :f :unit "dB"}
+    :clink       {:t :i :values [0 1]}}}
+
+  :aux
+  {:path "/aux/N" :count 8
+   :includes [:identity :level :inserts :sends-to-bus]
+   :extra {:eq {:note "2-band EQ only, no gate, no filter plugins"}}}
+
+  :bus
+  {:path "/bus/N" :count 16
+   :includes [:identity :level :eq-8band :dynamics :inserts :sends-to-matrix]
+   :extra
+   {:busmono {:t :i :values [0 1]}
+    :busmode {:t :s :values ["PRE" "POST"]}
+    :main/M/on  {:t :i :note "M=1-4"}
+    :main/M/lvl {:t :f :unit "dB"}
+    :dly/on  {:t :i :values [0 1]}
+    :dly/dly {:t :f :unit "ms"}}}
+
+  :main
+  {:path "/main/N" :count 4
+   :includes [:identity :level :eq-8band :dynamics :inserts :sends-to-matrix]}
+
+  :matrix
+  {:path "/mtx/N" :count 8
+   :includes [:identity :level :eq-8band :dynamics :inserts]
+   :extra
+   {:dir/D/on  {:t :i :note "D=1-N, direct input"}
+    :dir/D/lvl {:t :f :unit "dB"}
+    :dir/D/in  {:t :s :note "source name"}
+    :dir/D/tap {:t :s}
+    :dly/on    {:t :i :values [0 1]}
+    :dly/m     {:t :f :unit "meters"}}}
+
+  :dca
+  {:path "/dca/N" :count 8
+   :params
+   {:name {:t :s} :fdr {:t :f :unit "dB"} :mute {:t :i}
+    :icon {:t :i} :col {:t :i} :led {:t :i} :mon {:t :s}}}
+
+  :mute-group
+  {:path "/mgrp/N" :count 8
+   :params {:name {:t :s} :mute {:t :i :values [0 1]}}}}
+
+ ;; ===== I/O =====
+
+ :io
+ {:input-groups
+  {"LCL" {:count 8  :note "local analog (Wing Rack)"}
+   "AUX" {:count 8}
+   "A"   {:count 48 :note "AES50 A"}
+   "B"   {:count 48 :note "AES50 B"}
+   "C"   {:count 48 :note "AES50 C"}
+   "SC"  {:count 32 :note "StageConnect"}
+   "USB" {:count 48}
+   "CRD" {:count 64 :note "card"}
+   "MOD" {:count 64}
+   "PLAY" {:count 4 :note "USB player"}
+   "AES" {:count 2 :note "stereo pair"}
+   "USR" {:count 24 :note "user signal (virtual patchbay)"}
+   "OSC" {:count 2 :note "oscillator"}}
+
+  :per-input
+  {:path "/io/in/GRP/N/..."
+   :params
+   {:name {:t :s :note "THIS is what shows on channel display"}
+    :icon {:t :i} :col {:t :i}
+    :mode {:t :s :values ["M" "ST" "M/S"]}
+    :mute {:t :i :values [0 1]}
+    :g    {:t :f :unit "dB" :note "gain — LCL, A, B, C, SC only"}
+    :vph  {:t :i :note "virtual phantom — LCL, A, B, C, SC only"}
+    :tags {:t :s}}}
+
+  :usr-routing
+  {:path "/io/in/USR/N/user/..."
+   :note "Source routing lives UNDER input, NOT under /io/out/"
+   :params
+   {:grp {:t :s :values ["OFF" "CH" "AUX" "BUS" "MAIN" "MTX"]}
+    :in  {:t :i :note "source number"}
+    :tap {:t :s :values ["PRE" "POST"]}
+    :lr  {:t :s :values ["L+R" "L" "R"]}}}
+
+  :output-groups
+  {"LCL" {:count 8} "AUX" {:count 8}
+   "A" {:count 48} "B" {:count 48} "C" {:count 48}
+   "SC" {:count 32} "USB" {:count 48}
+   "CRD" {:count 64} "MOD" {:count 64}
+   "REC" {:count 4} "AES" {:count 2}}
+
+  :per-output
+  {:path "/io/out/GRP/N/..."
+   :params
+   {:grp {:t :s :values ["OFF" "CH" "AUX" "BUS" "MAIN" "MTX" "USR"]}
+    :in  {:t :i}}}}
+
+ ;; ===== FX SLOTS =====
+
+ :fx
+ {:path "/fx/N" :count 16
+  :note "1-8 premium, 9-16 standard. One insert at a time — assigning elsewhere silently removes."
+  :common-params
+  {:mdl   {:t :s}
+   :fxmix {:t :f :range [0 100]}
+   :$esrc  {:t :i :ro true}
+   :$emode {:t :s :ro true}
+   :$a_chn {:t :i :ro true}
+   :$a_pos {:t :i :ro true}
+   ;; Common across many FX:
+   :time {:t :f :unit "ms" :note "delay time"}
+   :pdel {:t :f :unit "ms" :note "pre-delay"}
+   :dcy  {:t :f :unit "s"  :note "decay"}
+   :mix  {:t :f :unit "%"}
+   :feed {:t :f :unit "%"  :note "feedback"}
+   :lc   {:t :f :unit "Hz" :note "low cut"}
+   :hc   {:t :f :unit "Hz" :note "high cut"}
+   :size {:t :f}
+   :diff {:t :f :note "diffusion"}
+   :sprd {:t :f :note "spread"}}
+
+  :premium
+  {"NONE"    {:name "No effect"}
+   "EXT"     {:name "External" :params [:egrp :ein :emode :lat :trim]}
+   "HALL"    {:name "Hall Reverb" :params [:pdel :size :dcy :mult :damp :lc :hc :shp :sprd :diff :mspd]}
+   "ROOM"    {:name "Room Reverb" :params [:pdel :size :dcy :mult :damp :lc :hc :shp :sprd :diff :spin :ecl :ecr :efl :efr]}
+   "CHAMBER" {:name "Chamber Reverb" :params [:pdel :size :dcy :mult :damp :lc :hc :shp :sprd :diff :spin :ecl :ecr]}
+   "PLATE"   {:name "Plate Reverb" :params [:pdel :size :dcy :mult :damp :lc :hc :att :sprd :diff :spin :ecl :ecr :efl :efr]}
+   "CONCERT" {:name "Concert Reverb" :params [:pdel :size :dcy :mult :damp :lc :hc :shp :sprd :diff :depth :rfl :rfr :spin :crs]}
+   "AMBI"    {:name "Ambience" :params [:pdel :size :dcy :tail :damp :diff :mod :lc :hc]}
+   "V-ROOM"  {:name "Vintage Room (VSS3)" :params [:pdel :size :dcy :dens :erlvl :lmult :hmult :lc :hc :frz]}
+   "V-REV"   {:name "Vintage Reverb" :params [:pdel :dcy :lmult :hmult :mod :lc :hc :out :trans]}
+   "V-PLATE" {:name "Vintage Plate" :params [:pdel :dcy :lc :col]}
+   "GATED"   {:name "Gated Reverb" :params [:pdel :att :dcy :dens :diff :sprd :lc :hfs :hsg]}
+   "REVERSE" {:name "Reverse Reverb" :params [:pdel :rise :dcy :diff :sprd :lc :hfs :hsg]}
+   "DEL/REV" {:name "Delay/Reverb" :params [:time :feed :fhc :dly :d2r :pdel :size :dcy :damp :rlc :i2r]}
+   "SHIMMER" {:name "Shimmer Reverb" :params [:pdel :size :dcy :lc :hc :damp :shim :shine]}
+   "SPRING"  {:name "Spring Reverb" :params [:dcy :dens :low :high]}
+   "DIMCRS"  {:name "Dimension CRS" :params [:sw1 :sw2 :sw3 :sw4 :in :drysw]}
+   "CHORUS"  {:name "Stereo Chorus" :params [:lc :hc :wave :phase :mix :dlyl :dlyr :depl :depr :sprd :spd]}
+   "FLANGER" {:name "Stereo Flanger" :params [:lc :hc :flc :fhc :mix :dlyl :dlyr :depl :depr :phase :spd :feed]}
+   "ST-DL"   {:name "Stereo Delay" :params [:time :mode :fact :pat :offset :feed :flc :fhc :lc :hc]}
+   "TAP-DL"  {:name "Ultratap Delay" :params [:time :rep :slp :fact :pdel :mode :wid :diff :lc :hc]}
+   "TAPE-DL" {:name "Tape Delay" :params [:time :sust :drv :wf]}
+   "OILCAN"  {:name "Oil Can Delay" :params [:time :sust :wb :tone]}
+   "BBD-DL"  {:name "BBD Delay" :params [:dly :feed]}
+   "PITCH"   {:name "Stereo Pitch" :params [:semi :cent :dly :lc :hc :mix]}
+   "D-PITCH" {:name "Dual Pitch" :params [:semi1 :cent1 :dly1 :pan1 :lvl1 :semi2 :cent2 :dly2 :pan2 :lvl2 :lc :hc]}}
+
+  :standard
+  {"GEQ"     {:name "Graphic EQ" :params [:31-band :type]}
+   "PIA"     {:name "PIA 560 GEQ" :params [:mix :gain :10-band]}
+   "C5-CMB"  {:name "Combinator" :note "5-band multiband comp"}
+   "DOUBLE"  {:name "Double Vocal" :params [:mode :mix :sprd]
+              :mode-values ["TIGHT" "LOOSE" "GROUP" "DETUNE" "THICK"]}
+   "PCORR"   {:name "Pitch Fix" :params [:spd :amnt :a4 :per-note]}
+   "LIMITER" {:name "Precision Limiter" :params [:gin :gout :sqz :knee :att :rel]}
+   "DE-S2"   {:name "2-Band DeEsser" :params [:lo :hi :los :his :gdr :mode]}
+   "ENHANCE" {:name "Ultra Enhancer" :params [:stlvl :bass :mid :high :solo]}
+   "EXCITER" {:name "Exciter" :params [:tune :peak :zfill :timbre :harm :mix]}
+   "P-BASS"  {:name "Psycho Bass" :params [:int :bass :xf :solo]}
+   "ROTARY"  {:name "Rotary Speaker" :params [:sw :lo :hi :bal :mix :dist]
+              :sw-values ["STOP" "SLOW" "FAST"]}
+   "PHASER"  {:name "Phaser" :params [:spd :phase :wave :range :depth :emod :att :hld :rel :mix :stg :reso]}
+   "PANNER"  {:name "Tremolo/Panner" :params [:att :hld :rel :espd :edep :spd :phase :wave :depth]}
+   "TAPE"    {:name "Tape Machine" :params [:drv :spd :low :hi :out]}
+   "MOOD"    {:name "Mood Filter" :params [:fbase :filt :slope :reso :drv :env :att :hld :rel :mix :lfo :spd :phase :wave]
+              :filt-values ["LP" "HP" "BP" "NOTCH"]}
+   "BODY"    {:name "Bodyrez" :params [:body]}
+   "SUB"     {:name "Sub Octaver" :params [:rng :oct1 :oct2]
+              :rng-values ["LOW" "MID" "HIGH"]}
+   "RACKAMP" {:name "Rack Amp" :params [:pre :buzz :punch :crunch :drive :out :leq :heq :cab]}
+   "UKROCK"  {:name "UK Rock Amp" :params [:gain :bass :mid :treb :pres :mstr :out :sag :cab]}
+   "ANGEL"   {:name "Angel Amp" :params [:gain :bass :mid :treb :pres :mstr :out :sag :cab :midb :bri :bt]}
+   "JAZZC"   {:name "Jazz Clean Amp" :params [:vol :bass :mid :treb :out :bri :cab]}
+   "DELUXE"  {:name "Deluxe Amp" :params [:vol :bass :treb :out :sag :cab]}
+   "SOUL"    {:name "Soul Analogue (as FX)" :params [:mix :lf :lg :lmf :lmg :lmq :hmf :hmg :hmq :hf :hg]}
+   "E88"     {:name "Even 88 (as FX)" :params [:mix :lf :lg :lq :lt :lmf :lmg :lmq :hmf :hmg :hmq :hf :hg :hq :ht]}
+   "E84"     {:name "Even 84 (as FX)" :params [:mix :g :lf :lg :mf :mg :mq :hf :hg]}
+   "F110"    {:name "Fortissimo 110 (as FX)" :params [:mix :peq :lmf :lmg :lmq :hmf :hmg :hmq :shv :lf :lg :hf :hg :g]}
+   "PULSAR"  {:name "Pulsar (as FX)" :params [:mix :eq1 :eq5 :boost :atten :freq]}
+   "MACH4"   {:name "Mach EQ4 (as FX)" :params [:mix :sub :40 :160 :650 :2k5 :air :airm :again]}}
+
+  :channel-strips
+  {"*EVEN*"    {:name "Even Channel" :hw "Neve console"}
+   "*SOUL*"    {:name "Soul Channel" :hw "SSL console"}
+   "*VINTAGE*" {:name "Vintage Channel"}
+   "*BUS*"     {:name "Bus Channel"}
+   "*MASTER*"  {:name "Master Channel"}}}
+
+ ;; ===== CONFIG =====
+
+ :config
+ {:monitor
+  {:path "/cfg/mon/N/..."
+   :params {:src {:t :s :note "e.g. MAIN.1"} :dim {:t :f :unit "dB"}
+            :dly/on {:t :i} :dly/m {:t :f :unit "m"} :inv {:t :i} :pan {:t :f}}
+   :note "Cannot be accessed via wapi — oscsend or touchscreen only"}
+
+  :solo
+  {:path "/cfg/solo/..."
+   :params {:mode {:t :s} :mon {:t :s :values ["A" "B"]}
+            :mute {:t :i} :chtap {:t :s :values ["PFL" "AFL"]}
+            :bustap {:t :s :values ["PFL" "AFL"]}}}
+
+  :talkback
+  {:path "/cfg/talk/..."
+   :params {:assign {:t :s} :A/mode {:t :s} :A/mondim {:t :i}
+            :A/B1-B16 {:t :i} :A/M1-M4 {:t :i}}}
+
+  :oscillator
+  {:path "/cfg/osc/N/..."
+   :params {:lvl {:t :f :unit "dB"} :mode {:t :s :values ["SINE"]} :f {:t :f :unit "Hz"}}}
+
+  :clock
+  {:clkrate {:t :i :values [44100 48000]}
+   :clksrc  {:t :s :values ["INT"]}}}
+
+ ;; ===== DAW CONTROL =====
+
+ :daw
+ {:path "/$ctl/daw/..."
+  :params
+  {:on     {:t :i :values [0 1]}
+   :conn   {:t :s :values ["USB"]}
+   :emul   {:t :s :values ["MCU" "HUI"]}
+   :config {:t :s :values ["CC" "MSTR" "MSTR1EXT" "MSTR2EXT" "MCU+EXTENDER"]}
+   :$on    {:t :i :ro true}}}
+
+ ;; ===== SUBSCRIPTIONS =====
+
+ :subscriptions
+ {:note "One active at a time. Renew every 10s."
+  :commands
+  {"/*b"      "binary event messages"
+   "/*s"      "OSC events (multi-tag)"
+   "/*S"      "OSC events (single-tag)"
+   "/%PORT/*s" "events to specific port"}}
+
+ ;; ===== SCENES & SHOWS =====
+
+ :scenes
+ {:midi-control
+  {:ch7-cc32+pc "recall by bank/program (up to 16384)"
+   :ch8-pc      "recall by tag #1-#128"
+   :ch9-pc-1    "GO" :ch9-pc-2 "PREV" :ch9-pc-3 "NEXT"
+   :ch9-pc-4    "GO PREV" :ch9-pc-5 "GO NEXT"}
+  :snapshot-scope ["ch" "aux" "bus" "main" "mtx" "fx" "routin" "routout" "cfg" "area" "data"]}
+
+ ;; ===== ICONS =====
+
+ :icons
+ {[0 14]    "General"
+  [100 114] "Vocals and Mics"
+  [200 224] "Drums and Percussion"
+  [300 319] "Strings and Winds"
+  [400 409] "Keys"
+  [500 524] "Speakers"
+  [600 614] "Specials"}
+
+ ;; ===== BEHAVIORAL NOTES =====
+ ;; Critical quirks that affect how you use the Wing
+
+ :quirks
+ ["Muting a channel kills ALL signal including pre-fader sends. Use main/N/on=0 to remove from main instead."
+  "FX slot can only be on one insert at a time. Assigning elsewhere silently removes it."
+  "Channel display name comes from input source (/io/in/GRP/N/name), not /ch/N/name."
+  "Names and colors must be set on the input source, not the channel strip."
+  "Two channels on the same USB input: Wing silently drops signal on the second."
+  "Stereo mode defaults to mono. Must explicitly set mode=ST."
+  "Wing outputs reject CH group for high channel numbers. Use USR as intermediary."
+  "Sidechain routing (/dynsc/src, /gatesc/src) can't be set via OSC/wapi. Use touchscreen."
+  "Monitor section (/cfg/mon) can't be accessed via wapi. Use oscsend or touchscreen."
+  "Matrix EQ uses numbered params (band 1: /eq/1-4, band 2: /eq/5-7, ..., band 8: /eq/23-26)."
+  "Channel EQ uses named params (/eq/lg, /eq/lf, /eq/1g, /eq/hg, etc.)."]}
