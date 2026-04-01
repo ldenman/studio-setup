@@ -1,5 +1,6 @@
 name = "buffalo-shoals"
 compatibility_date = "2026-04-01"
+main = "./src/worker.js"
 
 [assets]
 directory = "./dist"
