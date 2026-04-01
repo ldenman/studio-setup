@@ -1,0 +1,127 @@
+<svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="800" height="400" fill="#f4f3ee" />
+
+  <!-- Signal flow: three stages left to right -->
+
+  <!-- Stage 1: DAW/Logic (left) - monitor/screen shape -->
+  <rect x="50" y="130" width="120" height="90" rx="4" fill="none" stroke="#4a4740" stroke-width="2" />
+  <!-- Waveforms inside screen -->
+  <path d="M 70 155 l 5 -8 5 12 5 -6 5 10 5 -10 5 8 5 -4 5 6 5 -8 5 5" fill="none" stroke="#4a7a9a" stroke-width="1.5" opacity="0.7" />
+  <path d="M 70 170 l 5 -5 5 8 5 -10 5 6 5 -4 5 9 5 -7 5 3 5 -6 5 8" fill="none" stroke="#a85a4a" stroke-width="1.5" opacity="0.7" />
+  <path d="M 70 185 l 5 -4 5 6 5 -3 5 8 5 -6 5 5 5 -8 5 4 5 -3 5 7" fill="none" stroke="#5a8a4a" stroke-width="1.5" opacity="0.7" />
+  <path d="M 70 200 l 5 -6 5 4 5 -8 5 5 5 -3 5 7 5 -5 5 6 5 -4 5 3" fill="none" stroke="#b8792a" stroke-width="1.5" opacity="0.6" />
+  <!-- Screen stand -->
+  <rect x="95" y="220" width="30" height="6" rx="1" fill="#4a4740" opacity="0.3" />
+  <text x="110" y="248" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#4a4740" opacity="0.6">Logic</text>
+
+  <!-- Arrow 1 -->
+  <line x1="185" y1="175" x2="250" y2="175" stroke="#b8792a" stroke-width="1.5" stroke-dasharray="6,4" />
+  <polygon points="250,170 262,175 250,180" fill="#b8792a" />
+
+  <!-- Stage 2: Wing (center) - rack unit -->
+  <rect x="275" y="120" width="180" height="110" rx="3" fill="none" stroke="#4a4740" stroke-width="2" />
+  <!-- Rack ears -->
+  <rect x="268" y="120" width="7" height="110" rx="1" fill="none" stroke="#4a4740" stroke-width="1" />
+  <rect x="455" y="120" width="7" height="110" rx="1" fill="none" stroke="#4a4740" stroke-width="1" />
+  <!-- Rack screws -->
+  <circle cx="271" cy="130" r="2" fill="#4a4740" opacity="0.4" />
+  <circle cx="271" cy="220" r="2" fill="#4a4740" opacity="0.4" />
+  <circle cx="459" cy="130" r="2" fill="#4a4740" opacity="0.4" />
+  <circle cx="459" cy="220" r="2" fill="#4a4740" opacity="0.4" />
+  <!-- Screen/display -->
+  <rect x="300" y="135" width="130" height="35" rx="2" fill="#2a2825" />
+  <!-- FX labels on screen -->
+  <text x="320" y="150" font-family="monospace" font-size="7" fill="#b8792a" opacity="0.9">AMP</text>
+  <text x="350" y="150" font-family="monospace" font-size="7" fill="#4a7a9a" opacity="0.9">REV</text>
+  <text x="380" y="150" font-family="monospace" font-size="7" fill="#5a8a4a" opacity="0.9">TAPE</text>
+  <text x="410" y="150" font-family="monospace" font-size="7" fill="#a85a4a" opacity="0.9">DLY</text>
+  <!-- Level meters -->
+  <rect x="305" y="157" width="3" height="8" rx="0.5" fill="#5a8a4a" opacity="0.7" />
+  <rect x="315" y="160" width="3" height="5" rx="0.5" fill="#5a8a4a" opacity="0.7" />
+  <rect x="325" y="155" width="3" height="10" rx="0.5" fill="#5a8a4a" opacity="0.7" />
+  <rect x="335" y="158" width="3" height="7" rx="0.5" fill="#5a8a4a" opacity="0.7" />
+  <rect x="345" y="161" width="3" height="4" rx="0.5" fill="#5a8a4a" opacity="0.7" />
+  <rect x="355" y="156" width="3" height="9" rx="0.5" fill="#b8792a" opacity="0.7" />
+  <rect x="365" y="159" width="3" height="6" rx="0.5" fill="#5a8a4a" opacity="0.7" />
+  <!-- Encoders row -->
+  <circle cx="310" cy="195" r="7" fill="none" stroke="#4a4740" stroke-width="1.2" />
+  <circle cx="335" cy="195" r="7" fill="none" stroke="#4a4740" stroke-width="1.2" />
+  <circle cx="360" cy="195" r="7" fill="none" stroke="#4a4740" stroke-width="1.2" />
+  <circle cx="385" cy="195" r="7" fill="none" stroke="#4a4740" stroke-width="1.2" />
+  <circle cx="410" cy="195" r="7" fill="none" stroke="#4a4740" stroke-width="1.2" />
+  <circle cx="435" cy="195" r="7" fill="none" stroke="#4a4740" stroke-width="1.2" />
+  <text x="365" y="248" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#4a4740" opacity="0.6">Wing</text>
+
+  <!-- Arrow 2: multiple stems fanning out -->
+  <line x1="470" y1="155" x2="535" y2="145" stroke="#4a7a9a" stroke-width="1.2" opacity="0.6" />
+  <line x1="470" y1="165" x2="535" y2="160" stroke="#a85a4a" stroke-width="1.2" opacity="0.6" />
+  <line x1="470" y1="175" x2="535" y2="175" stroke="#b8792a" stroke-width="1.5" />
+  <line x1="470" y1="185" x2="535" y2="190" stroke="#5a8a4a" stroke-width="1.2" opacity="0.6" />
+  <line x1="470" y1="195" x2="535" y2="205" stroke="#4a4740" stroke-width="1.2" opacity="0.6" />
+  <polygon points="535,171 547,175 535,179" fill="#b8792a" />
+
+  <!-- Stage 3: Model 12 console (right) -->
+  <!-- Console body - angled/trapezoidal -->
+  <path d="M 555 115 L 755 115 L 770 260 L 540 260 Z" fill="none" stroke="#4a4740" stroke-width="2" />
+
+  <!-- Channel strip labels -->
+  <text x="572" y="132" font-family="monospace" font-size="6" fill="#4a7a9a">VOX</text>
+  <text x="595" y="132" font-family="monospace" font-size="6" fill="#a85a4a">RHY</text>
+  <text x="618" y="132" font-family="monospace" font-size="6" fill="#a85a4a">LD</text>
+  <text x="640" y="132" font-family="monospace" font-size="6" fill="#4a4740">OD</text>
+  <text x="660" y="132" font-family="monospace" font-size="6" fill="#5a8a4a">BAS</text>
+  <text x="700" y="132" font-family="monospace" font-size="6" fill="#b8792a">DRM</text>
+  <text x="730" y="132" font-family="monospace" font-size="6" fill="#4a4740">KEY</text>
+
+  <!-- EQ knobs row -->
+  <circle cx="575" cy="148" r="4" fill="none" stroke="#4a4740" stroke-width="0.8" />
+  <circle cx="600" cy="148" r="4" fill="none" stroke="#4a4740" stroke-width="0.8" />
+  <circle cx="625" cy="148" r="4" fill="none" stroke="#4a4740" stroke-width="0.8" />
+  <circle cx="650" cy="148" r="4" fill="none" stroke="#4a4740" stroke-width="0.8" />
+  <circle cx="675" cy="148" r="4" fill="none" stroke="#4a4740" stroke-width="0.8" />
+  <circle cx="705" cy="148" r="4" fill="none" stroke="#4a4740" stroke-width="0.8" />
+  <circle cx="735" cy="148" r="4" fill="none" stroke="#4a4740" stroke-width="0.8" />
+
+  <!-- Comp knobs row -->
+  <circle cx="575" cy="165" r="3.5" fill="none" stroke="#a85a4a" stroke-width="0.8" opacity="0.6" />
+  <circle cx="600" cy="165" r="3.5" fill="none" stroke="#a85a4a" stroke-width="0.8" opacity="0.6" />
+  <circle cx="625" cy="165" r="3.5" fill="none" stroke="#a85a4a" stroke-width="0.8" opacity="0.6" />
+  <circle cx="650" cy="165" r="3.5" fill="none" stroke="#a85a4a" stroke-width="0.8" opacity="0.6" />
+  <circle cx="675" cy="165" r="3.5" fill="none" stroke="#a85a4a" stroke-width="0.8" opacity="0.6" />
+  <circle cx="705" cy="165" r="3.5" fill="none" stroke="#a85a4a" stroke-width="0.8" opacity="0.6" />
+  <circle cx="735" cy="165" r="3.5" fill="none" stroke="#a85a4a" stroke-width="0.8" opacity="0.6" />
+
+  <!-- Faders -->
+  <rect x="571" y="180" width="8" height="55" rx="2" fill="#eae8e0" stroke="#4a4740" stroke-width="0.8" />
+  <rect x="573" y="200" width="4" height="10" rx="1" fill="#b8792a" />
+  <rect x="596" y="180" width="8" height="55" rx="2" fill="#eae8e0" stroke="#4a4740" stroke-width="0.8" />
+  <rect x="598" y="195" width="4" height="10" rx="1" fill="#b8792a" />
+  <rect x="621" y="180" width="8" height="55" rx="2" fill="#eae8e0" stroke="#4a4740" stroke-width="0.8" />
+  <rect x="623" y="210" width="4" height="10" rx="1" fill="#b8792a" />
+  <rect x="646" y="180" width="8" height="55" rx="2" fill="#eae8e0" stroke="#4a4740" stroke-width="0.8" />
+  <rect x="648" y="205" width="4" height="10" rx="1" fill="#b8792a" />
+  <rect x="671" y="180" width="8" height="55" rx="2" fill="#eae8e0" stroke="#4a4740" stroke-width="0.8" />
+  <rect x="673" y="190" width="4" height="10" rx="1" fill="#b8792a" />
+  <rect x="701" y="180" width="8" height="55" rx="2" fill="#eae8e0" stroke="#4a4740" stroke-width="0.8" />
+  <rect x="703" y="198" width="4" height="10" rx="1" fill="#b8792a" />
+  <rect x="731" y="180" width="8" height="55" rx="2" fill="#eae8e0" stroke="#4a4740" stroke-width="0.8" />
+  <rect x="733" y="203" width="4" height="10" rx="1" fill="#b8792a" />
+
+  <!-- Master / stereo capture indicator -->
+  <line x1="748" y1="118" x2="748" y2="257" stroke="#4a4740" stroke-width="0.8" stroke-dasharray="3,3" />
+  <!-- Record light for 11/12 -->
+  <circle cx="758" cy="185" r="4" fill="#a85a4a" opacity="0.8" />
+  <circle cx="758" cy="185" r="6" fill="none" stroke="#a85a4a" stroke-width="0.8" opacity="0.4" />
+  <text x="755" y="200" font-family="monospace" font-size="5" fill="#a85a4a" opacity="0.7">11/12</text>
+
+  <text x="655" y="280" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#4a4740" opacity="0.6">Model 12</text>
+
+  <!-- Bottom: output arrow to stereo mixdown -->
+  <line x1="655" y1="260" x2="655" y2="310" stroke="#b8792a" stroke-width="1.5" />
+  <polygon points="650,310 655,322 660,310" fill="#b8792a" />
+
+  <!-- Stereo waveform output -->
+  <path d="M 600 345 l 5 -10 5 15 5 -8 5 12 5 -14 5 10 5 -6 5 8 5 -12 5 10 5 -8 5 14 5 -10 5 6 5 -8 5 12 5 -6 5 10 5 -14 5 8" fill="none" stroke="#b8792a" stroke-width="1.5" opacity="0.8" />
+  <text x="655" y="375" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#4a4740" opacity="0.5">stereo mixdown</text>
+</svg>

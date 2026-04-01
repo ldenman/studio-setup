@@ -1,0 +1,86 @@
+<svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Timeline: 8 nodes connected by a path, showing evolution -->
+
+  <!-- Horizontal timeline wire -->
+  <line x1="80" y1="200" x2="720" y2="200" stroke="#4a4740" stroke-width="1.5" opacity="0.3" />
+
+  <!-- Day markers — 8 vertical ticks -->
+  <line x1="100" y1="188" x2="100" y2="212" stroke="#4a4740" stroke-width="1.5" />
+  <line x1="190" y1="188" x2="190" y2="212" stroke="#4a4740" stroke-width="1.5" />
+  <line x1="280" y1="188" x2="280" y2="212" stroke="#4a4740" stroke-width="1.5" />
+  <line x1="370" y1="188" x2="370" y2="212" stroke="#4a4740" stroke-width="1.5" />
+  <!-- Day 5 skip — no tick, just a gap -->
+  <line x1="460" y1="188" x2="460" y2="212" stroke="#4a4740" stroke-width="1.5" />
+  <line x1="550" y1="188" x2="550" y2="212" stroke="#4a4740" stroke-width="1.5" />
+  <line x1="640" y1="188" x2="640" y2="212" stroke="#4a4740" stroke-width="1.5" />
+
+  <!-- Day dots — sized by commit intensity -->
+  <!-- Day 1: 1 commit — small -->
+  <circle cx="100" cy="200" r="6" fill="#4a4740" />
+  <!-- Day 2: 6 commits — large -->
+  <circle cx="190" cy="200" r="14" fill="#4a7a9a" />
+  <!-- Day 3: crisis — red -->
+  <circle cx="280" cy="200" r="10" fill="#a85a4a" />
+  <!-- Day 4: 9 commits — largest -->
+  <circle cx="370" cy="200" r="16" fill="#b8792a" />
+  <!-- Day 6: outboard commit — medium -->
+  <circle cx="460" cy="200" r="9" fill="#5a8a4a" />
+  <!-- Day 7: revelation — amber -->
+  <circle cx="550" cy="200" r="12" fill="#b8792a" />
+  <!-- Day 8: final — large, solid -->
+  <circle cx="640" cy="200" r="15" fill="#4a4740" />
+
+  <!-- Day labels -->
+  <text x="100" y="240" text-anchor="middle" font-family="monospace" font-size="10" fill="#4a4740">1</text>
+  <text x="190" y="240" text-anchor="middle" font-family="monospace" font-size="10" fill="#4a4740">2</text>
+  <text x="280" y="240" text-anchor="middle" font-family="monospace" font-size="10" fill="#4a4740">3</text>
+  <text x="370" y="240" text-anchor="middle" font-family="monospace" font-size="10" fill="#4a4740">4</text>
+  <text x="460" y="240" text-anchor="middle" font-family="monospace" font-size="10" fill="#4a4740">6</text>
+  <text x="550" y="240" text-anchor="middle" font-family="monospace" font-size="10" fill="#4a4740">7</text>
+  <text x="640" y="240" text-anchor="middle" font-family="monospace" font-size="10" fill="#4a4740">8</text>
+
+  <!-- Event annotations above timeline -->
+  <!-- Day 1 -->
+  <text x="100" y="170" text-anchor="middle" font-family="monospace" font-size="8" fill="#4a4740" opacity="0.7">foundation</text>
+
+  <!-- Day 2 -->
+  <text x="190" y="163" text-anchor="middle" font-family="monospace" font-size="8" fill="#4a7a9a">6 commits</text>
+  <text x="190" y="174" text-anchor="middle" font-family="monospace" font-size="7" fill="#4a7a9a" opacity="0.7">feature blitz</text>
+
+  <!-- Day 3 — crisis marker -->
+  <text x="280" y="163" text-anchor="middle" font-family="monospace" font-size="8" fill="#a85a4a">white noise</text>
+  <line x1="280" y1="145" x2="280" y2="155" stroke="#a85a4a" stroke-width="1.5" />
+  <polygon points="275,145 280,135 285,145" fill="#a85a4a" opacity="0.6" />
+
+  <!-- Day 4 -->
+  <text x="370" y="157" text-anchor="middle" font-family="monospace" font-size="8" fill="#b8792a">9 commits</text>
+  <text x="370" y="168" text-anchor="middle" font-family="monospace" font-size="7" fill="#b8792a" opacity="0.7">overhaul</text>
+
+  <!-- Day 6 -->
+  <text x="460" y="170" text-anchor="middle" font-family="monospace" font-size="8" fill="#5a8a4a" opacity="0.7">print it</text>
+
+  <!-- Day 7 -->
+  <text x="550" y="163" text-anchor="middle" font-family="monospace" font-size="8" fill="#b8792a">pivot</text>
+  <text x="550" y="174" text-anchor="middle" font-family="monospace" font-size="7" fill="#b8792a" opacity="0.7">Logic records</text>
+
+  <!-- Day 8 -->
+  <text x="640" y="163" text-anchor="middle" font-family="monospace" font-size="8" fill="#4a4740">final arch</text>
+  <text x="640" y="174" text-anchor="middle" font-family="monospace" font-size="7" fill="#4a4740" opacity="0.7">19 diagrams</text>
+
+  <!-- Version labels below -->
+  <text x="145" y="275" text-anchor="middle" font-family="monospace" font-size="9" fill="#4a4740" opacity="0.4">V1</text>
+  <text x="325" y="275" text-anchor="middle" font-family="monospace" font-size="9" fill="#4a4740" opacity="0.4">V2</text>
+  <text x="460" y="275" text-anchor="middle" font-family="monospace" font-size="9" fill="#4a4740" opacity="0.4">V3</text>
+  <text x="595" y="275" text-anchor="middle" font-family="monospace" font-size="9" fill="#4a4740" opacity="0.4">V4</text>
+
+  <!-- Version transition arrows -->
+  <line x1="175" y1="272" x2="290" y2="272" stroke="#4a4740" stroke-width="1" opacity="0.2" />
+  <polygon points="290,269 298,272 290,275" fill="#4a4740" opacity="0.2" />
+  <line x1="355" y1="272" x2="425" y2="272" stroke="#4a4740" stroke-width="1" opacity="0.2" />
+  <polygon points="425,269 433,272 425,275" fill="#4a4740" opacity="0.2" />
+  <line x1="490" y1="272" x2="560" y2="272" stroke="#4a4740" stroke-width="1" opacity="0.2" />
+  <polygon points="560,269 568,272 560,275" fill="#4a4740" opacity="0.2" />
+
+  <!-- Stats at bottom -->
+  <text x="400" y="340" text-anchor="middle" font-family="monospace" font-size="11" fill="#4a4740" opacity="0.5">40 commits  /  10 PRs  /  3 pivots  /  8 days</text>
+</svg>

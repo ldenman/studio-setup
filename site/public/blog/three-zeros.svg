@@ -1,0 +1,72 @@
+<svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="800" height="400" fill="#2a2825" />
+
+  <!-- Three horizontal lanes, each representing a "zero" -->
+
+  <!-- Lane 1: Zero Latency — clean straight signal, no delay -->
+  <text x="60" y="95" font-family="monospace" font-size="10" fill="#b8792a" opacity="0.5" letter-spacing="1">ZERO LATENCY</text>
+
+  <!-- Clean waveform — smooth, aligned -->
+  <path d="M 140,120 Q 170,80 200,120 Q 230,160 260,120 Q 290,80 320,120 Q 350,160 380,120 Q 410,80 440,120 Q 470,160 500,120 Q 530,80 560,120 Q 590,160 620,120 Q 650,80 680,120"
+        fill="none" stroke="#5a8a4a" stroke-width="2.5" opacity="0.9" />
+
+  <!-- Tiny "0ms" marker -->
+  <text x="710" y="124" font-family="monospace" font-size="9" fill="#5a8a4a" opacity="0.6">0ms</text>
+
+  <!-- Divider -->
+  <line x1="60" y1="165" x2="740" y2="165" stroke="#4a4740" stroke-width="0.5" opacity="0.3" />
+
+  <!-- Lane 2: Zero Comb Filtering — two waveforms, one dashed/offset showing cancellation -->
+  <text x="60" y="195" font-family="monospace" font-size="10" fill="#b8792a" opacity="0.5" letter-spacing="1">ZERO PHASE</text>
+
+  <!-- Primary waveform -->
+  <path d="M 140,230 Q 170,190 200,230 Q 230,270 260,230 Q 290,190 320,230 Q 350,270 380,230 Q 410,190 440,230 Q 470,270 500,230"
+        fill="none" stroke="#5a8a4a" stroke-width="2.5" opacity="0.9" />
+
+  <!-- Ghost duplicate waveform — offset, crossed out -->
+  <path d="M 155,230 Q 185,195 215,230 Q 245,265 275,230 Q 305,195 335,230 Q 365,265 395,230 Q 425,195 455,230 Q 485,265 515,230"
+        fill="none" stroke="#a85a4a" stroke-width="1.5" opacity="0.4" stroke-dasharray="6,4" />
+
+  <!-- Strike-through on the ghost path -->
+  <line x1="520" y1="215" x2="540" y2="245" stroke="#a85a4a" stroke-width="2" opacity="0.6" />
+  <line x1="520" y1="245" x2="540" y2="215" stroke="#a85a4a" stroke-width="2" opacity="0.6" />
+
+  <!-- Single clean path continues after the X -->
+  <path d="M 550,230 Q 580,190 610,230 Q 640,270 670,230"
+        fill="none" stroke="#5a8a4a" stroke-width="2.5" opacity="0.9" />
+
+  <!-- "1 path" marker -->
+  <text x="710" y="234" font-family="monospace" font-size="9" fill="#5a8a4a" opacity="0.6">1 path</text>
+
+  <!-- Divider -->
+  <line x1="60" y1="275" x2="740" y2="275" stroke="#4a4740" stroke-width="0.5" opacity="0.3" />
+
+  <!-- Lane 3: Zero Noise — clean line with noise hash fading to silence -->
+  <text x="60" y="305" font-family="monospace" font-size="10" fill="#b8792a" opacity="0.5" letter-spacing="1">ZERO NOISE</text>
+
+  <!-- Noise hash — random short vertical lines, fading out left to right -->
+  <g opacity="0.5">
+    <line x1="145" y1="335" x2="145" y2="345" stroke="#a85a4a" stroke-width="1" opacity="0.7" />
+    <line x1="152" y1="332" x2="152" y2="348" stroke="#a85a4a" stroke-width="1" opacity="0.65" />
+    <line x1="160" y1="336" x2="160" y2="344" stroke="#a85a4a" stroke-width="1" opacity="0.6" />
+    <line x1="168" y1="333" x2="168" y2="347" stroke="#a85a4a" stroke-width="1" opacity="0.55" />
+    <line x1="178" y1="335" x2="178" y2="345" stroke="#a85a4a" stroke-width="1" opacity="0.5" />
+    <line x1="186" y1="337" x2="186" y2="343" stroke="#a85a4a" stroke-width="1" opacity="0.45" />
+    <line x1="195" y1="336" x2="195" y2="344" stroke="#a85a4a" stroke-width="1" opacity="0.4" />
+    <line x1="205" y1="338" x2="205" y2="342" stroke="#a85a4a" stroke-width="1" opacity="0.35" />
+    <line x1="215" y1="337" x2="215" y2="343" stroke="#a85a4a" stroke-width="1" opacity="0.3" />
+    <line x1="226" y1="338" x2="226" y2="342" stroke="#a85a4a" stroke-width="1" opacity="0.25" />
+    <line x1="238" y1="339" x2="238" y2="341" stroke="#a85a4a" stroke-width="1" opacity="0.2" />
+    <line x1="250" y1="339" x2="250" y2="341" stroke="#a85a4a" stroke-width="1" opacity="0.15" />
+  </g>
+
+  <!-- Clean flat line emerging from the noise -->
+  <line x1="260" y1="340" x2="680" y2="340" stroke="#5a8a4a" stroke-width="2" opacity="0.9" />
+
+  <!-- Silence marker -->
+  <text x="710" y="344" font-family="monospace" font-size="9" fill="#5a8a4a" opacity="0.6">silence</text>
+
+  <!-- Subtle frame -->
+  <rect x="40" y="60" width="720" height="320" fill="none" stroke="#4a4740" stroke-width="0.5" opacity="0.15" rx="2" />
+</svg>
