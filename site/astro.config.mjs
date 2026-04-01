@@ -1,7 +1,10 @@
 import { defineConfig } from 'astro/config';
+import cloudflare from '@astrojs/cloudflare';
 
 export default defineConfig({
-  site: 'https://studio.lake.fm',
+  site: 'https://buffalo-shoals.pages.dev',
+  output: 'server',
+  adapter: cloudflare(),
   content: {
     collections: {
       blog: {
