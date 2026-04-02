@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "npm run build && wrangler dev",
+    "generate-types": "wrangler types",
+    "deploy": "npm run build && wrangler deploy"
   },
   "keywords": [],
   "author": "",
@@ -17,5 +19,11 @@
     "astro": "^6.1.1",
     "d3": "^7.9.0",
     "edn-data": "^1.1.2"
+  },
+  "devDependencies": {
+    "wrangler": "^4.79.0"
+  },
+  "overrides": {
+    "vite": "^7"
   }
 }
