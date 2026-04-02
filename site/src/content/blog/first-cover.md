@@ -22,7 +22,7 @@ Full outboard path — Neve-style preamp for color, 1176 for transient control, 
 
 ## The Backing Band
 
-Logic's session players handled bass and drums. Added a sub-octave effect on the bass to push it into the midrange — gives it more presence alongside the guitar without muddying the low end.
+Logic's session players handled bass, drums, and organ. The organ fills out the harmony underneath the guitar — a warm, rolling tone that gives the song its gospel feel without stepping on the vocal. Added a sub-octave effect on the bass to push it into the midrange — gives it more presence alongside the guitar without muddying the low end.
 
 ## What We Learned
 

@@ -1,5 +1,5 @@
 ---
-title: "Mix Matrices: The Missing Layer"
+title: "Wing: Mix Matrices — The Missing Layer"
 date: 2026-03-28
 description: "How we solved the routing problem between the Wing and the Model 12 — and made every mix session start the same way."
 tags: ["routing", "mixing", "model-12"]

@@ -1,5 +1,5 @@
 ---
-title: "The Stereo Collapse"
+title: "Wing: The Stereo Collapse"
 date: 2026-03-28
 description: "Our stereo sources had been quietly folding to mono for weeks. We didn't notice because mono still sounds normal — you just lose everything that makes stereo worth having."
 tags: ["lessons", "routing", "recording"]

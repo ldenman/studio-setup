@@ -1,5 +1,5 @@
 ---
-title: "The Speakers Were Mono and Nobody Noticed"
+title: "Wing: The Speakers Were Mono and Nobody Noticed"
 date: 2026-03-29
 description: "Both studio monitors were playing the left channel for weeks. We didn't catch it because mono sounds perfectly fine — which is exactly the problem."
 tags: ["lessons", "routing", "mixing"]

@@ -40,8 +40,8 @@
   /* Spacing */
   --gap: clamp(10px, 1.5vw, 18px);
   --gap-lg: clamp(16px, 3vw, 32px);
-  --max-w: 1400px;
-  --max-w-wide: 1600px;
+  --max-w: 1080px;
+  --max-w-wide: 1280px;
 }
 
 /* ── RESET ── */

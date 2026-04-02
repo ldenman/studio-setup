@@ -1,5 +1,5 @@
 ---
-title: "Two Channels, One Input, Zero Signal"
+title: "Wing: Two Channels, One Input, Zero Signal"
 date: 2026-03-27
 description: "We pointed two Wing channels at the same USB input expecting signal on both. The second one was dead silent — no error, no warning, just nothing."
 tags: ["lessons", "routing", "workflow"]

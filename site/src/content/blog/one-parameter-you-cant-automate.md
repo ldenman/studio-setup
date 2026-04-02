@@ -1,5 +1,5 @@
 ---
-title: "The One Parameter You Can't Automate"
+title: "Wing: The One Parameter You Can't Automate"
 date: 2026-03-29
 description: "In a studio where everything is scriptable, one critical routing parameter silently refuses to be set remotely."
 tags: ["lessons", "workflow", "philosophy"]

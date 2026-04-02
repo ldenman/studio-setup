@@ -1,5 +1,5 @@
 ---
-title: "The Virtual Patchbay Nobody Sees"
+title: "Wing: The Virtual Patchbay Nobody Sees"
 date: 2026-03-28
 description: "When the Wing's output routing hit a dead end, 24 invisible patch points saved the session."
 tags: ["routing", "workflow", "lessons"]

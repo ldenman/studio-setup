@@ -1,0 +1,744 @@
+---
+import Base from '../layouts/Base.astro';
+import { getStudio } from '../lib/studio.ts';
+
+const studio = getStudio();
+const chains = studio['signal-chains'];
+const channels = studio.channels;
+const buses = studio.buses;
+const matrices = studio.matrices;
+const patchbay = studio.patchbay;
+const fx = studio.fx;
+
+// Build node data for the SVG from signal chains
+// We'll create a structured layout: Sources -> Wing Channels -> Buses/FX -> Outputs
+
+// Color mapping for signal types
+const signalColors: Record<string, string> = {
+  vocal: '#4a7a9a',
+  guitar: '#a85a4a',
+  session: '#5a8a4a',
+  tape: '#b8724a',
+  outboard: '#b8792a',
+  monitor: '#706d64',
+};
+
+// Define the main signal chains we want to visualize
+// Each chain: id, label, color, nodes (with x,y positions assigned in the SVG)
+
+interface ChainNode {
+  id: string;
+  label: string;
+  short?: string;
+  col: number; // 0-6 column position
+  row: number;
+  type?: 'source' | 'channel' | 'bus' | 'fx' | 'outboard' | 'output' | 'matrix';
+}
+
+interface Chain {
+  id: string;
+  label: string;
+  color: string;
+  nodes: ChainNode[];
+}
+
+const layoutChains: Chain[] = [
+  // Vocal monitoring chain
+  {
+    id: 'vocal-outboard',
+    label: 'Vocal Outboard',
+    color: signalColors.vocal,
+    nodes: [
+      { id: 'mic', label: 'Mic', col: 0, row: 0, type: 'source' },
+      { id: 'ch1', label: 'Ch1 Vocal Dry', short: 'Ch1', col: 1, row: 0, type: 'channel' },
+      { id: 'bus1', label: 'Bus 1 Vocal Send', short: 'Bus 1', col: 2, row: 0, type: 'bus' },
+      { id: 'out1', label: 'Wing Out 1', short: 'Out 1', col: 3, row: 0, type: 'output' },
+      { id: 'ha73a', label: 'HA73 A', col: 4, row: 0, type: 'outboard' },
+      { id: 'wa76a', label: 'WA76 A', col: 5, row: 0, type: 'outboard' },
+      { id: 'opto', label: 'Opto (LA-2A)', short: 'Opto', col: 6, row: 0, type: 'outboard' },
+      { id: 'ch17', label: 'Ch17 Vocal Proc', short: 'Ch17', col: 7, row: 0, type: 'channel' },
+    ],
+  },
+  // Vocal recording chain
+  {
+    id: 'vocal-recording',
+    label: 'Vocal Recording',
+    color: signalColors.vocal,
+    nodes: [
+      { id: 'ch17', label: 'Ch17 Vocal Proc', short: 'Ch17', col: 7, row: 0, type: 'channel' },
+      { id: 'bus7', label: 'Bus 7 Vocal Rec', short: 'Bus 7', col: 8, row: 0, type: 'bus' },
+      { id: 'usr1', label: 'USR/1', col: 9, row: 0, type: 'channel' },
+      { id: 'logic-vocal', label: 'Logic (USB 1)', short: 'Logic', col: 10, row: 0, type: 'output' },
+    ],
+  },
+  // Guitar electric chain
+  {
+    id: 'guitar-electric',
+    label: 'Guitar Electric',
+    color: signalColors.guitar,
+    nodes: [
+      { id: 'di', label: 'Guitar DI', short: 'DI', col: 0, row: 2, type: 'source' },
+      { id: 'ch2', label: 'Ch2 Guitar Dry', short: 'Ch2', col: 1, row: 2, type: 'channel' },
+      { id: 'bus5', label: 'Bus 5 Electric', short: 'Bus 5', col: 2, row: 2, type: 'bus' },
+      { id: 'fx-angel', label: 'FX6 ANGEL', short: 'ANGEL', col: 2.5, row: 1.5, type: 'fx' },
+      { id: 'bus2', label: 'Bus 2 Guitar Send', short: 'Bus 2', col: 3, row: 2, type: 'bus' },
+      { id: 'out2', label: 'Wing Out 2', short: 'Out 2', col: 3.5, row: 2, type: 'output' },
+      { id: 'ha73b', label: 'HA73 B', col: 4, row: 2, type: 'outboard' },
+      { id: 'wa76b', label: 'WA76 B', col: 5, row: 2, type: 'outboard' },
+      { id: 'dist', label: 'Distressor', short: 'Dist', col: 6, row: 2, type: 'outboard' },
+      { id: 'ch18', label: 'Ch18 Guitar Proc', short: 'Ch18', col: 7, row: 2, type: 'channel' },
+    ],
+  },
+  // Guitar recording chain
+  {
+    id: 'guitar-recording',
+    label: 'Guitar Recording',
+    color: signalColors.guitar,
+    nodes: [
+      { id: 'ch18', label: 'Ch18 Guitar Proc', short: 'Ch18', col: 7, row: 2, type: 'channel' },
+      { id: 'bus8', label: 'Bus 8 Guitar Rec', short: 'Bus 8', col: 8, row: 2, type: 'bus' },
+      { id: 'out3', label: 'Wing Out 3', short: 'Out 3', col: 9, row: 2, type: 'output' },
+      { id: 'p9', label: 'P9 Patchbay', short: 'P9', col: 9.5, row: 2, type: 'outboard' },
+      { id: 'm12-gtr', label: 'Model 12', col: 10, row: 2, type: 'output' },
+    ],
+  },
+  // Guitar acoustic chain
+  {
+    id: 'guitar-acoustic',
+    label: 'Guitar Acoustic',
+    color: signalColors.guitar,
+    nodes: [
+      { id: 'ch2', label: 'Ch2 Guitar Dry', short: 'Ch2', col: 1, row: 2, type: 'channel' },
+      { id: 'bus6', label: 'Bus 6 Acoustic', short: 'Bus 6', col: 2, row: 3, type: 'bus' },
+      { id: 'fx-rack', label: 'FX11 RACKAMP', short: 'RACKAMP', col: 2.5, row: 3.5, type: 'fx' },
+      { id: 'bus2', label: 'Bus 2 Guitar Send', short: 'Bus 2', col: 3, row: 2, type: 'bus' },
+    ],
+  },
+  // Session players
+  {
+    id: 'session-players',
+    label: 'Session Players',
+    color: signalColors.session,
+    nodes: [
+      { id: 'logic-bass', label: 'Logic Bass', short: 'Bass', col: 0, row: 5, type: 'source' },
+      { id: 'ch9', label: 'Ch9 Bass', short: 'Ch9', col: 1, row: 5, type: 'channel' },
+      { id: 'mx6', label: 'MX6 Mix Bass', short: 'MX6', col: 2, row: 5, type: 'matrix' },
+      { id: 'm12-bass', label: 'M12 Ch5', col: 3, row: 5, type: 'output' },
+    ],
+  },
+  {
+    id: 'session-keys',
+    label: 'Session Piano/Synth',
+    color: signalColors.session,
+    nodes: [
+      { id: 'logic-keys', label: 'Logic Piano/Synth', short: 'Keys', col: 0, row: 6, type: 'source' },
+      { id: 'ch11', label: 'Ch11 Piano/Synth', short: 'Ch11', col: 1, row: 6, type: 'channel' },
+      { id: 'mx8', label: 'MX8 Mix Piano', short: 'MX8', col: 2, row: 6, type: 'matrix' },
+      { id: 'm12-keys', label: 'M12 Ch9/10', col: 3, row: 6, type: 'output' },
+    ],
+  },
+  {
+    id: 'session-drums',
+    label: 'Session Drums',
+    color: signalColors.session,
+    nodes: [
+      { id: 'logic-drums', label: 'Logic Drums', short: 'Drums', col: 0, row: 7, type: 'source' },
+      { id: 'ch12', label: 'Ch12 Drums', short: 'Ch12', col: 1, row: 7, type: 'channel' },
+      { id: 'mx7', label: 'MX7 Mix Drums', short: 'MX7', col: 2, row: 7, type: 'matrix' },
+      { id: 'm12-drums', label: 'M12 Ch7/8', col: 3, row: 7, type: 'output' },
+    ],
+  },
+  // Mixing chains (tape returns)
+  {
+    id: 'mix-vocal',
+    label: 'Mix Vocal',
+    color: signalColors.tape,
+    nodes: [
+      { id: 'logic-tape1', label: 'Logic Track 1', short: 'Trk 1', col: 0, row: 9, type: 'source' },
+      { id: 'ch25', label: 'Ch25 Tape Return 1', short: 'Ch25', col: 1, row: 9, type: 'channel' },
+      { id: 'mx2', label: 'MX2 Mix Vocal', short: 'MX2', col: 2, row: 9, type: 'matrix' },
+      { id: 'fx-double', label: 'FX3 DOUBLE', short: 'DOUBLE', col: 2.5, row: 8.5, type: 'fx' },
+      { id: 'm12-mix-vocal', label: 'M12 Ch1', col: 3, row: 9, type: 'output' },
+    ],
+  },
+  {
+    id: 'mix-rhythm',
+    label: 'Mix Rhythm',
+    color: signalColors.tape,
+    nodes: [
+      { id: 'ch26-src', label: 'Tape Return 2', short: 'Ch26', col: 1, row: 10, type: 'channel' },
+      { id: 'bus10', label: 'Bus 10 Rhythm Mon', short: 'Bus 10', col: 2, row: 10, type: 'bus' },
+      { id: 'fx-rack10', label: 'FX7 RACKAMP', short: 'RACKAMP', col: 2.5, row: 10.5, type: 'fx' },
+      { id: 'mx3', label: 'MX3 Mix Rhythm', short: 'MX3', col: 3, row: 10, type: 'matrix' },
+      { id: 'm12-mix-rhythm', label: 'M12 Ch2', col: 4, row: 10, type: 'output' },
+    ],
+  },
+  {
+    id: 'mix-lead',
+    label: 'Mix Lead',
+    color: signalColors.tape,
+    nodes: [
+      { id: 'ch27-src', label: 'Tape Return 3', short: 'Ch27', col: 1, row: 11, type: 'channel' },
+      { id: 'bus11', label: 'Bus 11 Lead Mon', short: 'Bus 11', col: 2, row: 11, type: 'bus' },
+      { id: 'fx-angel12', label: 'FX12 ANGEL', short: 'ANGEL', col: 2.5, row: 11.5, type: 'fx' },
+      { id: 'mx4', label: 'MX4 Mix Lead', short: 'MX4', col: 3, row: 11, type: 'matrix' },
+      { id: 'm12-mix-lead', label: 'M12 Ch3', col: 4, row: 11, type: 'output' },
+    ],
+  },
+  // Monitor output
+  {
+    id: 'monitors',
+    label: 'Monitors',
+    color: signalColors.monitor,
+    nodes: [
+      { id: 'main1', label: 'Main 1', col: 8, row: 4, type: 'bus' },
+      { id: 'mx1', label: 'MX1 Speakers', short: 'MX1', col: 9, row: 4, type: 'matrix' },
+      { id: 'speakers', label: 'Speakers', col: 10, row: 4, type: 'output' },
+    ],
+  },
+  // Reverb
+  {
+    id: 'reverb',
+    label: 'Reverb',
+    color: signalColors.outboard,
+    nodes: [
+      { id: 'bus3', label: 'Bus 3 Reverb', short: 'Bus 3', col: 8, row: 1, type: 'bus' },
+      { id: 'fx-plate', label: 'FX2 PLATE', short: 'PLATE', col: 8.5, row: 1.5, type: 'fx' },
+      { id: 'main1-rev', label: 'Main 1', col: 8, row: 4, type: 'bus' },
+    ],
+  },
+];
+
+// Flatten all unique nodes across chains, deduplicating by id
+// Use first occurrence for position
+const nodeMap = new Map<string, ChainNode>();
+for (const chain of layoutChains) {
+  for (const node of chain.nodes) {
+    if (!nodeMap.has(node.id)) {
+      nodeMap.set(node.id, node);
+    }
+  }
+}
+const allNodes = Array.from(nodeMap.values());
+
+// Build edges from chains
+interface Edge {
+  from: string;
+  to: string;
+  chainId: string;
+  color: string;
+}
+
+const edges: Edge[] = [];
+for (const chain of layoutChains) {
+  for (let i = 0; i < chain.nodes.length - 1; i++) {
+    const from = chain.nodes[i];
+    const to = chain.nodes[i + 1];
+    // Skip FX nodes in the edge path — they're labels, not in the main flow
+    if (from.type === 'fx' || to.type === 'fx') continue;
+    edges.push({ from: from.id, to: to.id, chainId: chain.id, color: chain.color });
+  }
+}
+
+// Layout constants
+const colWidth = 130;
+const rowHeight = 56;
+const nodeW = 110;
+const nodeH = 32;
+const padLeft = 30;
+const padTop = 50;
+
+function nodeX(col: number) { return padLeft + col * colWidth; }
+function nodeY(row: number) { return padTop + row * rowHeight; }
+function nodeCX(col: number) { return nodeX(col) + nodeW / 2; }
+function nodeCY(row: number) { return nodeY(row) + nodeH / 2; }
+
+const svgW = padLeft * 2 + 11 * colWidth + nodeW;
+const svgH = padTop * 2 + 12.5 * rowHeight + nodeH;
+
+// Build edge path data
+function edgePath(e: Edge): string {
+  const fromNode = nodeMap.get(e.from)!;
+  const toNode = nodeMap.get(e.to)!;
+  const x1 = nodeX(fromNode.col) + nodeW;
+  const y1 = nodeCY(fromNode.row);
+  const x2 = nodeX(toNode.col);
+  const y2 = nodeCY(toNode.row);
+  const dx = (x2 - x1) / 2;
+  return `M${x1},${y1} C${x1 + dx},${y1} ${x2 - dx},${y2} ${x2},${y2}`;
+}
+
+// Section labels for column headers
+const sectionLabels = [
+  { x: nodeX(0), label: 'SOURCES' },
+  { x: nodeX(1), label: 'CHANNELS' },
+  { x: nodeX(2), label: 'BUSES' },
+  { x: nodeX(3.5), label: 'PATCHBAY / OUTPUTS' },
+  { x: nodeX(4), label: 'OUTBOARD' },
+  { x: nodeX(7), label: 'RETURNS' },
+  { x: nodeX(8), label: 'RECORDING' },
+  { x: nodeX(10), label: 'DESTINATION' },
+];
+
+// Group labels for rows
+const groupLabels = [
+  { y: nodeCY(0), label: 'VOCAL', color: signalColors.vocal },
+  { y: nodeCY(2), label: 'GUITAR', color: signalColors.guitar },
+  { y: nodeCY(5.5), label: 'SESSION', color: signalColors.session },
+  { y: nodeCY(9.5), label: 'MIXING', color: signalColors.tape },
+];
+---
+
+<Base title="Signal Routing" active="routing">
+  <div class="container--wide">
+    <section class="page-header">
+      <h3>Interactive</h3>
+      <h1>Signal <em>Routing</em></h1>
+      <p>Every signal path in the studio, from source to destination. Hover any node to trace the full chain. Data parsed from studio.edn at build time.</p>
+    </section>
+  </div>
+
+  <div class="routing-wrap">
+    <div class="routing-info" id="routing-info">HOVER OVER ANY NODE</div>
+    <div class="routing-viewport">
+      <svg
+        id="routing-svg"
+        viewBox={`0 0 ${svgW} ${svgH}`}
+        preserveAspectRatio="xMidYMid meet"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <defs>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="3" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+
+        <!-- Background grid lines -->
+        {Array.from({ length: 11 }, (_, i) => (
+          <line
+            x1={nodeX(i) + nodeW / 2}
+            y1={padTop - 10}
+            x2={nodeX(i) + nodeW / 2}
+            y2={svgH - 20}
+            stroke="#e4dfd3"
+            stroke-width="0.5"
+            stroke-dasharray="2,4"
+          />
+        ))}
+
+        <!-- Section row separators -->
+        <line x1={padLeft} y1={nodeY(1.3)} x2={svgW - padLeft} y2={nodeY(1.3)} stroke="#e4dfd3" stroke-width="0.5" />
+        <line x1={padLeft} y1={nodeY(4)} x2={svgW - padLeft} y2={nodeY(4)} stroke="#e4dfd3" stroke-width="0.5" />
+        <line x1={padLeft} y1={nodeY(8)} x2={svgW - padLeft} y2={nodeY(8)} stroke="#e4dfd3" stroke-width="0.5" />
+
+        <!-- Group labels (left side) -->
+        {groupLabels.map(g => (
+          <text
+            x={padLeft - 6}
+            y={g.y}
+            text-anchor="end"
+            fill={g.color}
+            font-family="'JetBrains Mono', monospace"
+            font-size="8"
+            font-weight="600"
+            letter-spacing="2"
+            transform={`rotate(-90, ${padLeft - 6}, ${g.y})`}
+          >{g.label}</text>
+        ))}
+
+        <!-- Edges -->
+        <g class="routing-edges">
+          {edges.map(e => {
+            const fromNode = nodeMap.get(e.from);
+            const toNode = nodeMap.get(e.to);
+            if (!fromNode || !toNode) return null;
+            return (
+              <path
+                d={edgePath(e)}
+                fill="none"
+                stroke={e.color}
+                stroke-width="1.5"
+                stroke-opacity="0.35"
+                data-chain={e.chainId}
+                class="routing-edge"
+              />
+            );
+          })}
+        </g>
+
+        <!-- FX label nodes (smaller, attached to their parent bus/matrix) -->
+        {allNodes.filter(n => n.type === 'fx').map(node => {
+          const x = nodeX(node.col);
+          const y = nodeY(node.row);
+          // Find which chain this FX belongs to
+          const parentChain = layoutChains.find(c => c.nodes.some(n => n.id === node.id));
+          const color = parentChain?.color || signalColors.outboard;
+          return (
+            <g class="routing-fx" data-node={node.id} data-chains={layoutChains.filter(c => c.nodes.some(n => n.id === node.id)).map(c => c.id).join(',')}>
+              <rect
+                x={x + 10}
+                y={y + 4}
+                width={nodeW - 20}
+                height={22}
+                rx="2"
+                fill="none"
+                stroke={color}
+                stroke-width="0.75"
+                stroke-dasharray="3,2"
+                stroke-opacity="0.5"
+              />
+              <text
+                x={x + nodeW / 2}
+                y={y + 18}
+                text-anchor="middle"
+                fill={color}
+                font-family="'JetBrains Mono', monospace"
+                font-size="8"
+                font-weight="500"
+                opacity="0.7"
+              >{node.short || node.label}</text>
+            </g>
+          );
+        })}
+
+        <!-- Nodes -->
+        {allNodes.filter(n => n.type !== 'fx').map(node => {
+          const x = nodeX(node.col);
+          const y = nodeY(node.row);
+          // Determine color from parent chain
+          const parentChain = layoutChains.find(c => c.nodes.some(n => n.id === node.id));
+          const color = parentChain?.color || '#706d64';
+          const isSource = node.type === 'source';
+          const isOutput = node.type === 'output';
+          const isOutboard = node.type === 'outboard';
+          const isMatrix = node.type === 'matrix';
+
+          let fill = '#fdfbf7';
+          let stroke = '#e4dfd3';
+          let textColor = '#44403a';
+
+          if (isOutboard) {
+            fill = '#f5f0e6';
+            stroke = signalColors.outboard;
+            textColor = signalColors.outboard;
+          } else if (isSource) {
+            fill = '#f8f4ec';
+            stroke = color;
+            textColor = color;
+          } else if (isOutput) {
+            fill = '#f8f4ec';
+            stroke = color;
+            textColor = color;
+          } else if (isMatrix) {
+            fill = '#f5f0e6';
+            stroke = color;
+            textColor = color;
+          }
+
+          const chainIds = layoutChains
+            .filter(c => c.nodes.some(n => n.id === node.id))
+            .map(c => c.id)
+            .join(',');
+
+          return (
+            <g class="routing-node" data-node={node.id} data-chains={chainIds} style="cursor: pointer;">
+              <rect
+                x={x}
+                y={y}
+                width={nodeW}
+                height={nodeH}
+                rx="4"
+                fill={fill}
+                stroke={stroke}
+                stroke-width="1"
+                class="routing-node-rect"
+              />
+              <text
+                x={x + nodeW / 2}
+                y={y + nodeH / 2 + 1}
+                text-anchor="middle"
+                dominant-baseline="middle"
+                fill={textColor}
+                font-family="'JetBrains Mono', monospace"
+                font-size="9"
+                font-weight="500"
+              >{node.short || node.label}</text>
+            </g>
+          );
+        })}
+      </svg>
+    </div>
+
+    <div class="routing-legend">
+      <span><i style="background: #4a7a9a;"></i>Vocal</span>
+      <span><i style="background: #a85a4a;"></i>Guitar</span>
+      <span><i style="background: #5a8a4a;"></i>Session Players</span>
+      <span><i style="background: #b8724a;"></i>Tape / Mixing</span>
+      <span><i style="background: #b8792a;"></i>Outboard</span>
+    </div>
+
+    <!-- Signal chain detail cards -->
+    <section class="container--wide" style="margin-top: var(--gap-lg);">
+      <h3 class="mb-md">Signal Chains from studio.edn</h3>
+      <div class="grid-auto">
+        {Object.entries(chains).map(([id, chain]: [string, any]) => {
+          const isVocal = id.includes('vocal');
+          const isGuitar = id.includes('guitar') || id.includes('acoustic');
+          const isTape = id.includes('tape') || id.includes('reamp');
+          const tagClass = isVocal ? 'tag--blue' : isGuitar ? 'tag--red' : isTape ? 'tag--amber' : 'tag--green';
+          const tagLabel = isVocal ? 'vocal' : isGuitar ? 'guitar' : isTape ? 'tape' : 'other';
+          return (
+            <div class="card">
+              <span class={`tag ${tagClass}`}>{tagLabel}</span>
+              <h4 style="margin-top: 8px;">{id.replace(/-/g, ' ')}</h4>
+              <div class="chain-path">
+                {chain.path.map((step: string, i: number) => (
+                  <Fragment>
+                    {i > 0 && <span class="chain-arrow">&rarr;</span>}
+                    <span class="chain-step">{step}</span>
+                  </Fragment>
+                ))}
+              </div>
+              {chain.note && <p class="mt-sm" style="font-size: 11px; color: var(--stone);">{chain.note}</p>}
+            </div>
+          );
+        })}
+      </div>
+    </section>
+
+    <!-- Patchbay layout -->
+    <section class="container--wide" style="margin-top: var(--gap-lg);">
+      <h3 class="mb-md">Patchbay</h3>
+      <div class="patchbay-grid">
+        {Object.entries(patchbay).map(([num, point]: [string, any]) => {
+          if (point.status === 'open') return (
+            <div class="patch-point patch-point--open">
+              <span class="patch-num">P{num}</span>
+              <span class="patch-label">open</span>
+            </div>
+          );
+          const chainColor = point.chain === 'vocal' ? signalColors.vocal
+            : point.chain === 'guitar' ? signalColors.guitar
+            : point.chain === 'monitors' ? signalColors.monitor
+            : point.chain === 'tape-return' ? signalColors.tape
+            : signalColors.outboard;
+          return (
+            <div class="patch-point" style={`border-left-color: ${chainColor};`}>
+              <span class="patch-num">P{num}</span>
+              <div class="patch-connections">
+                <span class="patch-top">{point.top}</span>
+                <span class="patch-arrow">&darr;</span>
+                <span class="patch-bottom">{point.bottom}</span>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  </div>
+
+  <style>
+    .routing-wrap {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 8px 80px;
+    }
+    .routing-info {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 1px;
+      color: var(--amber);
+      padding: 10px 16px;
+      margin-bottom: 4px;
+      background: var(--cream);
+      border: 1px solid var(--linen);
+      border-radius: 2px;
+    }
+    .routing-viewport {
+      background: var(--white);
+      border: 1px solid var(--linen);
+      border-radius: 2px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    #routing-svg {
+      display: block;
+      width: 100%;
+      min-height: 400px;
+    }
+    .routing-legend {
+      display: flex;
+      gap: 18px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--stone);
+    }
+    .routing-legend span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .routing-legend i {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: block;
+    }
+
+    /* Hover highlight */
+    .routing-node:hover .routing-node-rect {
+      stroke-width: 2;
+      filter: url(#glow);
+    }
+    .routing-edge.dim { stroke-opacity: 0.08; }
+    .routing-edge.highlight { stroke-opacity: 0.9; stroke-width: 2.5; }
+    .routing-node.dim { opacity: 0.2; }
+    .routing-node.highlight .routing-node-rect { stroke-width: 2; }
+    .routing-fx.dim { opacity: 0.15; }
+    .routing-fx.highlight { opacity: 1; }
+
+    /* Chain path in cards */
+    .chain-path {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 4px;
+      font-family: var(--mono);
+      font-size: 11px;
+      line-height: 1.8;
+    }
+    .chain-step {
+      color: var(--slate);
+      background: var(--cream);
+      padding: 1px 6px;
+      border-radius: 2px;
+      border: 1px solid var(--linen);
+      white-space: nowrap;
+    }
+    .chain-arrow {
+      color: var(--sand);
+      font-size: 10px;
+    }
+
+    /* Patchbay grid */
+    .patchbay-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 6px;
+    }
+    .patch-point {
+      background: var(--white);
+      border: 1px solid var(--linen);
+      border-left: 3px solid var(--sand);
+      border-radius: 2px;
+      padding: 8px 10px;
+      font-family: var(--mono);
+      font-size: 10px;
+    }
+    .patch-point--open {
+      opacity: 0.4;
+    }
+    .patch-num {
+      font-weight: 600;
+      color: var(--amber);
+      display: block;
+      margin-bottom: 4px;
+      font-size: 10px;
+      letter-spacing: 1px;
+    }
+    .patch-label {
+      color: var(--stone);
+      font-size: 10px;
+    }
+    .patch-connections {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .patch-top {
+      color: var(--slate);
+    }
+    .patch-arrow {
+      color: var(--sand);
+      text-align: center;
+      font-size: 9px;
+    }
+    .patch-bottom {
+      color: var(--slate);
+    }
+
+    @media (max-width: 768px) {
+      .routing-viewport {
+        overflow-x: scroll;
+      }
+      #routing-svg {
+        min-width: 1000px;
+      }
+      .patchbay-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      }
+    }
+  </style>
+
+  <script>
+    // Hover-to-highlight signal chains
+    const svg = document.getElementById('routing-svg');
+    const info = document.getElementById('routing-info');
+    if (svg && info) {
+      const nodes = svg.querySelectorAll('.routing-node, .routing-fx');
+      const edges = svg.querySelectorAll('.routing-edge');
+      const allInteractive = svg.querySelectorAll('.routing-node, .routing-fx, .routing-edge');
+
+      function clearHighlight() {
+        allInteractive.forEach(el => {
+          el.classList.remove('dim', 'highlight');
+        });
+        info.textContent = 'HOVER OVER ANY NODE';
+      }
+
+      function highlightChains(chainIds: string[]) {
+        const chainSet = new Set(chainIds);
+        // Dim everything first
+        nodes.forEach(el => el.classList.add('dim'));
+        edges.forEach(el => el.classList.add('dim'));
+
+        // Highlight matching chains
+        edges.forEach(el => {
+          const edgeChain = el.getAttribute('data-chain');
+          if (edgeChain && chainSet.has(edgeChain)) {
+            el.classList.remove('dim');
+            el.classList.add('highlight');
+          }
+        });
+        nodes.forEach(el => {
+          const nodeChains = (el.getAttribute('data-chains') || '').split(',');
+          if (nodeChains.some(c => chainSet.has(c))) {
+            el.classList.remove('dim');
+            el.classList.add('highlight');
+          }
+        });
+      }
+
+      nodes.forEach(node => {
+        node.addEventListener('mouseenter', () => {
+          const chains = (node.getAttribute('data-chains') || '').split(',').filter(Boolean);
+          if (chains.length) {
+            highlightChains(chains);
+            const nodeId = node.getAttribute('data-node') || '';
+            // Build info text from chain labels
+            const chainLabels = chains.map(c => c.replace(/-/g, ' ').toUpperCase());
+            info.textContent = nodeId.toUpperCase() + '  //  ' + chainLabels.join(' + ');
+          }
+        });
+        node.addEventListener('mouseleave', clearHighlight);
+      });
+    }
+  </script>
+</Base>

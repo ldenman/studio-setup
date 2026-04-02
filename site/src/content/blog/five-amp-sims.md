@@ -1,5 +1,5 @@
 ---
-title: "Five Amp Sims, Five Personalities"
+title: "Wing: Five Amp Sims, Five Personalities"
 date: 2026-03-29
 description: "The Wing has five amp sim models. We A/B'd them all through the outboard chain and found they each want to be treated differently."
 tags: ["gear", "effects", "sound-design", "guitar"]

@@ -1,0 +1,1169 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="How It Works" active="how-it-works">
+  <div class="container">
+
+    <section class="page-header">
+      <h3>The Full Walkthrough</h3>
+      <h1>How It Works</h1>
+      <p>From microphone to finished mix &mdash; a complete guide to every piece of gear, every creative decision, and every step of the process. No jargon, no prerequisites, just the full story of how sound becomes a record.</p>
+    </section>
+
+    <div class="vu-bar"></div>
+
+    <!-- ════════════════════════════════════════════════
+         INTRODUCTION
+         ════════════════════════════════════════════════ -->
+    <article class="hiw">
+
+      <section class="hiw__section" id="intro">
+        <div class="prose">
+          <h3>A Studio That Works Like a Record</h3>
+          <p>
+            This is a home studio that works like a professional one. Not a laptop with a USB microphone and some software &mdash; a room with a rack of analog hardware, a digital mixing console, a physical fader board, and an AI assistant that controls it all. We record vocals and guitar through real electronic circuits that add warmth, weight, and polish to the sound before it ever hits the recorder. We build songs one layer at a time. And when every layer is down, we mix them on a physical console with real faders, capturing the mix as a live performance.
+          </p>
+          <h3>Three Promises</h3>
+          <p>
+            We make three promises. The first is zero latency &mdash; a term that means no delay between what you play and what you hear. When you sing into the microphone, you hear your voice in the headphones at the exact same instant, processed through the full chain of analog gear. There is no perceptible gap, no echo of yourself arriving a fraction of a second late. This matters more than most people realize: even a tiny delay between your voice leaving your mouth and arriving in your ears throws off your pitch, your timing, your confidence. We eliminate that entirely by processing everything in hardware, not software.
+          </p>
+          <p>
+            The second promise is that every take sounds like a finished record before we even start mixing. The analog gear &mdash; the preamp that adds body, the compressors that control dynamics, the de-esser that tames harshness &mdash; all of that processing is committed to the recording permanently. This is not a rough scratch track that we will "fix in the mix." It is the sound. When you listen back to a take, you are hearing what the audience will hear. That kind of immediacy changes how you perform, because you trust the sound coming back to you.
+          </p>
+          <p>
+            The third promise is the most unusual: an AI assistant runs the mixing board. Not generating music, not making creative decisions, but handling the engineering. Every parameter on the digital mixer &mdash; hundreds of faders, mutes, routing assignments, effect settings &mdash; can be read and changed through plain-language commands. "Set up for lead guitar." "Add reverb to the vocal." "Something sounds wrong with the drums." The AI finds the right channels, checks the current state, makes the changes, and confirms. The musician never needs to touch the console or learn its interface.
+          </p>
+          <h3>The Journey Ahead</h3>
+          <p>
+            What follows is the full journey, from the moment you plug in an instrument to the moment a finished mix rolls off the console. We will walk through every piece of gear, explain what it does and why it matters, describe the recording process layer by layer, explain how mixing works on a physical board, and show you what it looks like when an AI runs the engineering side of a recording session. This is the definitive guide to how this studio works.
+          </p>
+        </div>
+
+        <div class="hiw__svg-wrap">
+          <svg viewBox="0 0 700 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Overview: microphone to headphones signal flow">
+            <!-- Microphone -->
+            <g transform="translate(60,60)">
+              <circle cx="0" cy="-20" r="12" fill="none" stroke="var(--ink)" stroke-width="1.5"/>
+              <line x1="0" y1="-8" x2="0" y2="12" stroke="var(--ink)" stroke-width="1.5"/>
+              <path d="M-8,12 Q0,20 8,12" fill="none" stroke="var(--ink)" stroke-width="1.5"/>
+              <line x1="0" y1="20" x2="0" y2="28" stroke="var(--ink)" stroke-width="1.5"/>
+              <line x1="-6" y1="28" x2="6" y2="28" stroke="var(--ink)" stroke-width="1.5"/>
+            </g>
+            <text x="60" y="105" text-anchor="middle" font-family="var(--mono)" font-size="9" fill="var(--stone)" letter-spacing="1">SING</text>
+
+            <!-- Arrow 1 -->
+            <line x1="110" y1="60" x2="180" y2="60" stroke="var(--sand)" stroke-width="1"/>
+            <polygon points="180,56 188,60 180,64" fill="var(--sand)"/>
+
+            <!-- Analog Gear box -->
+            <rect x="195" y="38" width="120" height="44" rx="2" fill="var(--white)" stroke="var(--amber)" stroke-width="1.5"/>
+            <text x="255" y="55" text-anchor="middle" font-family="var(--heading)" font-size="11" font-weight="600" fill="var(--ink)">Analog Gear</text>
+            <text x="255" y="72" text-anchor="middle" font-family="var(--mono)" font-size="8" fill="var(--stone)">preamp + compressors</text>
+
+            <!-- Arrow 2 -->
+            <line x1="322" y1="60" x2="380" y2="60" stroke="var(--sand)" stroke-width="1"/>
+            <polygon points="380,56 388,60 380,64" fill="var(--sand)"/>
+
+            <!-- Mixer box -->
+            <rect x="395" y="38" width="100" height="44" rx="2" fill="var(--white)" stroke="var(--vocal-blue)" stroke-width="1.5"/>
+            <text x="445" y="55" text-anchor="middle" font-family="var(--heading)" font-size="11" font-weight="600" fill="var(--ink)">Mixer</text>
+            <text x="445" y="72" text-anchor="middle" font-family="var(--mono)" font-size="8" fill="var(--stone)">routing + effects</text>
+
+            <!-- Arrow 3 -->
+            <line x1="502" y1="60" x2="560" y2="60" stroke="var(--sand)" stroke-width="1"/>
+            <polygon points="560,56 568,60 560,64" fill="var(--sand)"/>
+
+            <!-- Headphones -->
+            <g transform="translate(610,60)">
+              <path d="M-16,-8 Q-16,-24 0,-24 Q16,-24 16,-8" fill="none" stroke="var(--ink)" stroke-width="1.5"/>
+              <rect x="-20" y="-10" width="8" height="16" rx="2" fill="var(--ink)"/>
+              <rect x="12" y="-10" width="8" height="16" rx="2" fill="var(--ink)"/>
+            </g>
+            <text x="610" y="105" text-anchor="middle" font-family="var(--mono)" font-size="9" fill="var(--stone)" letter-spacing="1">HEAR</text>
+          </svg>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════════════
+           PART 1: PLUG IN AND PLAY
+           ════════════════════════════════════════════════ -->
+      <section class="hiw__section" id="plug-in">
+        <span class="hiw__part-label">Part 1</span>
+        <h2>Plug In and Play <a href="#plug-in" class="hiw__anchor"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+        <div class="prose">
+          <h3>Zero Friction</h3>
+          <p>
+            Most recording sessions begin with twenty minutes of setup. Plugging in cables, routing signals, testing levels, troubleshooting why channel four has no sound. That friction kills creativity. By the time the gear is ready, the musical idea that brought you to the studio has cooled off. We built this studio to eliminate that problem entirely. Everything is already wired. The microphone cable, the guitar cable, every connection between every piece of outboard gear, every recording path and monitoring path &mdash; all of it is permanently connected and calibrated. There is no setup step. You plug in your instrument and start playing.
+          </p>
+          <h3>The Patchbay</h3>
+          <p>
+            The secret is a device called a patchbay, and the easiest way to understand it is to think of an old telephone switchboard &mdash; the kind where an operator would connect two people by plugging a cable between two jacks. Our patchbay is a panel of 48 jacks mounted in the equipment rack. Each jack represents a connection point: the output of the mixer, the input of a preamp, the output of a compressor, the return to the recorder. But unlike a telephone switchboard, our patchbay has default connections that are always live &mdash; a feature called normalling. Signal flows from point A to point B through the internal wiring of the panel, without any cable plugged in at all. The normals are the permanent paths.
+          </p>
+          <h3>Normalling</h3>
+          <p>
+            Think of it like train tracks with switches. The default route takes the train from the station to the city center without anyone touching anything. But if you want to reroute to a different destination, you throw a switch &mdash; on the patchbay, you plug in a short cable between two jacks, breaking the normal and redirecting the signal. This is how studios have worked for decades: the common paths are always ready, and the unusual paths are one cable away. In practice, we almost never need to break the normals. The defaults handle ninety-five percent of what we do.
+          </p>
+          <h3>Two Permanent Chains</h3>
+          <p>
+            Two instruments have permanent chains wired through the patchbay: vocals and guitar. The vocal chain runs from the mixer's first output through a preamp, a fast compressor, and a slow optical compressor, then back to the mixer for recording. The guitar chain runs from the mixer's second output through its own preamp, its own fast compressor, and a different slow compressor called a Distressor, then back to the mixer on a separate channel. These two chains use entirely independent hardware &mdash; separate preamp channels, separate compressors, separate mixer inputs and outputs. They never interfere with each other, and both can run at the same time.
+          </p>
+          <h3>Always Ready</h3>
+          <p>
+            The result is a studio where the creative distance between "I have an idea" and "I am recording" is exactly one step: plug in. Every piece of gear is warmed up, every signal path is tested, every level is calibrated. The patchbay holds it all together silently, routing audio through the right boxes in the right order without anyone thinking about it. This is what zero friction means in practice.
+          </p>
+        </div>
+
+        <div class="hiw__svg-wrap">
+          <svg viewBox="0 0 700 310" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Vocal and guitar signal chains flowing through the patchbay">
+
+            <!-- Title -->
+            <text x="350" y="18" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="var(--stone)" letter-spacing="2">HOW THE PATCHBAY CONNECTS THE CHAINS</text>
+
+            <!-- ── VOCAL CHAIN (blue) ── -->
+            <text x="30" y="58" font-family="var(--mono)" font-size="9" font-weight="600" fill="var(--vocal-blue)" letter-spacing="1">VOCAL</text>
+
+            <!-- Mixer Out 1 -->
+            <rect x="90" y="40" width="90" height="36" rx="3" fill="var(--white)" stroke="var(--vocal-blue)" stroke-width="1.5"/>
+            <text x="135" y="55" text-anchor="middle" font-family="var(--mono)" font-size="8" fill="var(--vocal-blue)">Mixer</text>
+            <text x="135" y="67" text-anchor="middle" font-family="var(--mono)" font-size="7" fill="var(--stone)">Out 1</text>
+
+            <!-- Arrow -->
+            <line x1="180" y1="58" x2="198" y2="58" stroke="var(--vocal-blue)" stroke-width="1" opacity="0.5"/>
+            <polygon points="198,55 204,58 198,61" fill="var(--vocal-blue)" opacity="0.5"/>
+
+            <!-- P1: top jack (Out 1) → bottom jack (HA73 In) -->
+            <g>
+              <rect x="206" y="36" width="52" height="44" rx="2" fill="var(--cream)" stroke="var(--linen)" stroke-width="1"/>
+              <circle cx="232" cy="48" r="6" fill="var(--white)" stroke="var(--vocal-blue)" stroke-width="1.5"/>
+              <circle cx="232" cy="68" r="6" fill="var(--white)" stroke="var(--vocal-blue)" stroke-width="1.5"/>
+              <line x1="232" y1="54" x2="232" y2="62" stroke="var(--vocal-blue)" stroke-width="1.5" stroke-dasharray="2,2"/>
+              <text x="232" y="32" text-anchor="middle" font-family="var(--mono)" font-size="6" fill="var(--stone)">P1</text>
+            </g>
+
+            <!-- Arrow -->
+            <line x1="258" y1="58" x2="276" y2="58" stroke="var(--vocal-blue)" stroke-width="1" opacity="0.5"/>
+            <polygon points="276,55 282,58 276,61" fill="var(--vocal-blue)" opacity="0.5"/>
+
+            <!-- HA73 A -->
+            <rect x="284" y="40" width="70" height="36" rx="3" fill="var(--white)" stroke="var(--amber)" stroke-width="1.5"/>
+            <text x="319" y="55" text-anchor="middle" font-family="var(--mono)" font-size="8" fill="var(--amber)">HA73 A</text>
+            <text x="319" y="67" text-anchor="middle" font-family="var(--mono)" font-size="7" fill="var(--stone)">Preamp</text>
+
+            <!-- P2 -->
+            <line x1="354" y1="58" x2="368" y2="58" stroke="var(--vocal-blue)" stroke-width="1" opacity="0.5"/>
+            <polygon points="368,55 374,58 368,61" fill="var(--vocal-blue)" opacity="0.5"/>
+            <g>
+              <rect x="376" y="36" width="52" height="44" rx="2" fill="var(--cream)" stroke="var(--linen)" stroke-width="1"/>
+              <circle cx="402" cy="48" r="6" fill="var(--white)" stroke="var(--vocal-blue)" stroke-width="1.5"/>
+              <circle cx="402" cy="68" r="6" fill="var(--white)" stroke="var(--vocal-blue)" stroke-width="1.5"/>
+              <line x1="402" y1="54" x2="402" y2="62" stroke="var(--vocal-blue)" stroke-width="1.5" stroke-dasharray="2,2"/>
+              <text x="402" y="32" text-anchor="middle" font-family="var(--mono)" font-size="6" fill="var(--stone)">P2</text>
+            </g>
+
+            <!-- Arrow -->
+            <line x1="428" y1="58" x2="446" y2="58" stroke="var(--vocal-blue)" stroke-width="1" opacity="0.5"/>
+            <polygon points="446,55 452,58 446,61" fill="var(--vocal-blue)" opacity="0.5"/>
+
+            <!-- WA76 A -->
+            <rect x="454" y="40" width="70" height="36" rx="3" fill="var(--white)" stroke="var(--amber)" stroke-width="1.5"/>
+            <text x="489" y="55" text-anchor="middle" font-family="var(--mono)" font-size="8" fill="var(--amber)">WA76 A</text>
+            <text x="489" y="67" text-anchor="middle" font-family="var(--mono)" font-size="7" fill="var(--stone)">1176 Comp</text>
+
+            <!-- P3 → Opto → P4 → back to mixer -->
+            <line x1="524" y1="58" x2="538" y2="58" stroke="var(--vocal-blue)" stroke-width="1" opacity="0.5"/>
+            <polygon points="538,55 544,58 538,61" fill="var(--vocal-blue)" opacity="0.5"/>
+            <text x="560" y="62" text-anchor="middle" font-family="var(--mono)" font-size="7" fill="var(--stone)">P3</text>
+            <line x1="572" y1="58" x2="586" y2="58" stroke="var(--vocal-blue)" stroke-width="1" opacity="0.5"/>
+            <polygon points="586,55 592,58 586,61" fill="var(--vocal-blue)" opacity="0.5"/>
+
+            <!-- Opto + P4 + Return -->
+            <rect x="594" y="40" width="52" height="36" rx="3" fill="var(--white)" stroke="var(--amber)" stroke-width="1.5"/>
+            <text x="620" y="55" text-anchor="middle" font-family="var(--mono)" font-size="8" fill="var(--amber)">Opto</text>
+            <text x="620" y="67" text-anchor="middle" font-family="var(--mono)" font-size="7" fill="var(--stone)">LA-2A</text>
+
+            <!-- Return arrow curving back to mixer -->
+            <path d="M 646,58 L 664,58 L 664,94 L 186,94" fill="none" stroke="var(--vocal-blue)" stroke-width="1" opacity="0.5"/>
+            <polygon points="186,91 180,94 186,97" fill="var(--vocal-blue)"/>
+            <text x="664" y="82" font-family="var(--mono)" font-size="6" fill="var(--stone)">P4</text>
+
+            <!-- Mixer Return -->
+            <rect x="90" y="82" width="90" height="24" rx="3" fill="var(--white)" stroke="var(--vocal-blue)" stroke-width="1.5"/>
+            <text x="135" y="98" text-anchor="middle" font-family="var(--mono)" font-size="8" fill="var(--vocal-blue)">Mixer In</text>
+
+
+            <!-- ── GUITAR CHAIN (red) ── -->
+            <text x="30" y="158" font-family="var(--mono)" font-size="9" font-weight="600" fill="var(--guitar-red)" letter-spacing="1">GUITAR</text>
+
+            <!-- Mixer Out 2 -->
+            <rect x="90" y="140" width="90" height="36" rx="3" fill="var(--white)" stroke="var(--guitar-red)" stroke-width="1.5"/>
+            <text x="135" y="155" text-anchor="middle" font-family="var(--mono)" font-size="8" fill="var(--guitar-red)">Mixer</text>
+            <text x="135" y="167" text-anchor="middle" font-family="var(--mono)" font-size="7" fill="var(--stone)">Out 2</text>
+
+            <!-- Arrow -->
+            <line x1="180" y1="158" x2="198" y2="158" stroke="var(--guitar-red)" stroke-width="1" opacity="0.5"/>
+            <polygon points="198,155 204,158 198,161" fill="var(--guitar-red)" opacity="0.5"/>
+
+            <!-- P5 -->
+            <g>
+              <rect x="206" y="136" width="52" height="44" rx="2" fill="var(--cream)" stroke="var(--linen)" stroke-width="1"/>
+              <circle cx="232" cy="148" r="6" fill="var(--white)" stroke="var(--guitar-red)" stroke-width="1.5"/>
+              <circle cx="232" cy="168" r="6" fill="var(--white)" stroke="var(--guitar-red)" stroke-width="1.5"/>
+              <line x1="232" y1="154" x2="232" y2="162" stroke="var(--guitar-red)" stroke-width="1.5" stroke-dasharray="2,2"/>
+              <text x="232" y="132" text-anchor="middle" font-family="var(--mono)" font-size="6" fill="var(--stone)">P5</text>
+            </g>
+
+            <!-- Arrow -->
+            <line x1="258" y1="158" x2="276" y2="158" stroke="var(--guitar-red)" stroke-width="1" opacity="0.5"/>
+            <polygon points="276,155 282,158 276,161" fill="var(--guitar-red)" opacity="0.5"/>
+
+            <!-- HA73 B -->
+            <rect x="284" y="140" width="70" height="36" rx="3" fill="var(--white)" stroke="var(--amber)" stroke-width="1.5"/>
+            <text x="319" y="155" text-anchor="middle" font-family="var(--mono)" font-size="8" fill="var(--amber)">HA73 B</text>
+            <text x="319" y="167" text-anchor="middle" font-family="var(--mono)" font-size="7" fill="var(--stone)">Preamp</text>
+
+            <!-- P6 -->
+            <line x1="354" y1="158" x2="368" y2="158" stroke="var(--guitar-red)" stroke-width="1" opacity="0.5"/>
+            <polygon points="368,155 374,158 368,161" fill="var(--guitar-red)" opacity="0.5"/>
+            <g>
+              <rect x="376" y="136" width="52" height="44" rx="2" fill="var(--cream)" stroke="var(--linen)" stroke-width="1"/>
+              <circle cx="402" cy="148" r="6" fill="var(--white)" stroke="var(--guitar-red)" stroke-width="1.5"/>
+              <circle cx="402" cy="168" r="6" fill="var(--white)" stroke="var(--guitar-red)" stroke-width="1.5"/>
+              <line x1="402" y1="154" x2="402" y2="162" stroke="var(--guitar-red)" stroke-width="1.5" stroke-dasharray="2,2"/>
+              <text x="402" y="132" text-anchor="middle" font-family="var(--mono)" font-size="6" fill="var(--stone)">P6</text>
+            </g>
+
+            <!-- Arrow -->
+            <line x1="428" y1="158" x2="446" y2="158" stroke="var(--guitar-red)" stroke-width="1" opacity="0.5"/>
+            <polygon points="446,155 452,158 446,161" fill="var(--guitar-red)" opacity="0.5"/>
+
+            <!-- WA76 B -->
+            <rect x="454" y="140" width="70" height="36" rx="3" fill="var(--white)" stroke="var(--amber)" stroke-width="1.5"/>
+            <text x="489" y="155" text-anchor="middle" font-family="var(--mono)" font-size="8" fill="var(--amber)">WA76 B</text>
+            <text x="489" y="167" text-anchor="middle" font-family="var(--mono)" font-size="7" fill="var(--stone)">1176 Comp</text>
+
+            <!-- P7 → Distressor → P8 → back -->
+            <line x1="524" y1="158" x2="538" y2="158" stroke="var(--guitar-red)" stroke-width="1" opacity="0.5"/>
+            <polygon points="538,155 544,158 538,161" fill="var(--guitar-red)" opacity="0.5"/>
+            <text x="560" y="162" text-anchor="middle" font-family="var(--mono)" font-size="7" fill="var(--stone)">P7</text>
+            <line x1="572" y1="158" x2="586" y2="158" stroke="var(--guitar-red)" stroke-width="1" opacity="0.5"/>
+            <polygon points="586,155 592,158 586,161" fill="var(--guitar-red)" opacity="0.5"/>
+
+            <!-- Distressor -->
+            <rect x="594" y="140" width="70" height="36" rx="3" fill="var(--white)" stroke="var(--amber)" stroke-width="1.5"/>
+            <text x="629" y="155" text-anchor="middle" font-family="var(--mono)" font-size="7" fill="var(--amber)">Distressor</text>
+            <text x="629" y="167" text-anchor="middle" font-family="var(--mono)" font-size="7" fill="var(--stone)">Comp</text>
+
+            <!-- Return arrow curving back to mixer -->
+            <path d="M 664,158 L 680,158 L 680,194 L 186,194" fill="none" stroke="var(--guitar-red)" stroke-width="1" opacity="0.5"/>
+            <polygon points="186,191 180,194 186,197" fill="var(--guitar-red)"/>
+            <text x="680" y="182" font-family="var(--mono)" font-size="6" fill="var(--stone)">P8</text>
+
+            <!-- Mixer Return -->
+            <rect x="90" y="182" width="90" height="24" rx="3" fill="var(--white)" stroke="var(--guitar-red)" stroke-width="1.5"/>
+            <text x="135" y="198" text-anchor="middle" font-family="var(--mono)" font-size="8" fill="var(--guitar-red)">Mixer In</text>
+
+
+            <!-- ── LEGEND ── -->
+            <g transform="translate(90, 230)">
+              <rect x="0" y="0" width="28" height="22" rx="2" fill="var(--cream)" stroke="var(--linen)" stroke-width="1"/>
+              <circle cx="14" cy="7" r="4" fill="var(--white)" stroke="var(--stone)" stroke-width="1"/>
+              <circle cx="14" cy="17" r="4" fill="var(--white)" stroke="var(--stone)" stroke-width="1"/>
+              <line x1="14" y1="11" x2="14" y2="13" stroke="var(--stone)" stroke-width="1" stroke-dasharray="1,1"/>
+              <text x="36" y="15" font-family="var(--mono)" font-size="8" fill="var(--stone)">= patchbay point (top jack sends, bottom jack receives, dashed line = normalled connection)</text>
+            </g>
+
+            <g transform="translate(90, 262)">
+              <rect x="0" y="0" width="28" height="16" rx="3" fill="var(--white)" stroke="var(--amber)" stroke-width="1.5"/>
+              <text x="36" y="12" font-family="var(--mono)" font-size="8" fill="var(--stone)">= outboard gear (physical hardware in the rack)</text>
+            </g>
+
+            <g transform="translate(90, 288)">
+              <text x="0" y="10" font-family="var(--body)" font-size="11" fill="var(--slate)">Signal flows left to right, then loops back to the mixer. No cables needed &mdash; it's all normalled.</text>
+            </g>
+
+          </svg>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════════════
+           PART 2: THE OUTBOARD CHAIN
+           ════════════════════════════════════════════════ -->
+      <section class="hiw__section" id="outboard">
+        <span class="hiw__part-label">Part 2</span>
+        <h2>The Outboard Chain <a href="#outboard" class="hiw__anchor"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+        <div class="prose">
+          <h3>What Is Outboard Gear?</h3>
+          <p>
+            "Outboard gear" is the recording industry's term for physical audio processors &mdash; standalone boxes, each dedicated to a single job, that shape sound using analog electronic circuits. Transistors, transformers, capacitors, optical cells &mdash; real components carrying real electrical current. This is the opposite of a software plugin running on a computer, which simulates what these circuits do using math. Both approaches can sound good, but the analog versions have a character that comes from the physical imperfections of the components themselves. A transformer saturates in a way that adds harmonic richness. An optical cell responds to volume changes with a gentle, musical slowness that algorithms can approximate but never quite replicate. We use outboard gear on every recording because it makes the difference between audio that sounds "captured" and audio that sounds "produced."
+          </p>
+          <h3>The Preamp</h3>
+          <p>
+            The first box in both chains is the preamp &mdash; the HA73, a Neve-style preamp with a transformer-coupled output. A preamp's basic job is amplification: a microphone produces a very quiet electrical signal, and the preamp boosts it to a level the rest of the equipment can work with. But a good preamp does more than just make things louder. Think of the difference between natural light and fluorescent light. Both illuminate a room, but one feels warm and the other feels clinical. The HA73 is natural light. Its transformers add a subtle harmonic richness to everything that passes through &mdash; a thickness in the low end, a sheen on the top. The signal comes out bigger, warmer, and more present than it went in. We have two channels, one for vocals and one for guitar, and they have slightly different personalities despite being the same model &mdash; a quirk of analog electronics that we have learned to appreciate rather than fight.
+          </p>
+          <h3>The Fast Compressor</h3>
+          <p>
+            After the preamp comes the fast compressor, a WA76 modeled after the legendary UREI 1176. Compression is one of those concepts that sounds technical but is really very simple: imagine an invisible hand on the volume knob that turns it down when the sound gets loud and turns it back up when it gets quiet. The result is a more even, controlled signal &mdash; the loud parts do not blow your head off, and the quiet parts do not disappear. What makes the WA76 special is speed. It reacts in microseconds &mdash; fast enough to catch the initial attack of a guitar pick hitting a string, fast enough to grab the hard consonant at the start of a sung word. That speed is what gives an 1176-style compressor its signature sound: punchy, present, exciting. The transients (the sharp initial moments of a sound) get tamed just enough to sit in a mix, while the body of the note comes through with extra energy. It is not about squashing the sound flat. It is about controlling the peaks so the overall level can come up without distortion.
+          </p>
+          <h3>The Slow Compressor</h3>
+          <p>
+            Then comes a second compressor, and this is where the two chains diverge. The vocal chain uses an optical leveling amplifier &mdash; the Audioscape Opto, a clone of the Teletronix LA-2A, one of the most revered vocal compressors ever made. Why a second compressor? Because the fast compressor and the slow compressor do fundamentally different jobs. The WA76 catches the peaks &mdash; the loud syllables, the pick attacks. The Opto smooths the overall ride. Think of it like this: the fast compressor is a bouncer at the door, catching anyone who gets rowdy. The optical compressor is the host who keeps the whole party at a comfortable volume. Optical compression works by shining a light on a photosensitive cell &mdash; as the audio signal gets louder, the light gets brighter, and the cell reduces the volume. The beautiful thing is that light does not flicker instantly. It fades in and out with a gentle, organic timing that follows the natural dynamics of a voice or an instrument. The result is a vocal that feels smooth and polished without sounding squashed or artificial.
+          </p>
+          <h3>The Distressor</h3>
+          <p>
+            The guitar chain uses the Distressor in that same slow-compressor position. The Distressor is a different beast &mdash; more aggressive, more characterful, with a wider range of tonal options. Where the Opto is a gentle hand guiding the vocal, the Distressor is a sculptor shaping the guitar tone. It adds a subtle harmonic distortion at higher settings that thickens the sound, and its compression curve is more assertive, which works well for guitar's wider dynamic range. The choice of Opto for vocals and Distressor for guitar is not arbitrary &mdash; it is the result of listening to both options on both sources and choosing what sounds best for each.
+          </p>
+          <h3>The De-Esser</h3>
+          <p>
+            The final piece is the de-esser, which runs on the digital mixer rather than as a separate box. Sibilance is the sharp, hissing quality of S and T sounds in speech and singing. Every voice has it, and compression makes it worse &mdash; by bringing up the overall level, the compressors also bring up those high-frequency bursts that were previously hidden in the dynamics. The de-esser is a frequency-targeted compressor: it listens for energy in the sibilant range (typically around 5-8 kHz) and reduces the volume only in that narrow band, only when it detects a problematic sound. The rest of the audio passes through untouched. It is a surgical tool for a surgical problem, and it is the final step before the signal hits the recorder.
+          </p>
+        </div>
+
+        <div class="hiw__svg-wrap">
+          <svg viewBox="0 0 700 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Four outboard processors in a chain showing what each does to the signal">
+            <!-- Box 1: Preamp -->
+            <g transform="translate(30, 20)">
+              <rect x="0" y="0" width="140" height="90" rx="2" fill="var(--white)" stroke="var(--amber)" stroke-width="1.5"/>
+              <text x="70" y="22" text-anchor="middle" font-family="var(--mono)" font-size="8" fill="var(--amber)" letter-spacing="1">PREAMP</text>
+              <text x="70" y="38" text-anchor="middle" font-family="var(--heading)" font-size="12" font-weight="600" fill="var(--ink)">HA73</text>
+              <!-- Small wave -> bigger wave -->
+              <polyline points="20,62 30,58 40,66 50,58 60,66" fill="none" stroke="var(--stone)" stroke-width="1"/>
+              <text x="75" y="66" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="var(--stone)">&rarr;</text>
+              <polyline points="85,68 95,54 105,72 115,54 125,68" fill="none" stroke="var(--amber)" stroke-width="1.5"/>
+              <text x="70" y="84" text-anchor="middle" font-family="var(--mono)" font-size="7" fill="var(--stone)">amplifies + adds warmth</text>
+            </g>
+
+            <!-- Arrow -->
+            <line x1="178" y1="65" x2="198" y2="65" stroke="var(--sand)" stroke-width="1"/>
+            <polygon points="198,62 204,65 198,68" fill="var(--sand)"/>
+
+            <!-- Box 2: Fast Compressor -->
+            <g transform="translate(210, 20)">
+              <rect x="0" y="0" width="140" height="90" rx="2" fill="var(--white)" stroke="var(--amber)" stroke-width="1.5"/>
+              <text x="70" y="22" text-anchor="middle" font-family="var(--mono)" font-size="8" fill="var(--amber)" letter-spacing="1">FAST COMP</text>
+              <text x="70" y="38" text-anchor="middle" font-family="var(--heading)" font-size="12" font-weight="600" fill="var(--ink)">WA76</text>
+              <!-- Spiky wave -> smoother wave -->
+              <polyline points="20,62 28,50 36,70 44,48 52,68" fill="none" stroke="var(--stone)" stroke-width="1"/>
+              <text x="75" y="66" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="var(--stone)">&rarr;</text>
+              <polyline points="85,62 95,56 105,66 115,56 125,64" fill="none" stroke="var(--amber)" stroke-width="1.5"/>
+              <text x="70" y="84" text-anchor="middle" font-family="var(--mono)" font-size="7" fill="var(--stone)">catches loud moments</text>
+            </g>
+
+            <!-- Arrow -->
+            <line x1="358" y1="65" x2="378" y2="65" stroke="var(--sand)" stroke-width="1"/>
+            <polygon points="378,62 384,65 378,68" fill="var(--sand)"/>
+
+            <!-- Box 3: Slow Compressor -->
+            <g transform="translate(390, 20)">
+              <rect x="0" y="0" width="140" height="90" rx="2" fill="var(--white)" stroke="var(--amber)" stroke-width="1.5"/>
+              <text x="70" y="22" text-anchor="middle" font-family="var(--mono)" font-size="8" fill="var(--amber)" letter-spacing="1">SLOW COMP</text>
+              <text x="70" y="38" text-anchor="middle" font-family="var(--heading)" font-size="12" font-weight="600" fill="var(--ink)">Opto</text>
+              <!-- Uneven wave -> even wave -->
+              <polyline points="20,68 28,54 36,70 44,58 52,64" fill="none" stroke="var(--stone)" stroke-width="1"/>
+              <text x="75" y="66" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="var(--stone)">&rarr;</text>
+              <polyline points="85,63 95,59 105,63 115,59 125,63" fill="none" stroke="var(--amber)" stroke-width="1.5"/>
+              <text x="70" y="84" text-anchor="middle" font-family="var(--mono)" font-size="7" fill="var(--stone)">smooths overall level</text>
+            </g>
+
+            <!-- Arrow -->
+            <line x1="538" y1="65" x2="558" y2="65" stroke="var(--sand)" stroke-width="1"/>
+            <polygon points="558,62 564,65 558,68" fill="var(--sand)"/>
+
+            <!-- Box 4: De-esser -->
+            <g transform="translate(570, 20)">
+              <rect x="0" y="0" width="110" height="90" rx="2" fill="var(--white)" stroke="var(--amber)" stroke-width="1.5"/>
+              <text x="55" y="22" text-anchor="middle" font-family="var(--mono)" font-size="8" fill="var(--amber)" letter-spacing="1">DE-ESSER</text>
+              <text x="55" y="38" text-anchor="middle" font-family="var(--heading)" font-size="12" font-weight="600" fill="var(--ink)">Wing</text>
+              <!-- Harsh S -> tamed -->
+              <polyline points="12,62 20,50 24,70 28,48 32,62" fill="none" stroke="var(--stone)" stroke-width="1"/>
+              <text x="55" y="66" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="var(--stone)">&rarr;</text>
+              <polyline points="68,62 76,58 84,64 92,58 100,62" fill="none" stroke="var(--amber)" stroke-width="1.5"/>
+              <text x="55" y="84" text-anchor="middle" font-family="var(--mono)" font-size="7" fill="var(--stone)">tames harsh S sounds</text>
+            </g>
+
+            <!-- Explanation text below -->
+            <g transform="translate(0, 140)">
+              <text x="350" y="10" text-anchor="middle" font-family="var(--body)" font-size="12" fill="var(--slate)">The first three boxes are physical hardware in the rack. The de-esser runs</text>
+              <text x="350" y="28" text-anchor="middle" font-family="var(--body)" font-size="12" fill="var(--slate)">on the mixer. Together they shape the sound before it reaches the recorder.</text>
+            </g>
+
+            <!-- Print label -->
+            <g transform="translate(0, 190)">
+              <rect x="200" y="0" width="300" height="36" rx="2" fill="var(--amber-glow)" stroke="var(--amber-dim)" stroke-width="1"/>
+              <text x="350" y="14" text-anchor="middle" font-family="var(--mono)" font-size="9" fill="var(--amber)" letter-spacing="1">COMMITTED TO THE RECORDING</text>
+              <text x="350" y="28" text-anchor="middle" font-family="var(--mono)" font-size="8" fill="var(--stone)">no undo, no option paralysis &mdash; just the sound</text>
+            </g>
+          </svg>
+        </div>
+
+        <div class="prose">
+          <h3>Why We Print</h3>
+          <p>
+            All of this processing is permanent. It gets printed to the recording, the same way tape machines worked for decades. There is no undo button for the preamp warmth or the compression. The signal that arrives at the recorder has already been shaped by every box in the chain, and that is the sound forever. This idea &mdash; committing to the sound at the source &mdash; is the philosophical heart of the studio.
+          </p>
+          <p>
+            Modern recording has made it easy to defer every decision. Record everything dry and flat, add processing later, undo, redo, try forty different compressor plugins on the same vocal take. That freedom sounds liberating, but in practice it leads to option paralysis &mdash; a song with a hundred possible versions and no finished one. We go the other direction. The gear is calibrated so that what comes out of the chain sounds like a record. We trust the hardware because we have tested it, measured it, and listened to it on dozens of takes. When a performance goes through this chain and comes out the other side, it is done. That certainty is freeing in a way that infinite options never are.
+          </p>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════════════
+           PART 3: WHAT THE MIXER DOES
+           ════════════════════════════════════════════════ -->
+      <section class="hiw__section" id="mixer">
+        <span class="hiw__part-label">Part 3</span>
+        <h2>What the Mixer Does <a href="#mixer" class="hiw__anchor"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+        <div class="prose">
+          <h3>The Digital Brain</h3>
+          <p>
+            If the outboard gear is the studio's soul, the Behringer Wing is its brain. The Wing is a digital mixing console &mdash; a piece of equipment that does not generate any sound of its own but controls where every sound in the studio goes. Think of it as air traffic control for audio. The microphone signal needs to reach the outboard gear, then the recorder, then the headphones. Previous recordings need to play back from the computer through effects and into the headphones alongside the live performance. Session players need to join the mix. Speakers need to mute when the mic is live. All of this routing &mdash; deciding which signal goes where, at what volume, with what processing &mdash; is what the mixer does, and it does it for every audio source in the studio simultaneously.
+          </p>
+          <h3>Amp Simulation</h3>
+          <p>
+            The Wing also handles guitar amplification, which deserves some explanation. Traditionally, an electric guitar needs a physical amplifier &mdash; a heavy box with tubes and a speaker cabinet that takes the guitar's quiet electrical signal and turns it into loud, harmonically rich sound. The problem is that guitar amps are loud. In a home studio, you cannot crank a tube amp to its sweet spot without the neighbors calling. Amp simulation solves this: software running inside the mixer models the electronic behavior of real amplifiers, producing a convincing amp tone from a direct guitar signal at any volume. We have several amp models loaded &mdash; a clean Fender-style for rhythm parts, a high-gain Mesa-style for lead work, a bright acoustic simulator for clean tones. You hear the amp tone in your headphones while playing, which is essential for performing expressively, but the recording can capture either the amp-simulated sound or the clean, unprocessed guitar signal. This gives us flexibility: we can re-amp a clean recording through a different amp model later without re-recording the performance.
+          </p>
+          <h3>The Noise Gate</h3>
+          <p>
+            The mixer also runs a noise gate on each input channel. A gate is like an automatic mute button that listens to the signal level: when the signal drops below a certain threshold (meaning you have stopped singing or playing), the gate closes and the channel goes silent. When you start performing again, the gate opens instantly. This keeps breaths, room noise, and ambient hum out of the recording during the gaps between phrases. It is a subtle tool &mdash; you never hear it working when it is set correctly &mdash; but it makes a meaningful difference in the cleanliness of the final recording.
+          </p>
+          <p>
+            Beyond routing and processing, the Wing is the central switchboard that connects the analog world (microphones, outboard gear, speakers, headphones) to the digital world (the computer, the recorder, the session players). It converts analog signals to digital for recording and digital signals back to analog for monitoring. It manages dozens of these conversions simultaneously, all synchronized to the same clock so that every signal arrives at the same time. The mixer is the reason the studio can feel simple despite being complex &mdash; all the complexity lives inside the Wing's routing, invisible to the musician.
+          </p>
+        </div>
+
+        <div class="hiw__svg-wrap">
+          <svg viewBox="0 0 700 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The Wing mixer as a central hub routing to headphones, recorder, outboard, and speakers">
+            <!-- Central mixer -->
+            <rect x="250" y="110" width="200" height="80" rx="3" fill="var(--white)" stroke="var(--ink)" stroke-width="2"/>
+            <text x="350" y="140" text-anchor="middle" font-family="var(--heading)" font-size="16" font-weight="600" fill="var(--ink)">Wing Mixer</text>
+            <text x="350" y="158" text-anchor="middle" font-family="var(--mono)" font-size="8" fill="var(--stone)">routing + effects + amp sims</text>
+            <text x="350" y="172" text-anchor="middle" font-family="var(--mono)" font-size="8" fill="var(--stone)">gate + de-esser + reverb</text>
+
+            <!-- Input: Microphone (top left) -->
+            <g transform="translate(100, 40)">
+              <circle cx="0" cy="0" r="16" fill="var(--vocal-blue)" opacity="0.1" stroke="var(--vocal-blue)" stroke-width="1"/>
+              <circle cx="0" cy="-4" r="6" fill="none" stroke="var(--vocal-blue)" stroke-width="1.2"/>
+              <line x1="0" y1="2" x2="0" y2="10" stroke="var(--vocal-blue)" stroke-width="1.2"/>
+              <text x="0" y="28" text-anchor="middle" font-family="var(--mono)" font-size="8" fill="var(--vocal-blue)">VOCAL</text>
+            </g>
+            <line x1="120" y1="45" x2="250" y2="130" stroke="var(--vocal-blue)" stroke-width="1" opacity="0.6"/>
+
+            <!-- Input: Guitar (top right) -->
+            <g transform="translate(600, 40)">
+              <circle cx="0" cy="0" r="16" fill="var(--guitar-red)" opacity="0.1" stroke="var(--guitar-red)" stroke-width="1"/>
+              <line x1="-6" y1="-6" x2="6" y2="6" stroke="var(--guitar-red)" stroke-width="1.5"/>
+              <line x1="-6" y1="6" x2="6" y2="-6" stroke="var(--guitar-red)" stroke-width="1.5" opacity="0.4"/>
+              <text x="0" y="28" text-anchor="middle" font-family="var(--mono)" font-size="8" fill="var(--guitar-red)">GUITAR</text>
+            </g>
+            <line x1="580" y1="45" x2="450" y2="130" stroke="var(--guitar-red)" stroke-width="1" opacity="0.6"/>
+
+            <!-- Output: Headphones (bottom left) -->
+            <g transform="translate(100, 270)">
+              <path d="M-10,-4 Q-10,-14 0,-14 Q10,-14 10,-4" fill="none" stroke="var(--ink)" stroke-width="1.5"/>
+              <rect x="-13" y="-6" width="6" height="10" rx="1" fill="var(--ink)"/>
+              <rect x="7" y="-6" width="6" height="10" rx="1" fill="var(--ink)"/>
+              <text x="0" y="20" text-anchor="middle" font-family="var(--mono)" font-size="8" fill="var(--ink)">HEADPHONES</text>
+            </g>
+            <line x1="250" y1="175" x2="115" y2="258" stroke="var(--ink)" stroke-width="1" opacity="0.4"/>
+
+            <!-- Output: Recorder (bottom center-left) -->
+            <g transform="translate(280, 270)">
+              <rect x="-14" y="-10" width="28" height="20" rx="2" fill="none" stroke="var(--session-green)" stroke-width="1.5"/>
+              <circle cx="0" cy="0" r="4" fill="var(--session-green)" opacity="0.4"/>
+              <text x="0" y="26" text-anchor="middle" font-family="var(--mono)" font-size="8" fill="var(--session-green)">RECORDER</text>
+            </g>
+            <line x1="310" y1="190" x2="285" y2="258" stroke="var(--session-green)" stroke-width="1" opacity="0.4"/>
+
+            <!-- Output: Outboard (bottom center-right) -->
+            <g transform="translate(430, 270)">
+              <rect x="-14" y="-10" width="28" height="20" rx="2" fill="none" stroke="var(--amber)" stroke-width="1.5"/>
+              <line x1="-6" y1="0" x2="6" y2="0" stroke="var(--amber)" stroke-width="1.5"/>
+              <text x="0" y="26" text-anchor="middle" font-family="var(--mono)" font-size="8" fill="var(--amber)">OUTBOARD</text>
+            </g>
+            <line x1="395" y1="190" x2="425" y2="258" stroke="var(--amber)" stroke-width="1" opacity="0.4"/>
+
+            <!-- Output: Speakers (bottom right) -->
+            <g transform="translate(600, 270)">
+              <rect x="-10" y="-10" width="20" height="20" rx="1" fill="none" stroke="var(--stone)" stroke-width="1.5"/>
+              <polygon points="2,-5 10,-10 10,10 2,5" fill="var(--stone)" opacity="0.3"/>
+              <text x="0" y="26" text-anchor="middle" font-family="var(--mono)" font-size="8" fill="var(--stone)">SPEAKERS</text>
+            </g>
+            <line x1="450" y1="175" x2="590" y2="258" stroke="var(--stone)" stroke-width="1" opacity="0.3"/>
+
+            <!-- Muted indicator on speakers -->
+            <line x1="587" y1="252" x2="613" y2="278" stroke="var(--guitar-red)" stroke-width="1.5" opacity="0.5"/>
+            <text x="600" y="302" text-anchor="middle" font-family="var(--mono)" font-size="7" fill="var(--guitar-red)">muted during tracking</text>
+          </svg>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════════════
+           PART 4: RECORDING
+           ════════════════════════════════════════════════ -->
+      <section class="hiw__section" id="recording">
+        <span class="hiw__part-label">Part 4</span>
+        <h2>Recording &mdash; Building a Song Layer by Layer <a href="#recording" class="hiw__anchor"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+        <div class="prose">
+          <h3>The First Take</h3>
+          <p>
+            Logic Pro is our tape machine. For anyone unfamiliar, Logic Pro is Apple's professional music production software, and in our studio it serves the same role that a reel-to-reel tape recorder served in studios of the 1960s and 70s: it captures the audio. But where a tape machine gives you a fixed number of tracks on a fixed length of tape, Logic gives us unlimited tracks, unlimited length, full undo, and non-destructive editing. We can record a hundred takes of the same vocal line and compare them all. We can cut a verse from take three and paste it next to a chorus from take seven. The flexibility is extraordinary, but the important thing is what we record onto those tracks: the fully processed signal from the outboard chain, with all the preamp warmth and compression already baked in.
+          </p>
+          <h3>Unlimited Tape</h3>
+          <p>
+            The audio travels from the mixer to the computer over USB &mdash; a single cable carrying dozens of independent audio channels simultaneously, each one a separate stream of digital audio. Think of it like a multi-lane highway: the vocal recording rides in one lane, the guitar recording in another, and they never merge or interfere. On the computer side, Logic receives each channel on its own track, ready to record. The signal that arrives has already been through the full outboard chain &mdash; preamp, compressors, de-esser &mdash; so what Logic captures is the finished sound, not a raw scratch track waiting to be processed later.
+          </p>
+          <h3>Layering</h3>
+          <p>
+            Songs are built one layer at a time. Record the vocal. Listen back and record guitar on top. Listen to both and add a harmony. Each new layer plays in your headphones while you perform the next one.
+          </p>
+          <p>
+            A typical session goes like this: you sing the melody first. That take gets captured in Logic. Then you switch to guitar. Now you hear your recorded vocal in the headphones while you play along with it &mdash; both at the same time. The guitar goes onto its own track. Next, maybe a harmony vocal. You hear the original vocal and the guitar while you sing the harmony. Each layer stacks on top of the last.
+          </p>
+          <p>
+            This is called overdubbing. The key is that playback and recording never interfere &mdash; they use completely separate signal paths. What is playing back from Logic comes in on one set of channels. What is being recorded goes out on a different set. They only meet in the headphones. So you can record and listen back at the same time, with no bleed between them.
+          </p>
+          <h3>The AI Band</h3>
+          <p>
+            Logic also has a feature called session players &mdash; AI-generated instruments that can provide bass, drums, keyboards, and synthesizer parts in any style and tempo. These are not pre-recorded loops; they are dynamically generated performances that follow the chord progression and feel of the song. During tracking, the session players play back through the mixer alongside the recorded takes, giving the musician a full backing band in the headphones. The bass locks to the root notes, the drums provide the groove, and the keys fill out the harmony. It is like having a rehearsal band that never gets tired and always knows the changes.
+          </p>
+          <p>
+            The result of all this layering is a Logic project with multiple tracks, each one a fully processed recording of a single performance, all perfectly synchronized. The vocal was recorded through the outboard chain. The guitar was recorded through the outboard chain with a different compressor. The harmony was recorded through the vocal chain again. The session players were generated by the software. All of these layers now exist as independent tracks, ready for the mixing stage.
+          </p>
+        </div>
+
+        <div class="hiw__svg-wrap">
+          <svg viewBox="0 0 700 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Seven tracks stacking up in Logic Pro — recorded performances and AI session players">
+            <!-- Track background -->
+            <rect x="80" y="20" width="540" height="296" rx="2" fill="var(--cream)" stroke="var(--linen)" stroke-width="1"/>
+            <text x="62" y="14" font-family="var(--mono)" font-size="9" fill="var(--stone)" letter-spacing="1">LOGIC PRO</text>
+
+            <!-- Divider label: Recorded -->
+            <text x="590" y="36" text-anchor="end" font-family="var(--mono)" font-size="7" fill="var(--stone)" letter-spacing="1">RECORDED</text>
+
+            <!-- Track 1: Vocal -->
+            <rect x="100" y="42" width="500" height="28" rx="2" fill="var(--vocal-blue)" opacity="0.1" stroke="var(--vocal-blue)" stroke-width="1" opacity="0.3"/>
+            <text x="112" y="60" font-family="var(--mono)" font-size="9" font-weight="500" fill="var(--vocal-blue)">Vocal</text>
+            <g opacity="0.4">
+              <rect x="180" y="48" width="2" height="16" rx="1" fill="var(--vocal-blue)"/>
+              <rect x="186" y="46" width="2" height="20" rx="1" fill="var(--vocal-blue)"/>
+              <rect x="192" y="50" width="2" height="12" rx="1" fill="var(--vocal-blue)"/>
+              <rect x="198" y="46" width="2" height="20" rx="1" fill="var(--vocal-blue)"/>
+              <rect x="204" y="48" width="2" height="16" rx="1" fill="var(--vocal-blue)"/>
+              <rect x="220" y="46" width="2" height="20" rx="1" fill="var(--vocal-blue)"/>
+              <rect x="226" y="50" width="2" height="12" rx="1" fill="var(--vocal-blue)"/>
+              <rect x="232" y="46" width="2" height="20" rx="1" fill="var(--vocal-blue)"/>
+              <rect x="260" y="48" width="2" height="16" rx="1" fill="var(--vocal-blue)"/>
+              <rect x="266" y="46" width="2" height="20" rx="1" fill="var(--vocal-blue)"/>
+              <rect x="272" y="50" width="2" height="12" rx="1" fill="var(--vocal-blue)"/>
+              <rect x="278" y="46" width="2" height="20" rx="1" fill="var(--vocal-blue)"/>
+            </g>
+
+            <!-- Track 2: Lead Guitar -->
+            <rect x="100" y="76" width="500" height="28" rx="2" fill="var(--guitar-red)" opacity="0.1" stroke="var(--guitar-red)" stroke-width="1" opacity="0.3"/>
+            <text x="112" y="94" font-family="var(--mono)" font-size="9" font-weight="500" fill="var(--guitar-red)">Lead Guitar</text>
+            <g opacity="0.4">
+              <rect x="240" y="82" width="2" height="16" rx="1" fill="var(--guitar-red)"/>
+              <rect x="246" y="80" width="2" height="20" rx="1" fill="var(--guitar-red)"/>
+              <rect x="252" y="84" width="2" height="12" rx="1" fill="var(--guitar-red)"/>
+              <rect x="258" y="80" width="2" height="20" rx="1" fill="var(--guitar-red)"/>
+              <rect x="264" y="82" width="2" height="16" rx="1" fill="var(--guitar-red)"/>
+              <rect x="270" y="80" width="2" height="20" rx="1" fill="var(--guitar-red)"/>
+              <rect x="276" y="84" width="2" height="12" rx="1" fill="var(--guitar-red)"/>
+              <rect x="300" y="82" width="2" height="16" rx="1" fill="var(--guitar-red)"/>
+              <rect x="306" y="80" width="2" height="20" rx="1" fill="var(--guitar-red)"/>
+              <rect x="312" y="82" width="2" height="16" rx="1" fill="var(--guitar-red)"/>
+            </g>
+
+            <!-- Track 3: Rhythm Guitar -->
+            <rect x="100" y="110" width="500" height="28" rx="2" fill="var(--guitar-red)" opacity="0.1" stroke="var(--guitar-red)" stroke-width="1" opacity="0.2"/>
+            <text x="112" y="128" font-family="var(--mono)" font-size="9" font-weight="500" fill="var(--guitar-red)" opacity="0.7">Rhythm Guitar</text>
+            <g opacity="0.3">
+              <rect x="180" y="116" width="2" height="16" rx="1" fill="var(--guitar-red)"/>
+              <rect x="186" y="114" width="2" height="20" rx="1" fill="var(--guitar-red)"/>
+              <rect x="192" y="118" width="2" height="12" rx="1" fill="var(--guitar-red)"/>
+              <rect x="198" y="114" width="2" height="20" rx="1" fill="var(--guitar-red)"/>
+              <rect x="204" y="116" width="2" height="16" rx="1" fill="var(--guitar-red)"/>
+              <rect x="210" y="114" width="2" height="20" rx="1" fill="var(--guitar-red)"/>
+              <rect x="216" y="118" width="2" height="12" rx="1" fill="var(--guitar-red)"/>
+              <rect x="222" y="114" width="2" height="20" rx="1" fill="var(--guitar-red)"/>
+              <rect x="228" y="116" width="2" height="16" rx="1" fill="var(--guitar-red)"/>
+              <rect x="234" y="114" width="2" height="20" rx="1" fill="var(--guitar-red)"/>
+              <rect x="240" y="118" width="2" height="12" rx="1" fill="var(--guitar-red)"/>
+              <rect x="246" y="114" width="2" height="20" rx="1" fill="var(--guitar-red)"/>
+              <rect x="252" y="116" width="2" height="16" rx="1" fill="var(--guitar-red)"/>
+              <rect x="258" y="114" width="2" height="20" rx="1" fill="var(--guitar-red)"/>
+            </g>
+
+            <!-- Track 4: Harmony Vocal -->
+            <rect x="100" y="144" width="500" height="28" rx="2" fill="var(--tape-coral)" opacity="0.1" stroke="var(--tape-coral)" stroke-width="1" opacity="0.3"/>
+            <text x="112" y="162" font-family="var(--mono)" font-size="9" font-weight="500" fill="var(--tape-coral)">Harmony</text>
+            <g opacity="0.35">
+              <rect x="260" y="150" width="2" height="16" rx="1" fill="var(--tape-coral)"/>
+              <rect x="266" y="148" width="2" height="20" rx="1" fill="var(--tape-coral)"/>
+              <rect x="272" y="152" width="2" height="12" rx="1" fill="var(--tape-coral)"/>
+              <rect x="278" y="148" width="2" height="20" rx="1" fill="var(--tape-coral)"/>
+              <rect x="284" y="150" width="2" height="16" rx="1" fill="var(--tape-coral)"/>
+              <rect x="300" y="150" width="2" height="16" rx="1" fill="var(--tape-coral)"/>
+              <rect x="306" y="148" width="2" height="20" rx="1" fill="var(--tape-coral)"/>
+              <rect x="312" y="152" width="2" height="12" rx="1" fill="var(--tape-coral)"/>
+            </g>
+
+            <!-- Divider line -->
+            <line x1="100" y1="182" x2="590" y2="182" stroke="var(--linen)" stroke-width="1" stroke-dasharray="4,3"/>
+            <text x="590" y="196" text-anchor="end" font-family="var(--mono)" font-size="7" fill="var(--session-green)" letter-spacing="1">AI SESSION PLAYERS</text>
+
+            <!-- Track 5: Bass -->
+            <rect x="100" y="202" width="500" height="28" rx="2" fill="var(--session-green)" opacity="0.1" stroke="var(--session-green)" stroke-width="1" opacity="0.3"/>
+            <text x="112" y="220" font-family="var(--mono)" font-size="9" font-weight="500" fill="var(--session-green)">Bass</text>
+            <g opacity="0.25">
+              <rect x="110" y="208" width="480" height="16" rx="1" fill="var(--session-green)" opacity="0.2"/>
+            </g>
+
+            <!-- Track 6: Drums -->
+            <rect x="100" y="236" width="500" height="28" rx="2" fill="var(--session-green)" opacity="0.1" stroke="var(--session-green)" stroke-width="1" opacity="0.25"/>
+            <text x="112" y="254" font-family="var(--mono)" font-size="9" font-weight="500" fill="var(--session-green)" opacity="0.8">Drums</text>
+            <g opacity="0.25">
+              <rect x="110" y="242" width="480" height="16" rx="1" fill="var(--session-green)" opacity="0.2"/>
+            </g>
+
+            <!-- Track 7: Synth/Piano -->
+            <rect x="100" y="270" width="500" height="28" rx="2" fill="var(--session-green)" opacity="0.1" stroke="var(--session-green)" stroke-width="1" opacity="0.2"/>
+            <text x="112" y="288" font-family="var(--mono)" font-size="9" font-weight="500" fill="var(--session-green)" opacity="0.7">Piano / Synth</text>
+            <g opacity="0.2">
+              <rect x="110" y="276" width="480" height="16" rx="1" fill="var(--session-green)" opacity="0.2"/>
+            </g>
+
+            <!-- Timeline arrow -->
+            <line x1="80" y1="328" x2="620" y2="328" stroke="var(--sand)" stroke-width="1"/>
+            <polygon points="620,325 628,328 620,331" fill="var(--sand)"/>
+            <text x="350" y="338" text-anchor="middle" font-family="var(--mono)" font-size="7" fill="var(--stone)" letter-spacing="2">TIME</text>
+          </svg>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════════════
+           PART 5: WHAT THE MUSICIAN HEARS
+           ════════════════════════════════════════════════ -->
+      <section class="hiw__section" id="monitoring">
+        <span class="hiw__part-label">Part 5</span>
+        <h2>What the Musician Hears <a href="#monitoring" class="hiw__anchor"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+        <div class="prose">
+          <h3>Everything at Once</h3>
+          <p>
+            Close your eyes and imagine what the musician hears in the headphones during a tracking session. Your own voice arrives with the warmth of the Neve-style preamp thickening the low end, the 1176 compressor catching the loud syllables and adding punch, and the optical leveling amp smoothing everything into a polished, radio-ready sound. Underneath your voice, the guitar you recorded ten minutes ago plays back with a touch of plate reverb and the amp simulation adding body and grit. Below that, a bass guitar holds down the root notes with a sub-octave thickener adding weight, and drums provide the groove with a crisp, present tone. All of this arrives in the headphones at the same instant &mdash; a fully realized mix of your live performance layered over your previous recordings and AI-generated accompaniment. It sounds like a finished song, not a work in progress.
+          </p>
+          <h3>Why Latency Matters</h3>
+          <p>
+            This is what zero latency means in practice, and it is worth dwelling on why it matters so much. Latency is the delay between when a sound is produced and when the musician hears it. In a typical computer-based recording setup, the audio signal travels from the microphone into the computer, gets processed by software, and comes back out to the headphones. That round trip through the computer takes time &mdash; typically between 5 and 20 milliseconds, depending on the settings. Five milliseconds does not sound like much, but the human ear is astonishingly sensitive to timing. Even 10 milliseconds of delay between your voice leaving your mouth and arriving in your ears is enough to make you feel disconnected from your own performance. Singers start compensating unconsciously &mdash; pushing pitch, hesitating on phrases, losing the natural flow. We eliminate this entirely by processing everything in the mixer's hardware and the outboard chain, neither of which adds any perceptible delay. The signal path is analog and digital hardware running in real time, not software running on a computer's CPU.
+          </p>
+          <h3>Speakers Off, Headphones On</h3>
+          <p>
+            During tracking &mdash; any time a microphone is live and recording &mdash; the studio speakers mute automatically. This is not just about preventing feedback (the howling loop that happens when a microphone picks up its own output from a speaker). It is also about isolation. If the speakers were playing the backing track while the mic was recording, that backing track would bleed into the microphone and end up on the vocal recording. Headphones are the only monitoring path during tracking, and they are closed-back headphones specifically to prevent sound from leaking out and reaching the mic. Every precaution is taken to ensure that what the microphone captures is the performance and nothing else.
+          </p>
+          <h3>The Monitoring Promise</h3>
+          <p>
+            The monitoring promise is this: what you hear in the headphones while performing is essentially what the audience will hear on the finished record. The outboard processing is already committed. The amp tone is already dialed in. The reverb and effects are already set. We are not recording a rough draft that will be polished later &mdash; we are recording the finished sound with the finished processing in real time. This changes the psychology of performing. When the sound in your headphones is beautiful, you sing with more confidence. When you trust that the guitar tone is right, you play with more commitment. The monitoring experience is not a technical afterthought &mdash; it is a creative tool that directly affects the quality of the performance.
+          </p>
+          <p>
+            Effects like reverb and vocal doubling are added to the monitoring mix by the Wing, giving the headphone experience its sense of space and depth. A plate reverb puts the vocal in a room. A doubler thickens the voice with a subtle chorus effect. These effects are heard during the performance to inspire confidence, and they can also be applied to the playback tracks during mixing. The musician hears the finished product from the very first note.
+          </p>
+        </div>
+
+        <div class="hiw__svg-wrap">
+          <svg viewBox="0 0 700 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Headphones in the center receiving signals from four sources">
+            <!-- Central headphones -->
+            <g transform="translate(350, 140)">
+              <circle cx="0" cy="0" r="40" fill="var(--ink)" opacity="0.04"/>
+              <path d="M-18,-8 Q-18,-28 0,-28 Q18,-28 18,-8" fill="none" stroke="var(--ink)" stroke-width="2"/>
+              <rect x="-22" y="-10" width="8" height="18" rx="2" fill="var(--ink)"/>
+              <rect x="14" y="-10" width="8" height="18" rx="2" fill="var(--ink)"/>
+            </g>
+
+            <!-- Source 1: Live Performance (top left) -->
+            <g transform="translate(120, 50)">
+              <circle cx="0" cy="0" r="28" fill="var(--vocal-blue)" opacity="0.08" stroke="var(--vocal-blue)" stroke-width="1"/>
+              <text x="0" y="-4" text-anchor="middle" font-family="var(--mono)" font-size="8" font-weight="500" fill="var(--vocal-blue)">LIVE</text>
+              <text x="0" y="8" text-anchor="middle" font-family="var(--mono)" font-size="7" fill="var(--vocal-blue)">performance</text>
+            </g>
+            <line x1="150" y1="60" x2="310" y2="130" stroke="var(--vocal-blue)" stroke-width="1.5" opacity="0.4"/>
+            <polygon points="310,127 314,133 306,133" fill="var(--vocal-blue)" opacity="0.4"/>
+
+            <!-- Source 2: Previous Takes (top right) -->
+            <g transform="translate(580, 50)">
+              <circle cx="0" cy="0" r="28" fill="var(--tape-coral)" opacity="0.08" stroke="var(--tape-coral)" stroke-width="1"/>
+              <text x="0" y="-4" text-anchor="middle" font-family="var(--mono)" font-size="8" font-weight="500" fill="var(--tape-coral)">PREVIOUS</text>
+              <text x="0" y="8" text-anchor="middle" font-family="var(--mono)" font-size="7" fill="var(--tape-coral)">takes</text>
+            </g>
+            <line x1="550" y1="60" x2="390" y2="130" stroke="var(--tape-coral)" stroke-width="1.5" opacity="0.4"/>
+            <polygon points="390,127 394,133 386,133" fill="var(--tape-coral)" opacity="0.4"/>
+
+            <!-- Source 3: Session Players (bottom left) -->
+            <g transform="translate(120, 230)">
+              <circle cx="0" cy="0" r="28" fill="var(--session-green)" opacity="0.08" stroke="var(--session-green)" stroke-width="1"/>
+              <text x="0" y="-4" text-anchor="middle" font-family="var(--mono)" font-size="8" font-weight="500" fill="var(--session-green)">SESSION</text>
+              <text x="0" y="8" text-anchor="middle" font-family="var(--mono)" font-size="7" fill="var(--session-green)">players</text>
+            </g>
+            <line x1="150" y1="220" x2="310" y2="152" stroke="var(--session-green)" stroke-width="1.5" opacity="0.4"/>
+            <polygon points="310,155 314,149 306,149" fill="var(--session-green)" opacity="0.4"/>
+
+            <!-- Source 4: Effects (bottom right) -->
+            <g transform="translate(580, 230)">
+              <circle cx="0" cy="0" r="28" fill="var(--amber)" opacity="0.08" stroke="var(--amber)" stroke-width="1"/>
+              <text x="0" y="-4" text-anchor="middle" font-family="var(--mono)" font-size="8" font-weight="500" fill="var(--amber)">EFFECTS</text>
+              <text x="0" y="8" text-anchor="middle" font-family="var(--mono)" font-size="7" fill="var(--amber)">reverb + delay</text>
+            </g>
+            <line x1="550" y1="220" x2="390" y2="152" stroke="var(--amber)" stroke-width="1.5" opacity="0.4"/>
+            <polygon points="390,155 394,149 386,149" fill="var(--amber)" opacity="0.4"/>
+
+            <!-- Center label -->
+            <text x="350" y="196" text-anchor="middle" font-family="var(--mono)" font-size="8" fill="var(--ink)" letter-spacing="1">ZERO LATENCY</text>
+          </svg>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════════════
+           PART 6: MIXING
+           ════════════════════════════════════════════════ -->
+      <section class="hiw__section" id="mixing">
+        <span class="hiw__part-label">Part 6</span>
+        <h2>Mixing &mdash; Playing the Console <a href="#mixing" class="hiw__anchor"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+        <div class="prose">
+          <h3>What Mixing Actually Is</h3>
+          <p>
+            Mixing is the art of taking all the individual tracks we have recorded &mdash; the vocal, the rhythm guitar, the lead guitar, the harmonies, the bass, the drums, the keyboards &mdash; and balancing them so they sound like one cohesive piece of music rather than seven things happening at the same time. It is about volume relationships (the vocal needs to be louder than the guitar during the verse but maybe not during the solo), frequency balance (the bass and the kick drum should not fight each other for space in the low end), and spatial placement (some instruments should feel close, others distant, some centered, others wide). Mixing is where a collection of good recordings becomes a song.
+          </p>
+          <h3>Effects and Stems</h3>
+          <p>
+            When all the layers are recorded, the song moves to the mixing stage. All tracks play back from Logic through the Wing, which is where the first round of processing happens. The Wing adds effects that shape the character of each element: plate reverb on the vocal to give it a sense of space, a vocal doubler that thickens the voice with a subtle chorus effect, a sub-octave generator that adds weight and presence to the bass line, and amp simulations on the guitar playback tracks to give them their final tone. The Wing also applies high-pass and low-pass filters across all the mix buses &mdash; rolling off the very lowest rumble below 60 Hz (frequencies you feel more than hear, and which waste headroom) and taming the extreme high frequencies above 14 kHz (which can sound shrill on small speakers).
+          </p>
+          <p>
+            After the Wing applies its processing, it splits the audio into seven stems &mdash; groups of related tracks bundled together. Vocals on one stem, rhythm guitar on another, lead guitar on a third, overdubs (harmonies and additional parts) on a fourth, bass on a fifth, drums on a sixth, and piano or synth on a seventh. These seven stems travel from the Wing to the Tascam Model 12.
+          </p>
+          <h3>Physical Faders</h3>
+          <p>
+            The Model 12 is a physical mixing console &mdash; a real piece of hardware with real faders (sliding volume controls), real knobs for EQ (tone shaping), and real analog signal paths. Each of the seven stems lands on its own fader, and this is where mixing becomes a physical, tactile experience. Why use a physical console when the Wing could balance everything digitally? Because there is something irreplaceable about having your hands on the controls. Moving a fader with your fingers is faster and more intuitive than clicking and dragging on a screen. You can grab two faders at once &mdash; pushing the vocal up while pulling the guitar down &mdash; in a way that requires two mouse clicks in software. Muscle memory develops: you learn where the vocal fader lives in the verse, in the chorus, in the bridge. The physical console turns mixing from a cerebral, screen-based activity into a performance.
+          </p>
+          <h3>Every Pass Is a Take</h3>
+          <p>
+            And we mean that literally. The Model 12 is always recording its stereo output on tracks 11 and 12 &mdash; a continuous two-track capture of whatever the faders produce. Every mix pass is a live performance, captured in real time. We play the song from the top, ride the faders through the arrangement, make real-time decisions about balance and dynamics, and the result is a stereo mix. Then we do it again. And maybe again. Each pass is a different take on the same song, and the best mix wins. This is how records were mixed before computers: the engineer performed the mix, committed to it, and moved on. There is no undo, no "let me try that chorus again." The constraint forces decisiveness, and decisiveness produces mixes with energy and intention.
+          </p>
+          <p>
+            The contrast with modern software mixing is stark. In a DAW (digital audio workstation), mixing is infinite. You can undo any change, automate every fader move to a precise timeline, A/B between forty different reverb settings. Great mixes happen in DAWs every day &mdash; the tool does not determine the outcome. But for us, the physical console changes how we listen. The constraint of a live pass keeps us moving forward instead of second-guessing. Our approach does not reject technology (the Wing is a sophisticated digital processor), but it embraces the idea that the final step &mdash; the moment where balance becomes art &mdash; feels best when our hands are on the controls.
+          </p>
+        </div>
+
+        <div class="hiw__svg-wrap">
+          <svg viewBox="0 0 700 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Model 12 console with seven faders and three mix passes">
+
+            <!-- Console -->
+            <rect x="30" y="10" width="440" height="150" rx="3" fill="var(--cream)" stroke="var(--linen)" stroke-width="1"/>
+            <text x="250" y="6" text-anchor="middle" font-family="var(--mono)" font-size="9" fill="var(--stone)" letter-spacing="2">MODEL 12</text>
+
+            <!-- REC indicator -->
+            <circle cx="450" cy="26" r="5" fill="var(--guitar-red)"/>
+            <text x="438" y="29" text-anchor="end" font-family="var(--mono)" font-size="8" font-weight="600" fill="var(--guitar-red)">REC 11/12</text>
+
+            <!-- Fader 1: VOX -->
+            <line x1="70" y1="30" x2="70" y2="130" stroke="var(--linen)" stroke-width="1"/>
+            <rect x="64" y="48" width="12" height="6" rx="1" fill="var(--vocal-blue)" opacity="0.7"/>
+            <text x="70" y="148" text-anchor="middle" font-family="var(--mono)" font-size="7" font-weight="500" fill="var(--vocal-blue)">VOX</text>
+
+            <!-- Fader 2: RTM -->
+            <line x1="130" y1="30" x2="130" y2="130" stroke="var(--linen)" stroke-width="1"/>
+            <rect x="124" y="62" width="12" height="6" rx="1" fill="var(--guitar-red)" opacity="0.7"/>
+            <text x="130" y="148" text-anchor="middle" font-family="var(--mono)" font-size="7" font-weight="500" fill="var(--guitar-red)">RTM</text>
+
+            <!-- Fader 3: LEAD -->
+            <line x1="190" y1="30" x2="190" y2="130" stroke="var(--linen)" stroke-width="1"/>
+            <rect x="184" y="76" width="12" height="6" rx="1" fill="var(--guitar-red)" opacity="0.7"/>
+            <text x="190" y="148" text-anchor="middle" font-family="var(--mono)" font-size="7" font-weight="500" fill="var(--guitar-red)">LEAD</text>
+
+            <!-- Fader 4: OVD -->
+            <line x1="250" y1="30" x2="250" y2="130" stroke="var(--linen)" stroke-width="1"/>
+            <rect x="244" y="70" width="12" height="6" rx="1" fill="var(--tape-coral)" opacity="0.7"/>
+            <text x="250" y="148" text-anchor="middle" font-family="var(--mono)" font-size="7" font-weight="500" fill="var(--tape-coral)">OVD</text>
+
+            <!-- Fader 5: BASS -->
+            <line x1="310" y1="30" x2="310" y2="130" stroke="var(--linen)" stroke-width="1"/>
+            <rect x="304" y="55" width="12" height="6" rx="1" fill="var(--session-green)" opacity="0.7"/>
+            <text x="310" y="148" text-anchor="middle" font-family="var(--mono)" font-size="7" font-weight="500" fill="var(--session-green)">BASS</text>
+
+            <!-- Fader 6: DRM -->
+            <line x1="370" y1="30" x2="370" y2="130" stroke="var(--linen)" stroke-width="1"/>
+            <rect x="364" y="50" width="12" height="6" rx="1" fill="var(--session-green)" opacity="0.7"/>
+            <text x="370" y="148" text-anchor="middle" font-family="var(--mono)" font-size="7" font-weight="500" fill="var(--session-green)">DRM</text>
+
+            <!-- Fader 7: PNO -->
+            <line x1="430" y1="30" x2="430" y2="130" stroke="var(--linen)" stroke-width="1"/>
+            <rect x="424" y="72" width="12" height="6" rx="1" fill="var(--session-green)" opacity="0.7"/>
+            <text x="430" y="148" text-anchor="middle" font-family="var(--mono)" font-size="7" font-weight="500" fill="var(--session-green)">PNO</text>
+
+            <!-- Arrow from console to passes -->
+            <line x1="490" y1="85" x2="510" y2="85" stroke="var(--sand)" stroke-width="1"/>
+            <polygon points="510,82 516,85 510,88" fill="var(--sand)"/>
+
+            <!-- Mix passes -->
+            <g transform="translate(524, 20)">
+              <text x="80" y="0" text-anchor="middle" font-family="var(--mono)" font-size="8" fill="var(--stone)" letter-spacing="1">STEREO CAPTURES</text>
+
+              <!-- Pass 1 -->
+              <rect x="0" y="10" width="160" height="30" rx="2" fill="var(--white)" stroke="var(--linen)" stroke-width="1"/>
+              <text x="12" y="29" font-family="var(--mono)" font-size="8" fill="var(--stone)">Pass 1</text>
+              <g opacity="0.3">
+                <rect x="70" y="18" width="2" height="14" rx="1" fill="var(--slate)"/>
+                <rect x="76" y="20" width="2" height="10" rx="1" fill="var(--slate)"/>
+                <rect x="82" y="16" width="2" height="18" rx="1" fill="var(--slate)"/>
+                <rect x="88" y="22" width="2" height="6" rx="1" fill="var(--slate)"/>
+                <rect x="94" y="18" width="2" height="14" rx="1" fill="var(--slate)"/>
+                <rect x="100" y="20" width="2" height="10" rx="1" fill="var(--slate)"/>
+                <rect x="106" y="16" width="2" height="18" rx="1" fill="var(--slate)"/>
+                <rect x="112" y="20" width="2" height="10" rx="1" fill="var(--slate)"/>
+              </g>
+
+              <!-- Pass 2 -->
+              <rect x="0" y="48" width="160" height="30" rx="2" fill="var(--white)" stroke="var(--linen)" stroke-width="1"/>
+              <text x="12" y="67" font-family="var(--mono)" font-size="8" fill="var(--stone)">Pass 2</text>
+              <g opacity="0.3">
+                <rect x="70" y="56" width="2" height="14" rx="1" fill="var(--slate)"/>
+                <rect x="76" y="54" width="2" height="18" rx="1" fill="var(--slate)"/>
+                <rect x="82" y="58" width="2" height="10" rx="1" fill="var(--slate)"/>
+                <rect x="88" y="54" width="2" height="18" rx="1" fill="var(--slate)"/>
+                <rect x="94" y="56" width="2" height="14" rx="1" fill="var(--slate)"/>
+                <rect x="100" y="58" width="2" height="10" rx="1" fill="var(--slate)"/>
+                <rect x="106" y="54" width="2" height="18" rx="1" fill="var(--slate)"/>
+                <rect x="112" y="56" width="2" height="14" rx="1" fill="var(--slate)"/>
+              </g>
+
+              <!-- Pass 3 (the winner) -->
+              <rect x="0" y="86" width="160" height="30" rx="2" fill="var(--white)" stroke="var(--amber)" stroke-width="1.5"/>
+              <text x="12" y="105" font-family="var(--mono)" font-size="8" font-weight="600" fill="var(--amber)">Pass 3</text>
+              <g opacity="0.5">
+                <rect x="70" y="94" width="2" height="14" rx="1" fill="var(--amber)"/>
+                <rect x="76" y="92" width="2" height="18" rx="1" fill="var(--amber)"/>
+                <rect x="82" y="96" width="2" height="10" rx="1" fill="var(--amber)"/>
+                <rect x="88" y="92" width="2" height="18" rx="1" fill="var(--amber)"/>
+                <rect x="94" y="94" width="2" height="14" rx="1" fill="var(--amber)"/>
+                <rect x="100" y="92" width="2" height="18" rx="1" fill="var(--amber)"/>
+                <rect x="106" y="96" width="2" height="10" rx="1" fill="var(--amber)"/>
+                <rect x="112" y="92" width="2" height="18" rx="1" fill="var(--amber)"/>
+              </g>
+              <text x="148" y="105" text-anchor="end" font-family="var(--mono)" font-size="7" fill="var(--amber)">BEST MIX</text>
+
+              <!-- Pass 4 -->
+              <rect x="0" y="124" width="160" height="30" rx="2" fill="var(--white)" stroke="var(--linen)" stroke-width="1"/>
+              <text x="12" y="143" font-family="var(--mono)" font-size="8" fill="var(--stone)">Pass 4</text>
+              <g opacity="0.3">
+                <rect x="70" y="132" width="2" height="14" rx="1" fill="var(--slate)"/>
+                <rect x="76" y="130" width="2" height="18" rx="1" fill="var(--slate)"/>
+                <rect x="82" y="134" width="2" height="10" rx="1" fill="var(--slate)"/>
+                <rect x="88" y="132" width="2" height="14" rx="1" fill="var(--slate)"/>
+                <rect x="94" y="130" width="2" height="18" rx="1" fill="var(--slate)"/>
+                <rect x="100" y="134" width="2" height="10" rx="1" fill="var(--slate)"/>
+                <rect x="106" y="130" width="2" height="18" rx="1" fill="var(--slate)"/>
+                <rect x="112" y="132" width="2" height="14" rx="1" fill="var(--slate)"/>
+              </g>
+            </g>
+
+            <!-- Label -->
+            <text x="350" y="250" text-anchor="middle" font-family="var(--body)" font-size="11" fill="var(--slate)">Seven faders, multiple passes. The best mix wins.</text>
+          </svg>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════════════
+           PART 7: THE AI BEHIND THE GLASS
+           ════════════════════════════════════════════════ -->
+      <section class="hiw__section" id="ai">
+        <span class="hiw__part-label">Part 7</span>
+        <h2>The AI Behind the Glass <a href="#ai" class="hiw__anchor"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+        <div class="prose">
+          <h3>Behind the Glass</h3>
+          <p>
+            In a traditional recording studio, the room is divided in two. The musician performs on one side of the glass. The engineer works the console on the other. They talk back and forth &mdash; "can I get more reverb in my headphones?" or "that last take felt rushed, let me try again" &mdash; and the session unfolds as a conversation between two people with different skills working toward the same goal. One makes the music. The other shapes the environment around it. Neither can do the other's job, and neither needs to.
+          </p>
+          <p>
+            This studio works the same way, except the engineer is Claude, an AI assistant made by Anthropic. The dynamic is collaborative, not automated. Claude does not run a pre-programmed sequence of commands. It listens, responds, asks clarifying questions when something is ambiguous, and adapts to whatever the session needs in the moment. The musician drives the creative direction. Claude handles the technical execution. Between them, a session flows.
+          </p>
+          <h3>A Conversation, Not a Script</h3>
+          <p>
+            Claude connects to the Wing mixer through three tools: one that reads a parameter, one that changes a parameter, and one that dumps every setting on a channel at once. But the tools are not the interesting part. What matters is the conversation that wraps around them.
+          </p>
+          <p>
+            The musician says "I'm not hearing the synth." Claude checks channel 11, finds it muted, unmutes it, and confirms. Simple. But the next request might be "set up for lead guitar" &mdash; which means activating an amp sim bus, setting the send level and mode, verifying the effect is loaded, and confirming the full signal path is live. The musician does not need to know any of those details. They just describe what they want, and Claude figures out the steps.
+          </p>
+          <p>
+            Sometimes the conversation goes the other way. Claude notices something and speaks up. "Ch12 is at plus six with no EQ &mdash; that's hitting pretty hot. Want me to pull it back?" Or after making a routing change: "That stale send to Bus 12 was still active, I killed it." The relationship works both ways. The musician brings ears and taste. Claude brings precision and memory.
+          </p>
+          <h3>Troubleshooting Together</h3>
+          <p>
+            "The drums sound like shit" could mean anything. Too loud, too thin, too harsh, wrong routing. Claude investigates &mdash; dumps the drum channel, scans every parameter, and reports what it finds: fader at plus six dB, no EQ, a dynamics processor loaded but never enabled, a stale send leaking signal to an unused bus. The musician decides what to do about it. Claude executes the fix. This back-and-forth &mdash; diagnosis from the AI, judgment from the human &mdash; is how most problems get solved.
+          </p>
+          <p>
+            Batch operations work the same way. "The mix sounds shrill on my phone" turns into a conversation about where to set the low-pass filter. Claude suggests 14 kHz as a starting point, applies it across all seven mix matrices, and the musician listens. "Still too bright." Claude pulls it down to 12 kHz. "That's better." The decision is human. The execution is instant.
+          </p>
+          <p>
+            During one session, Claude discovered that the matrix EQ on the Wing uses numbered parameters instead of named ones &mdash; an undocumented quirk. It adapted on the fly, figured out the correct parameter indices by reading the raw data, applied the filters, and reported what it learned. That kind of improvisation in the face of unexpected hardware behavior is something a static script cannot do. It is also something a musician working alone would spend an hour troubleshooting in a manual.
+          </p>
+          <h3>Institutional Memory</h3>
+          <p>
+            At the start of every session, Claude reads two documents. The first is the studio configuration file &mdash; the complete map of every channel, bus, routing connection, and calibration value. Claude loads this so it knows that "the vocal" means channel 1 for the raw input and channel 17 for the processed return, or that Bus 5 is the electric guitar amp simulation. The second is the session lessons file &mdash; a running log updated after every session that catalogs every mistake and how it was fixed, every routing discovery, every quirk encountered.
+          </p>
+          <p>
+            This means the studio has a memory that spans sessions. A mistake made on Tuesday &mdash; a muted channel that killed a recording path, a USB input mismatch that caused silence &mdash; becomes a lesson that prevents the same mistake on Thursday. The musician does not need to remember every technical detail from every session. Claude remembers for both of them.
+          </p>
+          <h3>Better Together</h3>
+          <p>
+            The point is not that Claude replaces the engineer. It is that the musician and the AI together can do what neither could do alone. The musician cannot memorize 400 parameters across 40 channels. Claude cannot hear that the guitar tone needs more bite. The musician cannot instantly apply filters to seven buses in parallel. Claude cannot feel that the chorus needs to hit harder. Each one fills in where the other falls short, and the session moves at the speed of the conversation rather than the speed of the interface.
+          </p>
+        </div>
+
+        <div class="hiw__svg-wrap">
+          <svg viewBox="0 0 700 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A chat command on the left and the mixer responding on the right">
+            <!-- Left: Chat bubble -->
+            <g transform="translate(50, 30)">
+              <rect x="0" y="0" width="260" height="120" rx="4" fill="var(--white)" stroke="var(--linen)" stroke-width="1"/>
+              <text x="20" y="28" font-family="var(--mono)" font-size="9" fill="var(--stone)">MUSICIAN</text>
+              <rect x="16" y="40" width="228" height="28" rx="3" fill="var(--cream)"/>
+              <text x="28" y="58" font-family="var(--body)" font-size="12" fill="var(--ink)">"Set up for lead guitar"</text>
+
+              <text x="20" y="90" font-family="var(--mono)" font-size="9" fill="var(--amber)">CLAUDE</text>
+              <text x="20" y="108" font-family="var(--body)" font-size="11" fill="var(--slate)">Switching amp sim, routing updated.</text>
+            </g>
+
+            <!-- Arrow between -->
+            <line x1="330" y1="90" x2="370" y2="90" stroke="var(--amber)" stroke-width="1.5"/>
+            <polygon points="370,87 378,90 370,93" fill="var(--amber)"/>
+
+            <!-- Right: Mixer response -->
+            <g transform="translate(400, 30)">
+              <rect x="0" y="0" width="250" height="120" rx="4" fill="var(--white)" stroke="var(--linen)" stroke-width="1"/>
+              <text x="20" y="28" font-family="var(--mono)" font-size="9" fill="var(--stone)">WING MIXER</text>
+
+              <!-- Fader moving -->
+              <g transform="translate(40, 50)">
+                <line x1="0" y1="0" x2="0" y2="50" stroke="var(--linen)" stroke-width="2"/>
+                <rect x="-6" y="12" width="12" height="6" rx="1" fill="var(--amber)"/>
+                <text x="0" y="68" text-anchor="middle" font-family="var(--mono)" font-size="7" fill="var(--stone)">Ch18</text>
+              </g>
+
+              <!-- Mute light changing -->
+              <g transform="translate(100, 50)">
+                <rect x="-10" y="10" width="20" height="12" rx="2" fill="var(--session-green)" opacity="0.8"/>
+                <text x="0" y="20" text-anchor="middle" font-family="var(--mono)" font-size="7" font-weight="600" fill="var(--white)">ON</text>
+                <text x="0" y="68" text-anchor="middle" font-family="var(--mono)" font-size="7" fill="var(--stone)">Bus 11</text>
+              </g>
+
+              <!-- FX switching -->
+              <g transform="translate(170, 50)">
+                <rect x="-20" y="6" width="40" height="18" rx="2" fill="var(--ink)" opacity="0.08"/>
+                <text x="0" y="18" text-anchor="middle" font-family="var(--mono)" font-size="8" font-weight="500" fill="var(--amber)">ANGEL</text>
+                <text x="0" y="68" text-anchor="middle" font-family="var(--mono)" font-size="7" fill="var(--stone)">Amp Sim</text>
+              </g>
+            </g>
+          </svg>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════════════
+           PART 8: THE DOCUMENTS
+           ════════════════════════════════════════════════ -->
+      <section class="hiw__section" id="documents">
+        <span class="hiw__part-label">Part 8</span>
+        <h2>The Documents That Run the Studio <a href="#documents" class="hiw__anchor"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+        <div class="prose">
+          <h3>Why Documentation Matters</h3>
+          <p>
+            A studio is more than hardware and software. It is also knowledge &mdash; the accumulated understanding of how everything is connected, why certain decisions were made, what went wrong in the past, and how to avoid repeating those mistakes. In most studios, that knowledge lives in the engineer's head. When the engineer leaves, the knowledge goes with them, and the next person has to rediscover everything from scratch. We took a different approach: everything is written down.
+          </p>
+          <p>
+            This is not bureaucracy. It is institutional memory &mdash; the kind that makes the studio smarter over time rather than dependent on any single person's recall. Four documents form the backbone of the system, and each one serves a distinct purpose.
+          </p>
+        </div>
+
+        <div class="hiw__svg-wrap">
+          <svg viewBox="0 0 700 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Four documents connected by reference lines">
+            <!-- Document 1: studio.edn (top left) -->
+            <g transform="translate(100, 30)">
+              <rect x="-70" y="0" width="140" height="80" rx="2" fill="var(--white)" stroke="var(--amber)" stroke-width="1.5"/>
+              <line x1="-70" y1="20" x2="70" y2="20" stroke="var(--amber)" stroke-width="0.5" opacity="0.3"/>
+              <text x="0" y="14" text-anchor="middle" font-family="var(--mono)" font-size="9" font-weight="600" fill="var(--amber)">studio.edn</text>
+              <text x="0" y="38" text-anchor="middle" font-family="var(--body)" font-size="10" fill="var(--slate)">Single source of truth.</text>
+              <text x="0" y="52" text-anchor="middle" font-family="var(--body)" font-size="10" fill="var(--slate)">Every channel, bus, route,</text>
+              <text x="0" y="66" text-anchor="middle" font-family="var(--body)" font-size="10" fill="var(--slate)">and calibration value.</text>
+            </g>
+
+            <!-- Document 2: OSC Reference (top right) -->
+            <g transform="translate(600, 30)">
+              <rect x="-70" y="0" width="140" height="80" rx="2" fill="var(--white)" stroke="var(--vocal-blue)" stroke-width="1.5"/>
+              <line x1="-70" y1="20" x2="70" y2="20" stroke="var(--vocal-blue)" stroke-width="0.5" opacity="0.3"/>
+              <text x="0" y="14" text-anchor="middle" font-family="var(--mono)" font-size="9" font-weight="600" fill="var(--vocal-blue)">OSC Reference</text>
+              <text x="0" y="38" text-anchor="middle" font-family="var(--body)" font-size="10" fill="var(--slate)">How Claude talks to</text>
+              <text x="0" y="52" text-anchor="middle" font-family="var(--body)" font-size="10" fill="var(--slate)">the mixer. Every command</text>
+              <text x="0" y="66" text-anchor="middle" font-family="var(--body)" font-size="10" fill="var(--slate)">and parameter path.</text>
+            </g>
+
+            <!-- Connection line: studio.edn -> OSC ref -->
+            <line x1="170" y1="70" x2="530" y2="70" stroke="var(--linen)" stroke-width="1" stroke-dasharray="4,3"/>
+
+            <!-- Document 3: Session Lessons (bottom left) -->
+            <g transform="translate(100, 160)">
+              <rect x="-70" y="0" width="140" height="80" rx="2" fill="var(--white)" stroke="var(--session-green)" stroke-width="1.5"/>
+              <line x1="-70" y1="20" x2="70" y2="20" stroke="var(--session-green)" stroke-width="0.5" opacity="0.3"/>
+              <text x="0" y="14" text-anchor="middle" font-family="var(--mono)" font-size="9" font-weight="600" fill="var(--session-green)">Session Lessons</text>
+              <text x="0" y="38" text-anchor="middle" font-family="var(--body)" font-size="10" fill="var(--slate)">Institutional memory.</text>
+              <text x="0" y="52" text-anchor="middle" font-family="var(--body)" font-size="10" fill="var(--slate)">Every mistake made and</text>
+              <text x="0" y="66" text-anchor="middle" font-family="var(--body)" font-size="10" fill="var(--slate)">fixed, never repeated.</text>
+            </g>
+
+            <!-- Document 4: Blog (bottom right) -->
+            <g transform="translate(600, 160)">
+              <rect x="-70" y="0" width="140" height="80" rx="2" fill="var(--white)" stroke="var(--tape-coral)" stroke-width="1.5"/>
+              <line x1="-70" y1="20" x2="70" y2="20" stroke="var(--tape-coral)" stroke-width="0.5" opacity="0.3"/>
+              <text x="0" y="14" text-anchor="middle" font-family="var(--mono)" font-size="9" font-weight="600" fill="var(--tape-coral)">Blog</text>
+              <text x="0" y="38" text-anchor="middle" font-family="var(--body)" font-size="10" fill="var(--slate)">Real stories published</text>
+              <text x="0" y="52" text-anchor="middle" font-family="var(--body)" font-size="10" fill="var(--slate)">as they happen. Building</text>
+              <text x="0" y="66" text-anchor="middle" font-family="var(--body)" font-size="10" fill="var(--slate)">the studio in public.</text>
+            </g>
+
+            <!-- Connection line: studio.edn -> session lessons -->
+            <line x1="100" y1="110" x2="100" y2="160" stroke="var(--linen)" stroke-width="1" stroke-dasharray="4,3"/>
+
+            <!-- Connection line: session lessons -> blog -->
+            <line x1="170" y1="200" x2="530" y2="200" stroke="var(--linen)" stroke-width="1" stroke-dasharray="4,3"/>
+
+            <!-- Connection line: OSC ref -> blog -->
+            <line x1="600" y1="110" x2="600" y2="160" stroke="var(--linen)" stroke-width="1" stroke-dasharray="4,3"/>
+
+            <!-- Diagonal connections -->
+            <line x1="170" y1="100" x2="530" y2="168" stroke="var(--linen)" stroke-width="1" stroke-dasharray="4,3" opacity="0.5"/>
+            <line x1="170" y1="168" x2="530" y2="100" stroke="var(--linen)" stroke-width="1" stroke-dasharray="4,3" opacity="0.5"/>
+          </svg>
+        </div>
+
+        <div class="prose">
+          <h3>The Configuration File</h3>
+          <p>
+            The configuration file is the single source of truth. Written in EDN (a structured data format that both humans and machines can parse), it describes every channel in the mixer, every bus, every matrix output, every outboard connection, every patchbay point, every USB routing assignment, and every calibration value. When Claude needs to know which channel the vocal compressor return lives on, it reads this file. When a new piece of gear is added, this file gets updated. There is never a question about "how is this wired?" because the answer is always in the same place.
+          </p>
+          <h3>The Parameter Schema</h3>
+          <p>
+            The OSC reference is the mixer's complete command language, compressed into a format that Claude can load efficiently. OSC (Open Sound Control) is the protocol &mdash; a system of text commands that control the mixer remotely. Every fader, every mute button, every EQ parameter, every effect setting has an OSC address, and this reference catalogs all of them. It is the dictionary that allows Claude to translate "unmute channel 11" into the specific command the mixer understands.
+          </p>
+          <h3>The Lessons Log</h3>
+          <p>
+            The session lessons document is perhaps the most important of all. It is updated after every recording session with a brutally honest account of what went wrong and how it was fixed. A bus send that was leaking signal to the wrong output. A phantom power setting left on from a previous session that caused a massive noise floor. A USB routing assignment that conflicts with another channel. Every mistake is documented, every fix is recorded, and every session starts with Claude reading this file so it knows the full history of the studio's failures and solutions. The result is a system that genuinely learns: a mistake made in March is never repeated in April, because the lesson is written down and the AI reads it every time.
+          </p>
+          <h3>The Blog</h3>
+          <p>
+            The blog is the public-facing version of this philosophy. Real stories from real sessions, published as they happen. How we solved a routing problem. Why we moved tape saturation from the recording phase to the mixing phase. What it sounds like when you accidentally create a feedback loop through the USB bus. Building the studio in public means that anyone following along can learn from our process &mdash; and it holds us accountable to document everything clearly enough that an outsider could understand it.
+          </p>
+          <h3>A Studio That Learns</h3>
+          <p>
+            Together, these documents embody a belief that documentation is not overhead &mdash; it is infrastructure. The studio improves autonomously because everything is written down, every mistake teaches something, and the AI that runs the board starts each session with the complete accumulated knowledge of every session that came before it.
+          </p>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════════════
+           CONCLUSION
+           ════════════════════════════════════════════════ -->
+      <section class="hiw__section hiw__section--last" id="conclusion">
+        <h2>The Whole Picture <a href="#conclusion" class="hiw__anchor"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+        <div class="prose">
+          <p>
+            Here is the full journey in a single breath. You plug in your instrument. The patchbay, silently normalled, routes your signal through a Neve-style preamp that adds warmth and body, through a fast 1176-style compressor that catches the transients, through a slow compressor that smooths the overall dynamics, and through a de-esser that tames any harshness. The fully processed signal arrives at the mixer, which sends it to the recorder over USB while simultaneously routing it to your headphones with zero latency. You hear yourself sounding like a finished record while you perform. Logic captures the take. You record another layer on top, hearing the first take in your headphones alongside your live performance. Layer by layer, the song builds. When every part is down, the mixer adds effects &mdash; reverb, doubling, bass thickening, amp simulation &mdash; splits the audio into seven stems, and sends them to a physical mixing console. You ride the faders through the arrangement, performing the mix in real time, and the stereo result rolls onto a track. The best pass wins.
+          </p>
+          <p>
+            The three promises are all delivered through this chain. Zero latency, because the monitoring path runs through hardware, not software, and the musician hears the processed sound in real time. Finished sound from the first take, because the outboard gear is calibrated and committed &mdash; what gets recorded is what gets released. And an AI running the board, because Claude reads the studio's complete configuration and session history at the start of every session, understands the mixer's full command language, and translates plain-language requests into precise technical operations without the musician ever touching the console.
+          </p>
+          <p>
+            The philosophy behind all of it is simple: commit to the sound at the source, build the arrangement layer by layer, and perform the mix. Do not defer decisions to a future that never comes. Do not hide behind infinite undo. Trust the gear, trust the chain, and trust that a performance captured with intention and commitment has more life than one assembled from a hundred uncommitted options.
+          </p>
+          <p>
+            And the studio gets smarter. Every session ends with lessons documented. Every mistake becomes a lesson that prevents the next mistake. The configuration file stays current. The blog tells the story. The AI reads it all and starts the next session knowing everything the studio has ever learned. It is a system designed not just to make records, but to improve at making records &mdash; autonomously, incrementally, session after session.
+          </p>
+        </div>
+      </section>
+
+    </article>
+  </div>
+</Base>
+
+<style>
+  .hiw {
+    max-width: 800px;
+  }
+
+  .hiw__section {
+    border-top: 1px solid var(--linen);
+    padding: clamp(24px, 4vw, 48px) 0;
+  }
+
+  .hiw__section:first-child {
+    border-top: none;
+  }
+
+  .hiw__section--last {
+    padding-bottom: clamp(32px, 5vw, 64px);
+  }
+
+  .hiw__part-label {
+    display: block;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--stone);
+    margin-bottom: 8px;
+  }
+
+  .hiw__section h2 {
+    margin-bottom: 16px;
+  }
+
+  .hiw__anchor {
+    display: inline-block;
+    margin-left: 8px;
+    color: var(--sand);
+    text-decoration: none;
+    vertical-align: middle;
+    transition: color 0.2s ease;
+  }
+  .hiw__anchor svg {
+    width: 0.55em;
+    height: 0.55em;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .hiw__anchor:hover { color: var(--amber); }
+
+  .hiw__svg-wrap {
+    margin: clamp(20px, 3vw, 32px) 0;
+    max-width: 700px;
+    padding: clamp(16px, 2vw, 24px);
+    background: var(--white);
+    border: 1px solid var(--linen);
+    border-radius: 2px;
+  }
+
+  .hiw__svg-wrap svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  @media (max-width: 768px) {
+    .hiw__svg-wrap {
+      margin-left: calc(-1 * var(--gap));
+      margin-right: calc(-1 * var(--gap));
+      border-radius: 0;
+      border-left: none;
+      border-right: none;
+      max-width: none;
+    }
+  }
+</style>

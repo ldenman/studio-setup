@@ -1,5 +1,5 @@
 ---
-title: "Why the Mute Button Lies"
+title: "Wing: Why the Mute Button Lies"
 date: 2026-03-27
 description: "On most consoles, mute removes a channel from the mix. On the Wing, it kills everything — including the signal path you were recording through."
 tags: ["lessons", "routing", "workflow"]
