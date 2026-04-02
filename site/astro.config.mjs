@@ -1,7 +1,10 @@
 import { defineConfig } from 'astro/config';
 
+import cloudflare from '@astrojs/cloudflare';
+
 export default defineConfig({
   site: 'https://buffalo-shoals.pages.dev',
+
   content: {
     collections: {
       blog: {
@@ -14,4 +17,6 @@ export default defineConfig({
       },
     },
   },
+
+  adapter: cloudflare(),
 });
