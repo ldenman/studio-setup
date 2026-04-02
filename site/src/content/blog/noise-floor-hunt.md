@@ -1,6 +1,6 @@
 ---
 title: "The Noise Floor Hunt"
-date: 2026-03-27
+date: 2026-01-12
 description: "Four noise sources found in one afternoon — a master trim cranked to +18, a compressor boosting silence, phantom power on a line input, and a ghost channel."
 tags: ["lessons", "routing"]
 hero: "/blog/noise-floor-hunt.svg"

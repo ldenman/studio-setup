@@ -1,8 +1,8 @@
 ---
 title: "Wing: The Display Name You Can't Override"
-date: 2026-03-28
+date: 2026-03-09
 description: "We wrote to /ch/N/name a dozen times. The scribble strip never changed. The Wing has its own ideas about identity."
-tags: ["lessons", "routing", "gear"]
+tags: ["wing", "lessons", "routing", "gear"]
 hero: "/blog/display-name-override.svg"
 ---
 

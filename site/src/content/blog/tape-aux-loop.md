@@ -1,6 +1,6 @@
 ---
 title: "The Tape Saturation Experiment"
-date: 2026-03-28
+date: 2026-03-19
 description: "We tried building a hardware tape saturation loop using the Model 12's aux send. It worked — until it didn't."
 tags: ["tape", "effects", "lessons"]
 hero: "/blog/tape-aux-loop.svg"

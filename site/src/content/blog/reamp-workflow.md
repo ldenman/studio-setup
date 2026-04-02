@@ -1,6 +1,6 @@
 ---
 title: "The Re-Amp Workflow: Processing Yesterday's Take"
-date: 2026-03-28
+date: 2026-03-17
 description: "You recorded dry. Now you want it through the outboard chain and amp sims. Here's how we send a track back through the studio — and the one thing you absolutely must turn off when you're done."
 tags: ["workflow", "outboard", "recording", "gear", "lessons"]
 hero: "/blog/reamp-workflow.svg"

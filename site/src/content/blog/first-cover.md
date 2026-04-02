@@ -1,6 +1,6 @@
 ---
 title: "First Cover: Knockin' on Heaven's Door"
-date: 2026-03-29
+date: 2026-04-01
 description: "The first song through the studio — a simple three-chord cover that tested every piece of the signal chain."
 tags: ["session", "recording", "cover"]
 hero: "/blog/first-cover.svg"

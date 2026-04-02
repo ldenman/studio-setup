@@ -1,6 +1,6 @@
 ---
 title: "The Model 12's Second Life as a Mixing Console"
-date: 2026-03-29
+date: 2026-03-22
 description: "It started as a tape machine. Now it runs like a tiny SSL room — DAW plays back, console mixes, tape captures every pass."
 tags: ["mixing", "model-12", "workflow", "philosophy"]
 hero: "/blog/second-life-mixing-console.svg"

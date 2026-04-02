@@ -1,6 +1,6 @@
 ---
 title: "When a Plugin Beats Hardware"
-date: 2026-03-29
+date: 2026-03-24
 description: "We tore out an elegant hardware tape loop because physics doesn't care about elegance."
 tags: ["tape", "lessons", "workflow", "mixing"]
 hero: "/blog/tape-plugin-beats-hardware.svg"

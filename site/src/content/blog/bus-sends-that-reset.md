@@ -1,8 +1,8 @@
 ---
 title: "Wing: Bus Sends That Reset Themselves"
-date: 2026-03-29
+date: 2026-03-28
 description: "A send level that should be +10dB keeps reverting to zero. The Wing is silently undoing our work, and it's not in the manual."
-tags: ["lessons", "routing", "workflow"]
+tags: ["wing", "lessons", "routing", "workflow"]
 hero: "/blog/bus-sends-that-reset.svg"
 ---
 

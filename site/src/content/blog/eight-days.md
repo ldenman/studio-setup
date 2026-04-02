@@ -1,6 +1,6 @@
 ---
 title: "Eight Days to a Studio"
-date: 2026-03-29
+date: 2026-03-26
 description: "The studio that exists today was not planned on day one — it was discovered through forty commits, three major pivots, and one very loud feedback loop."
 tags: ["workflow", "lessons", "philosophy"]
 hero: "/blog/eight-days.svg"

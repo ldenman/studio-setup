@@ -1,6 +1,6 @@
 ---
 title: "Same Architecture, Different Price Tag"
-date: 2026-03-29
+date: 2026-03-21
 description: "How a professional studio actually works — and why this one works the same way for a fraction of the cost."
 tags: ["philosophy", "workflow", "gear", "outboard", "model-12"]
 hero: "/blog/same-architecture-different-price-tag.svg"

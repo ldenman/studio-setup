@@ -2,7 +2,7 @@
 title: "Wing: HPF Everything — Cleaning Up the Mix Buses"
 date: 2026-03-29
 description: "Adding high-pass and low-pass filters to every mix matrix instantly recovered headroom we didn't know we were losing."
-tags: ["mixing", "workflow", "model-12"]
+tags: ["wing", "mixing", "workflow", "model-12"]
 hero: "/blog/hpf-everything.svg"
 ---
 

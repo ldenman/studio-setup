@@ -1,8 +1,8 @@
 ---
 title: "Wing: The Silent Theft"
-date: 2026-03-27
+date: 2026-02-23
 description: "FX slots on the Behringer Wing can only live in one insert at a time. Assign one somewhere new, and it silently vanishes from wherever it was before."
-tags: ["lessons", "routing", "gear"]
+tags: ["wing", "lessons", "routing", "gear"]
 hero: "/blog/silent-theft.svg"
 ---
 

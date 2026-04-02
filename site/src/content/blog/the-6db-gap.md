@@ -1,6 +1,6 @@
 ---
 title: "The 6dB Gap: When Analog and Digital Disagree"
-date: 2026-03-27
+date: 2026-01-26
 description: "The same signal read -18 in Logic and -12 on the Model 12. We spent an hour chasing a problem that wasn't a problem."
 tags: ["lessons", "gear", "model-12", "recording"]
 hero: "/blog/the-6db-gap.svg"

@@ -1,6 +1,6 @@
 ---
 title: "Phantom Power and the Patchbay"
-date: 2026-03-28
+date: 2026-03-15
 description: "The condensers bypass the patchbay for a reason. We forgot that reason and spent an hour finding out why."
 tags: ["lessons", "gear", "recording"]
 hero: "/blog/phantom-power-and-the-patchbay.svg"

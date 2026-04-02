@@ -1,8 +1,8 @@
 ---
 title: "Wing: The Monitor Section Lives Behind Glass"
-date: 2026-03-29
+date: 2026-03-30
 description: "We can automate every fader, every mute, every FX slot on the Wing — except the one section we reach for most during a session."
-tags: ["lessons", "workflow", "philosophy"]
+tags: ["wing", "lessons", "workflow", "philosophy"]
 hero: "/blog/monitor-section-behind-glass.svg"
 ---
 

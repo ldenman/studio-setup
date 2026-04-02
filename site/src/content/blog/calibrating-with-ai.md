@@ -1,6 +1,6 @@
 ---
 title: "Calibrating Outboard with an AI Engineer"
-date: 2026-03-27
+date: 2026-02-02
 description: "Claude generates test tones and reads meters. Lake turns knobs. Together they chase unity gain through eight boxes."
 tags: ["gear", "outboard", "workflow"]
 hero: "/blog/calibrating-with-ai.svg"

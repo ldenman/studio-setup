@@ -1,6 +1,6 @@
 ---
 title: "HA73: Two Channels, Two Personalities"
-date: 2026-03-27
+date: 2026-01-19
 description: "Same preamp, same knob positions, different output levels. That's not a defect — it's analog."
 tags: ["gear", "outboard", "lessons"]
 hero: "/blog/ha73-two-personalities.svg"

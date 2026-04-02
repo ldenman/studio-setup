@@ -1,8 +1,8 @@
 ---
 title: "Wing: The Virtual Patchbay Nobody Sees"
-date: 2026-03-28
+date: 2026-03-13
 description: "When the Wing's output routing hit a dead end, 24 invisible patch points saved the session."
-tags: ["routing", "workflow", "lessons"]
+tags: ["wing", "routing", "workflow", "lessons"]
 hero: "/blog/virtual-patchbay.svg"
 ---
 

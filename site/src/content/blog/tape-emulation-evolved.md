@@ -1,6 +1,6 @@
 ---
 title: "The Tape Emulation That Evolved Four Times"
-date: 2026-03-29
+date: 2026-03-23
 description: "In one week, our tape saturation moved through four different locations — each time because the last one broke something."
 tags: ["tape", "effects", "lessons", "workflow"]
 hero: "/blog/tape-emulation-evolved.svg"

@@ -1,8 +1,8 @@
 ---
 title: "Wing: FX16 Won't Load — Hitting the DSP Ceiling"
-date: 2026-03-29
+date: 2026-03-28
 description: "The Wing has 16 FX slots. That doesn't mean you get 16 effects."
-tags: ["lessons", "gear", "workflow"]
+tags: ["wing", "lessons", "gear", "workflow"]
 hero: "/blog/dsp-ceiling.svg"
 ---
 

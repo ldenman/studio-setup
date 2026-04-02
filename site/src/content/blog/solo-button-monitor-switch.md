@@ -1,6 +1,6 @@
 ---
 title: "One Button Between Two Worlds"
-date: 2026-03-29
+date: 2026-03-25
 description: "The solo button trick that lets you switch between tracking and mixing monitoring without touching a cable."
 tags: ["workflow", "mixing", "model-12", "lessons"]
 hero: "/blog/solo-button-monitor-switch.svg"

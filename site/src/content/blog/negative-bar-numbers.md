@@ -1,6 +1,6 @@
 ---
 title: "Negative Bar Numbers"
-date: 2026-03-29
+date: 2026-03-27
 description: "Press play on the Model 12 and Logic jumps to bar negative nine. An old broadcast convention almost derailed our first synced session."
 tags: ["lessons", "workflow", "model-12"]
 hero: "/blog/negative-bar-numbers.svg"

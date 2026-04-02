@@ -1,6 +1,6 @@
 ---
 title: "Four Feedback Loops in One Week"
-date: 2026-03-27
+date: 2026-01-05
 description: "Digital white noise, reverb leaks, phantom outboard hiss, and USB crosstalk — each one a different animal."
 tags: ["lessons", "routing"]
 hero: "/blog/feedback-loops.svg"

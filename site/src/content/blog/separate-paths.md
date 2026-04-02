@@ -1,6 +1,6 @@
 ---
 title: "Separate Paths: Why Recording and Monitoring Divorced"
-date: 2026-03-27
+date: 2025-12-22
 description: "Recording and monitoring used to share a signal path. Splitting them apart was the biggest architecture decision in the studio's first week."
 tags: ["workflow", "recording", "philosophy", "outboard"]
 hero: "/blog/separate-paths.svg"

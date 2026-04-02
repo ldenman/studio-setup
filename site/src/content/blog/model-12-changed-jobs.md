@@ -1,6 +1,6 @@
 ---
 title: "The Model 12 Changed Jobs"
-date: 2026-03-28
+date: 2026-03-02
 description: "Bought as a tape machine, it became the mixing console. The architecture pivot that changed everything."
 tags: ["workflow", "model-12", "lessons"]
 hero: "/blog/model-12-changed-jobs.svg"

@@ -1,8 +1,8 @@
 ---
 title: "Wing: Solo Doesn't Mean Alone"
-date: 2026-03-29
+date: 2026-03-31
 description: "We solo'd a channel expecting silence from everything else. The buses had other plans."
-tags: ["lessons", "mixing", "routing", "model-12"]
+tags: ["wing", "lessons", "mixing", "routing", "model-12"]
 hero: "/blog/solo-doesnt-mean-alone.svg"
 ---
 

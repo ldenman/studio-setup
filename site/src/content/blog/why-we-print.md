@@ -1,6 +1,6 @@
 ---
 title: "Why We Print the Outboard"
-date: 2026-03-26
+date: 2025-12-08
 description: "Committing Neve-style color, 1176 compression, and optical leveling to the recording — with no undo. Why that's a feature."
 tags: ["philosophy", "outboard", "recording"]
 hero: "/blog/why-we-print.svg"

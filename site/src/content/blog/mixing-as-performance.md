@@ -1,6 +1,6 @@
 ---
 title: "Mixing as a Performance"
-date: 2026-03-29
+date: 2026-03-27
 description: "Every time we push play and touch the faders, the Model 12 is recording. That changes how we mix."
 tags: ["mixing", "philosophy", "model-12", "workflow"]
 hero: "/blog/mixing-as-performance.svg"

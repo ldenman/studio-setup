@@ -1,8 +1,8 @@
 ---
 title: "Wing: USR Numbering vs. Stereo Indexing"
-date: 2026-03-28
+date: 2026-03-11
 description: "The Wing uses two different numbering schemes for routing, and getting them confused means silence, the wrong signal, or both."
-tags: ["lessons", "routing", "gear"]
+tags: ["wing", "lessons", "routing", "gear"]
 hero: "/blog/two-counting-systems.svg"
 ---
 

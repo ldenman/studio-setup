@@ -1,6 +1,6 @@
 ---
 title: "The Three Zeros"
-date: 2026-03-29
+date: 2025-12-15
 description: "Zero latency, zero comb filtering, zero unnecessary noise — the three rules that survived contact with reality."
 tags: ["philosophy", "lessons", "workflow", "routing"]
 hero: "/blog/three-zeros.svg"
