@@ -88,6 +88,10 @@ Every blog post needs a hero image. Create an SVG illustration for each post and
 4. **One idea per post.** Don't cram three topics into one post. If you have three things to say, that's three posts.
 5. **Date accurately.** Use the date of the session or event the post is about, not the date it was written.
 
+## Git workflow
+
+Always work on the `dev` branch. Before making changes, ensure you're on `dev` (`git checkout dev`). Do not commit directly to `main`.
+
 ## When to run
 
 - When asked to find blog topics or write posts

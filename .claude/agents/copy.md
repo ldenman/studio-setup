@@ -60,6 +60,10 @@ When writing about the studio, reference these files for accurate technical deta
 
 **Good:** "A dark, controlled lead tone — Mesa-style with just enough gain to sustain without overwhelming the outboard chain downstream."
 
+## Git workflow
+
+Always work on the `dev` branch. Before making changes, ensure you're on `dev` (`git checkout dev`). Do not commit directly to `main`.
+
 ## When to run
 
 - When page copy needs writing or rewriting
