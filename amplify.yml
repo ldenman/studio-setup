@@ -3,6 +3,7 @@ frontend:
   phases:
     preBuild:
       commands:
+        - cp studio.edn site/studio.edn
         - cd site
         - npm ci
     build:
