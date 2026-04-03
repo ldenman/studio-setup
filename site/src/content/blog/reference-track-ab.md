@@ -4,9 +4,6 @@ date: 2026-03-29
 description: "A dedicated reference track channel for A/B mixing — because your ears lie to you after twenty minutes."
 tags: ["mixing", "workflow", "lessons"]
 hero: "/blog/reference-track-ab.svg"
-<<<<<<< HEAD
-=======
->>>>>>> origin/claude/reference-tracks
 ---
 
 After twenty minutes of mixing, everything sounds great. The vocal sits right where you want it, the guitar tone is warm and full, the low end feels solid. You're happy. You should be suspicious.
