@@ -210,19 +210,6 @@ Lessons learned during studio sessions. Updated after each session.
 - Song files use `.SG1` format (simple) and `.MGU` format (full song with style)
 - Existing BIAB song library at `~/Music/BIBX Songs/` — Pop&Rock, Country, Real Book folders
 - Styles are bundled with the app at `/Applications/Band-in-a-Box/` (1002 `.STY` files)
-- Generated `tools/gen-biab.py` — creates SG1 files from chord progressions without needing BIAB open
-
-### SG1 File Format (Reverse Engineered)
-- Magic byte: `0x49` ('I')
-- Header: `[0x49][title_len][title bytes][0x00]`
-- Settings: 14 bytes; byte[0] = key (`51 - sharps×2`: C=0x33, G=0x31)
-- Chord entry: 3 bytes `[flags][root][00]`
-  - `flags`: LSB=1 → major, LSB=0 → minor (e.g. `0x03`=major, `0x02`=minor)
-  - `root`: 1-indexed chromatic — C=1, C#=2, D=3, D#=4, E=5, F=6, F#=7, G=8, G#=9, A=10, A#=11, B=12
-- Empty beat: `0xFF 0x00` (2 bytes)
-- Block structure: [N chord entries × 3 bytes] + [3 × `ff 00`] + [3-byte separator]
-- Two blocks per file; separator bytes vary by style (`0xe6`, `0xd6`, `0xfe`, `0x7e`)
-- Encoding is absolute (not relative to key) — key change does not alter chord bytes
 
 ### Songs Folder
 - Created `songs/` at repo root — one subfolder per song
