@@ -8,7 +8,12 @@ frontend:
         - npm ci
     build:
       commands:
-        - PUBLIC_SHOW_DRAFTS=${PUBLIC_SHOW_DRAFTS:-false} npm run build
+        - |
+          if [ "$AWS_BRANCH" = "dev" ]; then
+            PUBLIC_SHOW_DRAFTS=true npm run build
+          else
+            npm run build
+          fi
   artifacts:
     baseDirectory: site/dist
     files:
