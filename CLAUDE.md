@@ -52,6 +52,24 @@ Logic handles tape saturation via IK Multimedia T-RackS Tape Machine plugin on e
 
 The Model 12 receives processed stems from the Wing during mixing and captures its stereo mixdown on tracks 11/12.
 
+### Reference Track A/B
+
+Ch8 (Reference) receives a commercial mix from Logic on USB 27-28 for A/B comparison against your rough mix. Level-matched using `wingctl meter all`.
+
+**Setup:**
+1. Import the reference track into Logic on a dedicated stereo output routed to USB 27-28
+2. Ch8 receives USB/27-28 in stereo, assigned to Main 1
+3. Ch8 is NOT routed to any matrix — it stays out of the Model 12 mixdown
+4. Level-match: play both your mix and the reference, adjust Ch8 fader until `wingctl meter all` shows matched levels on Main 1
+
+**A/B workflow:**
+- **Mute Ch8** = hear only your mix
+- **Unmute Ch8** = hear the reference stacked on top for comparison
+- **Solo Ch8** = hear only the reference in isolation
+- Compare: vocal level, guitar tone, low-end balance, stereo width, overall loudness
+
+**Current reference:** Bob Dylan — Knockin' on Heaven's Door (original). Sparse singer-songwriter arrangement — good baseline for vocal/guitar balance.
+
 ### Re-amping / Re-processing Tracks
 
 To process a previously recorded dry track through the Wing's amp sims and outboard chain:
