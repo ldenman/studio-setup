@@ -40,10 +40,10 @@ const songs = [
               </span>
             </div>
             <div class="song-card__meta">
-              <span><span class="text-dim">Key</span> {song.key}</span>
-              <span><span class="text-dim">BPM</span> {song.tempo}</span>
-              <span><span class="text-dim">Chords</span> {song.chords}</span>
-              {song.melodyStart && <span><span class="text-dim">Melody starts</span> {song.melodyStart}</span>}
+              <span><span class="text-dim">Key</span><strong>{song.key}</strong></span>
+              <span><span class="text-dim">BPM</span><strong>{song.tempo}</strong></span>
+              <span><span class="text-dim">Chords</span><strong>{song.chords}</strong></span>
+              {song.melodyStart && <span><span class="text-dim">Melody starts</span><strong>{song.melodyStart}</strong></span>}
             </div>
             {song.notes && <div class="song-card__notes text-dim">{song.notes}</div>}
           </div>
@@ -108,15 +108,23 @@ const songs = [
   }
 
   .song-card__meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--sp-md);
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: var(--sp-sm);
     font-size: 13px;
     font-family: var(--font-mono);
   }
 
+  .song-card__meta span {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
   .song-card__meta .text-dim {
-    margin-right: 4px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
   }
 
   .song-card__notes {
