@@ -2,9 +2,12 @@
 import Base from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
 
-const posts = (await getCollection('blog'))
-  .filter(post => !post.data.draft)
+const allPosts = (await getCollection('blog'))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const posts = allPosts.filter(post => !post.data.draft);
+const drafts = allPosts.filter(post => post.data.draft);
+const showDrafts = import.meta.env.PUBLIC_SHOW_DRAFTS === 'true';
 ---
 
 <Base title="Blog" active="blog">
@@ -17,6 +20,28 @@ const posts = (await getCollection('blog'))
     </section>
 
     <div class="vu-bar"></div>
+
+    {showDrafts && drafts.length > 0 && (
+      <section>
+        <h2 class="section-title" style="color: var(--amber, #d4a574);">Drafts</h2>
+        <ul class="post-list">
+          {drafts.map(post => (
+            <li class="post-item">
+              <span class="post-date" style="color: var(--amber, #d4a574);">draft</span>
+              <div>
+                <a href={`/blog/${post.id}`} class="post-title">{post.data.title}</a>
+                <p class="post-desc">{post.data.description}</p>
+                {post.data.tags && (
+                  <div class="post-tags">
+                    {post.data.tags.map(tag => <a href={`/blog/tag/${tag}`} class="tag">{tag}</a>)}
+                  </div>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
 
     <section>
       <ul class="post-list">

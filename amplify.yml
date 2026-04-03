@@ -8,7 +8,7 @@ frontend:
         - npm ci
     build:
       commands:
-        - npm run build
+        - PUBLIC_SHOW_DRAFTS=${PUBLIC_SHOW_DRAFTS:-false} npm run build
   artifacts:
     baseDirectory: site/dist
     files:
