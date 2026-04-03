@@ -1,0 +1,50 @@
+<svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Two side-by-side meter columns representing A/B comparison -->
+
+  <!-- Left meter: "Your Mix" -->
+  <rect x="240" y="60" width="60" height="280" rx="4" fill="none" stroke="#4a4740" stroke-width="1.5" />
+  <!-- Meter fill -->
+  <rect x="244" y="148" width="52" height="188" rx="2" fill="#b8792a" opacity="0.7" />
+  <!-- Meter segments -->
+  <line x1="244" y1="180" x2="296" y2="180" stroke="#2a2825" stroke-width="0.5" opacity="0.3" />
+  <line x1="244" y1="210" x2="296" y2="210" stroke="#2a2825" stroke-width="0.5" opacity="0.3" />
+  <line x1="244" y1="240" x2="296" y2="240" stroke="#2a2825" stroke-width="0.5" opacity="0.3" />
+  <line x1="244" y1="270" x2="296" y2="270" stroke="#2a2825" stroke-width="0.5" opacity="0.3" />
+  <line x1="244" y1="300" x2="296" y2="300" stroke="#2a2825" stroke-width="0.5" opacity="0.3" />
+
+  <!-- Right meter: "Reference" -->
+  <rect x="500" y="60" width="60" height="280" rx="4" fill="none" stroke="#4a4740" stroke-width="1.5" />
+  <!-- Meter fill — same height as left, level matched -->
+  <rect x="504" y="148" width="52" height="188" rx="2" fill="#4a7a9a" opacity="0.7" />
+  <!-- Meter segments -->
+  <line x1="504" y1="180" x2="556" y2="180" stroke="#2a2825" stroke-width="0.5" opacity="0.3" />
+  <line x1="504" y1="210" x2="556" y2="210" stroke="#2a2825" stroke-width="0.5" opacity="0.3" />
+  <line x1="504" y1="240" x2="556" y2="240" stroke="#2a2825" stroke-width="0.5" opacity="0.3" />
+  <line x1="504" y1="270" x2="556" y2="270" stroke="#2a2825" stroke-width="0.5" opacity="0.3" />
+  <line x1="504" y1="300" x2="556" y2="300" stroke="#2a2825" stroke-width="0.5" opacity="0.3" />
+
+  <!-- Dashed alignment line showing level match -->
+  <line x1="220" y1="148" x2="580" y2="148" stroke="#5a8a4a" stroke-width="1" stroke-dasharray="6,4" opacity="0.6" />
+
+  <!-- A/B arrow -->
+  <line x1="330" y1="200" x2="470" y2="200" stroke="#4a4740" stroke-width="1.5" />
+  <polygon points="465,194 478,200 465,206" fill="#4a4740" />
+  <polygon points="335,194 322,200 335,206" fill="#4a4740" />
+
+  <!-- Scale markings on outer edges -->
+  <text x="224" y="72" font-family="monospace" font-size="9" fill="#4a4740" text-anchor="end">0</text>
+  <text x="224" y="152" font-family="monospace" font-size="9" fill="#4a4740" text-anchor="end">-12</text>
+  <text x="224" y="222" font-family="monospace" font-size="9" fill="#4a4740" text-anchor="end">-24</text>
+  <text x="224" y="292" font-family="monospace" font-size="9" fill="#4a4740" text-anchor="end">-36</text>
+  <text x="224" y="342" font-family="monospace" font-size="9" fill="#4a4740" text-anchor="end">-48</text>
+
+  <text x="576" y="72" font-family="monospace" font-size="9" fill="#4a4740">0</text>
+  <text x="576" y="152" font-family="monospace" font-size="9" fill="#4a4740">-12</text>
+  <text x="576" y="222" font-family="monospace" font-size="9" fill="#4a4740">-24</text>
+  <text x="576" y="292" font-family="monospace" font-size="9" fill="#4a4740">-36</text>
+  <text x="576" y="342" font-family="monospace" font-size="9" fill="#4a4740">-48</text>
+
+  <!-- Labels -->
+  <text x="270" y="370" font-family="monospace" font-size="11" fill="#b8792a" text-anchor="middle">MIX</text>
+  <text x="530" y="370" font-family="monospace" font-size="11" fill="#4a7a9a" text-anchor="middle">REF</text>
+</svg>
