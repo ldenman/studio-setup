@@ -200,3 +200,44 @@ Lessons learned during studio sessions. Updated after each session.
 
 ### Copy
 - "Neve" → "Neve-style" across all blog posts and site pages where it refers to our HA73 clone. Wing FX model references (Neve 33609 etc.) left as-is since they describe what the digital models emulate.
+
+---
+
+## 2026-04-03 — BIAB, Songs Folder, Reference Track
+
+### Band-in-a-Box
+- BIAB installed from Downloads folder (DMG)
+- Song files use `.SG1` format (simple) and `.MGU` format (full song with style)
+- Existing BIAB song library at `~/Music/BIBX Songs/` — Pop&Rock, Country, Real Book folders
+- Styles are bundled with the app at `/Applications/Band-in-a-Box/` (1002 `.STY` files)
+- Generated `tools/gen-biab.py` — creates SG1 files from chord progressions without needing BIAB open
+
+### SG1 File Format (Reverse Engineered)
+- Magic byte: `0x49` ('I')
+- Header: `[0x49][title_len][title bytes][0x00]`
+- Settings: 14 bytes; byte[0] = key (`51 - sharps×2`: C=0x33, G=0x31)
+- Chord entry: 3 bytes `[flags][root][00]`
+  - `flags`: LSB=1 → major, LSB=0 → minor (e.g. `0x03`=major, `0x02`=minor)
+  - `root`: 1-indexed chromatic — C=1, C#=2, D=3, D#=4, E=5, F=6, F#=7, G=8, G#=9, A=10, A#=11, B=12
+- Empty beat: `0xFF 0x00` (2 bytes)
+- Block structure: [N chord entries × 3 bytes] + [3 × `ff 00`] + [3-byte separator]
+- Two blocks per file; separator bytes vary by style (`0xe6`, `0xd6`, `0xfe`, `0x7e`)
+- Encoding is absolute (not relative to key) — key change does not alter chord bytes
+
+### Songs Folder
+- Created `songs/` at repo root — one subfolder per song
+- `songs/knockin-on-heavens-door/notes.md` — key, tempo, chords, melody notes
+- Website `/songs` page added — songbook index with key, BPM, chords, melody start, status
+
+### Reference Track A/B (Ch8)
+- Ch8 set to USB 27-28 stereo, fader 0dB, muted by default
+- On Main 1 only — no matrix sends, never enters Model 12 mixdown
+- Unmute to A/B against rough mix; solo to hear reference in isolation
+- Level match using `tools/wingctl meter all` before comparing — louder always sounds better
+- Current reference: Bob Dylan — Knockin' on Heaven's Door
+- USB stereo pair index for Wing: USB 27/28 = `in=15` (formula: USB N/(N+1) → `in=(N+3)/2`)
+
+### Routing Reminder
+- Bus 5 mute kills rhythm guitar — check Bus 5 mute state if Ch2 has signal but nothing is heard at Ch18
+- Ch18 must be on Main 1 for monitoring; verify after any routing changes
+- Ch2 → Bus 2 direct send should be OFF when using amp sim (Bus 5 path)
