@@ -55,7 +55,8 @@ title: "Post Title"
 date: YYYY-MM-DD
 description: "One compelling sentence that makes someone want to click."
 tags: ["tag1", "tag2"]
-image: "/blog/post-slug.svg"
+hero: "/blog/post-slug.svg"
+draft: true
 ---
 
 Opening paragraph that hooks the reader — the moment, the problem, or the question.
@@ -64,6 +65,10 @@ Opening paragraph that hooks the reader — the moment, the problem, or the ques
 
 Body copy...
 ```
+
+### Draft workflow
+
+All new posts should be created with `draft: true` in the frontmatter. Drafts are only visible on the dev site at `/blog/drafts`. To publish, remove the `draft: true` line. The blog backlog lives at `docs/blog-backlog.md` — mark topics as written there when a post is created.
 
 ### Hero image
 
