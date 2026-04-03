@@ -2,354 +2,224 @@
 import Base from '../layouts/Base.astro';
 ---
 
-<Base title="Front Panels" active="front-panels">
-  <div class="container--wide">
-    <section class="page-header">
-      <h3>Calibrated Settings</h3>
-      <h1>Front Panels</h1>
-      <p>Outboard gear with dials set to calibrated positions. Reference for every session.</p>
-    </section>
+<Base title="Outboard Gear" active="front-panels">
+  <section class="page-header">
+    <span class="chapter-label">02 — Outboard</span>
+    <h1>The Chain</h1>
+    <p>Neve preamps. 1176 compression. Real outboard, real routing. The front end of every vocal and guitar recorded here.</p>
+  </section>
+
+  <div class="gear-grid">
+
+    <!-- HA73 -->
+    <div class="gear-card">
+      <div class="gear-panel">
+        <svg viewBox="0 0 480 120">
+          <rect x="2" y="2" width="476" height="116" rx="4" fill="#1a1815" stroke="#b8792a" stroke-width="1.2"/>
+          <text x="24" y="28" font-family="'JetBrains Mono', monospace" font-size="9" fill="#b8792a" letter-spacing="0.1em">GOLDEN AGE PROJECT</text>
+          <text x="24" y="48" font-family="'DM Serif Display', serif" font-size="20" fill="#f0ebe0">HA73-EQX2</text>
+          <circle cx="200" cy="70" r="22" fill="none" stroke="#d0cabb" stroke-width="1.5"/>
+          <circle cx="200" cy="70" r="18" fill="#2a2520" stroke="#44403a" stroke-width="0.8"/>
+          <line x1="200" y1="70" x2="200" y2="50" stroke="#f0ebe0" stroke-width="1.5" stroke-linecap="round"/>
+          <text x="200" y="103" font-family="'JetBrains Mono', monospace" font-size="8" fill="#9a9588" text-anchor="middle">GAIN</text>
+          <line x1="200" y1="44" x2="200" y2="46" stroke="#68635a" stroke-width="0.6"/>
+          <line x1="222" y1="70" x2="220" y2="70" stroke="#68635a" stroke-width="0.6"/>
+          <line x1="178" y1="70" x2="180" y2="70" stroke="#68635a" stroke-width="0.6"/>
+          <circle cx="280" cy="70" r="16" fill="none" stroke="#d0cabb" stroke-width="1"/>
+          <circle cx="280" cy="70" r="12" fill="#2a2520" stroke="#44403a" stroke-width="0.8"/>
+          <line x1="280" y1="70" x2="275" y2="56" stroke="#f0ebe0" stroke-width="1.2" stroke-linecap="round"/>
+          <text x="280" y="97" font-family="'JetBrains Mono', monospace" font-size="7" fill="#9a9588" text-anchor="middle">HI EQ</text>
+          <circle cx="340" cy="70" r="16" fill="none" stroke="#d0cabb" stroke-width="1"/>
+          <circle cx="340" cy="70" r="12" fill="#2a2520" stroke="#44403a" stroke-width="0.8"/>
+          <line x1="340" y1="70" x2="345" y2="56" stroke="#f0ebe0" stroke-width="1.2" stroke-linecap="round"/>
+          <text x="340" y="97" font-family="'JetBrains Mono', monospace" font-size="7" fill="#9a9588" text-anchor="middle">LO EQ</text>
+          <circle cx="420" cy="40" r="4" fill="#a85a4a" opacity="0.8"/>
+          <text x="420" y="54" font-family="'JetBrains Mono', monospace" font-size="6" fill="#9a9588" text-anchor="middle">48V</text>
+          <rect x="400" y="65" width="24" height="12" rx="6" fill="#2a2520" stroke="#68635a" stroke-width="0.8"/>
+          <circle cx="418" cy="71" r="4" fill="#5a8a4a"/>
+          <text x="412" y="90" font-family="'JetBrains Mono', monospace" font-size="6" fill="#9a9588" text-anchor="middle">EQ IN</text>
+          <rect x="440" y="65" width="24" height="12" rx="6" fill="#2a2520" stroke="#68635a" stroke-width="0.8"/>
+          <circle cx="446" cy="71" r="4" fill="#68635a"/>
+          <text x="452" y="90" font-family="'JetBrains Mono', monospace" font-size="6" fill="#9a9588" text-anchor="middle">PAD</text>
+        </svg>
+      </div>
+      <div class="gear-info">
+        <div class="gear-type">Preamp / EQ</div>
+        <h2>HA73-EQX2</h2>
+        <p>Dual-channel Neve 1073-style preamp with three-band EQ. The front end of both the vocal and guitar chains. Class A transformer-coupled gain stage.</p>
+        <div class="gear-spec">Ch A: Vocal (SM7B, 58dB gain)<br>Ch B: Guitar return (post amp sim)<br>Signal: Ch1/Ch2 → Out 1/2 → HA73 → WA76</div>
+      </div>
+    </div>
+
+    <!-- WA76 -->
+    <div class="gear-card">
+      <div class="gear-panel">
+        <svg viewBox="0 0 480 120">
+          <rect x="2" y="2" width="476" height="116" rx="4" fill="#1a1815" stroke="#4a7a9a" stroke-width="1.2"/>
+          <text x="24" y="28" font-family="'JetBrains Mono', monospace" font-size="9" fill="#4a7a9a" letter-spacing="0.1em">WARM AUDIO</text>
+          <text x="24" y="48" font-family="'DM Serif Display', serif" font-size="20" fill="#f0ebe0">WA76-D2</text>
+          <rect x="170" y="14" width="140" height="52" rx="4" fill="#0a0908" stroke="#4a7a9a" stroke-width="0.8"/>
+          <path d="M200,56 Q240,22 280,56" fill="none" stroke="#f0ebe0" stroke-width="0.6" opacity="0.6"/>
+          <line x1="240" y1="58" x2="225" y2="28" stroke="#a85a4a" stroke-width="0.8"/>
+          <text x="240" y="44" font-family="'JetBrains Mono', monospace" font-size="5" fill="#9a9588" text-anchor="middle">VU</text>
+          <circle cx="80" cy="80" r="18" fill="none" stroke="#d0cabb" stroke-width="1.2"/>
+          <circle cx="80" cy="80" r="14" fill="#2a2520" stroke="#44403a" stroke-width="0.8"/>
+          <line x1="80" y1="80" x2="70" y2="66" stroke="#f0ebe0" stroke-width="1.2" stroke-linecap="round"/>
+          <text x="80" y="108" font-family="'JetBrains Mono', monospace" font-size="7" fill="#9a9588" text-anchor="middle">INPUT</text>
+          <circle cx="400" cy="80" r="18" fill="none" stroke="#d0cabb" stroke-width="1.2"/>
+          <circle cx="400" cy="80" r="14" fill="#2a2520" stroke="#44403a" stroke-width="0.8"/>
+          <line x1="400" y1="80" x2="410" y2="66" stroke="#f0ebe0" stroke-width="1.2" stroke-linecap="round"/>
+          <text x="400" y="108" font-family="'JetBrains Mono', monospace" font-size="7" fill="#9a9588" text-anchor="middle">OUTPUT</text>
+          <g transform="translate(320, 72)">
+            <circle cx="0" cy="0" r="6" fill="#2a2520" stroke="#68635a" stroke-width="0.8"/>
+            <text x="0" y="2.5" font-family="'JetBrains Mono', monospace" font-size="5" fill="#9a9588" text-anchor="middle">4</text>
+            <circle cx="20" cy="0" r="6" fill="#2a2520" stroke="#4a7a9a" stroke-width="1.2"/>
+            <text x="20" y="2.5" font-family="'JetBrains Mono', monospace" font-size="5" fill="#f0ebe0" text-anchor="middle">8</text>
+            <circle cx="40" cy="0" r="6" fill="#2a2520" stroke="#68635a" stroke-width="0.8"/>
+            <text x="40" y="2.5" font-family="'JetBrains Mono', monospace" font-size="5" fill="#9a9588" text-anchor="middle">12</text>
+            <circle cx="60" cy="0" r="6" fill="#2a2520" stroke="#68635a" stroke-width="0.8"/>
+            <text x="60" y="2.5" font-family="'JetBrains Mono', monospace" font-size="5" fill="#9a9588" text-anchor="middle">20</text>
+          </g>
+          <text x="350" y="96" font-family="'JetBrains Mono', monospace" font-size="6" fill="#9a9588" text-anchor="middle">RATIO</text>
+          <circle cx="130" cy="80" r="12" fill="none" stroke="#d0cabb" stroke-width="0.8"/>
+          <circle cx="130" cy="80" r="9" fill="#2a2520" stroke="#44403a" stroke-width="0.6"/>
+          <line x1="130" y1="80" x2="130" y2="70" stroke="#f0ebe0" stroke-width="1" stroke-linecap="round"/>
+          <text x="130" y="102" font-family="'JetBrains Mono', monospace" font-size="6" fill="#9a9588" text-anchor="middle">ATT</text>
+        </svg>
+      </div>
+      <div class="gear-info">
+        <div class="gear-type">Compressor</div>
+        <h2>WA76-D2</h2>
+        <p>Dual 1176-style FET compressor. Fast attack, program-dependent release. Ratio at 8:1 for vocals, 4:1 for guitar. Always in the chain.</p>
+        <div class="gear-spec">Ch A: Vocal (post HA73 A)<br>Ch B: Guitar (post HA73 B)<br>Signal: HA73 → WA76 → Distressor/Opto</div>
+      </div>
+    </div>
+
+    <!-- Wing Rack -->
+    <div class="gear-card">
+      <div class="gear-panel">
+        <svg viewBox="0 0 480 120">
+          <rect x="2" y="2" width="476" height="116" rx="4" fill="#1a1815" stroke="#68635a" stroke-width="1.2"/>
+          <text x="24" y="28" font-family="'JetBrains Mono', monospace" font-size="9" fill="#68635a" letter-spacing="0.1em">BEHRINGER</text>
+          <text x="24" y="48" font-family="'DM Serif Display', serif" font-size="20" fill="#f0ebe0">Wing Rack</text>
+          <g transform="translate(180, 20)">
+            <rect x="0" y="20" width="6" height="60" rx="1" fill="#2a2520" stroke="#44403a" stroke-width="0.4"/>
+            <rect x="0" y="42" width="6" height="38" rx="1" fill="#5a8a4a" opacity="0.7"/>
+            <rect x="12" y="20" width="6" height="60" rx="1" fill="#2a2520" stroke="#44403a" stroke-width="0.4"/>
+            <rect x="12" y="50" width="6" height="30" rx="1" fill="#5a8a4a" opacity="0.6"/>
+            <rect x="24" y="20" width="6" height="60" rx="1" fill="#2a2520" stroke="#44403a" stroke-width="0.4"/>
+            <rect x="24" y="55" width="6" height="25" rx="1" fill="#4a7a9a" opacity="0.6"/>
+            <rect x="36" y="20" width="6" height="60" rx="1" fill="#2a2520" stroke="#44403a" stroke-width="0.4"/>
+            <rect x="36" y="48" width="6" height="32" rx="1" fill="#4a7a9a" opacity="0.5"/>
+            <rect x="54" y="20" width="6" height="60" rx="1" fill="#2a2520" stroke="#44403a" stroke-width="0.4"/>
+            <rect x="54" y="38" width="6" height="42" rx="1" fill="#a85a4a" opacity="0.6"/>
+            <rect x="66" y="20" width="6" height="60" rx="1" fill="#2a2520" stroke="#44403a" stroke-width="0.4"/>
+            <rect x="66" y="44" width="6" height="36" rx="1" fill="#a85a4a" opacity="0.5"/>
+            <rect x="84" y="20" width="6" height="60" rx="1" fill="#2a2520" stroke="#44403a" stroke-width="0.4"/>
+            <rect x="84" y="52" width="6" height="28" rx="1" fill="#b8724a" opacity="0.5"/>
+            <rect x="96" y="20" width="6" height="60" rx="1" fill="#2a2520" stroke="#44403a" stroke-width="0.4"/>
+            <rect x="96" y="56" width="6" height="24" rx="1" fill="#b8724a" opacity="0.4"/>
+            <text x="3" y="90" font-family="'JetBrains Mono', monospace" font-size="4.5" fill="#5a8a4a" text-anchor="middle">V</text>
+            <text x="15" y="90" font-family="'JetBrains Mono', monospace" font-size="4.5" fill="#5a8a4a" text-anchor="middle">V</text>
+            <text x="27" y="90" font-family="'JetBrains Mono', monospace" font-size="4.5" fill="#4a7a9a" text-anchor="middle">G</text>
+            <text x="39" y="90" font-family="'JetBrains Mono', monospace" font-size="4.5" fill="#4a7a9a" text-anchor="middle">G</text>
+            <text x="57" y="90" font-family="'JetBrains Mono', monospace" font-size="4.5" fill="#a85a4a" text-anchor="middle">B</text>
+            <text x="69" y="90" font-family="'JetBrains Mono', monospace" font-size="4.5" fill="#a85a4a" text-anchor="middle">K</text>
+            <text x="87" y="90" font-family="'JetBrains Mono', monospace" font-size="4.5" fill="#b8724a" text-anchor="middle">T</text>
+            <text x="99" y="90" font-family="'JetBrains Mono', monospace" font-size="4.5" fill="#b8724a" text-anchor="middle">T</text>
+          </g>
+          <circle cx="430" cy="30" r="4" fill="#5a8a4a" opacity="0.8"/>
+          <text x="430" y="44" font-family="'JetBrains Mono', monospace" font-size="5" fill="#9a9588" text-anchor="middle">OSC</text>
+          <circle cx="430" cy="60" r="4" fill="#4a7a9a" opacity="0.8"/>
+          <text x="430" y="74" font-family="'JetBrains Mono', monospace" font-size="5" fill="#9a9588" text-anchor="middle">USB</text>
+          <text x="430" y="100" font-family="'JetBrains Mono', monospace" font-size="5" fill="#68635a" text-anchor="middle">192.168.2.2</text>
+        </svg>
+      </div>
+      <div class="gear-info">
+        <div class="gear-type">Digital Mixer</div>
+        <h2>Wing Rack</h2>
+        <p>48 channels, 16 buses, 8 matrices, 16 FX slots. OSC-controlled at 192.168.2.2. Handles all routing, monitoring, amp sims, and FX processing.</p>
+        <div class="gear-spec">40 inputs / 24 outputs / 48kHz<br>USB 1–6: recording to Logic<br>Amp sims: DELUXE, ANGEL, RACKAMP</div>
+      </div>
+    </div>
+
   </div>
-
-  <div id="panels">
-    <div style="background: linear-gradient(to bottom, var(--cream), #2a2825); height: 32px; border-radius: 2px 2px 0 0; max-width: 1400px; margin: 0 auto; padding: 0 8px;"></div>
-    <div class="info" id="info">Hover over any control</div>
-    <svg id="svg" viewBox="0 0 1400 160" preserveAspectRatio="xMidYMid meet"></svg>
-  </div>
-
-  <style>
-    #panels { max-width: 1400px; margin: 0 auto; padding: 0 8px 80px; }
-    .info {
-      font-family: var(--mono); font-size: 11px; color: var(--stone);
-      padding: 8px 14px; margin-bottom: 4px;
-      background: var(--cream); border: 1px solid var(--linen); border-radius: 2px;
-    }
-    #svg { display: block; width: 100%; background: #060608; border: 1px solid var(--linen); border-radius: 2px; }
-  </style>
-
-  <script>
-    const svg = document.getElementById('svg')!;
-    const info = document.getElementById('info')!;
-
-    // ════════════════════════════════════════════════════════════
-    // HERITAGE AUDIO HA73-EQX2 ELITE — Channel A (Vocal)
-    //
-    // Reference: actual product photos from Sweetwater + user
-    // Faceplate: very dark, near-black with subtle navy tint
-    // Layout L→R: Logo | "1" | DI jack | GAIN (red, chrome bezel)
-    //   | OUTPUT (silver, small) | EQ section (blue freq selectors
-    //   + silver gain knobs) | HPF | toggle switches | ELITE SERIES
-    //
-    // Calibrated: Gain 35, Output 1 o'clock, EQ bypassed
-    // ════════════════════════════════════════════════════════════
-
-    const PX = 20, PY = 20;
-    const PW = 1360, PH = 110; // 1U height
-    const CY = PY + PH / 2; // vertical center
-
-    // Colors matched from photos
-    const FP = '#12121a';         // Faceplate — near-black with navy tint
-    const FP_EDGE = '#222230';
-    const TXT = '#b0b0a8';        // Silver text on faceplate
-    const TXT_DIM = '#555560';
-    const WHT = '#ddddd0';        // White markings
-    const RED_FILL = '#7a1818';   // Red knob body
-    const RED_LIGHT = '#9a2828';  // Red knob highlight
-    const RED_DARK = '#4a0e0e';   // Red center cap
-    const CHROME = '#888890';     // Chrome bezel
-    const CHROME_DK = '#555560';
-    const BLUE_KNOB = '#2a2a5a';  // Neve-blue EQ frequency selector knobs
-    const BLUE_EDGE = '#3a3a6a';
-    const BLUE_DOT = '#4a4a8a';   // Blue knob indicator dot
-    const SILVER_KNOB = '#606068';// Silver EQ gain / output knobs
-    const SILVER_EDGE = '#707078';
-    const VOCAL = '#6a9ab8';
-
-    let s = '';
-
-    // ── FACEPLATE ──
-    s += `<rect x="${PX}" y="${PY}" width="${PW}" height="${PH}" rx="3" fill="${FP}" stroke="${FP_EDGE}" stroke-width="1.5"/>`;
-    // Subtle horizontal brushed texture
-    for (let i = 0; i < PH; i += 1) {
-      const op = 0.01 + Math.random() * 0.02;
-      s += `<line x1="${PX}" y1="${PY + i}" x2="${PX + PW}" y2="${PY + i}" stroke="#181825" stroke-width="0.5" opacity="${op}"/>`;
-    }
-
-    // Rack screws — hex style at corners
-    [[PX+12, PY+12],[PX+PW-12, PY+12],[PX+12, PY+PH-12],[PX+PW-12, PY+PH-12]].forEach(([sx,sy]) => {
-      s += `<circle cx="${sx}" cy="${sy}" r="5" fill="#0a0a10" stroke="#333340" stroke-width="0.8"/>`;
-      s += `<line x1="${sx-2}" y1="${sy}" x2="${sx+2}" y2="${sy}" stroke="#333340" stroke-width="0.6"/>`;
-      s += `<line x1="${sx}" y1="${sy-2}" x2="${sx}" y2="${sy+2}" stroke="#333340" stroke-width="0.6"/>`;
-    });
-
-    // ── HERITAGE AUDIO LOGO ──
-    s += `<text x="${PX + 42}" y="${CY - 8}" fill="${TXT}" font-family="Barlow,sans-serif" font-size="11" font-style="italic" opacity="0.8">Heritage</text>`;
-    s += `<text x="${PX + 42}" y="${CY + 6}" fill="${TXT}" font-family="Barlow,sans-serif" font-size="8" opacity="0.6">Audio</text>`;
-
-    // Channel number
-    s += `<text x="${PX + 115}" y="${CY + 5}" fill="${TXT}" font-family="Barlow,sans-serif" font-size="18" opacity="0.4">1</text>`;
-
-    // ── DI JACK ──
-    s += `<g class="ctrl" data-note="Front panel 1/4 inch DI input — instrument level, bypasses rear XLR" style="cursor:pointer">`;
-    s += `<circle cx="${PX + 145}" cy="${CY}" r="6" fill="#080810" stroke="#333340" stroke-width="1"/>`;
-    s += `<circle cx="${PX + 145}" cy="${CY}" r="2.5" fill="#050508"/>`;
-    s += `</g>`;
-
-    // ══════════════════════════════
-    // GAIN KNOB — Large red, chrome bezel
-    // Numbers on faceplate: OFF, 30, 35, 40...75, -80
-    // Calibrated: 35
-    // ══════════════════════════════
-    {
-      const cx = PX + 230, cy = CY, r = 24;
-      // Actual layout from photo — clockwise from OFF at bottom:
-      // OFF(6:00) → 50(5:15) → 55(4:45) → 60(4:15) → 65(3:45) → 70(3:00)
-      // → 75(2:15) → -80(1:00) → 30(12:00) → 35(11:00) → 40(10:00) → 45(9:00?)
-      // Then gap back to OFF. High gain on left, low gain on right, -80 near top.
-      //
-      // In SVG degrees (0=right, 90=down, 180=left, 270=up):
-      // OFF = 90° (bottom). Going clockwise = decreasing degrees in SVG.
-      // But SVG goes counterclockwise for positive angles.
-      // Clockwise in SVG: angle INCREASES (90→180→270→360→90)
-      // OFF=90, 50≈120, 55≈150, 60≈170, 65≈195, 70≈220, 75≈248,
-      // -80≈278, 30≈305, 35≈330, 40≈352, 45≈18 (past 0/360)
-
-      // -80 must be at 270° (12 o'clock). OFF at 90° (6 o'clock).
-      // 6 steps from OFF to -80: step = 180/6 = 30°.
-      // 5 steps from 30 to 50 at same 30° = 150°.
-      // Gap between -80(270°) and 30: 360° - 150° - 180° = 30° extra.
-      // Total gap = 330° - 11×30° = 330° - 330° = 0. Hmm.
-      // Let's just: 11 equal steps of 28° = 308°, gap = 360° - 308° - 28° = 24° extra.
-      // No — keep it simple. step=30°, gap=30° (same as step but no dot).
-      // -80 at 90+6*30=270. 30 at 270+30=300. 50 at 300+4*30=420=60°.
-      // 50(60°) to OFF(90°) = 30° = same step. Perfect symmetry.
-      const step = 30;
-      const gap = 30; // same as step, just no dot between -80 and 30
-      const numLabels = ['OFF','55','60','65','70','75','-80','30','35','40','45','50'];
-      const gainPositions: {label:string, deg:number}[] = [];
-      let deg = 90;
-      numLabels.forEach((label, i) => {
-        gainPositions.push({label, deg});
-        if (i < numLabels.length - 1) {
-          // Gap between -80 (index 6) and 30 (index 7)
-          deg += (i === 6) ? gap : step;
-        }
-      });
-      const sweepTotal = deg - 90;
-
-      // ── WHITE DOTS ── large dot at each number, small dot between adjacent pairs
-      // No dots in the gap between -80 and 30
-      const dr = r + 9;
-      gainPositions.forEach((pos, i) => {
-        const a = pos.deg * Math.PI / 180;
-        // Large dot at number position
-        s += `<circle cx="${cx + Math.cos(a) * dr}" cy="${cy + Math.sin(a) * dr}" r="2.2" fill="#ffffff"/>`;
-        // Small dot between adjacent numbers — skip -80 to 30 gap
-        if (i < gainPositions.length - 1) {
-          const next = gainPositions[i + 1];
-          if (!(pos.label === '-80' && next.label === '30')) {
-            const midDeg = (pos.deg + next.deg) / 2;
-            const ma = midDeg * Math.PI / 180;
-            s += `<circle cx="${cx + Math.cos(ma) * dr}" cy="${cy + Math.sin(ma) * dr}" r="1.75" fill="#ffffff"/>`;
-          }
-        }
-        // Dot between 50 and OFF (wrapping)
-        if (pos.label === '50') {
-          const offDeg = 90 + 360;
-          const midDeg = (pos.deg + offDeg) / 2;
-          const ma = midDeg * Math.PI / 180;
-          s += `<circle cx="${cx + Math.cos(ma) * dr}" cy="${cy + Math.sin(ma) * dr}" r="1.75" fill="#ffffff"/>`;
-        }
-      });
-
-      // ── NUMBER LABELS ──
-      const numR = r + 22;
-      gainPositions.forEach(({label, deg}) => {
-        const a = deg * Math.PI / 180;
-        const tx = cx + Math.cos(a) * numR;
-        const ty = cy + Math.sin(a) * numR;
-        s += `<text x="${tx}" y="${ty + 3}" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="${label === 'OFF' ? 7 : 9}" font-weight="700">${label}</text>`;
-      });
-
-      // ── CHROME BEZEL ── wide, reflective ring
-      s += `<circle cx="${cx}" cy="${cy}" r="${r + 3}" fill="#4a4a4e"/>`;
-      s += `<circle cx="${cx}" cy="${cy}" r="${r + 2}" fill="#555558" stroke="#6a6a6e" stroke-width="0.5"/>`;
-      // Top highlight on bezel
-      s += `<path d="M${cx - r},${cy - 3} A${r},${r} 0 0,1 ${cx + r},${cy - 3}" fill="none" stroke="#999" stroke-width="1" opacity="0.3"/>`;
-
-      // ── RED KNOB ── sculpted with raised center and skirt
-      s += `<g class="ctrl" data-note="GAIN — red knob, chrome bezel. OFF → 30 → 35 → ... → 75 → -80. Calibrated to 35." style="cursor:pointer">`;
-      // Outer red skirt
-      s += `<circle cx="${cx}" cy="${cy}" r="${r - 1}" fill="${RED_FILL}"/>`;
-      // Raised inner plateau (darker)
-      s += `<circle cx="${cx}" cy="${cy}" r="${r * 0.5}" fill="${RED_DARK}" stroke="${RED_FILL}" stroke-width="0.8"/>`;
-      // Subtle sheen
-      s += `<ellipse cx="${cx - 3}" cy="${cy - 3}" rx="${r * 0.3}" ry="${r * 0.2}" fill="#aa3333" opacity="0.12"/>`;
-
-      // ── WHITE POINTER LINE ── at 35 position
-      const pos35 = gainPositions.find(p => p.label === '35')!;
-      const deg35 = pos35.deg;
-      const pa35 = deg35 * Math.PI / 180;
-      const pxI = cx + Math.cos(pa35) * 4;
-      const pyI = cy + Math.sin(pa35) * 4;
-      const pxO = cx + Math.cos(pa35) * (r - 2);
-      const pyO = cy + Math.sin(pa35) * (r - 2);
-      s += `<line x1="${pxI}" y1="${pyI}" x2="${pxO}" y2="${pyO}" stroke="#eeeeee" stroke-width="2.5" stroke-linecap="round"/>`;
-      s += `</g>`;
-    }
-
-    // ══════════════════════════════
-    // OUTPUT — smaller silver stepped knob
-    // Calibrated: "1 o'clock" (just past top)
-    // ══════════════════════════════
-    {
-      const cx = PX + 400, cy = CY, r = 16;
-      // Tick marks
-      for (let i = 0; i < 12; i++) {
-        const t = i / 11;
-        const a = (90 + t * 300) * Math.PI / 180;
-        const t1x = cx + Math.cos(a) * (r + 5);
-        const t1y = cy + Math.sin(a) * (r + 5);
-        const t2x = cx + Math.cos(a) * (r + 9);
-        const t2y = cy + Math.sin(a) * (r + 9);
-        s += `<line x1="${t1x}" y1="${t1y}" x2="${t2x}" y2="${t2y}" stroke="${WHT}" stroke-width="0.8" opacity="0.4"/>`;
-      }
-
-      s += `<g class="ctrl" data-note="OUTPUT — stepped attenuator. Calibrated to 1 o'clock position." style="cursor:pointer">`;
-      // Knurled silver knob
-      s += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${SILVER_KNOB}" stroke="${SILVER_EDGE}" stroke-width="1"/>`;
-      for (let a = 0; a < 360; a += 10) {
-        const rad = a * Math.PI / 180;
-        s += `<line x1="${cx + Math.cos(rad)*(r-1)}" y1="${cy + Math.sin(rad)*(r-1)}" x2="${cx + Math.cos(rad)*r}" y2="${cy + Math.sin(rad)*r}" stroke="#7a7a80" stroke-width="0.4"/>`;
-      }
-      // Pointer — 1 o'clock = 300° in SVG
-      const pa = 300 * Math.PI / 180;
-      s += `<line x1="${cx}" y1="${cy}" x2="${cx + Math.cos(pa)*r*0.7}" y2="${cy + Math.sin(pa)*r*0.7}" stroke="${WHT}" stroke-width="1.5" stroke-linecap="round"/>`;
-      s += `<circle cx="${cx}" cy="${cy}" r="2" fill="${SILVER_EDGE}"/>`;
-      s += `</g>`;
-
-      s += `<text x="${cx}" y="${cy + r + 16}" text-anchor="middle" fill="${TXT_DIM}" font-family="JetBrains Mono,monospace" font-size="6" letter-spacing="1">OUTPUT</text>`;
-    }
-
-    // ══════════════════════════════
-    // EQ SECTION — Neve blue frequency selectors + silver gain
-    // Three bands: HIGH (12kHz), MID (7.2k-360Hz), LOW (220-35Hz)
-    // Each has a frequency selector (blue) and a gain knob (silver)
-    // All bypassed/flat for calibration
-    // ══════════════════════════════
-
-    function blueSelector(cx: number, cy: number, r: number, label: string, freqs: string[], note: string) {
-      let k = '';
-      // Tick marks for positions
-      freqs.forEach((f, i) => {
-        const t = i / (freqs.length - 1);
-        const a = (90 + t * 300) * Math.PI / 180;
-        const tx = cx + Math.cos(a) * (r + 10);
-        const ty = cy + Math.sin(a) * (r + 10);
-        k += `<text x="${tx}" y="${ty + 2}" text-anchor="middle" fill="${TXT_DIM}" font-family="JetBrains Mono,monospace" font-size="4.5" opacity="0.6">${f}</text>`;
-      });
-
-      k += `<g class="ctrl" data-note="${note}" style="cursor:pointer">`;
-      // Blue knob
-      k += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${BLUE_KNOB}" stroke="${BLUE_EDGE}" stroke-width="1.5"/>`;
-      // Indicator dot at current position (OFF = bottom)
-      const pa = 90 * Math.PI / 180; // OFF at bottom
-      k += `<circle cx="${cx + Math.cos(pa)*r*0.6}" cy="${cy + Math.sin(pa)*r*0.6}" r="2" fill="${BLUE_DOT}"/>`;
-      k += `</g>`;
-
-      k += `<text x="${cx}" y="${cy + r + 16}" text-anchor="middle" fill="${TXT_DIM}" font-family="JetBrains Mono,monospace" font-size="5.5" letter-spacing="0.5">${label}</text>`;
-      return k;
-    }
-
-    function silverGain(cx: number, cy: number, r: number, label: string, note: string) {
-      let k = '';
-      k += `<g class="ctrl" data-note="${note}" style="cursor:pointer">`;
-      k += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${SILVER_KNOB}" stroke="${SILVER_EDGE}" stroke-width="1"/>`;
-      // Knurling
-      for (let a = 0; a < 360; a += 12) {
-        const rad = a * Math.PI / 180;
-        k += `<line x1="${cx + Math.cos(rad)*(r-0.5)}" y1="${cy + Math.sin(rad)*(r-0.5)}" x2="${cx + Math.cos(rad)*r}" y2="${cy + Math.sin(rad)*r}" stroke="#7a7a80" stroke-width="0.3"/>`;
-      }
-      // Pointer at center (0dB / flat)
-      const pa = (90 + 0.5 * 300) * Math.PI / 180; // center of range
-      k += `<line x1="${cx}" y1="${cy}" x2="${cx + Math.cos(pa)*r*0.65}" y2="${cy + Math.sin(pa)*r*0.65}" stroke="${WHT}" stroke-width="1.2" stroke-linecap="round"/>`;
-      k += `<circle cx="${cx}" cy="${cy}" r="1.5" fill="${SILVER_EDGE}"/>`;
-      k += `</g>`;
-      k += `<text x="${cx}" y="${cy + r + 14}" text-anchor="middle" fill="${TXT_DIM}" font-family="JetBrains Mono,monospace" font-size="5" letter-spacing="0.5">${label}</text>`;
-      return k;
-    }
-
-    // EQ spacing
-    const eqStart = PX + 500;
-    const eqGap = 80;
-
-    // HIGH: 12kHz shelf
-    s += blueSelector(eqStart, CY - 20, 13, 'HF FREQ', ['OFF','12k'], 'High shelf frequency — 12kHz or OFF. Currently OFF (bypassed).');
-    s += silverGain(eqStart, CY + 30, 11, 'HF GAIN', 'High shelf gain ±16dB — at center (0dB, flat).');
-
-    // MID: 360Hz - 7.2kHz peak
-    s += blueSelector(eqStart + eqGap, CY - 20, 13, 'MF FREQ', ['.36','.7','1.6','3.2','4.8','7.2'], 'Mid peak frequency — 360Hz to 7.2kHz. Currently OFF.');
-    s += silverGain(eqStart + eqGap, CY + 30, 11, 'MF GAIN', 'Mid peak gain ±16dB — at center (0dB, flat).');
-
-    // LOW: 35-220Hz shelf
-    s += blueSelector(eqStart + eqGap*2, CY - 20, 13, 'LF FREQ', ['35','60','110','220'], 'Low shelf frequency — 35Hz to 220Hz. Currently OFF.');
-    s += silverGain(eqStart + eqGap*2, CY + 30, 11, 'LF GAIN', 'Low shelf gain ±16dB — at center (0dB, flat).');
-
-    // ══════════════════════════════
-    // HPF — blue selector
-    // ══════════════════════════════
-    s += blueSelector(eqStart + eqGap*3 + 20, CY, 13, 'HPF', ['OFF','50','80','160','300'], 'High-pass filter 18dB/oct — OFF / 50 / 80 / 160 / 300 Hz. Currently OFF.');
-
-    // ══════════════════════════════
-    // TOGGLE SWITCHES
-    // ══════════════════════════════
-    const swStart = PX + 960;
-    const swGap = 50;
-
-    function toggle(cx: number, cy: number, label: string, active: boolean, note: string, hasLed: boolean = false) {
-      let k = '';
-      k += `<g class="ctrl" data-note="${note}" style="cursor:pointer">`;
-      // Switch body
-      k += `<rect x="${cx-5}" y="${cy-10}" width="10" height="20" rx="2" fill="#0a0a10" stroke="#333340" stroke-width="0.8"/>`;
-      // Toggle lever
-      const ly = active ? cy - 5 : cy + 5;
-      k += `<rect x="${cx-3.5}" y="${ly-3}" width="7" height="6" rx="1.5" fill="${active ? '#666' : '#2a2a30'}" stroke="#444" stroke-width="0.3"/>`;
-      // LED
-      if (hasLed && active) {
-        k += `<circle cx="${cx}" cy="${cy - 18}" r="2.5" fill="#cc2222" opacity="0.9"/>`;
-        k += `<circle cx="${cx}" cy="${cy - 18}" r="4" fill="#cc2222" opacity="0.1"/>`;
-      }
-      k += `</g>`;
-      k += `<text x="${cx}" y="${cy + 20}" text-anchor="middle" fill="${TXT_DIM}" font-family="JetBrains Mono,monospace" font-size="5" letter-spacing="0.5">${label}</text>`;
-      return k;
-    }
-
-    s += toggle(swStart, CY - 15, '48V', false, 'Phantom power — OFF (line level from Wing)', true);
-    s += toggle(swStart + swGap, CY - 15, 'PAD', false, 'Input pad -20dB — OFF');
-    s += toggle(swStart + swGap*2, CY - 15, 'PHASE', false, 'Polarity reverse — OFF (normal)');
-    s += toggle(swStart, CY + 35, 'EQ', false, 'EQ bypass — OFF (EQ section bypassed for calibration)');
-    s += toggle(swStart + swGap, CY + 35, 'MIC/LINE', false, 'Input selector — LINE mode');
-    s += toggle(swStart + swGap*2, CY + 35, 'IMP', false, 'Impedance — 1200 ohm (default)');
-
-    // ── ELITE SERIES TEXT ──
-    s += `<text x="${PX + PW - 50}" y="${PY + 35}" text-anchor="end" fill="${TXT}" font-family="JetBrains Mono,monospace" font-size="7" letter-spacing="3" opacity="0.4">ELITE SERIES</text>`;
-
-    // ── CHANNEL / CHAIN INDICATOR ──
-    s += `<text x="${PX + PW - 50}" y="${PY + PH - 15}" text-anchor="end" fill="${VOCAL}" font-family="JetBrains Mono,monospace" font-size="7" letter-spacing="1" opacity="0.5">CHANNEL A — VOCAL CHAIN</text>`;
-    s += `<text x="${PX + 50}" y="${PY + PH - 15}" fill="${TXT_DIM}" font-family="JetBrains Mono,monospace" font-size="6">Wing Out 1 → P1 → HA73 A → P2 → WA76 A | Gain 35, Output 1 o'clock, EQ bypassed</text>`;
-
-    svg.innerHTML = s;
-
-    // Events
-    svg.querySelectorAll('.ctrl').forEach(el => {
-      el.addEventListener('mouseenter', () => {
-        info.textContent = (el as SVGGElement).dataset.note || '';
-        info.style.color = VOCAL;
-      });
-      el.addEventListener('mouseleave', () => {
-        info.textContent = 'Hover over any control';
-        info.style.color = '';
-      });
-    });
-  </script>
 </Base>
+
+<style>
+  .gear-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    margin-top: 40px;
+  }
+
+  .gear-card {
+    border: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 280px;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .gear-panel {
+    background: #111110;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+  }
+
+  .gear-panel svg {
+    width: 100%;
+    max-height: 180px;
+  }
+
+  .gear-info {
+    padding: 40px 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0;
+  }
+
+  .gear-type {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--amber);
+    margin-bottom: 10px;
+  }
+
+  .gear-info h2 {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--text);
+    margin: 0 0 14px;
+    line-height: 1.15;
+  }
+
+  .gear-info p {
+    font-size: 15px;
+    color: var(--text-dim);
+    margin: 0 0 18px;
+    line-height: 1.7;
+  }
+
+  .gear-spec {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--amber);
+    line-height: 1.9;
+  }
+
+  @media (max-width: 768px) {
+    .gear-card { grid-template-columns: 1fr; }
+    .gear-panel { min-height: 180px; padding: 24px; }
+    .gear-info { padding: 28px 20px; }
+  }
+</style>
