@@ -4,68 +4,109 @@ interface Props {
   description?: string;
   active?: string;
 }
+const { title, description = "Lake's Studio", active = '' } = Astro.props;
 
-const { title, description = "Vocals and guitar through a Neve-style preamp, 1176, and LA-2A — permanently wired, zero setup. Lake's home studio.", active = '' } = Astro.props;
+const signalColor = (() => {
+  if (['recording', 'production', 'mixing'].includes(active)) return 'blue';
+  if (['rack', 'front-panels', 'sound-design', 'tools'].includes(active)) return 'amber';
+  if (['songs', 'how-it-works'].includes(active)) return 'green';
+  if (active === 'blog') return 'red';
+  return 'default';
+})();
+
+const sections = [
+  { num: '01', label: 'Signal Path', items: [
+    { num: '1.1', label: 'Recording',   href: '/recording',    id: 'recording' },
+    { num: '1.2', label: 'Production',  href: '/production',   id: 'production' },
+    { num: '1.3', label: 'Mixing',      href: '/mixing',       id: 'mixing' },
+  ]},
+  { num: '02', label: 'Equipment', items: [
+    { num: '2.1', label: 'Rack Room',    href: '/rack',          id: 'rack' },
+    { num: '2.2', label: 'Front Panels', href: '/front-panels',  id: 'front-panels' },
+    { num: '2.3', label: 'Sound Design', href: '/sound-design',  id: 'sound-design' },
+    { num: '2.4', label: 'Tools',        href: '/tools',         id: 'tools' },
+  ]},
+  { num: '03', label: 'Reference', items: [
+    { num: '3.1', label: 'Songs',        href: '/songs',         id: 'songs' },
+    { num: '3.2', label: 'How It Works', href: '/how-it-works',  id: 'how-it-works' },
+  ]},
+  { num: '04', label: 'Blog', items: [
+    { num: '',    label: 'All Posts',    href: '/blog',          id: 'blog' },
+  ]},
+];
 ---
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content={description}>
-  <title>{title} | Lake's Studio</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>~</text></svg>">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title} — Lake's Studio</title>
+  <meta name="description" content={description} />
+  <link rel="stylesheet" href="/src/styles/global.css" />
 </head>
 <body>
+  <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle navigation">
+    <span></span>
+  </button>
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
-<div class="vu-bar"></div>
+  <div class="site-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar__header">
+        <a href="/" class="sidebar__title">Lake's Studio</a>
+        <div class="sidebar__subtitle">Technical Reference</div>
+      </div>
 
-<nav class="nav">
-  <div class="nav__inner">
-    <a href="/" class="nav__logo"><span>//</span> LAKE'S STUDIO</a>
-    <button class="nav__toggle" id="nav-toggle">menu</button>
-    <div class="nav__links" id="nav-links">
-      <a href="/" class:list={[{ active: active === 'home' }]}>Home</a>
-      <a href="/recording" class:list={[{ active: active === 'recording' }]}>Recording</a>
-      <a href="/production" class:list={[{ active: active === 'production' }]}>Production</a>
-      <a href="/mixing" class:list={[{ active: active === 'mixing' }]}>Mixing</a>
-      <a href="/sound-design" class:list={[{ active: active === 'sound-design' }]}>Sound Design</a>
-      <span class="nav__sep"></span>
-      <a href="/tools" class:list={[{ active: active === 'tools' }]}>Tools</a>
-      <a href="/rack" class:list={[{ active: active === 'rack' }]}>Rack Room</a>
-      <a href="/front-panels" class:list={[{ active: active === 'front-panels' }]}>Front Panels</a>
-      <span class="nav__sep"></span>
-      <a href="/blog" class:list={[{ active: active === 'blog' }]}>Blog</a>
-      <a href="/how-it-works" class:list={[{ active: active === 'how-it-works' }]}>How It Works</a>
-      <a href="/songs" class:list={[{ active: active === 'songs' }]}>Songs</a>
-    </div>
+      <nav class="sidebar__nav">
+        {sections.map(section => (
+          <div class="sidebar__section">
+            <div class="sidebar__section-label">
+              <span class="sidebar__section-num">{section.num}</span>
+              <span class="sidebar__section-text">{section.label}</span>
+            </div>
+            <ul class="sidebar__items">
+              {section.items.map(item => (
+                <li class:list={['sidebar__item', { active: active === item.id }]}>
+                  <a href={item.href}>
+                    <span class="num">{item.num}</span>
+                    <span class="label">{item.label}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </nav>
+
+      <div class="sidebar__footer">
+        <div class="sidebar__footer-text">
+          Wing Rack &middot; 192.168.2.2<br />
+          Lake's Studio
+        </div>
+      </div>
+    </aside>
+
+    <main class="content-area">
+      <div class={`signal-strip signal-strip--${signalColor}`}></div>
+      <div class="content-body">
+        <slot />
+      </div>
+    </main>
   </div>
-</nav>
 
-<main>
-  <slot />
-</main>
-
-<footer class="footer">
-  <div class="footer__inner">
-    <div class="footer__left">
-      // Lake's Studio &mdash; plug in and go
-    </div>
-    <div class="footer__right">
-      <a href="mailto:studio@lake.fm">studio@lake.fm</a>
-    </div>
-  </div>
-</footer>
-
-<script>
-  const toggle = document.getElementById('nav-toggle');
-  const links = document.getElementById('nav-links');
-  toggle?.addEventListener('click', () => links?.classList.toggle('open'));
-</script>
-
-<style is:global>
-  @import '../styles/global.css';
-</style>
+  <script>
+    const toggle = document.getElementById('sidebar-toggle');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    toggle?.addEventListener('click', () => {
+      sidebar?.classList.toggle('open');
+      overlay?.classList.toggle('open');
+    });
+    overlay?.addEventListener('click', () => {
+      sidebar?.classList.remove('open');
+      overlay?.classList.remove('open');
+    });
+  </script>
 </body>
 </html>
