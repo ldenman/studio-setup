@@ -1,0 +1,127 @@
+---
+import Base from '../layouts/Base.astro';
+
+const songs = [
+  {
+    title: "Knockin' on Heaven's Door",
+    artist: "Bob Dylan",
+    key: "G",
+    tempo: 72,
+    chords: "G · D · Am · C",
+    melodyStart: "B",
+    notes: "Melody starts on B (3rd of G). 8-bar loop: G D Am Am | G D C C.",
+    status: "in progress",
+  },
+];
+---
+
+<Base title="Songs" active="songs">
+  <div class="container">
+
+    <section class="page-header">
+      <h3>Songbook</h3>
+      <h1>Songs</h1>
+      <p>The working song list — keys, chord shapes, and session notes for everything on the stand.</p>
+    </section>
+
+    <div class="vu-bar"></div>
+
+    <section>
+      <div class="song-list">
+        {songs.map(song => (
+          <div class="song-card">
+            <div class="song-card__header">
+              <div>
+                <div class="song-card__title">{song.title}</div>
+                <div class="song-card__artist text-dim">{song.artist}</div>
+              </div>
+              <span class={`song-card__status song-card__status--${song.status.replace(' ', '-')}`}>
+                {song.status}
+              </span>
+            </div>
+            <div class="song-card__meta">
+              <span><span class="text-dim">Key</span> {song.key}</span>
+              <span><span class="text-dim">BPM</span> {song.tempo}</span>
+              <span><span class="text-dim">Chords</span> {song.chords}</span>
+              {song.melodyStart && <span><span class="text-dim">Melody starts</span> {song.melodyStart}</span>}
+            </div>
+            {song.notes && <div class="song-card__notes text-dim">{song.notes}</div>}
+          </div>
+        ))}
+      </div>
+    </section>
+
+  </div>
+</Base>
+
+<style>
+  .song-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-md);
+    margin-top: var(--sp-md);
+  }
+
+  .song-card {
+    border: 1px solid var(--border);
+    padding: var(--sp-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-sm);
+  }
+
+  .song-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--sp-md);
+  }
+
+  .song-card__title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .song-card__artist {
+    font-size: 13px;
+    margin-top: 2px;
+  }
+
+  .song-card__status {
+    font-size: 11px;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 3px 8px;
+    white-space: nowrap;
+  }
+
+  .song-card__status--in-progress {
+    background: color-mix(in srgb, var(--amber) 15%, transparent);
+    color: var(--amber);
+  }
+
+  .song-card__status--recorded {
+    background: color-mix(in srgb, var(--session-green) 15%, transparent);
+    color: var(--session-green);
+  }
+
+  .song-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-md);
+    font-size: 13px;
+    font-family: var(--font-mono);
+  }
+
+  .song-card__meta .text-dim {
+    margin-right: 4px;
+  }
+
+  .song-card__notes {
+    font-size: 13px;
+    border-top: 1px solid var(--border);
+    padding-top: var(--sp-sm);
+  }
+</style>
