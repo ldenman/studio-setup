@@ -147,6 +147,31 @@ Lessons learned during studio sessions. Updated after each session.
 
 ---
 
+## 2026-04-01/02 — Studio Setup, Website, Disk Cleanup
+
+### Wing Troubleshooting
+- If USB channels go silent on the Wing (Ch9-12 or tape returns all show -128dB), toggle the CoreMIDI driver off and on in Logic → Settings → Audio → Devices. Logic doesn't auto-recover USB audio without a poke.
+- Ch12 (Drums) send to MX7: confirmed working once Logic USB driver reset. MX7 routing is correct.
+- Rhythm guitar: Ch2→Bus 5 send and Ch18→MX3 send must both be ON at 0dB to bring up guitar in the mix.
+
+### Drum Breakout in Logic
+- Logic's Session Player drums (Drum Kit Designer) multi-output assignments: Out 1-2 = overheads/room (main), Out 3-4 = kick, Out 5-6 = snare, Out 7-8 = toms, Out 9-10 = hi-hat/perc
+- Minimal setup: hit + twice on the channel strip to create aux channels for kick (3-4) and snare (5-6), leave overheads on main. Must hit + FIRST before assigning in DKD.
+- Kept drum processing in Logic only — routing individual drum pieces to Wing adds significant complexity for minimal gain at this stage.
+
+### Website & Hosting
+- Switched from CloudFront to AWS Amplify for hosting. amplify.yml build spec at repo root.
+- Amplify build: `studio.edn` must be copied into `site/` before build (`cp studio.edn site/studio.edn`) — Astro's prerender resolves paths from `site/dist/.prerender/chunks/`, 3 levels up = `site/`, not repo root.
+- Working on `dev` branch from now on. Blog and copy agents updated to use dev.
+- Blog post dates spread Dec 2025–Apr 2026. Wing posts tagged with `wing`.
+
+### Disk Cleanup
+- Removed Fedora Asahi Linux dual-boot from internal SSD. Freed 74.2 GB.
+- `diskutil apfs deleteContainer disk3` removed the APFS container and all Linux partitions in one shot.
+- `diskutil apfs resizeContainer disk0s2 0` absorbed freed space into macOS container.
+
+---
+
 ## 2026-03-29 — Mix Bus EQ, Lead Guitar, Blog & Site Updates
 
 ### Mix Bus Processing
