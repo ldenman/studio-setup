@@ -48,7 +48,9 @@
   7  {:name "Model 12 Mix"     :color 8  :src "USB/3-4"  :mode :stereo
       :src-detail "Model 12 Main Out L/R via Loopback"
       :main true  :note "Solo this channel to monitor Model 12 mix during mixing phase"}
-  8  {:name "Open"             :src "Local" :status :open}
+  8  {:name "Reference"        :color 7  :src "USB/27-28"  :mode :stereo
+      :src-detail "Commercial reference track from Logic via dedicated output"
+      :main true  :note "Level-matched against rough mix. Mute to A/B. NOT routed to any matrix — stays out of Model 12 mixdown."}
   9  {:name "Bass"             :color 5  :src "USB/9-10"  :mode :stereo
       :src-detail "Logic session player"  :main true}
   10 {:name "(open)"           :src "USB/11-12"  :note "was Keyboard -- use Piano/Synth on Ch11 instead" :status :open}
@@ -404,6 +406,7 @@
  :stereo-pairs
  {:ch6  {:src "LCL/3+4"   :mode "ST" :note "Gtr Ac Mics"}
   :ch7  {:src "USB/3-4"   :mode "ST" :note "Model 12 Mix"}
+  :ch8  {:src "USB/27-28" :mode "ST" :note "Reference Track"}
   :ch9  {:src "USB/9-10"  :mode "ST" :note "Bass"}
   :ch11 {:src "USB/13-14" :mode "ST" :note "Piano/Synth"}
   :ch12 {:src "USB/15-16" :mode "ST" :note "Drums"}}
