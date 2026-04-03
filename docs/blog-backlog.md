@@ -61,6 +61,7 @@ Untold stories mined from session-lessons.md, CLAUDE.md, calibration.md, workflo
 - **Logic's Software Monitoring must be OFF** — Zero latency monitoring; the Wing handles everything.
 - **Vocal doubler on MX2 post-insert** — Affects both live and playback. Intentional design choice.
 - **Sub octaver on bass** — FX4/SUB/MID pushing bass into midrange for guitar-friendly presence.
+- **Band-in-a-Box as songwriter's sketchpad** — Enter chords, pick a style, get a full arrangement. Export tracks to Logic. The songwriting tool that comes before the studio.
 
 ## Sound Design
 

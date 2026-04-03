@@ -56,6 +56,7 @@ This section is still to be determined. However, the WA76-D2 and the HA73-EQX2 c
 
 - Mac OS
 - Logic Pro (DAW — primary recorder, session players, mixing)
+- Band-in-a-Box (arrangement and songwriting — generates full backing tracks from chord charts)
 - Wing Edit (remote Wing control)
 - wing-sync (custom BPM sync app, ~/src/wing-sync)
 - Loopback (virtual audio routing between Wing Rack and Logic)
