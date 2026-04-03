@@ -1,0 +1,126 @@
+<svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Dividing line: the boundary between hardware and software -->
+  <line x1="400" y1="40" x2="400" y2="360" stroke="#b8792a" stroke-width="1.5" stroke-dasharray="8 6" opacity="0.6" />
+
+  <!-- Left side: HARDWARE — outboard gear silhouettes -->
+  <!-- Label -->
+  <text x="200" y="50" font-family="monospace" font-size="11" fill="#4a4740" text-anchor="middle" letter-spacing="2">HARDWARE</text>
+
+  <!-- 1U rack unit: HA73 preamp -->
+  <rect x="80" y="80" width="240" height="36" rx="2" fill="none" stroke="#4a4740" stroke-width="1.5" />
+  <!-- Knobs -->
+  <circle cx="120" cy="98" r="8" fill="none" stroke="#b8792a" stroke-width="1.2" />
+  <circle cx="120" cy="98" r="2" fill="#b8792a" />
+  <circle cx="160" cy="98" r="8" fill="none" stroke="#b8792a" stroke-width="1.2" />
+  <circle cx="160" cy="98" r="2" fill="#b8792a" />
+  <!-- VU meter area -->
+  <rect x="210" y="88" width="50" height="20" rx="2" fill="none" stroke="#4a4740" stroke-width="0.8" />
+  <path d="M 220 102 Q 235 85 250 102" stroke="#b8792a" stroke-width="0.8" fill="none" />
+  <!-- Needle -->
+  <line x1="235" y1="101" x2="243" y2="89" stroke="#a85a4a" stroke-width="0.8" />
+  <text x="290" y="102" font-family="monospace" font-size="8" fill="#4a4740" text-anchor="middle">EQ</text>
+
+  <!-- 1U rack unit: WA76 compressor -->
+  <rect x="80" y="126" width="240" height="36" rx="2" fill="none" stroke="#4a4740" stroke-width="1.5" />
+  <!-- Input/Output knobs -->
+  <circle cx="110" cy="144" r="7" fill="none" stroke="#b8792a" stroke-width="1.2" />
+  <circle cx="110" cy="144" r="1.5" fill="#b8792a" />
+  <circle cx="145" cy="144" r="7" fill="none" stroke="#b8792a" stroke-width="1.2" />
+  <circle cx="145" cy="144" r="1.5" fill="#b8792a" />
+  <!-- VU meter -->
+  <rect x="180" y="134" width="55" height="20" rx="2" fill="none" stroke="#4a4740" stroke-width="0.8" />
+  <path d="M 190 148 Q 207 131 224 148" stroke="#b8792a" stroke-width="0.8" fill="none" />
+  <line x1="207" y1="147" x2="197" y2="135" stroke="#a85a4a" stroke-width="0.8" />
+  <!-- Ratio buttons -->
+  <rect x="252" y="137" width="12" height="8" rx="1" fill="none" stroke="#4a4740" stroke-width="0.6" />
+  <rect x="268" y="137" width="12" height="8" rx="1" fill="#4a4740" opacity="0.3" />
+  <rect x="284" y="137" width="12" height="8" rx="1" fill="none" stroke="#4a4740" stroke-width="0.6" />
+  <rect x="300" y="137" width="12" height="8" rx="1" fill="none" stroke="#4a4740" stroke-width="0.6" />
+
+  <!-- 1U rack unit: Distressor / Opto -->
+  <rect x="80" y="172" width="240" height="36" rx="2" fill="none" stroke="#4a4740" stroke-width="1.5" />
+  <circle cx="120" cy="190" r="8" fill="none" stroke="#b8792a" stroke-width="1.2" />
+  <circle cx="120" cy="190" r="2" fill="#b8792a" />
+  <circle cx="165" cy="190" r="8" fill="none" stroke="#b8792a" stroke-width="1.2" />
+  <circle cx="165" cy="190" r="2" fill="#b8792a" />
+  <!-- Gain reduction meter (LED style) -->
+  <rect x="210" y="185" width="6" height="10" rx="1" fill="#5a8a4a" opacity="0.7" />
+  <rect x="220" y="185" width="6" height="10" rx="1" fill="#5a8a4a" opacity="0.5" />
+  <rect x="230" y="185" width="6" height="10" rx="1" fill="#b8792a" opacity="0.4" />
+  <rect x="240" y="185" width="6" height="10" rx="1" fill="#b8792a" opacity="0.2" />
+  <rect x="250" y="185" width="6" height="10" rx="1" fill="#4a4740" opacity="0.1" />
+
+  <!-- Signal flow arrow: performer to hardware -->
+  <text x="200" y="240" font-family="monospace" font-size="9" fill="#4a4740" text-anchor="middle" opacity="0.6">REAL-TIME PATH</text>
+  <!-- Performer icon (simple mic) -->
+  <line x1="200" y1="260" x2="200" y2="290" stroke="#4a4740" stroke-width="1.5" />
+  <circle cx="200" cy="255" r="6" fill="none" stroke="#4a4740" stroke-width="1.5" />
+  <!-- Bidirectional arrow (performer <-> gear) -->
+  <path d="M 200 300 L 200 330" stroke="#b8792a" stroke-width="1.2" />
+  <polygon points="194,305 200,296 206,305" fill="#b8792a" />
+  <polygon points="194,325 200,334 206,325" fill="#b8792a" />
+  <text x="200" y="352" font-family="monospace" font-size="8" fill="#b8792a" text-anchor="middle">INTERACTION</text>
+
+  <!-- Right side: SOFTWARE — DAW track lanes with plugins -->
+  <!-- Label -->
+  <text x="600" y="50" font-family="monospace" font-size="11" fill="#4a4740" text-anchor="middle" letter-spacing="2">SOFTWARE</text>
+
+  <!-- Track lanes -->
+  <line x1="460" y1="85" x2="740" y2="85" stroke="#4a7a9a" stroke-width="1" opacity="0.4" />
+  <line x1="460" y1="115" x2="740" y2="115" stroke="#4a7a9a" stroke-width="1" opacity="0.4" />
+  <line x1="460" y1="145" x2="740" y2="145" stroke="#4a7a9a" stroke-width="1" opacity="0.4" />
+  <line x1="460" y1="175" x2="740" y2="175" stroke="#4a7a9a" stroke-width="1" opacity="0.4" />
+  <line x1="460" y1="205" x2="740" y2="205" stroke="#4a7a9a" stroke-width="1" opacity="0.4" />
+  <line x1="460" y1="235" x2="740" y2="235" stroke="#4a7a9a" stroke-width="1" opacity="0.4" />
+
+  <!-- Waveform blocks on tracks (recorded audio) -->
+  <rect x="470" y="75" width="160" height="18" rx="2" fill="#4a7a9a" opacity="0.15" />
+  <rect x="470" y="105" width="180" height="18" rx="2" fill="#4a7a9a" opacity="0.15" />
+  <rect x="470" y="135" width="140" height="18" rx="2" fill="#4a7a9a" opacity="0.15" />
+  <rect x="470" y="165" width="170" height="18" rx="2" fill="#4a7a9a" opacity="0.15" />
+  <rect x="470" y="195" width="155" height="18" rx="2" fill="#4a7a9a" opacity="0.15" />
+  <rect x="470" y="225" width="190" height="18" rx="2" fill="#4a7a9a" opacity="0.15" />
+
+  <!-- Mini waveforms inside blocks -->
+  <path d="M 480 84 Q 490 76 500 84 Q 510 92 520 84 Q 530 76 540 84 Q 550 92 560 84 Q 570 76 580 84 Q 590 92 600 84 Q 610 76 620 84" stroke="#4a7a9a" stroke-width="0.8" fill="none" opacity="0.5" />
+  <path d="M 480 114 Q 492 106 504 114 Q 516 122 528 114 Q 540 106 552 114 Q 564 122 576 114 Q 588 106 600 114 Q 612 122 624 114 Q 636 106 648 114" stroke="#4a7a9a" stroke-width="0.8" fill="none" opacity="0.5" />
+  <path d="M 480 144 Q 488 138 496 144 Q 504 150 512 144 Q 520 138 528 144 Q 536 150 544 144 Q 552 138 560 144 Q 568 150 576 144 Q 584 138 592 144 Q 600 150 608 144" stroke="#4a7a9a" stroke-width="0.8" fill="none" opacity="0.5" />
+
+  <!-- Plugin insert indicators on each track -->
+  <rect x="655" y="76" width="24" height="16" rx="2" fill="none" stroke="#5a8a4a" stroke-width="1.2" />
+  <rect x="655" y="106" width="24" height="16" rx="2" fill="none" stroke="#5a8a4a" stroke-width="1.2" />
+  <rect x="655" y="136" width="24" height="16" rx="2" fill="none" stroke="#5a8a4a" stroke-width="1.2" />
+  <rect x="655" y="166" width="24" height="16" rx="2" fill="none" stroke="#5a8a4a" stroke-width="1.2" />
+  <rect x="655" y="196" width="24" height="16" rx="2" fill="none" stroke="#5a8a4a" stroke-width="1.2" />
+  <rect x="655" y="226" width="24" height="16" rx="2" fill="none" stroke="#5a8a4a" stroke-width="1.2" />
+
+  <!-- "T" for tape plugin -->
+  <text x="667" y="88" font-family="monospace" font-size="9" fill="#5a8a4a" text-anchor="middle">T</text>
+  <text x="667" y="118" font-family="monospace" font-size="9" fill="#5a8a4a" text-anchor="middle">T</text>
+  <text x="667" y="148" font-family="monospace" font-size="9" fill="#5a8a4a" text-anchor="middle">T</text>
+  <text x="667" y="178" font-family="monospace" font-size="9" fill="#5a8a4a" text-anchor="middle">T</text>
+  <text x="667" y="208" font-family="monospace" font-size="9" fill="#5a8a4a" text-anchor="middle">T</text>
+  <text x="667" y="238" font-family="monospace" font-size="9" fill="#5a8a4a" text-anchor="middle">T</text>
+
+  <!-- Output alignment line -->
+  <line x1="740" y1="70" x2="740" y2="245" stroke="#5a8a4a" stroke-width="0.8" stroke-dasharray="3 3" opacity="0.4" />
+  <!-- Output dots -->
+  <circle cx="740" cy="85" r="2.5" fill="#5a8a4a" opacity="0.6" />
+  <circle cx="740" cy="115" r="2.5" fill="#5a8a4a" opacity="0.6" />
+  <circle cx="740" cy="145" r="2.5" fill="#5a8a4a" opacity="0.6" />
+  <circle cx="740" cy="175" r="2.5" fill="#5a8a4a" opacity="0.6" />
+  <circle cx="740" cy="205" r="2.5" fill="#5a8a4a" opacity="0.6" />
+  <circle cx="740" cy="235" r="2.5" fill="#5a8a4a" opacity="0.6" />
+
+  <!-- Phase-aligned label -->
+  <text x="600" y="268" font-family="monospace" font-size="9" fill="#4a4740" text-anchor="middle" opacity="0.6">POST-RECORDING</text>
+
+  <!-- Checkmarks: zero latency, zero phase, zero noise -->
+  <text x="530" y="300" font-family="monospace" font-size="9" fill="#5a8a4a" text-anchor="start">ZERO LATENCY</text>
+  <text x="530" y="318" font-family="monospace" font-size="9" fill="#5a8a4a" text-anchor="start">ZERO PHASE</text>
+  <text x="530" y="336" font-family="monospace" font-size="9" fill="#5a8a4a" text-anchor="start">ZERO NOISE</text>
+  <!-- Check marks -->
+  <path d="M 518 296 L 522 300 L 528 292" stroke="#5a8a4a" stroke-width="1.2" fill="none" />
+  <path d="M 518 314 L 522 318 L 528 310" stroke="#5a8a4a" stroke-width="1.2" fill="none" />
+  <path d="M 518 332 L 522 336 L 528 328" stroke="#5a8a4a" stroke-width="1.2" fill="none" />
+</svg>
