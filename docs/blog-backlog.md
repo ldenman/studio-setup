@@ -76,7 +76,7 @@ Untold stories mined from session-lessons.md, CLAUDE.md, calibration.md, workflo
 - **Pre-take checklist script** — Catches problems before they become wasted takes.
 - **Take logger** — Subscribe to Wing events, log every fader move and mute. Session history as data.
 - **Dim on stop** — Auto-dim monitors when DAW stops. Prevents blasting yourself between takes.
-- **Reference toggle** — A/B your mix against a reference with level matching. One command.
+- **Reference toggle** — A/B your mix against a reference with level matching. One command. ✅ Written: `reference-track-ab.md`
 - **FX automation via Python** — Ramping reverb over 8 bars at 30fps. Real-time parameter control.
 - **MIDI scene control for setlists** — Trigger Wing scenes from scripts.
 
