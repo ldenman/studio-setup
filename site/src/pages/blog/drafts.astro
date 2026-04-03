@@ -1,0 +1,51 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const showDrafts = import.meta.env.PUBLIC_SHOW_DRAFTS === 'true';
+
+const drafts = showDrafts
+  ? (await getCollection('blog')).filter(post => post.data.draft).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  : [];
+---
+
+<Base title="Drafts" active="blog">
+  <div class="container">
+
+    <section class="page-header">
+      <h3 style="color: var(--amber, #d4a574);">Dev Only</h3>
+      <h1>Drafts</h1>
+      <p>Unpublished posts. This page only exists on the dev site.</p>
+    </section>
+
+    <div class="vu-bar"></div>
+
+    {drafts.length === 0 ? (
+      <section>
+        <p>No drafts. Add <code>draft: true</code> to any blog post's frontmatter to send it here.</p>
+      </section>
+    ) : (
+      <section>
+        <ul class="post-list">
+          {drafts.map(post => (
+            <li class="post-item">
+              <span class="post-date" style="color: var(--amber, #d4a574);">draft</span>
+              <div>
+                <a href={`/blog/${post.id}`} class="post-title">{post.data.title}</a>
+                <p class="post-desc">{post.data.description}</p>
+                {post.data.tags && (
+                  <div class="post-tags">
+                    {post.data.tags.map(tag => <a href={`/blog/tag/${tag}`} class="tag">{tag}</a>)}
+                  </div>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <p style="margin-top: 2rem;"><a href="/blog">← Back to blog</a></p>
+
+  </div>
+</Base>
