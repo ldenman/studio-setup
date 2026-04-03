@@ -3,13 +3,13 @@ import Base from '../../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
-  const tags = [...new Set(posts.flatMap(p => p.data.tags ?? []))];
+  const allPosts = (await getCollection('blog')).filter(p => !p.data.draft);
+  const tags = [...new Set(allPosts.flatMap(p => p.data.tags ?? []))];
   return tags.map(tag => ({
     params: { tag },
     props: {
       tag,
-      posts: posts
+      posts: allPosts
         .filter(p => p.data.tags?.includes(tag))
         .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()),
     },
