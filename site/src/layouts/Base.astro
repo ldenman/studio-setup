@@ -1,4 +1,5 @@
 ---
+import '../styles/global.css';
 interface Props {
   title: string;
   description?: string;
@@ -43,7 +44,6 @@ const sections = [
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{title} — Lake's Studio</title>
   <meta name="description" content={description} />
-  <link rel="stylesheet" href="/src/styles/global.css" />
 </head>
 <body>
   <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle navigation">
