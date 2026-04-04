@@ -8,7 +8,7 @@ interface Props {
 const { title, description = "Lake's Studio", active = '' } = Astro.props;
 
 const signalColor = (() => {
-  if (['recording', 'production', 'mixing'].includes(active)) return 'blue';
+  if (['recording', 'production', 'mixing', 'routing'].includes(active)) return 'blue';
   if (['rack', 'front-panels', 'sound-design', 'tools'].includes(active)) return 'amber';
   if (['songs', 'how-it-works'].includes(active)) return 'green';
   if (active === 'blog') return 'red';
@@ -23,18 +23,14 @@ const sections = [
     { num: '1.4', label: 'Routing',      href: '/routing',      id: 'routing' },
   ]},
   { num: '02', label: 'Gear', items: [
-    { num: '2.1', label: 'HA73-EQX2',       href: '/ha73',         id: 'rack' },
-    { num: '2.2', label: 'WA76-D2',         href: '/wa76',         id: 'front-panels' },
-    { num: '2.3', label: 'Distressor',      href: '/distressor',   id: 'sound-design' },
-    { num: '2.4', label: 'Audioscape Opto', href: '/opto',         id: 'tools' },
+    { num: '2.1', label: 'The Chain',         href: '/front-panels', id: 'front-panels' },
+    { num: '2.2', label: 'Rack Room',         href: '/rack',         id: 'rack' },
+    { num: '2.3', label: 'Sound Design',      href: '/sound-design', id: 'sound-design' },
+    { num: '2.4', label: 'Tools',             href: '/tools',        id: 'tools' },
   ]},
   { num: '03', label: 'Sessions', items: [
-    { num: '3.1', label: 'Tracking',     href: '/recording',    id: 'tracking' },
-    { num: '3.2', label: 'Mix Pass',     href: '/mixing',       id: 'mixing-proc' },
-    { num: '3.3', label: 'Re-amping',    href: '/sound-design', id: 'reamp' },
-    { num: '3.4', label: 'Calibration',  href: '/tools',        id: 'calibration' },
-    { num: '3.5', label: 'Songs',        href: '/songs',        id: 'songs' },
-    { num: '3.6', label: 'How It Works', href: '/how-it-works', id: 'how-it-works' },
+    { num: '3.1', label: 'Songs',        href: '/songs',        id: 'songs' },
+    { num: '3.2', label: 'How It Works', href: '/how-it-works', id: 'how-it-works' },
   ]},
   { num: '04', label: 'Blog', items: [
     { num: '',    label: 'Session Notes', href: '/blog',         id: 'blog' },
