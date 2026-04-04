@@ -1,0 +1,174 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="WA76-D2" active="front-panels">
+  <section class="page-header">
+    <span class="chapter-label">02 — Gear</span>
+    <h1>WA76-D2</h1>
+    <p>Dual-channel 1176 compressor. Fast transients, unmistakable color.</p>
+  </section>
+
+  <div class="panel-hero">
+    <svg viewBox="0 0 900 220" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="wa-silver" cx="50%" cy="40%" r="50%">
+          <stop offset="0%" stop-color="#ddd"/>
+          <stop offset="100%" stop-color="#888"/>
+        </radialGradient>
+        <linearGradient id="wa-vu-bg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#f5f0e8"/>
+          <stop offset="100%" stop-color="#e8e0d0"/>
+        </linearGradient>
+      </defs>
+
+      <!-- Faceplate -->
+      <rect width="900" height="220" rx="2" fill="#111"/>
+      <!-- Rack screws -->
+      <circle cx="12" cy="10" r="4" fill="none" stroke="#333" stroke-width="1.5"/>
+      <circle cx="12" cy="210" r="4" fill="none" stroke="#333" stroke-width="1.5"/>
+      <circle cx="888" cy="10" r="4" fill="none" stroke="#333" stroke-width="1.5"/>
+      <circle cx="888" cy="210" r="4" fill="none" stroke="#333" stroke-width="1.5"/>
+
+      <!-- Brand -->
+      <text x="40" y="22" font-family="var(--font-mono)" font-size="8" fill="#fff" letter-spacing="2">WARM AUDIO</text>
+      <text x="40" y="38" font-family="var(--font-display)" font-size="16" fill="#4488cc" font-weight="bold">WA76</text>
+
+      <!-- ===== Channel 1 (top half, y center ~75) ===== -->
+      <g transform="translate(0, 10)">
+        <!-- VU Meter -->
+        <rect x="370" y="18" width="160" height="70" rx="4" fill="url(#wa-vu-bg)" stroke="#444" stroke-width="1"/>
+        <text x="450" y="32" text-anchor="middle" font-family="var(--font-mono)" font-size="5" fill="#666">VU</text>
+        <!-- Meter arc -->
+        <path d="M 400 72 Q 450 30 500 72" fill="none" stroke="#333" stroke-width="0.8"/>
+        <!-- Tick marks on arc -->
+        <line x1="405" y1="68" x2="408" y2="64" stroke="#333" stroke-width="0.5"/>
+        <line x1="420" y1="55" x2="423" y2="52" stroke="#333" stroke-width="0.5"/>
+        <line x1="435" y1="46" x2="437" y2="43" stroke="#333" stroke-width="0.5"/>
+        <line x1="450" y1="43" x2="450" y2="40" stroke="#333" stroke-width="0.5"/>
+        <line x1="465" y1="46" x2="467" y2="43" stroke="#333" stroke-width="0.5"/>
+        <line x1="480" y1="55" x2="483" y2="52" stroke="#c33" stroke-width="0.5"/>
+        <line x1="495" y1="68" x2="498" y2="64" stroke="#c33" stroke-width="0.5"/>
+        <!-- Needle -->
+        <line x1="450" y1="78" x2="425" y2="50" stroke="#c33" stroke-width="1" stroke-linecap="round"/>
+        <circle cx="450" cy="78" r="3" fill="#222"/>
+        <text x="410" y="82" font-family="var(--font-mono)" font-size="4" fill="#888">-20</text>
+        <text x="445" y="38" font-family="var(--font-mono)" font-size="4" fill="#888">0</text>
+        <text x="488" y="82" font-family="var(--font-mono)" font-size="4" fill="#c33">+3</text>
+
+        <!-- INPUT knob -->
+        <circle cx="100" cy="58" r="22" fill="url(#wa-silver)" stroke="#555" stroke-width="1.5"/>
+        <line x1="100" y1="58" x2="100" y2="39" stroke="#222" stroke-width="2" stroke-linecap="round"/>
+        <text x="100" y="90" text-anchor="middle" font-family="var(--font-mono)" font-size="7" fill="#888">INPUT</text>
+
+        <!-- OUTPUT knob -->
+        <circle cx="210" cy="58" r="22" fill="url(#wa-silver)" stroke="#555" stroke-width="1.5"/>
+        <line x1="210" y1="58" x2="210" y2="39" stroke="#222" stroke-width="2" stroke-linecap="round"/>
+        <text x="210" y="90" text-anchor="middle" font-family="var(--font-mono)" font-size="7" fill="#888">OUTPUT</text>
+
+        <!-- ATTACK knob -->
+        <circle cx="600" cy="58" r="16" fill="url(#wa-silver)" stroke="#555" stroke-width="1"/>
+        <line x1="600" y1="58" x2="600" y2="44" stroke="#222" stroke-width="1.5" stroke-linecap="round"/>
+        <text x="600" y="84" text-anchor="middle" font-family="var(--font-mono)" font-size="6" fill="#888">ATTACK</text>
+
+        <!-- RELEASE knob -->
+        <circle cx="680" cy="58" r="16" fill="url(#wa-silver)" stroke="#555" stroke-width="1"/>
+        <line x1="680" y1="58" x2="680" y2="44" stroke="#222" stroke-width="1.5" stroke-linecap="round"/>
+        <text x="680" y="84" text-anchor="middle" font-family="var(--font-mono)" font-size="6" fill="#888">RELEASE</text>
+
+        <!-- Ratio buttons -->
+        <g transform="translate(760, 40)">
+          <rect x="0" y="0" width="22" height="14" rx="2" fill="#222" stroke="#555" stroke-width="0.8"/>
+          <text x="11" y="10" text-anchor="middle" font-family="var(--font-mono)" font-size="6" fill="#fff">4</text>
+          <rect x="26" y="0" width="22" height="14" rx="2" fill="#222" stroke="#555" stroke-width="0.8"/>
+          <text x="37" y="10" text-anchor="middle" font-family="var(--font-mono)" font-size="6" fill="#fff">8</text>
+          <rect x="52" y="0" width="22" height="14" rx="2" fill="#222" stroke="#555" stroke-width="0.8"/>
+          <text x="63" y="10" text-anchor="middle" font-family="var(--font-mono)" font-size="6" fill="#fff">12</text>
+          <rect x="78" y="0" width="22" height="14" rx="2" fill="#4488cc" stroke="#555" stroke-width="0.8"/>
+          <text x="89" y="10" text-anchor="middle" font-family="var(--font-mono)" font-size="6" fill="#fff">20</text>
+        </g>
+        <text x="800" y="70" text-anchor="middle" font-family="var(--font-mono)" font-size="5" fill="#666">RATIO</text>
+
+        <!-- Power LED -->
+        <circle cx="860" cy="55" r="3" fill="#4488cc"/>
+        <text x="860" y="68" text-anchor="middle" font-family="var(--font-mono)" font-size="4" fill="#666">PWR</text>
+
+        <!-- Channel label -->
+        <text x="30" y="30" font-family="var(--font-mono)" font-size="8" fill="#4488cc">CH 1</text>
+      </g>
+
+      <!-- Divider -->
+      <line x1="30" y1="115" x2="870" y2="115" stroke="#222" stroke-width="0.5"/>
+
+      <!-- ===== Channel 2 (bottom half) ===== -->
+      <g transform="translate(0, 110)">
+        <text x="30" y="30" font-family="var(--font-mono)" font-size="8" fill="#4488cc">CH 2</text>
+
+        <circle cx="100" cy="58" r="22" fill="url(#wa-silver)" stroke="#555" stroke-width="1.5"/>
+        <line x1="100" y1="58" x2="92" y2="42" stroke="#222" stroke-width="2" stroke-linecap="round"/>
+        <text x="100" y="90" text-anchor="middle" font-family="var(--font-mono)" font-size="7" fill="#888">INPUT</text>
+
+        <circle cx="210" cy="58" r="22" fill="url(#wa-silver)" stroke="#555" stroke-width="1.5"/>
+        <line x1="210" y1="58" x2="218" y2="42" stroke="#222" stroke-width="2" stroke-linecap="round"/>
+        <text x="210" y="90" text-anchor="middle" font-family="var(--font-mono)" font-size="7" fill="#888">OUTPUT</text>
+
+        <!-- VU Meter ch2 -->
+        <rect x="370" y="18" width="160" height="70" rx="4" fill="url(#wa-vu-bg)" stroke="#444" stroke-width="1"/>
+        <text x="450" y="32" text-anchor="middle" font-family="var(--font-mono)" font-size="5" fill="#666">VU</text>
+        <path d="M 400 72 Q 450 30 500 72" fill="none" stroke="#333" stroke-width="0.8"/>
+        <line x1="405" y1="68" x2="408" y2="64" stroke="#333" stroke-width="0.5"/>
+        <line x1="420" y1="55" x2="423" y2="52" stroke="#333" stroke-width="0.5"/>
+        <line x1="435" y1="46" x2="437" y2="43" stroke="#333" stroke-width="0.5"/>
+        <line x1="450" y1="43" x2="450" y2="40" stroke="#333" stroke-width="0.5"/>
+        <line x1="465" y1="46" x2="467" y2="43" stroke="#333" stroke-width="0.5"/>
+        <line x1="480" y1="55" x2="483" y2="52" stroke="#c33" stroke-width="0.5"/>
+        <line x1="495" y1="68" x2="498" y2="64" stroke="#c33" stroke-width="0.5"/>
+        <line x1="450" y1="78" x2="430" y2="52" stroke="#c33" stroke-width="1" stroke-linecap="round"/>
+        <circle cx="450" cy="78" r="3" fill="#222"/>
+
+        <circle cx="600" cy="58" r="16" fill="url(#wa-silver)" stroke="#555" stroke-width="1"/>
+        <line x1="600" y1="58" x2="594" y2="44" stroke="#222" stroke-width="1.5" stroke-linecap="round"/>
+        <text x="600" y="84" text-anchor="middle" font-family="var(--font-mono)" font-size="6" fill="#888">ATTACK</text>
+
+        <circle cx="680" cy="58" r="16" fill="url(#wa-silver)" stroke="#555" stroke-width="1"/>
+        <line x1="680" y1="58" x2="686" y2="44" stroke="#222" stroke-width="1.5" stroke-linecap="round"/>
+        <text x="680" y="84" text-anchor="middle" font-family="var(--font-mono)" font-size="6" fill="#888">RELEASE</text>
+
+        <g transform="translate(760, 40)">
+          <rect x="0" y="0" width="22" height="14" rx="2" fill="#4488cc" stroke="#555" stroke-width="0.8"/>
+          <text x="11" y="10" text-anchor="middle" font-family="var(--font-mono)" font-size="6" fill="#fff">4</text>
+          <rect x="26" y="0" width="22" height="14" rx="2" fill="#222" stroke="#555" stroke-width="0.8"/>
+          <text x="37" y="10" text-anchor="middle" font-family="var(--font-mono)" font-size="6" fill="#fff">8</text>
+          <rect x="52" y="0" width="22" height="14" rx="2" fill="#222" stroke="#555" stroke-width="0.8"/>
+          <text x="63" y="10" text-anchor="middle" font-family="var(--font-mono)" font-size="6" fill="#fff">12</text>
+          <rect x="78" y="0" width="22" height="14" rx="2" fill="#222" stroke="#555" stroke-width="0.8"/>
+          <text x="89" y="10" text-anchor="middle" font-family="var(--font-mono)" font-size="6" fill="#fff">20</text>
+        </g>
+        <text x="800" y="70" text-anchor="middle" font-family="var(--font-mono)" font-size="5" fill="#666">RATIO</text>
+
+        <circle cx="860" cy="55" r="3" fill="#4488cc"/>
+        <text x="860" y="68" text-anchor="middle" font-family="var(--font-mono)" font-size="4" fill="#666">PWR</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="prose">
+    <h2>In the Chain</h2>
+    <p>Channel 1 sits after the HA73 Channel A for vocals. Channel 2 follows HA73 Channel B for guitar. The 1176 catches transients the optical compressor downstream would miss. It is the fast stage — the Opto handles the slow, leveling compression afterward.</p>
+
+    <h2>Controls</h2>
+    <p>Vocal channel runs at 4:1 ratio with a medium attack and fast release — enough to catch plosives without squashing dynamics. Guitar channel runs at 20:1 for heavier limiting on percussive picking transients. Input and output are gain-staged so the VU needle sits around -3dB of gain reduction on average.</p>
+
+    <h2>Character</h2>
+    <p>The 1176 circuit is a FET design — fast attack times under 1ms mean it grabs transients before they clip. But the real character is in the harmonic distortion it adds when you push the input. It thickens vocals without making them sound compressed. On guitar it adds grit and sustain. The all-buttons-in trick (pressing all four ratios simultaneously) turns it into a saturating limiter that sounds nothing like any plugin emulation.</p>
+  </div>
+</Base>
+
+<style>
+  .panel-hero {
+    margin: 32px 0 48px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .panel-hero svg { display: block; width: 100%; }
+</style>

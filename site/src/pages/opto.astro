@@ -1,0 +1,149 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Audioscape Opto" active="tools">
+  <section class="page-header">
+    <span class="chapter-label">02 — Gear</span>
+    <h1>Audioscape Opto</h1>
+    <p>Optical compressor. LA2A topology, Australian boutique build. The leveling amp.</p>
+  </section>
+
+  <div class="panel-hero">
+    <svg viewBox="0 0 900 220" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="op-knob" cx="50%" cy="40%" r="50%">
+          <stop offset="0%" stop-color="#444"/>
+          <stop offset="100%" stop-color="#111"/>
+        </radialGradient>
+        <linearGradient id="op-vu-bg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#f8f4ec"/>
+          <stop offset="100%" stop-color="#ece4d4"/>
+        </linearGradient>
+      </defs>
+
+      <!-- Warm gray/putty faceplate -->
+      <rect width="900" height="220" rx="2" fill="#b8b0a0"/>
+      <!-- Rack screws -->
+      <circle cx="12" cy="10" r="4" fill="none" stroke="#999" stroke-width="1.5"/>
+      <circle cx="12" cy="210" r="4" fill="none" stroke="#999" stroke-width="1.5"/>
+      <circle cx="888" cy="10" r="4" fill="none" stroke="#999" stroke-width="1.5"/>
+      <circle cx="888" cy="210" r="4" fill="none" stroke="#999" stroke-width="1.5"/>
+
+      <!-- Brand -->
+      <text x="450" y="28" text-anchor="middle" font-family="var(--font-mono)" font-size="12" fill="#444" letter-spacing="6">AUDIOSCAPE</text>
+      <text x="450" y="44" text-anchor="middle" font-family="var(--font-mono)" font-size="7" fill="#666" letter-spacing="2">ENGINEERING CO.</text>
+
+      <!-- VU Meter (large, center) -->
+      <rect x="330" y="55" width="240" height="100" rx="6" fill="url(#op-vu-bg)" stroke="#888" stroke-width="1.5"/>
+      <text x="450" y="72" text-anchor="middle" font-family="var(--font-mono)" font-size="6" fill="#888">VU</text>
+
+      <!-- Meter arc -->
+      <path d="M 370 135 Q 450 70 530 135" fill="none" stroke="#333" stroke-width="1"/>
+      <!-- Scale markings -->
+      <line x1="375" y1="130" x2="380" y2="125" stroke="#333" stroke-width="0.6"/>
+      <line x1="390" y1="115" x2="395" y2="111" stroke="#333" stroke-width="0.6"/>
+      <line x1="410" y1="100" x2="413" y2="96" stroke="#333" stroke-width="0.6"/>
+      <line x1="430" y1="90" x2="432" y2="86" stroke="#333" stroke-width="0.6"/>
+      <line x1="450" y1="86" x2="450" y2="82" stroke="#333" stroke-width="0.8"/>
+      <line x1="470" y1="90" x2="472" y2="86" stroke="#333" stroke-width="0.6"/>
+      <line x1="490" y1="100" x2="493" y2="96" stroke="#c33" stroke-width="0.6"/>
+      <line x1="510" y1="115" x2="515" y2="111" stroke="#c33" stroke-width="0.6"/>
+      <line x1="525" y1="130" x2="530" y2="125" stroke="#c33" stroke-width="0.6"/>
+
+      <!-- Scale labels -->
+      <text x="370" y="142" font-family="var(--font-mono)" font-size="5" fill="#888">-20</text>
+      <text x="405" y="108" font-family="var(--font-mono)" font-size="5" fill="#888">-10</text>
+      <text x="445" y="82" font-family="var(--font-mono)" font-size="5" fill="#888">0</text>
+      <text x="500" y="108" font-family="var(--font-mono)" font-size="5" fill="#c33">+3</text>
+
+      <!-- Needle -->
+      <line x1="450" y1="145" x2="415" y2="100" stroke="#c33" stroke-width="1.2" stroke-linecap="round"/>
+      <circle cx="450" cy="145" r="4" fill="#555"/>
+
+      <!-- GR / OUTPUT labels under meter -->
+      <text x="400" y="152" text-anchor="middle" font-family="var(--font-mono)" font-size="5" fill="#666">GR</text>
+      <text x="500" y="152" text-anchor="middle" font-family="var(--font-mono)" font-size="5" fill="#666">OUTPUT</text>
+
+      <!-- PEAK REDUCTION knob (large, left) -->
+      <circle cx="150" cy="120" r="32" fill="url(#op-knob)" stroke="#888" stroke-width="1.5"/>
+      <circle cx="150" cy="120" r="34" fill="none" stroke="#999" stroke-width="0.5"/>
+      <line x1="150" y1="120" x2="150" y2="92" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+      <!-- Tick marks -->
+      <g fill="none" stroke="#777" stroke-width="0.6">
+        <line x1="150" y1="82" x2="150" y2="78"/>
+        <line x1="128" y1="90" x2="125" y2="87"/>
+        <line x1="114" y1="108" x2="110" y2="107"/>
+        <line x1="112" y1="120" x2="108" y2="120"/>
+        <line x1="114" y1="132" x2="110" y2="133"/>
+        <line x1="128" y1="150" x2="125" y2="153"/>
+        <line x1="172" y1="90" x2="175" y2="87"/>
+        <line x1="186" y1="108" x2="190" y2="107"/>
+        <line x1="188" y1="120" x2="192" y2="120"/>
+        <line x1="186" y1="132" x2="190" y2="133"/>
+        <line x1="172" y1="150" x2="175" y2="153"/>
+      </g>
+      <text x="150" y="168" text-anchor="middle" font-family="var(--font-mono)" font-size="8" fill="#444">PEAK REDUCTION</text>
+      <text x="118" y="80" font-family="var(--font-mono)" font-size="5" fill="#666">0</text>
+      <text x="175" y="80" font-family="var(--font-mono)" font-size="5" fill="#666">100</text>
+
+      <!-- GAIN knob (large, right) -->
+      <circle cx="750" cy="120" r="32" fill="url(#op-knob)" stroke="#888" stroke-width="1.5"/>
+      <circle cx="750" cy="120" r="34" fill="none" stroke="#999" stroke-width="0.5"/>
+      <line x1="750" y1="120" x2="758" y2="94" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+      <g fill="none" stroke="#777" stroke-width="0.6">
+        <line x1="750" y1="82" x2="750" y2="78"/>
+        <line x1="728" y1="90" x2="725" y2="87"/>
+        <line x1="714" y1="108" x2="710" y2="107"/>
+        <line x1="712" y1="120" x2="708" y2="120"/>
+        <line x1="772" y1="90" x2="775" y2="87"/>
+        <line x1="786" y1="108" x2="790" y2="107"/>
+        <line x1="788" y1="120" x2="792" y2="120"/>
+        <line x1="772" y1="150" x2="775" y2="153"/>
+        <line x1="728" y1="150" x2="725" y2="153"/>
+      </g>
+      <text x="750" y="168" text-anchor="middle" font-family="var(--font-mono)" font-size="8" fill="#444">GAIN</text>
+
+      <!-- GR/OUTPUT switch -->
+      <g transform="translate(420, 165)">
+        <rect x="0" y="0" width="24" height="12" rx="3" fill="#555" stroke="#777" stroke-width="0.5"/>
+        <rect x="1" y="1" width="10" height="10" rx="2" fill="#888"/>
+        <text x="12" y="24" text-anchor="middle" font-family="var(--font-mono)" font-size="5" fill="#444">GR / OUT</text>
+      </g>
+
+      <!-- LIMIT/COMPRESS switch -->
+      <g transform="translate(470, 165)">
+        <rect x="0" y="0" width="24" height="12" rx="3" fill="#555" stroke="#777" stroke-width="0.5"/>
+        <rect x="13" y="1" width="10" height="10" rx="2" fill="#c89b3c"/>
+        <text x="12" y="24" text-anchor="middle" font-family="var(--font-mono)" font-size="5" fill="#444">LIM / COMP</text>
+      </g>
+
+      <!-- Power LED -->
+      <circle cx="850" cy="30" r="4" fill="#c89b3c" opacity="0.9"/>
+      <text x="850" y="44" text-anchor="middle" font-family="var(--font-mono)" font-size="5" fill="#666">POWER</text>
+
+      <!-- Model text -->
+      <text x="450" y="210" text-anchor="middle" font-family="var(--font-mono)" font-size="6" fill="#888">OPTICAL COMPRESSOR / LEVELING AMPLIFIER</text>
+    </svg>
+  </div>
+
+  <div class="prose">
+    <h2>In the Chain</h2>
+    <p>The Opto is the last compressor in the vocal chain, after the WA76. Vocals arrive already transient-controlled by the 1176, and the optical circuit applies slow, program-dependent leveling — the kind of compression you feel but do not hear. It also sees use on guitar when the source needs smoothing rather than peak control.</p>
+
+    <h2>Controls</h2>
+    <p>Two knobs. Peak Reduction controls how much signal hits the optical cell — more reduction means more compression, but the ratio shifts with the signal level because that is how optical compressors work. Gain makes up the output level. The LIMIT/COMPRESS switch changes the knee: COMPRESS for gentle leveling on vocals, LIMIT for harder ratio on guitar transients. The VU meter toggles between gain reduction and output level.</p>
+
+    <h2>Character</h2>
+    <p>Optical compression is inherently slow and nonlinear. The photocell and light-dependent resistor create attack and release curves that no VCA or FET circuit can replicate — the release time depends on how long the signal has been compressing. Short bursts release fast. Sustained notes release slowly. This is what makes an LA2A-style compressor sound like it is breathing with the performance rather than clamping down on it. The Audioscape build uses the same T4B optical cell topology as the original Teletronix units. It is the most transparent piece of outboard in the rack — its job is to make everything that came before it sit perfectly in the mix without anyone noticing it is there.</p>
+  </div>
+</Base>
+
+<style>
+  .panel-hero {
+    margin: 32px 0 48px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .panel-hero svg { display: block; width: 100%; }
+</style>

@@ -1,0 +1,215 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="HA73-EQX2" active="rack">
+  <section class="page-header">
+    <span class="chapter-label">02 — Gear</span>
+    <h1>HA73-EQX2</h1>
+    <p>Dual-channel Neve 1073 preamp and EQ. The front end of everything.</p>
+  </section>
+
+  <div class="panel-hero">
+    <svg viewBox="0 0 900 120" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="ha-chrome" cx="50%" cy="40%" r="50%">
+          <stop offset="0%" stop-color="#e8e8e8"/>
+          <stop offset="100%" stop-color="#999"/>
+        </radialGradient>
+        <radialGradient id="ha-red" cx="50%" cy="40%" r="50%">
+          <stop offset="0%" stop-color="#c44"/>
+          <stop offset="100%" stop-color="#811"/>
+        </radialGradient>
+        <radialGradient id="ha-blue" cx="50%" cy="40%" r="50%">
+          <stop offset="0%" stop-color="#4466aa"/>
+          <stop offset="100%" stop-color="#223366"/>
+        </radialGradient>
+      </defs>
+
+      <!-- Faceplate -->
+      <rect width="900" height="120" rx="2" fill="#0f0f1a"/>
+      <!-- Rack screw holes -->
+      <circle cx="12" cy="10" r="4" fill="none" stroke="#333" stroke-width="1.5"/>
+      <circle cx="12" cy="110" r="4" fill="none" stroke="#333" stroke-width="1.5"/>
+      <circle cx="888" cy="10" r="4" fill="none" stroke="#333" stroke-width="1.5"/>
+      <circle cx="888" cy="110" r="4" fill="none" stroke="#333" stroke-width="1.5"/>
+
+      <!-- Brand -->
+      <text x="450" y="14" text-anchor="middle" font-family="var(--font-mono)" font-size="7" fill="#c89b3c" letter-spacing="3">HERITAGE AUDIO</text>
+      <text x="450" y="118" text-anchor="middle" font-family="var(--font-mono)" font-size="6" fill="#555">HA73-EQX2</text>
+
+      <!-- Channel A (left half: x=30..430) -->
+      <g transform="translate(30, 0)">
+        <text x="0" y="30" font-family="var(--font-mono)" font-size="10" fill="#c89b3c" font-weight="bold">A</text>
+
+        <!-- GAIN knob (large, red) -->
+        <circle cx="50" cy="55" r="20" fill="url(#ha-red)" stroke="#777" stroke-width="1.5"/>
+        <circle cx="50" cy="55" r="22" fill="none" stroke="#555" stroke-width="0.5"/>
+        <line x1="50" y1="55" x2="50" y2="38" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        <!-- Gain ticks -->
+        <g fill="none" stroke="#666" stroke-width="0.5">
+          <line x1="50" y1="30" x2="50" y2="27"/>
+          <line x1="36" y1="37" x2="34" y2="34"/>
+          <line x1="28" y1="55" x2="25" y2="55"/>
+          <line x1="36" y1="73" x2="34" y2="76"/>
+          <line x1="64" y1="37" x2="66" y2="34"/>
+          <line x1="72" y1="55" x2="75" y2="55"/>
+          <line x1="64" y1="73" x2="66" y2="76"/>
+        </g>
+        <text x="50" y="85" text-anchor="middle" font-family="var(--font-mono)" font-size="6" fill="#888">GAIN</text>
+        <text x="28" y="30" text-anchor="middle" font-family="var(--font-mono)" font-size="4" fill="#666">80</text>
+        <text x="72" y="30" text-anchor="middle" font-family="var(--font-mono)" font-size="4" fill="#666">30</text>
+
+        <!-- OUTPUT knob (silver, smaller) -->
+        <circle cx="110" cy="55" r="14" fill="url(#ha-chrome)" stroke="#777" stroke-width="1"/>
+        <line x1="110" y1="55" x2="110" y2="43" stroke="#333" stroke-width="1.5" stroke-linecap="round"/>
+        <text x="110" y="78" text-anchor="middle" font-family="var(--font-mono)" font-size="6" fill="#888">OUTPUT</text>
+
+        <!-- EQ Section: HF -->
+        <circle cx="158" cy="42" r="11" fill="url(#ha-blue)" stroke="#555" stroke-width="0.8"/>
+        <line x1="158" y1="42" x2="158" y2="33" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+        <text x="158" y="22" text-anchor="middle" font-family="var(--font-mono)" font-size="5" fill="#6688bb">HF</text>
+        <!-- HF gain -->
+        <circle cx="158" cy="82" r="9" fill="url(#ha-chrome)" stroke="#555" stroke-width="0.6"/>
+        <line x1="158" y1="82" x2="158" y2="75" stroke="#333" stroke-width="1" stroke-linecap="round"/>
+        <text x="158" y="100" text-anchor="middle" font-family="var(--font-mono)" font-size="4" fill="#666">12k</text>
+
+        <!-- MF -->
+        <circle cx="195" cy="42" r="11" fill="url(#ha-blue)" stroke="#555" stroke-width="0.8"/>
+        <line x1="195" y1="42" x2="195" y2="33" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+        <text x="195" y="22" text-anchor="middle" font-family="var(--font-mono)" font-size="5" fill="#6688bb">MF</text>
+        <circle cx="195" cy="82" r="9" fill="url(#ha-chrome)" stroke="#555" stroke-width="0.6"/>
+        <line x1="195" y1="82" x2="195" y2="75" stroke="#333" stroke-width="1" stroke-linecap="round"/>
+        <text x="195" y="100" text-anchor="middle" font-family="var(--font-mono)" font-size="4" fill="#666">360-7.2k</text>
+
+        <!-- LF -->
+        <circle cx="232" cy="42" r="11" fill="url(#ha-blue)" stroke="#555" stroke-width="0.8"/>
+        <line x1="232" y1="42" x2="232" y2="33" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+        <text x="232" y="22" text-anchor="middle" font-family="var(--font-mono)" font-size="5" fill="#6688bb">LF</text>
+        <circle cx="232" cy="82" r="9" fill="url(#ha-chrome)" stroke="#555" stroke-width="0.6"/>
+        <line x1="232" y1="82" x2="232" y2="75" stroke="#333" stroke-width="1" stroke-linecap="round"/>
+        <text x="232" y="100" text-anchor="middle" font-family="var(--font-mono)" font-size="4" fill="#666">35-220</text>
+
+        <!-- HPF knob (blue) -->
+        <circle cx="275" cy="55" r="11" fill="url(#ha-blue)" stroke="#555" stroke-width="0.8"/>
+        <line x1="275" y1="55" x2="275" y2="46" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+        <text x="275" y="78" text-anchor="middle" font-family="var(--font-mono)" font-size="5" fill="#6688bb">HPF</text>
+
+        <!-- Toggle switches -->
+        <g transform="translate(305, 35)">
+          <rect x="0" y="0" width="8" height="16" rx="2" fill="#222" stroke="#444" stroke-width="0.5"/>
+          <rect x="1.5" y="2" width="5" height="6" rx="1" fill="#555"/>
+          <text x="4" y="26" text-anchor="middle" font-family="var(--font-mono)" font-size="4" fill="#666">48V</text>
+        </g>
+        <g transform="translate(320, 35)">
+          <rect x="0" y="0" width="8" height="16" rx="2" fill="#222" stroke="#444" stroke-width="0.5"/>
+          <rect x="1.5" y="8" width="5" height="6" rx="1" fill="#555"/>
+          <text x="4" y="26" text-anchor="middle" font-family="var(--font-mono)" font-size="4" fill="#666">PAD</text>
+        </g>
+        <g transform="translate(335, 35)">
+          <rect x="0" y="0" width="8" height="16" rx="2" fill="#222" stroke="#444" stroke-width="0.5"/>
+          <rect x="1.5" y="2" width="5" height="6" rx="1" fill="#555"/>
+          <text x="4" y="26" text-anchor="middle" font-family="var(--font-mono)" font-size="4" fill="#666">&#x2205;</text>
+        </g>
+        <g transform="translate(350, 35)">
+          <rect x="0" y="0" width="8" height="16" rx="2" fill="#222" stroke="#444" stroke-width="0.5"/>
+          <rect x="1.5" y="2" width="5" height="6" rx="1" fill="#c89b3c"/>
+          <text x="4" y="26" text-anchor="middle" font-family="var(--font-mono)" font-size="4" fill="#c89b3c">EQ</text>
+        </g>
+        <g transform="translate(365, 35)">
+          <rect x="0" y="0" width="8" height="16" rx="2" fill="#222" stroke="#444" stroke-width="0.5"/>
+          <rect x="1.5" y="2" width="5" height="6" rx="1" fill="#555"/>
+          <text x="4" y="26" text-anchor="middle" font-family="var(--font-mono)" font-size="3.5" fill="#666">MIC</text>
+        </g>
+      </g>
+
+      <!-- Channel B (right half: mirror) -->
+      <g transform="translate(450, 0)">
+        <text x="0" y="30" font-family="var(--font-mono)" font-size="10" fill="#c89b3c" font-weight="bold">B</text>
+
+        <circle cx="50" cy="55" r="20" fill="url(#ha-red)" stroke="#777" stroke-width="1.5"/>
+        <circle cx="50" cy="55" r="22" fill="none" stroke="#555" stroke-width="0.5"/>
+        <line x1="50" y1="55" x2="42" y2="40" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        <text x="50" y="85" text-anchor="middle" font-family="var(--font-mono)" font-size="6" fill="#888">GAIN</text>
+
+        <circle cx="110" cy="55" r="14" fill="url(#ha-chrome)" stroke="#777" stroke-width="1"/>
+        <line x1="110" y1="55" x2="104" y2="44" stroke="#333" stroke-width="1.5" stroke-linecap="round"/>
+        <text x="110" y="78" text-anchor="middle" font-family="var(--font-mono)" font-size="6" fill="#888">OUTPUT</text>
+
+        <circle cx="158" cy="42" r="11" fill="url(#ha-blue)" stroke="#555" stroke-width="0.8"/>
+        <line x1="158" y1="42" x2="158" y2="33" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+        <text x="158" y="22" text-anchor="middle" font-family="var(--font-mono)" font-size="5" fill="#6688bb">HF</text>
+        <circle cx="158" cy="82" r="9" fill="url(#ha-chrome)" stroke="#555" stroke-width="0.6"/>
+        <line x1="158" y1="82" x2="158" y2="75" stroke="#333" stroke-width="1" stroke-linecap="round"/>
+        <text x="158" y="100" text-anchor="middle" font-family="var(--font-mono)" font-size="4" fill="#666">12k</text>
+
+        <circle cx="195" cy="42" r="11" fill="url(#ha-blue)" stroke="#555" stroke-width="0.8"/>
+        <line x1="195" y1="42" x2="195" y2="33" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+        <text x="195" y="22" text-anchor="middle" font-family="var(--font-mono)" font-size="5" fill="#6688bb">MF</text>
+        <circle cx="195" cy="82" r="9" fill="url(#ha-chrome)" stroke="#555" stroke-width="0.6"/>
+        <line x1="195" y1="82" x2="195" y2="75" stroke="#333" stroke-width="1" stroke-linecap="round"/>
+        <text x="195" y="100" text-anchor="middle" font-family="var(--font-mono)" font-size="4" fill="#666">360-7.2k</text>
+
+        <circle cx="232" cy="42" r="11" fill="url(#ha-blue)" stroke="#555" stroke-width="0.8"/>
+        <line x1="232" y1="42" x2="232" y2="33" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+        <text x="232" y="22" text-anchor="middle" font-family="var(--font-mono)" font-size="5" fill="#6688bb">LF</text>
+        <circle cx="232" cy="82" r="9" fill="url(#ha-chrome)" stroke="#555" stroke-width="0.6"/>
+        <line x1="232" y1="82" x2="232" y2="75" stroke="#333" stroke-width="1" stroke-linecap="round"/>
+        <text x="232" y="100" text-anchor="middle" font-family="var(--font-mono)" font-size="4" fill="#666">35-220</text>
+
+        <circle cx="275" cy="55" r="11" fill="url(#ha-blue)" stroke="#555" stroke-width="0.8"/>
+        <line x1="275" y1="55" x2="275" y2="46" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+        <text x="275" y="78" text-anchor="middle" font-family="var(--font-mono)" font-size="5" fill="#6688bb">HPF</text>
+
+        <g transform="translate(305, 35)">
+          <rect x="0" y="0" width="8" height="16" rx="2" fill="#222" stroke="#444" stroke-width="0.5"/>
+          <rect x="1.5" y="2" width="5" height="6" rx="1" fill="#555"/>
+          <text x="4" y="26" text-anchor="middle" font-family="var(--font-mono)" font-size="4" fill="#666">48V</text>
+        </g>
+        <g transform="translate(320, 35)">
+          <rect x="0" y="0" width="8" height="16" rx="2" fill="#222" stroke="#444" stroke-width="0.5"/>
+          <rect x="1.5" y="8" width="5" height="6" rx="1" fill="#555"/>
+          <text x="4" y="26" text-anchor="middle" font-family="var(--font-mono)" font-size="4" fill="#666">PAD</text>
+        </g>
+        <g transform="translate(335, 35)">
+          <rect x="0" y="0" width="8" height="16" rx="2" fill="#222" stroke="#444" stroke-width="0.5"/>
+          <rect x="1.5" y="2" width="5" height="6" rx="1" fill="#555"/>
+          <text x="4" y="26" text-anchor="middle" font-family="var(--font-mono)" font-size="4" fill="#666">&#x2205;</text>
+        </g>
+        <g transform="translate(350, 35)">
+          <rect x="0" y="0" width="8" height="16" rx="2" fill="#222" stroke="#444" stroke-width="0.5"/>
+          <rect x="1.5" y="2" width="5" height="6" rx="1" fill="#c89b3c"/>
+          <text x="4" y="26" text-anchor="middle" font-family="var(--font-mono)" font-size="4" fill="#c89b3c">EQ</text>
+        </g>
+        <g transform="translate(365, 35)">
+          <rect x="0" y="0" width="8" height="16" rx="2" fill="#222" stroke="#444" stroke-width="0.5"/>
+          <rect x="1.5" y="2" width="5" height="6" rx="1" fill="#555"/>
+          <text x="4" y="26" text-anchor="middle" font-family="var(--font-mono)" font-size="3.5" fill="#666">MIC</text>
+        </g>
+      </g>
+
+      <!-- Center divider line -->
+      <line x1="450" y1="20" x2="450" y2="100" stroke="#222" stroke-width="0.5"/>
+    </svg>
+  </div>
+
+  <div class="prose">
+    <h2>In the Chain</h2>
+    <p>Channel A handles vocals. Channel B handles guitar. Both channels run simultaneously during tracking. The signal enters from the Wing's local outputs, hits the HA73 preamp and three-band EQ, then continues to the compressor stage. Every recording starts here.</p>
+
+    <h2>Controls</h2>
+    <p>Gain is calibrated to 55 on Channel A (vocal) and 50 on Channel B (guitar). Output sits at unity. The EQ section runs three bands — a fixed 12kHz shelf on the high end, a sweepable 360Hz-7.2kHz midrange, and a low shelf from 35-220Hz. The high-pass filter stays at 80Hz for vocals, 160Hz for guitar. EQ IN is always engaged.</p>
+
+    <h2>Character</h2>
+    <p>This is a Neve 1073 topology — Class A discrete, transformer-coupled input and output. The transformers add low-end weight and a subtle harmonic richness that no plugin can replicate. The EQ curves are broad and musical. You boost into it and it just sounds right. It is the reason the studio exists around analog outboard instead of staying entirely in the box.</p>
+  </div>
+</Base>
+
+<style>
+  .panel-hero {
+    margin: 32px 0 48px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .panel-hero svg { display: block; width: 100%; }
+</style>
