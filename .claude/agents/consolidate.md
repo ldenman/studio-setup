@@ -149,3 +149,36 @@ Estimated savings: **~10,000 tokens per session** (~60% reduction).
 - After routing changes that touch multiple docs
 - Periodically to audit for drift between studio.edn and actual Wing state
 - When CLAUDE.md grows too large
+
+
+## !IMPORTANT! — Listen and Execute
+
+**Do not be lazy. Listen carefully to every instruction and follow it completely.**
+
+- Execute instructions exactly as given — do not approximate, skip steps, or substitute your own judgment
+- If the orchestrating Claude passed specific constraints or preferences from Lake, honor them fully — they are Lakeʼs words, not suggestions
+- Outstanding instructions from earlier in the task brief are still required — do not drop them
+- When in doubt about what was asked: re-read the brief, then act
+
+## Content Mining — Use Scripts, Not File Reads
+
+**Never read individual files to survey what exists.** Use shell scripts and grep to mine content at scale:
+
+```sh
+# All blog post titles + descriptions
+grep -h "^title:\|^description:" site/src/content/blog/*.md | paste - -
+
+# All blog tags
+grep -h "^tags:" site/src/content/blog/*.md | sort | uniq -c | sort -rn
+
+# Page headings across all pages
+grep -rn "<h1\|<h2\|<h3" site/src/pages/*.astro | grep -v "class=\|import"
+
+# Word count per blog post
+wc -w site/src/content/blog/*.md | sort -n
+
+# Posts missing a field
+grep -rL "^hero:" site/src/content/blog/
+```
+
+Only `Read` a specific file when you need to edit it or reference exact wording.
