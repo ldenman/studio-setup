@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
+  site: 'https://studio.lakedenman.com',
   devToolbar: { enabled: false },
   content: {
     collections: {
