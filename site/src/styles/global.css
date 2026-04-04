@@ -538,3 +538,5 @@ pre code {
 
   h1 { font-size: 26px; }
 }
+
+svg { user-select: none; -webkit-user-select: none; }
