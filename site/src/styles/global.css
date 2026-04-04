@@ -1,7 +1,5 @@
 /* Direction B v2 — Technical Manual */
 
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Serif:ital,wght@0,400;0,600;1,400&display=swap');
-
 /* ─── Tokens ─── */
 
 :root {
@@ -25,7 +23,7 @@
   --tape-coral: #c87a6a;
 
   --font-display: 'DM Serif Display', serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
   --font-body: 'Noto Serif', serif;
 
   --sidebar-w: 260px;
