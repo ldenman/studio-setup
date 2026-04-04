@@ -11,20 +11,20 @@ import Base from '../layouts/Base.astro';
   <div class="panel-hero">
     <svg viewBox="0 0 960 130" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <!-- Dark knob body -->
-        <radialGradient id="ds-knob" cx="40%" cy="35%" r="60%">
-          <stop offset="0%" stop-color="#3a3a3a"/>
-          <stop offset="60%" stop-color="#1e1e1e"/>
-          <stop offset="100%" stop-color="#111"/>
+        <!-- Black knob cap -->
+        <radialGradient id="ds-knob" cx="38%" cy="32%" r="65%">
+          <stop offset="0%" stop-color="#2a2a2a"/>
+          <stop offset="55%" stop-color="#111"/>
+          <stop offset="100%" stop-color="#080808"/>
         </radialGradient>
-        <!-- Silver/chrome outer rim -->
-        <radialGradient id="ds-knob-rim" cx="40%" cy="30%" r="60%">
-          <stop offset="0%" stop-color="#b0b0b0"/>
-          <stop offset="50%" stop-color="#888"/>
-          <stop offset="100%" stop-color="#555"/>
+        <!-- Silver knurled outer ring — lighter at top-left highlight -->
+        <radialGradient id="ds-knob-rim" cx="35%" cy="28%" r="65%">
+          <stop offset="0%" stop-color="#c8c8c8"/>
+          <stop offset="40%" stop-color="#999"/>
+          <stop offset="100%" stop-color="#666"/>
         </radialGradient>
         <filter id="ds-shadow">
-          <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000" flood-opacity="0.6"/>
+          <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.7"/>
         </filter>
       </defs>
 
@@ -133,87 +133,132 @@ import Base from '../layouts/Base.astro';
       <text x="55" y="68" font-family="Georgia, 'Times New Roman', serif" font-size="22" fill="#fff" font-style="italic" font-weight="bold" letter-spacing="-0.5">Distressor</text>
       <text x="55" y="82" font-family="JetBrains Mono, monospace" font-size="5.5" fill="#999" letter-spacing="0.8">EMPIRICAL LABS</text>
 
-      <!-- ===== KNOB MACRO: dark body, silver rim, white dot pointer, tick marks ===== -->
-      <!-- INPUT — pointer at ~8 o'clock (210°) = medium-high input -->
-      <text x="430" y="15" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" fill="#aaa" letter-spacing="1">INPUT</text>
+      <!-- ===== KNOB helper: knurled silver ring + black cap + white notch indicator ===== -->
+      <!-- Scale numbers sit on the faceplate, not on the knob -->
+
+      <!-- INPUT — notch at ~10 o'clock -->
+      <text x="430" y="14" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6.5" fill="#ccc" letter-spacing="1.5">INPUT</text>
+      <!-- Faceplate scale numbers (7→5 o'clock sweep, 0 at left, 10 at top-right) -->
+      <g font-family="JetBrains Mono, monospace" font-size="6" fill="#aaa" text-anchor="middle">
+        <text x="400" y="96">0</text>
+        <text x="403" y="76">2</text>
+        <text x="410" y="57">4</text>
+        <text x="423" y="41">6</text>
+        <text x="441" y="33">8</text>
+        <text x="460" y="37">10</text>
+      </g>
       <g filter="url(#ds-shadow)">
-        <circle cx="430" cy="65" r="30" fill="url(#ds-knob-rim)"/>
+        <!-- Outer knurled ring -->
+        <circle cx="430" cy="65" r="31" fill="url(#ds-knob-rim)"/>
+        <!-- Knurling suggestion: fine alternating strokes around ring perimeter -->
+        <g stroke="#555" stroke-width="0.5" opacity="0.6">
+          <line x1="430" y1="34" x2="430" y2="36"/><line x1="439" y1="34.5" x2="438.5" y2="36.5"/>
+          <line x1="447" y1="37" x2="446" y2="39"/><line x1="454" y1="42" x2="452.5" y2="43.5"/>
+          <line x1="459" y1="48" x2="457.5" y2="49.5"/><line x1="461" y1="56" x2="459" y2="57"/>
+          <line x1="461" y1="65" x2="459" y2="65"/><line x1="459" y1="74" x2="457.5" y2="72.5"/>
+          <line x1="454" y1="82" x2="452.5" y2="80.5"/><line x1="447" y1="88" x2="446" y2="86.5"/>
+          <line x1="439" y1="93" x2="438.5" y2="91"/><line x1="430" y1="96" x2="430" y2="94"/>
+          <line x1="421" y1="93" x2="421.5" y2="91"/><line x1="413" y1="88" x2="414" y2="86.5"/>
+          <line x1="406" y1="82" x2="407.5" y2="80.5"/><line x1="401" y1="74" x2="402.5" y2="72.5"/>
+          <line x1="399" y1="65" x2="401" y2="65"/><line x1="401" y1="56" x2="403" y2="57"/>
+          <line x1="406" y1="48" x2="407.5" y2="49.5"/><line x1="413" y1="42" x2="414.5" y2="43.5"/>
+          <line x1="421" y1="37" x2="421.5" y2="39"/>
+        </g>
+        <!-- Black cap -->
         <circle cx="430" cy="65" r="24" fill="url(#ds-knob)"/>
+        <!-- White notch indicator at ~10 o'clock (SVG angle: 300° = upper-left) -->
+        <line x1="430" y1="65" x2="418" y2="45" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity="0.9"/>
       </g>
-      <!-- Tick marks: 7 o'clock (210°) to 5 o'clock (330°, going clockwise through top) -->
-      <g stroke="#999" stroke-width="0.8">
-        <line x1="430" y1="27" x2="430" y2="31"/><!-- 12 -->
-        <line x1="403" y1="34" x2="405" y2="38"/><!-- 10 -->
-        <line x1="393" y1="57" x2="397" y2="58"/><!-- 9 -->
-        <line x1="398" y1="90" x2="401" y2="87"/><!-- 7 (start) -->
-        <line x1="457" y1="34" x2="455" y2="38"/><!-- 2 -->
-        <line x1="467" y1="57" x2="463" y2="58"/><!-- 3 -->
-        <line x1="462" y1="90" x2="459" y2="87"/><!-- 5 (end) -->
-      </g>
-      <!-- White dot pointer at ~10 o'clock (300° in SVG = upper-left) -->
-      <circle cx="412" cy="43" r="2.5" fill="#fff"/>
-      <text x="400" y="108" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="5" fill="#555">MIN</text>
-      <text x="460" y="108" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="5" fill="#555">MAX</text>
 
-      <!-- ATTACK — pointer at ~12 o'clock (fast attack) -->
-      <text x="540" y="15" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" fill="#aaa" letter-spacing="1">ATTACK</text>
+      <!-- ATTACK — notch at ~12 o'clock -->
+      <text x="540" y="14" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6.5" fill="#ccc" letter-spacing="1.5">ATTACK</text>
+      <g font-family="JetBrains Mono, monospace" font-size="6" fill="#aaa" text-anchor="middle">
+        <text x="510" y="96">0</text>
+        <text x="513" y="76">2</text>
+        <text x="520" y="57">4</text>
+        <text x="533" y="41">6</text>
+        <text x="551" y="33">8</text>
+        <text x="570" y="37">10</text>
+      </g>
       <g filter="url(#ds-shadow)">
-        <circle cx="540" cy="65" r="30" fill="url(#ds-knob-rim)"/>
+        <circle cx="540" cy="65" r="31" fill="url(#ds-knob-rim)"/>
+        <g stroke="#555" stroke-width="0.5" opacity="0.6">
+          <line x1="540" y1="34" x2="540" y2="36"/><line x1="549" y1="34.5" x2="548.5" y2="36.5"/>
+          <line x1="557" y1="37" x2="556" y2="39"/><line x1="564" y1="42" x2="562.5" y2="43.5"/>
+          <line x1="569" y1="48" x2="567.5" y2="49.5"/><line x1="571" y1="56" x2="569" y2="57"/>
+          <line x1="571" y1="65" x2="569" y2="65"/><line x1="569" y1="74" x2="567.5" y2="72.5"/>
+          <line x1="564" y1="82" x2="562.5" y2="80.5"/><line x1="557" y1="88" x2="556" y2="86.5"/>
+          <line x1="549" y1="93" x2="548.5" y2="91"/><line x1="540" y1="96" x2="540" y2="94"/>
+          <line x1="531" y1="93" x2="531.5" y2="91"/><line x1="523" y1="88" x2="524" y2="86.5"/>
+          <line x1="516" y1="82" x2="517.5" y2="80.5"/><line x1="511" y1="74" x2="512.5" y2="72.5"/>
+          <line x1="509" y1="65" x2="511" y2="65"/><line x1="511" y1="56" x2="513" y2="57"/>
+          <line x1="516" y1="48" x2="517.5" y2="49.5"/><line x1="523" y1="42" x2="524.5" y2="43.5"/>
+          <line x1="531" y1="37" x2="531.5" y2="39"/>
+        </g>
         <circle cx="540" cy="65" r="24" fill="url(#ds-knob)"/>
+        <!-- Notch at 12 o'clock -->
+        <line x1="540" y1="65" x2="540" y2="43" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity="0.9"/>
       </g>
-      <g stroke="#999" stroke-width="0.8">
-        <line x1="540" y1="27" x2="540" y2="31"/>
-        <line x1="513" y1="34" x2="515" y2="38"/>
-        <line x1="503" y1="57" x2="507" y2="58"/>
-        <line x1="508" y1="90" x2="511" y2="87"/>
-        <line x1="567" y1="34" x2="565" y2="38"/>
-        <line x1="577" y1="57" x2="573" y2="58"/>
-        <line x1="572" y1="90" x2="569" y2="87"/>
-      </g>
-      <!-- Pointer at 12 o'clock -->
-      <circle cx="540" cy="37" r="2.5" fill="#fff"/>
-      <text x="510" y="108" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="5" fill="#555">FAST</text>
-      <text x="570" y="108" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="5" fill="#555">SLOW</text>
 
-      <!-- RELEASE — pointer at ~2 o'clock -->
-      <text x="650" y="15" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" fill="#aaa" letter-spacing="1">RELEASE</text>
+      <!-- RELEASE — notch at ~2 o'clock -->
+      <text x="650" y="14" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6.5" fill="#ccc" letter-spacing="1.5">RELEASE</text>
+      <g font-family="JetBrains Mono, monospace" font-size="6" fill="#aaa" text-anchor="middle">
+        <text x="620" y="96">0</text>
+        <text x="623" y="76">2</text>
+        <text x="630" y="57">4</text>
+        <text x="643" y="41">6</text>
+        <text x="661" y="33">8</text>
+        <text x="680" y="37">10</text>
+      </g>
       <g filter="url(#ds-shadow)">
-        <circle cx="650" cy="65" r="30" fill="url(#ds-knob-rim)"/>
+        <circle cx="650" cy="65" r="31" fill="url(#ds-knob-rim)"/>
+        <g stroke="#555" stroke-width="0.5" opacity="0.6">
+          <line x1="650" y1="34" x2="650" y2="36"/><line x1="659" y1="34.5" x2="658.5" y2="36.5"/>
+          <line x1="667" y1="37" x2="666" y2="39"/><line x1="674" y1="42" x2="672.5" y2="43.5"/>
+          <line x1="679" y1="48" x2="677.5" y2="49.5"/><line x1="681" y1="56" x2="679" y2="57"/>
+          <line x1="681" y1="65" x2="679" y2="65"/><line x1="679" y1="74" x2="677.5" y2="72.5"/>
+          <line x1="674" y1="82" x2="672.5" y2="80.5"/><line x1="667" y1="88" x2="666" y2="86.5"/>
+          <line x1="659" y1="93" x2="658.5" y2="91"/><line x1="650" y1="96" x2="650" y2="94"/>
+          <line x1="641" y1="93" x2="641.5" y2="91"/><line x1="633" y1="88" x2="634" y2="86.5"/>
+          <line x1="626" y1="82" x2="627.5" y2="80.5"/><line x1="621" y1="74" x2="622.5" y2="72.5"/>
+          <line x1="619" y1="65" x2="621" y2="65"/><line x1="621" y1="56" x2="623" y2="57"/>
+          <line x1="626" y1="48" x2="627.5" y2="49.5"/><line x1="633" y1="42" x2="634.5" y2="43.5"/>
+          <line x1="641" y1="37" x2="641.5" y2="39"/>
+        </g>
         <circle cx="650" cy="65" r="24" fill="url(#ds-knob)"/>
+        <!-- Notch at ~2 o'clock -->
+        <line x1="650" y1="65" x2="665" y2="46" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity="0.9"/>
       </g>
-      <g stroke="#999" stroke-width="0.8">
-        <line x1="650" y1="27" x2="650" y2="31"/>
-        <line x1="623" y1="34" x2="625" y2="38"/>
-        <line x1="613" y1="57" x2="617" y2="58"/>
-        <line x1="618" y1="90" x2="621" y2="87"/>
-        <line x1="677" y1="34" x2="675" y2="38"/>
-        <line x1="687" y1="57" x2="683" y2="58"/>
-        <line x1="682" y1="90" x2="679" y2="87"/>
-      </g>
-      <!-- Pointer at ~2 o'clock -->
-      <circle cx="668" cy="41" r="2.5" fill="#fff"/>
-      <text x="620" y="108" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="5" fill="#555">FAST</text>
-      <text x="680" y="108" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="5" fill="#555">SLOW</text>
 
-      <!-- OUTPUT — pointer at ~11 o'clock -->
-      <text x="760" y="15" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" fill="#aaa" letter-spacing="1">OUTPUT</text>
+      <!-- OUTPUT — notch at ~11 o'clock -->
+      <text x="760" y="14" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6.5" fill="#ccc" letter-spacing="1.5">OUTPUT</text>
+      <g font-family="JetBrains Mono, monospace" font-size="6" fill="#aaa" text-anchor="middle">
+        <text x="730" y="96">0</text>
+        <text x="733" y="76">2</text>
+        <text x="740" y="57">4</text>
+        <text x="753" y="41">6</text>
+        <text x="771" y="33">8</text>
+        <text x="790" y="37">10</text>
+      </g>
       <g filter="url(#ds-shadow)">
-        <circle cx="760" cy="65" r="30" fill="url(#ds-knob-rim)"/>
+        <circle cx="760" cy="65" r="31" fill="url(#ds-knob-rim)"/>
+        <g stroke="#555" stroke-width="0.5" opacity="0.6">
+          <line x1="760" y1="34" x2="760" y2="36"/><line x1="769" y1="34.5" x2="768.5" y2="36.5"/>
+          <line x1="777" y1="37" x2="776" y2="39"/><line x1="784" y1="42" x2="782.5" y2="43.5"/>
+          <line x1="789" y1="48" x2="787.5" y2="49.5"/><line x1="791" y1="56" x2="789" y2="57"/>
+          <line x1="791" y1="65" x2="789" y2="65"/><line x1="789" y1="74" x2="787.5" y2="72.5"/>
+          <line x1="784" y1="82" x2="782.5" y2="80.5"/><line x1="777" y1="88" x2="776" y2="86.5"/>
+          <line x1="769" y1="93" x2="768.5" y2="91"/><line x1="760" y1="96" x2="760" y2="94"/>
+          <line x1="751" y1="93" x2="751.5" y2="91"/><line x1="743" y1="88" x2="744" y2="86.5"/>
+          <line x1="736" y1="82" x2="737.5" y2="80.5"/><line x1="731" y1="74" x2="732.5" y2="72.5"/>
+          <line x1="729" y1="65" x2="731" y2="65"/><line x1="731" y1="56" x2="733" y2="57"/>
+          <line x1="736" y1="48" x2="737.5" y2="49.5"/><line x1="743" y1="42" x2="744.5" y2="43.5"/>
+          <line x1="751" y1="37" x2="751.5" y2="39"/>
+        </g>
         <circle cx="760" cy="65" r="24" fill="url(#ds-knob)"/>
+        <!-- Notch at ~11 o'clock -->
+        <line x1="760" y1="65" x2="745" y2="46" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity="0.9"/>
       </g>
-      <g stroke="#999" stroke-width="0.8">
-        <line x1="760" y1="27" x2="760" y2="31"/>
-        <line x1="733" y1="34" x2="735" y2="38"/>
-        <line x1="723" y1="57" x2="727" y2="58"/>
-        <line x1="728" y1="90" x2="731" y2="87"/>
-        <line x1="787" y1="34" x2="785" y2="38"/>
-        <line x1="797" y1="57" x2="793" y2="58"/>
-        <line x1="792" y1="90" x2="789" y2="87"/>
-      </g>
-      <!-- Pointer at ~11 o'clock -->
-      <circle cx="743" cy="40" r="2.5" fill="#fff"/>
-      <text x="730" y="108" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="5" fill="#555">MIN</text>
-      <text x="790" y="108" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="5" fill="#555">MAX</text>
 
       <!-- ===== POWER LED ===== -->
       <text x="870" y="42" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="5" fill="#999">POWER</text>
