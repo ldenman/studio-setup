@@ -11,17 +11,20 @@ import Base from '../layouts/Base.astro';
   <div class="panel-hero">
     <svg viewBox="0 0 960 130" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <radialGradient id="ds-knob" cx="50%" cy="38%" r="55%">
-          <stop offset="0%" stop-color="#f0ece0"/>
-          <stop offset="40%" stop-color="#e0dcd0"/>
-          <stop offset="100%" stop-color="#c8c4b8"/>
+        <!-- Dark knob body -->
+        <radialGradient id="ds-knob" cx="40%" cy="35%" r="60%">
+          <stop offset="0%" stop-color="#3a3a3a"/>
+          <stop offset="60%" stop-color="#1e1e1e"/>
+          <stop offset="100%" stop-color="#111"/>
         </radialGradient>
-        <radialGradient id="ds-knob-rim" cx="50%" cy="40%" r="50%">
-          <stop offset="0%" stop-color="#d8d4c8"/>
-          <stop offset="100%" stop-color="#a09888"/>
+        <!-- Silver/chrome outer rim -->
+        <radialGradient id="ds-knob-rim" cx="40%" cy="30%" r="60%">
+          <stop offset="0%" stop-color="#b0b0b0"/>
+          <stop offset="50%" stop-color="#888"/>
+          <stop offset="100%" stop-color="#555"/>
         </radialGradient>
         <filter id="ds-shadow">
-          <feDropShadow dx="0" dy="1" stdDeviation="1.5" flood-color="#000" flood-opacity="0.4"/>
+          <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000" flood-opacity="0.6"/>
         </filter>
       </defs>
 
@@ -130,86 +133,87 @@ import Base from '../layouts/Base.astro';
       <text x="55" y="68" font-family="Georgia, 'Times New Roman', serif" font-size="22" fill="#fff" font-style="italic" font-weight="bold" letter-spacing="-0.5">Distressor</text>
       <text x="55" y="82" font-family="JetBrains Mono, monospace" font-size="5.5" fill="#999" letter-spacing="0.8">EMPIRICAL LABS</text>
 
-      <!-- ===== INPUT KNOB ===== -->
+      <!-- ===== KNOB MACRO: dark body, silver rim, white dot pointer, tick marks ===== -->
+      <!-- INPUT — pointer at ~8 o'clock (210°) = medium-high input -->
+      <text x="430" y="15" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" fill="#aaa" letter-spacing="1">INPUT</text>
       <g filter="url(#ds-shadow)">
-        <circle cx="430" cy="65" r="28" fill="url(#ds-knob-rim)" stroke="#888" stroke-width="0.5"/>
+        <circle cx="430" cy="65" r="30" fill="url(#ds-knob-rim)"/>
         <circle cx="430" cy="65" r="24" fill="url(#ds-knob)"/>
-        <!-- Pointer (rotated to ~10 o'clock = medium input) -->
-        <line x1="430" y1="65" x2="418" y2="48" stroke="#333" stroke-width="2.5" stroke-linecap="round"/>
       </g>
-      <!-- Tick marks around knob -->
-      <g fill="none" stroke="#777" stroke-width="0.6">
-        <line x1="430" y1="30" x2="430" y2="33"/>
-        <line x1="410" y1="35" x2="412" y2="38"/>
-        <line x1="397" y1="50" x2="400" y2="52"/>
-        <line x1="395" y1="65" x2="398" y2="65"/>
-        <line x1="397" y1="80" x2="400" y2="78"/>
-        <line x1="450" y1="35" x2="448" y2="38"/>
-        <line x1="463" y1="50" x2="460" y2="52"/>
-        <line x1="465" y1="65" x2="462" y2="65"/>
-        <line x1="463" y1="80" x2="460" y2="78"/>
+      <!-- Tick marks: 7 o'clock (210°) to 5 o'clock (330°, going clockwise through top) -->
+      <g stroke="#999" stroke-width="0.8">
+        <line x1="430" y1="27" x2="430" y2="31"/><!-- 12 -->
+        <line x1="403" y1="34" x2="405" y2="38"/><!-- 10 -->
+        <line x1="393" y1="57" x2="397" y2="58"/><!-- 9 -->
+        <line x1="398" y1="90" x2="401" y2="87"/><!-- 7 (start) -->
+        <line x1="457" y1="34" x2="455" y2="38"/><!-- 2 -->
+        <line x1="467" y1="57" x2="463" y2="58"/><!-- 3 -->
+        <line x1="462" y1="90" x2="459" y2="87"/><!-- 5 (end) -->
       </g>
-      <text x="430" y="15" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" fill="#ccc">INPUT</text>
+      <!-- White dot pointer at ~10 o'clock (300° in SVG = upper-left) -->
+      <circle cx="412" cy="43" r="2.5" fill="#fff"/>
+      <text x="400" y="108" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="5" fill="#555">MIN</text>
+      <text x="460" y="108" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="5" fill="#555">MAX</text>
 
-      <!-- ===== ATTACK KNOB ===== -->
+      <!-- ATTACK — pointer at ~12 o'clock (fast attack) -->
+      <text x="540" y="15" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" fill="#aaa" letter-spacing="1">ATTACK</text>
       <g filter="url(#ds-shadow)">
-        <circle cx="540" cy="65" r="28" fill="url(#ds-knob-rim)" stroke="#888" stroke-width="0.5"/>
+        <circle cx="540" cy="65" r="30" fill="url(#ds-knob-rim)"/>
         <circle cx="540" cy="65" r="24" fill="url(#ds-knob)"/>
-        <!-- Pointer (medium attack, ~12 o'clock) -->
-        <line x1="540" y1="65" x2="540" y2="44" stroke="#333" stroke-width="2.5" stroke-linecap="round"/>
       </g>
-      <g fill="none" stroke="#777" stroke-width="0.6">
-        <line x1="540" y1="30" x2="540" y2="33"/>
-        <line x1="520" y1="35" x2="522" y2="38"/>
-        <line x1="507" y1="50" x2="510" y2="52"/>
-        <line x1="505" y1="65" x2="508" y2="65"/>
-        <line x1="507" y1="80" x2="510" y2="78"/>
-        <line x1="560" y1="35" x2="558" y2="38"/>
-        <line x1="573" y1="50" x2="570" y2="52"/>
-        <line x1="575" y1="65" x2="572" y2="65"/>
-        <line x1="573" y1="80" x2="570" y2="78"/>
+      <g stroke="#999" stroke-width="0.8">
+        <line x1="540" y1="27" x2="540" y2="31"/>
+        <line x1="513" y1="34" x2="515" y2="38"/>
+        <line x1="503" y1="57" x2="507" y2="58"/>
+        <line x1="508" y1="90" x2="511" y2="87"/>
+        <line x1="567" y1="34" x2="565" y2="38"/>
+        <line x1="577" y1="57" x2="573" y2="58"/>
+        <line x1="572" y1="90" x2="569" y2="87"/>
       </g>
-      <text x="540" y="15" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" fill="#ccc">ATTACK</text>
+      <!-- Pointer at 12 o'clock -->
+      <circle cx="540" cy="37" r="2.5" fill="#fff"/>
+      <text x="510" y="108" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="5" fill="#555">FAST</text>
+      <text x="570" y="108" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="5" fill="#555">SLOW</text>
 
-      <!-- ===== RELEASE KNOB ===== -->
+      <!-- RELEASE — pointer at ~2 o'clock -->
+      <text x="650" y="15" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" fill="#aaa" letter-spacing="1">RELEASE</text>
       <g filter="url(#ds-shadow)">
-        <circle cx="650" cy="65" r="28" fill="url(#ds-knob-rim)" stroke="#888" stroke-width="0.5"/>
+        <circle cx="650" cy="65" r="30" fill="url(#ds-knob-rim)"/>
         <circle cx="650" cy="65" r="24" fill="url(#ds-knob)"/>
-        <!-- Pointer (medium-fast release, ~1 o'clock) -->
-        <line x1="650" y1="65" x2="661" y2="46" stroke="#333" stroke-width="2.5" stroke-linecap="round"/>
       </g>
-      <g fill="none" stroke="#777" stroke-width="0.6">
-        <line x1="650" y1="30" x2="650" y2="33"/>
-        <line x1="630" y1="35" x2="632" y2="38"/>
-        <line x1="617" y1="50" x2="620" y2="52"/>
-        <line x1="615" y1="65" x2="618" y2="65"/>
-        <line x1="617" y1="80" x2="620" y2="78"/>
-        <line x1="670" y1="35" x2="668" y2="38"/>
-        <line x1="683" y1="50" x2="680" y2="52"/>
-        <line x1="685" y1="65" x2="682" y2="65"/>
-        <line x1="683" y1="80" x2="680" y2="78"/>
+      <g stroke="#999" stroke-width="0.8">
+        <line x1="650" y1="27" x2="650" y2="31"/>
+        <line x1="623" y1="34" x2="625" y2="38"/>
+        <line x1="613" y1="57" x2="617" y2="58"/>
+        <line x1="618" y1="90" x2="621" y2="87"/>
+        <line x1="677" y1="34" x2="675" y2="38"/>
+        <line x1="687" y1="57" x2="683" y2="58"/>
+        <line x1="682" y1="90" x2="679" y2="87"/>
       </g>
-      <text x="650" y="15" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" fill="#ccc">RELEASE</text>
+      <!-- Pointer at ~2 o'clock -->
+      <circle cx="668" cy="41" r="2.5" fill="#fff"/>
+      <text x="620" y="108" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="5" fill="#555">FAST</text>
+      <text x="680" y="108" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="5" fill="#555">SLOW</text>
 
-      <!-- ===== OUTPUT KNOB ===== -->
+      <!-- OUTPUT — pointer at ~11 o'clock -->
+      <text x="760" y="15" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" fill="#aaa" letter-spacing="1">OUTPUT</text>
       <g filter="url(#ds-shadow)">
-        <circle cx="760" cy="65" r="28" fill="url(#ds-knob-rim)" stroke="#888" stroke-width="0.5"/>
+        <circle cx="760" cy="65" r="30" fill="url(#ds-knob-rim)"/>
         <circle cx="760" cy="65" r="24" fill="url(#ds-knob)"/>
-        <!-- Pointer (~11 o'clock) -->
-        <line x1="760" y1="65" x2="750" y2="46" stroke="#333" stroke-width="2.5" stroke-linecap="round"/>
       </g>
-      <g fill="none" stroke="#777" stroke-width="0.6">
-        <line x1="760" y1="30" x2="760" y2="33"/>
-        <line x1="740" y1="35" x2="742" y2="38"/>
-        <line x1="727" y1="50" x2="730" y2="52"/>
-        <line x1="725" y1="65" x2="728" y2="65"/>
-        <line x1="727" y1="80" x2="730" y2="78"/>
-        <line x1="780" y1="35" x2="778" y2="38"/>
-        <line x1="793" y1="50" x2="790" y2="52"/>
-        <line x1="795" y1="65" x2="792" y2="65"/>
-        <line x1="793" y1="80" x2="790" y2="78"/>
+      <g stroke="#999" stroke-width="0.8">
+        <line x1="760" y1="27" x2="760" y2="31"/>
+        <line x1="733" y1="34" x2="735" y2="38"/>
+        <line x1="723" y1="57" x2="727" y2="58"/>
+        <line x1="728" y1="90" x2="731" y2="87"/>
+        <line x1="787" y1="34" x2="785" y2="38"/>
+        <line x1="797" y1="57" x2="793" y2="58"/>
+        <line x1="792" y1="90" x2="789" y2="87"/>
       </g>
-      <text x="760" y="15" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" fill="#ccc">OUTPUT</text>
+      <!-- Pointer at ~11 o'clock -->
+      <circle cx="743" cy="40" r="2.5" fill="#fff"/>
+      <text x="730" y="108" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="5" fill="#555">MIN</text>
+      <text x="790" y="108" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="5" fill="#555">MAX</text>
 
       <!-- ===== POWER LED ===== -->
       <text x="870" y="42" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="5" fill="#999">POWER</text>
