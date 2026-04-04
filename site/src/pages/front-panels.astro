@@ -12,7 +12,7 @@ import Base from '../layouts/Base.astro';
   <div class="gear-grid">
 
     <!-- HA73 -->
-    <div class="gear-card">
+    <a href="/ha73" class="gear-card">
       <div class="gear-panel">
         <svg viewBox="0 0 480 120">
           <rect x="2" y="2" width="476" height="116" rx="4" fill="#1a1815" stroke="#b8792a" stroke-width="1.2"/>
@@ -49,10 +49,10 @@ import Base from '../layouts/Base.astro';
         <p>Dual-channel Neve 1073-style preamp with three-band EQ. The front end of both the vocal and guitar chains. Class A transformer-coupled gain stage.</p>
         <div class="gear-spec">Ch A: Vocal (SM7B, 58dB gain)<br>Ch B: Guitar return (post amp sim)<br>Signal: Ch1/Ch2 → Out 1/2 → HA73 → WA76</div>
       </div>
-    </div>
+    </a>
 
     <!-- WA76 -->
-    <div class="gear-card">
+    <a href="/wa76" class="gear-card">
       <div class="gear-panel">
         <svg viewBox="0 0 480 120">
           <rect x="2" y="2" width="476" height="116" rx="4" fill="#1a1815" stroke="#4a7a9a" stroke-width="1.2"/>
@@ -93,10 +93,10 @@ import Base from '../layouts/Base.astro';
         <p>Dual 1176-style FET compressor. Fast attack, program-dependent release. Ratio at 8:1 for vocals, 4:1 for guitar. Always in the chain.</p>
         <div class="gear-spec">Ch A: Vocal (post HA73 A)<br>Ch B: Guitar (post HA73 B)<br>Signal: HA73 → WA76 → Distressor/Opto</div>
       </div>
-    </div>
+    </a>
 
     <!-- Wing Rack -->
-    <div class="gear-card">
+    <a href="/rack" class="gear-card">
       <div class="gear-panel">
         <svg viewBox="0 0 480 120">
           <rect x="2" y="2" width="476" height="116" rx="4" fill="#1a1815" stroke="#68635a" stroke-width="1.2"/>
@@ -141,7 +141,7 @@ import Base from '../layouts/Base.astro';
         <p>48 channels, 16 buses, 8 matrices, 16 FX slots. OSC-controlled at 192.168.2.2. Handles all routing, monitoring, amp sims, and FX processing.</p>
         <div class="gear-spec">40 inputs / 24 outputs / 48kHz<br>USB 1–6: recording to Logic<br>Amp sims: DELUXE, ANGEL, RACKAMP</div>
       </div>
-    </div>
+    </a>
 
   </div>
 </Base>
@@ -161,7 +161,12 @@ import Base from '../layouts/Base.astro';
     min-height: 280px;
     border-radius: 4px;
     overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.15s;
+    cursor: pointer;
   }
+  .gear-card:hover { border-color: var(--amber); }
 
   .gear-panel {
     background: #111110;
