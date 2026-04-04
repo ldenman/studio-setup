@@ -22,7 +22,7 @@ const sections = [
     { num: '1.3', label: 'Mixing',       href: '/mixing',       id: 'mixing' },
     { num: '1.4', label: 'Routing',      href: '/routing',      id: 'routing' },
   ]},
-  { num: '02', label: 'Gear', items: [
+  { num: '02', label: 'Gear', href: '/front-panels', items: [
     { num: '',    label: 'The Chain',        href: '/front-panels', id: 'front-panels' },
     { num: '2.1', label: 'HA73-EQX2',       href: '/ha73',         id: 'rack' },
     { num: '2.2', label: 'WA76-D2',         href: '/wa76',         id: 'wa76' },
@@ -69,7 +69,10 @@ const sections = [
           <div class="sidebar__section">
             <div class="sidebar__section-label">
               <span class="sidebar__section-num">{section.num}</span>
-              <span class="sidebar__section-text">{section.label}</span>
+              {section.href
+                ? <a href={section.href} class="sidebar__section-text">{section.label}</a>
+                : <span class="sidebar__section-text">{section.label}</span>
+              }
             </div>
             <ul class="sidebar__items">
               {section.items.map(item => (

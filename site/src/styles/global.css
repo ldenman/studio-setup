@@ -189,7 +189,9 @@ pre code {
   letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--sidebar-text);
+  text-decoration: none;
 }
+a.sidebar__section-text:hover { color: var(--sidebar-text-bright); }
 .sidebar__items { list-style: none; }
 .sidebar__item a {
   display: flex;
