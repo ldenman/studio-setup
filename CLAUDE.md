@@ -276,6 +276,29 @@ tools/wingctl info
 - Always use `/io/in/LCL/N/...` for names and colors, `/ch/N/...` for everything else
 - Keep responses short. You're in a session — don't waste time talking when you could be doing.
 
+## Content Mining — Use Scripts, Not File Reads
+
+**Never read individual content files to survey what exists.** Use shell scripts and grep to mine content at scale:
+
+```sh
+# All blog post titles + descriptions
+grep -h '^title:\|^description:' site/src/content/blog/*.md | paste - -
+
+# All blog tags
+grep -h '^tags:' site/src/content/blog/*.md | sort | uniq -c | sort -rn
+
+# Page headings across all pages
+grep -rn '<h1\|<h2\|<h3' site/src/pages/*.astro | grep -v 'class=\|import'
+
+# Word count per blog post
+wc -w site/src/content/blog/*.md | sort -n
+
+# Posts missing a field
+grep -rL '^hero:' site/src/content/blog/
+```
+
+Use scripts for: surveying content, finding gaps, counting posts, extracting metadata, identifying stubs. Only `Read` a specific file when you need to edit it or reference exact wording.
+
 ## !IMPORTANT! — Session Lessons
 
 **At the end of every session**, update `docs/session-lessons.md` with what was learned. This is mandatory. Cover:
