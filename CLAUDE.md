@@ -276,6 +276,16 @@ tools/wingctl info
 - Always use `/io/in/LCL/N/...` for names and colors, `/ch/N/...` for everything else
 - Keep responses short. You're in a session — don't waste time talking when you could be doing.
 
+## !IMPORTANT! — Listen and Execute
+
+**Do not be lazy. Listen carefully to every instruction and follow it completely.**
+
+- If Lake gives a specific instruction, execute it exactly — do not approximate, skip steps, or decide it's "close enough"
+- If Lake says to do X a certain way, do it that way — don't substitute your own judgment for his
+- If an instruction was given earlier in the conversation and not yet done, it is still outstanding — go do it
+- **This applies to all subagents too.** When spawning agents (designer, blog, copy, docs, etc.), pass the full context of what Lake wants, including any specific constraints or preferences he stated. Do not let agents drift from the brief.
+- When in doubt about what was asked: re-read the conversation, then act. Don't ask unless genuinely ambiguous.
+
 ## Content Mining — Use Scripts, Not File Reads
 
 **Never read individual content files to survey what exists.** Use shell scripts and grep to mine content at scale:
