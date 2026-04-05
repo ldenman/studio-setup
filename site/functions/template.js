@@ -4,7 +4,7 @@ export function getTemplate({ redirectPath, withError }) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Buffalo Shoals</title>
+  <title>Lake's Studio</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: #1a1a1a; color: #eee; font-family: 'Courier New', monospace; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
@@ -19,7 +19,7 @@ export function getTemplate({ redirectPath, withError }) {
 </head>
 <body>
   <div class="login">
-    <div class="logo">// BUFFALO SHOALS</div>
+    <div class="logo">// LAKE'S STUDIO</div>
     ${withError ? '<p class="error">wrong password</p>' : ''}
     <form method="post" action="/cfp_login">
       <input type="hidden" name="redirect" value="${redirectPath}" />

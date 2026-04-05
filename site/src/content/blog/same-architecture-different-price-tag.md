@@ -20,7 +20,7 @@ The outboard rack is the character. Neve 1073 preamps, Universal Audio 1176 comp
 
 These three pieces work simultaneously. While the tape machine plays back six tracks of a rhythm section through six console channels, the vocalist is singing through a seventh channel that routes through the outboard and records to a seventh track on the tape machine. Live performance and playback, running at the same time, on completely independent signal paths. No mode switching. No stopping the tape to reconfigure the board. The console handles both because that's what consoles do.
 
-## The Buffalo Shoals Mapping
+## The Studio Mapping
 
 The Behringer Wing Rack is the console. It handles routing, monitoring, and summing — the same three jobs as an SSL. Every signal in the studio passes through it. Microphones come in on the local inputs. Logic Pro sends tracks back over USB. The Wing routes everything to headphones, to the outboard rack, to the recording bus, to the mixing console. Forty channels, sixteen buses, eight matrices. It's a fraction of the channel count of a large-format console, but the architecture is the same.
 
