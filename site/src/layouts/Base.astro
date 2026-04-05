@@ -146,7 +146,132 @@ const sections = [
       overlay?.classList.remove('open');
     });
 
-    // ── SVG breathing ──
+    // ── SVG breathing (non-blog pages) ──
+    (function() {
+      if (document.getElementById('article-body')) return;
+
+      const bTargets = [];
+      const cTargets = [];
+      const wiggleTargets = [];
+
+      function hexToHSL(hex) {
+        hex = hex.replace('#', '');
+        if (hex.length === 3) hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+        const r = parseInt(hex.substring(0,2), 16) / 255;
+        const g = parseInt(hex.substring(2,4), 16) / 255;
+        const b = parseInt(hex.substring(4,6), 16) / 255;
+        const max = Math.max(r, g, b), min = Math.min(r, g, b);
+        let h, s, l = (max + min) / 2;
+        if (max === min) { h = s = 0; }
+        else {
+          const d = max - min;
+          s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+          if (max === r) h = ((g - b) / d + (g < b ? 6 : 0)) / 6;
+          else if (max === g) h = ((b - r) / d + 2) / 6;
+          else h = ((r - g) / d + 4) / 6;
+        }
+        return [h * 360, s * 100, l * 100];
+      }
+
+      function hslToStr(h, s, l) {
+        return 'hsl(' + h.toFixed(1) + ', ' + s.toFixed(1) + '%, ' + l.toFixed(1) + '%)';
+      }
+
+      function addColorShift(el, attr) {
+        const val = el.getAttribute(attr);
+        if (!val || val === 'none' || !val.startsWith('#') || val.length < 4) return;
+        const [h, s, l] = hexToHSL(val);
+        if (s < 3) {
+          cTargets.push({ el, attr, h: h || 30, s: 0, l, hueAmount: 60 + Math.random() * 40, satAmount: 8 + Math.random() * 6, speed: 0.06 + Math.random() * 0.06, offset: Math.random() * Math.PI * 2 });
+        } else {
+          cTargets.push({ el, attr, h, s, l, hueAmount: 45 + Math.random() * 30, speed: 0.06 + Math.random() * 0.06, offset: Math.random() * Math.PI * 2 });
+        }
+      }
+
+      document.querySelectorAll('.content-body svg').forEach(svg => {
+        const all = Array.from(svg.querySelectorAll('*'));
+        for (const el of all) {
+          const tag = el.tagName.toLowerCase();
+          if (['defs','lineargradient','radialgradient','stop','filter','svg','g','animate','text'].includes(tag)) continue;
+          addColorShift(el, 'fill');
+          addColorShift(el, 'stroke');
+          const s = 0.25 + Math.random() * 0.25, p = Math.random() * Math.PI * 2;
+          if (tag === 'circle') {
+            const r = parseFloat(el.getAttribute('r'));
+            if (r > 0) bTargets.push({ el, attr: 'r', base: r, amount: r * 0.08, speed: s, offset: p });
+          } else if (tag === 'ellipse') {
+            const rx = parseFloat(el.getAttribute('rx'));
+            const ry = parseFloat(el.getAttribute('ry'));
+            if (rx > 0) bTargets.push({ el, attr: 'rx', base: rx, amount: rx * 0.08, speed: s, offset: p });
+            if (ry > 0) bTargets.push({ el, attr: 'ry', base: ry, amount: ry * 0.08, speed: s, offset: p });
+          } else if (tag === 'rect') {
+            const w = parseFloat(el.getAttribute('width')), h = parseFloat(el.getAttribute('height'));
+            if (w >= 400 && h >= 200) continue;
+            if (w <= 10 || h <= 10) continue;
+            if (w < 200 && h < 100) {
+              const x = parseFloat(el.getAttribute('x')), y = parseFloat(el.getAttribute('y'));
+              const dw = Math.max(4, Math.min(14, w * 0.07));
+              const dh = Math.max(4, Math.min(14, h * 0.07));
+              bTargets.push({ el, attr: 'width', base: w, amount: dw, speed: s, offset: p });
+              bTargets.push({ el, attr: 'height', base: h, amount: dh, speed: s, offset: p });
+              if (!isNaN(x)) bTargets.push({ el, attr: 'x', base: x, amount: -dw / 2, speed: s, offset: p });
+              if (!isNaN(y)) bTargets.push({ el, attr: 'y', base: y, amount: -dh / 2, speed: s, offset: p });
+            }
+            const sw = parseFloat(el.getAttribute('stroke-width') || '0');
+            if (sw > 0) bTargets.push({ el, attr: 'stroke-width', base: sw, amount: sw * 0.3, speed: s, offset: p });
+          } else if (tag === 'line') {
+            const sw = parseFloat(el.getAttribute('stroke-width') || '1');
+            const op = parseFloat(el.getAttribute('opacity') || '1');
+            bTargets.push({ el, attr: 'stroke-width', base: sw, amount: Math.max(0.5, sw * 0.5), speed: s, offset: p });
+            bTargets.push({ el, attr: 'opacity', base: op, amount: op * 0.2, speed: s * 0.7, offset: p });
+          } else if (tag === 'path') {
+            const sw = parseFloat(el.getAttribute('stroke-width') || '0');
+            if (sw > 0) bTargets.push({ el, attr: 'stroke-width', base: sw, amount: Math.max(0.5, sw * 0.5), speed: s, offset: p });
+            const op = parseFloat(el.getAttribute('opacity') || '1');
+            bTargets.push({ el, attr: 'opacity', base: op, amount: op * 0.2, speed: s * 0.7, offset: p });
+            // Path wiggle
+            const d = el.getAttribute('d') || '';
+            if (d && sw > 0) {
+              const nums = d.match(/-?\d+\.?\d*/g);
+              if (nums && nums.length >= 4) {
+                wiggleTargets.push({ path: el, baseD: d, nums: nums.map(Number), speed: 0.5 + Math.random() * 0.5, amplitude: 3 + Math.random() * 2, phase: p, isPath: true });
+              }
+            }
+          } else if (tag === 'polygon') {
+            const op = parseFloat(el.getAttribute('opacity') || '1');
+            bTargets.push({ el, attr: 'opacity', base: op, amount: op * 0.15, speed: s, offset: p });
+          }
+        }
+      });
+
+      if (bTargets.length === 0 && cTargets.length === 0 && wiggleTargets.length === 0) return;
+
+      function tick(time) {
+        const t = time / 1000;
+        for (const b of bTargets) {
+          const val = b.base + Math.sin(t * b.speed + b.offset) * b.amount;
+          b.el.setAttribute(b.attr, String(Math.max(0.1, val)));
+        }
+        for (const c of cTargets) {
+          const hue = c.h + Math.sin(t * c.speed + c.offset) * c.hueAmount;
+          const sat = c.s + (c.satAmount ? Math.sin(t * c.speed * 0.7 + c.offset) * c.satAmount : 0);
+          c.el.setAttribute(c.attr, hslToStr(hue, Math.max(0, sat), c.l));
+        }
+        for (const w of wiggleTargets) {
+          const amp = Math.sin(t * 0.3 + w.phase) * w.amplitude;
+          let ni = 0;
+          const newD = w.baseD.replace(/-?\d+\.?\d*/g, function() {
+            const orig = w.nums[ni];
+            const wiggle = Math.sin(t * w.speed + ni * 0.7 + w.phase) * amp;
+            ni++;
+            return (orig + wiggle).toFixed(1);
+          });
+          w.path.setAttribute('d', newD);
+        }
+        requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    })();
   </script>
 </body>
 </html>

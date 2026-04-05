@@ -380,7 +380,7 @@ const { Content } = await render(post);
             const [fMin, fMax] = faderRange.split(',').map(Number);
             const mid = (fMin + fMax) / 2;
             const range = (fMax - fMin) / 2;
-            bTargets.push({ el, attr: 'y', base: mid, amount: range * 0.8, speed: 0.15 + Math.random() * 0.12, offset: p });
+            bTargets.push({ el, attr: 'y', base: mid, amount: range * 0.8, speed: 0.05 + Math.random() * 0.04, offset: p });
             continue;
           }
 
@@ -397,81 +397,22 @@ const { Content } = await render(post);
             }
           }
 
-          if (w > 10 && h > 10) {
-            // Replace rect with a wiggling path border
-            const stroke = el.getAttribute('stroke');
-            const strokeW = el.getAttribute('stroke-width') || '1';
-            const fill = el.getAttribute('fill') || 'none';
-            const op = el.getAttribute('opacity');
-            const rx2 = parseFloat(el.getAttribute('rx') || '0');
-
-            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-            if (stroke) path.setAttribute('stroke', stroke);
-            path.setAttribute('stroke-width', strokeW);
-            path.setAttribute('fill', fill);
-            if (op) path.setAttribute('opacity', op);
-            el.parentNode.replaceChild(path, el);
-
-            const segsPerUnit = 1/10;
-            const topSegs = Math.max(4, Math.floor(w * segsPerUnit));
-            const sideSegs = Math.max(4, Math.floor(h * segsPerUnit));
-
-            wiggleTargets.push({
-              path: path,
-              rectX: x || 0, rectY: y || 0, rectW: w, rectH: h,
-              topSegs: topSegs, sideSegs: sideSegs,
-              speed: 0.3 + Math.random() * 0.3,
-              amplitude: 1.2 + Math.random() * 0.6,
-              phase: Math.random() * Math.PI * 2,
-              waveFreq: 1 + Math.random() * 0.8,
-              isRect: true
-            });
-
-            addColorShift(path, 'stroke');
-            addColorShift(path, 'fill');
+          if (w > 10 && h > 10 && !wrapsText) {
+            const dw = Math.max(4, Math.min(14, w * 0.07));
+            const dh = Math.max(4, Math.min(14, h * 0.07));
+            bTargets.push({ el, attr: 'width', base: w, amount: dw, speed: s, offset: p });
+            bTargets.push({ el, attr: 'height', base: h, amount: dh, speed: s, offset: p });
+            if (!isNaN(x)) bTargets.push({ el, attr: 'x', base: x, amount: -dw / 2, speed: s, offset: p });
+            if (!isNaN(y)) bTargets.push({ el, attr: 'y', base: y, amount: -dh / 2, speed: s, offset: p });
           }
+          const sw2 = parseFloat(el.getAttribute('stroke-width') || '0');
+          if (sw2 > 0) bTargets.push({ el, attr: 'stroke-width', base: sw2, amount: sw2 * 0.3, speed: s, offset: p });
         }
         else if (tag === 'line') {
-          const x1 = parseFloat(el.getAttribute('x1'));
-          const y1 = parseFloat(el.getAttribute('y1'));
-          const x2 = parseFloat(el.getAttribute('x2'));
-          const y2 = parseFloat(el.getAttribute('y2'));
-          const stroke = el.getAttribute('stroke');
-          const sw = el.getAttribute('stroke-width') || '1';
-          const op = el.getAttribute('opacity');
-          const dash = el.getAttribute('stroke-dasharray');
-          const cap = el.getAttribute('stroke-linecap');
-
-          const dx = x2 - x1, dy = y2 - y1;
-          const len = Math.sqrt(dx * dx + dy * dy);
-          if (len < 5) continue; // skip tiny lines
-
-          // Replace line with a path
-          const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-          path.setAttribute('stroke', stroke);
-          path.setAttribute('stroke-width', sw);
-          path.setAttribute('fill', 'none');
-          if (op) path.setAttribute('opacity', op);
-          if (dash) path.setAttribute('stroke-dasharray', dash);
-          if (cap) path.setAttribute('stroke-linecap', cap);
-          el.parentNode.replaceChild(path, el);
-
-          const nx = -dy / len, ny = dx / len;
-          const segments = Math.max(8, Math.floor(len / 12));
-
-          wiggleTargets.push({
-            path: path,
-            x1: x1, y1: y1, dx: dx, dy: dy,
-            nx: nx, ny: ny,
-            segments: segments,
-            speed: 1.5 + Math.random() * 1.5,
-            amplitude: 0.8 + Math.random() * 0.7,
-            phase: Math.random() * Math.PI * 2,
-            waveFreq: 3 + Math.random() * 2
-          });
-
-          // Also color shift the new path
-          addColorShift(path, 'stroke');
+          const sw = parseFloat(el.getAttribute('stroke-width') || '1');
+          const op = parseFloat(el.getAttribute('opacity') || '1');
+          bTargets.push({ el, attr: 'stroke-width', base: sw, amount: Math.max(0.5, sw * 0.5), speed: s, offset: p });
+          bTargets.push({ el, attr: 'opacity', base: op, amount: op * 0.2, speed: s * 0.7, offset: p });
         }
         else if (tag === 'path') {
           const sw = parseFloat(el.getAttribute('stroke-width') || '0');
@@ -490,7 +431,7 @@ const { Content } = await render(post);
                 baseD: d,
                 nums: nums.map(Number),
                 speed: 0.5 + Math.random() * 0.5,
-                amplitude: 10 + Math.random() * 8,
+                amplitude: 3 + Math.random() * 2,
                 phase: Math.random() * Math.PI * 2,
                 isPath: true
               });
@@ -532,6 +473,7 @@ const { Content } = await render(post);
                 console.log('BREATHE: animating', bTargets.length, 'hero SVG elements');
                 function tick(time) {
                   const t = time / 1000;
+                  const fade = 1;
                   for (let i = 0; i < bTargets.length; i++) {
                     const b = bTargets[i];
                     let val;
@@ -539,84 +481,28 @@ const { Content } = await render(post);
                       // Continuous flow — always moves forward
                       val = -(t * b.speed * b.amount) % b.amount;
                     } else {
-                      val = b.base + Math.sin(t * b.speed + b.offset) * b.amount;
+                      val = b.base + Math.sin(t * b.speed + b.offset) * b.amount * fade;
                     }
                     b.el.setAttribute(b.attr, String(Math.max(0.1, val)));
                   }
                   for (let i = 0; i < cTargets.length; i++) {
                     const c = cTargets[i];
-                    const hue = c.h + Math.sin(t * c.speed + c.offset) * c.hueAmount;
-                    const sat = c.s + (c.satAmount ? Math.sin(t * c.speed * 0.7 + c.offset) * c.satAmount : 0);
+                    const hue = c.h + Math.sin(t * c.speed + c.offset) * c.hueAmount * fade;
+                    const sat = c.s + (c.satAmount ? Math.sin(t * c.speed * 0.7 + c.offset) * c.satAmount * fade : 0);
                     c.el.setAttribute(c.attr, hslToStr(hue, Math.max(0, sat), c.l));
                   }
                   for (let i = 0; i < wiggleTargets.length; i++) {
                     const w = wiggleTargets[i];
-                    const amp = Math.sin(t * 0.5 + w.phase) * w.amplitude;
-
-                    if (w.isRect) {
-                      // Wiggle 4 edges + breathe size from center
-                      const breatheAmt = Math.sin(t * 0.15 + w.phase) * 0.12;
-                      const dw = w.rectW * breatheAmt;
-                      const dh = w.rectH * breatheAmt;
-                      const rx = w.rectX - dw / 2;
-                      const ry = w.rectY - dh / 2;
-                      const rw = w.rectW + dw;
-                      const rh = w.rectH + dh;
-                      let d = 'M ' + rx + ' ' + ry;
-                      // Top edge (left to right) — wiggle Y
-                      for (let s = 1; s <= w.topSegs; s++) {
-                        const f = s / w.topSegs;
-                        const wx = rx + rw * f;
-                        const wy = ry + Math.sin(f * w.waveFreq * Math.PI + t * w.speed) * amp;
-                        d += ' L ' + wx.toFixed(1) + ' ' + wy.toFixed(1);
-                      }
-                      // Right edge (top to bottom) — wiggle X
-                      for (let s = 1; s <= w.sideSegs; s++) {
-                        const f = s / w.sideSegs;
-                        const wx = rx + rw + Math.sin(f * w.waveFreq * Math.PI + t * w.speed + 1) * amp;
-                        const wy = ry + rh * f;
-                        d += ' L ' + wx.toFixed(1) + ' ' + wy.toFixed(1);
-                      }
-                      // Bottom edge (right to left) — wiggle Y
-                      for (let s = 1; s <= w.topSegs; s++) {
-                        const f = s / w.topSegs;
-                        const wx = rx + rw * (1 - f);
-                        const wy = ry + rh + Math.sin(f * w.waveFreq * Math.PI + t * w.speed + 2) * amp;
-                        d += ' L ' + wx.toFixed(1) + ' ' + wy.toFixed(1);
-                      }
-                      // Left edge (bottom to top) — wiggle X
-                      for (let s = 1; s <= w.sideSegs; s++) {
-                        const f = s / w.sideSegs;
-                        const wx = rx + Math.sin(f * w.waveFreq * Math.PI + t * w.speed + 3) * amp;
-                        const wy = ry + rh * (1 - f);
-                        d += ' L ' + wx.toFixed(1) + ' ' + wy.toFixed(1);
-                      }
-                      d += ' Z';
-                      w.path.setAttribute('d', d);
-                    } else if (w.isPath) {
-                      // Path control point wiggle
-                      const amp = Math.sin(t * 0.3 + w.phase) * w.amplitude;
-                      let newD = w.baseD;
-                      let ni = 0;
-                      newD = newD.replace(/-?\d+\.?\d*/g, function(match) {
-                        const orig = w.nums[ni];
-                        const wiggle = Math.sin(t * w.speed + ni * 0.7 + w.phase) * amp;
-                        ni++;
-                        return (orig + wiggle).toFixed(1);
-                      });
-                      w.path.setAttribute('d', newD);
-                    } else {
-                      // Line wiggle
-                      let d = 'M ' + w.x1 + ' ' + w.y1;
-                      for (let s = 1; s <= w.segments; s++) {
-                        const frac = s / w.segments;
-                        const bx = w.x1 + w.dx * frac;
-                        const by = w.y1 + w.dy * frac;
-                        const wave = Math.sin(frac * w.waveFreq * Math.PI + t * w.speed) * amp;
-                        d += ' L ' + (bx + w.nx * wave).toFixed(1) + ' ' + (by + w.ny * wave).toFixed(1);
-                      }
-                      w.path.setAttribute('d', d);
-                    }
+                    // Path control point wiggle only
+                    const amp = Math.sin(t * 0.3 + w.phase) * w.amplitude * fade;
+                    let ni = 0;
+                    const newD = w.baseD.replace(/-?\d+\.?\d*/g, function() {
+                      const orig = w.nums[ni];
+                      const wiggle = Math.sin(t * w.speed + ni * 0.7 + w.phase) * amp;
+                      ni++;
+                      return (orig + wiggle).toFixed(1);
+                    });
+                    w.path.setAttribute('d', newD);
                   }
                   requestAnimationFrame(tick);
                 }
