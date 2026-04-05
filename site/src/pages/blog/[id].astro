@@ -731,6 +731,7 @@ const { Content } = await render(post);
           const fSvg = footerDiv.firstElementChild;
           panel.appendChild(fSvg);
 
+          panel.style.marginBottom = (32 + Math.floor(Math.random() * 32)) + 'px';
           body.appendChild(panel);
         });
 
