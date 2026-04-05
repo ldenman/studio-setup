@@ -390,7 +390,7 @@ a.sidebar__section-text:hover { color: var(--sidebar-text-bright); }
 .rack-rail {
   position: absolute;
   top: 0;
-  width: 22px;
+  width: 28px;
   pointer-events: none;
   z-index: 5;
 }
@@ -431,7 +431,7 @@ a.sidebar__section-text:hover { color: var(--sidebar-text-bright); }
 .article__body .panel__content {
   position: relative;
   z-index: 1;
-  padding: 24px 42px;
+  padding: 24px 48px;
   background: var(--content-bg);
   /* Vignette fading in from edges */
   box-shadow:

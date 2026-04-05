@@ -241,12 +241,12 @@ for (const chain of layoutChains) {
 }
 
 // Layout constants
-const colWidth = 130;
-const rowHeight = 56;
-const nodeW = 110;
-const nodeH = 32;
-const padLeft = 30;
-const padTop = 50;
+const colWidth = 180;
+const rowHeight = 76;
+const nodeW = 150;
+const nodeH = 42;
+const padLeft = 40;
+const padTop = 60;
 
 function nodeX(col: number) { return padLeft + col * colWidth; }
 function nodeY(row: number) { return padTop + row * rowHeight; }
@@ -543,7 +543,7 @@ const groupLabels = [
 
   <style>
     .routing-wrap {
-      max-width: 1400px;
+      max-width: 100%;
       margin: 0 auto;
       padding: 0 8px 80px;
     }
@@ -567,8 +567,8 @@ const groupLabels = [
     }
     #routing-svg {
       display: block;
-      width: 100%;
-      min-height: 400px;
+      width: 2200px;
+      height: auto;
     }
     .routing-legend {
       display: flex;

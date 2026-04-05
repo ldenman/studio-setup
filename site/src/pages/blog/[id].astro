@@ -73,7 +73,7 @@ const { Content } = await render(post);
     }
 
     function buildRackRails(height, screwPositions) {
-      const w = 22;
+      const w = 28;
       const holeSpacing = 22;
       const holeCount = Math.floor(height / holeSpacing);
 
@@ -86,7 +86,7 @@ const { Content } = await render(post);
           const y = 10 + i * holeSpacing;
           const blocked = screwPositions.some(sy => Math.abs(y - sy) < 14);
           if (!blocked) {
-            holes += `<rect x="${flip ? 6 : 7}" y="${y}" width="9" height="5" rx="0.8" fill="#1a1815" stroke="#555" stroke-width="0.3"/>`;
+            holes += `<rect x="${flip ? 7 : 8}" y="${y}" width="12" height="6" rx="1" fill="#1a1815" stroke="#555" stroke-width="0.3"/>`;
           }
         }
 
@@ -131,7 +131,7 @@ const { Content } = await render(post);
 
     function buildHeader(title, idx, width) {
       const p = palettes[idx % palettes.length];
-      const h = 48;
+      const h = 56;
       const scratches = [];
       const seed = idx * 7 + 3;
       for (let i = 0; i < 5; i++) {
@@ -173,8 +173,8 @@ const { Content } = await render(post);
         ${scratches.join('')}
 
         <!-- Chrome screws — positioned over the rack rails -->
-        ${chromeScrew(11, h / 2, 11, 'hdr' + idx)}
-        ${chromeScrew(width - 11, h / 2, 11, 'hdr' + idx)}
+        ${chromeScrew(14, h / 2, 15, 'hdr' + idx)}
+        ${chromeScrew(width - 14, h / 2, 15, 'hdr' + idx)}
 
         <!-- Manufacturer -->
         <text x="32" y="16" font-family="'JetBrains Mono', monospace" font-size="7" fill="${p.text}" letter-spacing="1.5" opacity="0.5">${p.label}</text>
@@ -193,7 +193,7 @@ const { Content } = await render(post);
 
     function buildFooter(idx, width) {
       const p = palettes[idx % palettes.length];
-      const h = 24;
+      const h = 32;
       return `<svg viewBox="0 0 ${width} ${h}" xmlns="http://www.w3.org/2000/svg" class="panel__footer" preserveAspectRatio="none" style="width:100%;height:${h}px;display:block;">
         <defs>${chromeDefs('ftr' + idx)}</defs>
         <rect x="0" y="0" width="${width}" height="${h}" fill="${p.bg}"/>
@@ -211,8 +211,8 @@ const { Content } = await render(post);
         <rect x="0" y="0" width="2" height="${h}" fill="${p.stroke}" opacity="0.35"/>
         <rect x="${width - 2}" y="0" width="2" height="${h}" fill="${p.stroke}" opacity="0.2"/>
         <!-- Chrome screws -->
-        ${chromeScrew(11, h / 2, 11, 'ftr' + idx)}
-        ${chromeScrew(width - 11, h / 2, 11, 'ftr' + idx)}
+        ${chromeScrew(14, h / 2, 15, 'ftr' + idx)}
+        ${chromeScrew(width - 14, h / 2, 15, 'ftr' + idx)}
       </svg>`;
     }
 
@@ -255,10 +255,10 @@ const { Content } = await render(post);
         <line x1="0" y1="${h - 0.5}" x2="${width}" y2="${h - 0.5}" stroke="rgba(0,0,0,0.35)" stroke-width="1"/>
 
         <!-- Chrome screws -->
-        ${chromeScrew(11, 16, 11, 'title')}
-        ${chromeScrew(width - 11, 16, 11, 'title')}
-        ${chromeScrew(11, h - 16, 11, 'titleB')}
-        ${chromeScrew(width - 11, h - 16, 11, 'titleB')}
+        ${chromeScrew(14, 18, 15, 'title')}
+        ${chromeScrew(width - 14, 18, 15, 'title')}
+        ${chromeScrew(14, h - 18, 15, 'titleB')}
+        ${chromeScrew(width - 14, h - 18, 15, 'titleB')}
 
         <!-- Back link -->
         <a href="/blog"><text x="46" y="16" font-family="'JetBrains Mono', monospace" font-size="7" fill="${p.text}" letter-spacing="1" opacity="0.4" style="cursor:pointer">\u2190 ALL POSTS</text></a>
@@ -479,8 +479,8 @@ const { Content } = await render(post);
           } else {
             const sw = parseFloat(el.getAttribute('stroke-width') || '1');
             const op = parseFloat(el.getAttribute('opacity') || '1');
-            bTargets.push({ el, attr: 'stroke-width', base: sw, amount: sw * 0.4, speed: s, offset: p });
-            bTargets.push({ el, attr: 'opacity', base: op, amount: op * 0.15, speed: s * 0.7, offset: p });
+            bTargets.push({ el, attr: 'stroke-width', base: sw, amount: sw * 0.6, speed: s, offset: p });
+            bTargets.push({ el, attr: 'opacity', base: op, amount: Math.min(op * 0.4, op * 0.9), speed: s * 0.7, offset: p });
           }
         }
         else if (tag === 'path') {
@@ -488,6 +488,14 @@ const { Content } = await render(post);
           if (sw > 0) bTargets.push({ el, attr: 'stroke-width', base: sw, amount: sw * 0.4, speed: s, offset: p });
           const op = parseFloat(el.getAttribute('opacity') || '1');
           bTargets.push({ el, attr: 'opacity', base: op, amount: op * 0.15, speed: s * 0.7, offset: p });
+
+          // Dashed paths: flow the dashes continuously
+          const dash = el.getAttribute('stroke-dasharray');
+          if (dash) {
+            const dashNums = dash.split(',').map(Number);
+            const dashTotal = dashNums.reduce((a, b) => a + b, 0);
+            bTargets.push({ el, attr: 'stroke-dashoffset', base: 0, amount: dashTotal, speed: 1, offset: p, flow: true });
+          }
 
           // Wiggle path control points
           const d = el.getAttribute('d') || '';
@@ -500,7 +508,7 @@ const { Content } = await render(post);
                 baseD: d,
                 nums: nums.map(Number),
                 speed: 0.5 + Math.random() * 0.5,
-                amplitude: 3 + Math.random() * 2,
+                amplitude: 5 + Math.random() * 3,
                 phase: Math.random() * Math.PI * 2,
                 isPath: true
               });
@@ -548,11 +556,11 @@ const { Content } = await render(post);
                     let val;
                     if (b.flow) {
                       // Continuous flow — always moves forward
-                      val = -(t * b.speed * b.amount) % b.amount;
+                      val = -t * b.speed * 8;
                     } else {
                       val = b.base + Math.sin(t * b.speed + b.offset) * b.amount * fade;
                     }
-                    b.el.setAttribute(b.attr, String(Math.max(0.1, val)));
+                    b.el.setAttribute(b.attr, String(b.flow ? val : Math.max(0.1, val)));
                   }
                   for (let i = 0; i < cTargets.length; i++) {
                     const c = cTargets[i];
@@ -671,8 +679,8 @@ const { Content } = await render(post);
           <rect x="0" y="0" width="${tw}" height="${th}" fill="url(#titleSheen)"/>
           <line x1="0" y1="0.5" x2="${tw}" y2="0.5" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
           <line x1="0" y1="${th - 0.5}" x2="${tw}" y2="${th - 0.5}" stroke="rgba(0,0,0,0.35)" stroke-width="1"/>
-          ${chromeScrew(11, th / 2, 11, 'title')}
-          ${chromeScrew(tw - 11, th / 2, 11, 'title')}
+          ${chromeScrew(14, th / 2, 15, 'title')}
+          ${chromeScrew(tw - 14, th / 2, 15, 'title')}
           <a href="/blog"><text x="46" y="16" font-family="'JetBrains Mono', monospace" font-size="7" fill="${tp.text}" letter-spacing="1" opacity="0.4" style="cursor:pointer">\u2190 ALL POSTS</text></a>
           <text x="46" y="36" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="600" fill="${tp.accent}" letter-spacing="1">${postTitle.toUpperCase()}</text>
           <text x="${tw - 30}" y="36" font-family="'JetBrains Mono', monospace" font-size="7" fill="${tp.text}" text-anchor="end" opacity="0.5">${postDate.toUpperCase()}</text>

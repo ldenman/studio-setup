@@ -296,9 +296,16 @@ const sections = [
             }
           } else if (tag === 'path') {
             const sw = parseFloat(el.getAttribute('stroke-width') || '0');
-            if (sw > 0) bTargets.push({ el, attr: 'stroke-width', base: sw, amount: Math.max(0.5, sw * 0.5), speed: s, offset: p });
+            if (sw > 0) bTargets.push({ el, attr: 'stroke-width', base: sw, amount: sw * 0.4, speed: s, offset: p });
             const op = parseFloat(el.getAttribute('opacity') || '1');
             bTargets.push({ el, attr: 'opacity', base: op, amount: op * 0.15, speed: s * 0.7, offset: p });
+            // Dashed paths: flow
+            const dash = el.getAttribute('stroke-dasharray');
+            if (dash) {
+              const dashNums = dash.split(',').map(Number);
+              const dashTotal = dashNums.reduce((a, b) => a + b, 0);
+              bTargets.push({ el, attr: 'stroke-dashoffset', base: 0, amount: dashTotal, speed: 1, offset: p, flow: true });
+            }
             // Path wiggle
             const d = el.getAttribute('d') || '';
             if (d && sw > 0) {
@@ -344,8 +351,13 @@ const sections = [
       function tick(time) {
         const t = time / 1000;
         for (const b of bTargets) {
-          const val = b.base + Math.sin(t * b.speed + b.offset) * b.amount;
-          b.el.setAttribute(b.attr, String(Math.max(0.1, val)));
+          let val;
+          if (b.flow) {
+            val = -t * b.speed * 8;
+          } else {
+            val = b.base + Math.sin(t * b.speed + b.offset) * b.amount;
+          }
+          b.el.setAttribute(b.attr, String(b.flow ? val : Math.max(0.1, val)));
         }
         for (const c of cTargets) {
           const hue = c.h + Math.sin(t * c.speed + c.offset) * c.hueAmount;
