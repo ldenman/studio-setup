@@ -1095,8 +1095,21 @@ import Base from '../layouts/Base.astro';
   }
 
   .hiw__section {
-    border-top: 1px solid var(--linen);
-    padding: clamp(24px, 4vw, 48px) 0;
+    border-top: none;
+    padding: 16px 0;
+  }
+
+  .hiw__section + .hiw__section::before {
+    content: '';
+    display: block;
+    height: 1px;
+    background: var(--amber);
+    margin-bottom: 16px;
+    opacity: 0.3;
+  }
+
+  .hiw__section > *:last-child {
+    margin-bottom: 0;
   }
 
   .hiw__section:first-child {
@@ -1142,9 +1155,9 @@ import Base from '../layouts/Base.astro';
   .hiw__anchor:hover { color: var(--amber); }
 
   .hiw__svg-wrap {
-    margin: clamp(20px, 3vw, 32px) 0;
-    max-width: 700px;
-    padding: clamp(16px, 2vw, 24px);
+    margin: 8px 0 0;
+    max-width: 100%;
+    padding: clamp(12px, 1.5vw, 16px);
     background: var(--white);
     border: 1px solid var(--linen);
     border-radius: 2px;
