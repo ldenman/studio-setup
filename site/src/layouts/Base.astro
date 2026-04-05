@@ -269,14 +269,14 @@ const sections = [
             } else {
               const sw = parseFloat(el.getAttribute('stroke-width') || '1');
               const op = parseFloat(el.getAttribute('opacity') || '1');
-              bTargets.push({ el, attr: 'stroke-width', base: sw, amount: Math.max(0.5, sw * 0.5), speed: s, offset: p });
-              bTargets.push({ el, attr: 'opacity', base: op, amount: op * 0.2, speed: s * 0.7, offset: p });
+              bTargets.push({ el, attr: 'stroke-width', base: sw, amount: sw * 0.4, speed: s, offset: p });
+              bTargets.push({ el, attr: 'opacity', base: op, amount: op * 0.15, speed: s * 0.7, offset: p });
             }
           } else if (tag === 'path') {
             const sw = parseFloat(el.getAttribute('stroke-width') || '0');
             if (sw > 0) bTargets.push({ el, attr: 'stroke-width', base: sw, amount: Math.max(0.5, sw * 0.5), speed: s, offset: p });
             const op = parseFloat(el.getAttribute('opacity') || '1');
-            bTargets.push({ el, attr: 'opacity', base: op, amount: op * 0.2, speed: s * 0.7, offset: p });
+            bTargets.push({ el, attr: 'opacity', base: op, amount: op * 0.15, speed: s * 0.7, offset: p });
             // Path wiggle
             const d = el.getAttribute('d') || '';
             if (d && sw > 0) {

@@ -479,15 +479,15 @@ const { Content } = await render(post);
           } else {
             const sw = parseFloat(el.getAttribute('stroke-width') || '1');
             const op = parseFloat(el.getAttribute('opacity') || '1');
-            bTargets.push({ el, attr: 'stroke-width', base: sw, amount: Math.max(1, sw * 0.8), speed: s, offset: p });
-            bTargets.push({ el, attr: 'opacity', base: op, amount: op * 0.3, speed: s * 0.7, offset: p });
+            bTargets.push({ el, attr: 'stroke-width', base: sw, amount: sw * 0.4, speed: s, offset: p });
+            bTargets.push({ el, attr: 'opacity', base: op, amount: op * 0.15, speed: s * 0.7, offset: p });
           }
         }
         else if (tag === 'path') {
           const sw = parseFloat(el.getAttribute('stroke-width') || '0');
-          if (sw > 0) bTargets.push({ el, attr: 'stroke-width', base: sw, amount: Math.max(1, sw * 0.6), speed: s, offset: p });
+          if (sw > 0) bTargets.push({ el, attr: 'stroke-width', base: sw, amount: sw * 0.4, speed: s, offset: p });
           const op = parseFloat(el.getAttribute('opacity') || '1');
-          bTargets.push({ el, attr: 'opacity', base: op, amount: op * 0.35, speed: s * 0.7, offset: p });
+          bTargets.push({ el, attr: 'opacity', base: op, amount: op * 0.15, speed: s * 0.7, offset: p });
 
           // Wiggle path control points
           const d = el.getAttribute('d') || '';
