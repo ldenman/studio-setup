@@ -18,7 +18,7 @@
   <!-- Ch7 - highlighted solo channel -->
   <rect x="188" y="125" width="18" height="90" rx="2" fill="none" stroke="#b8792a" stroke-width="2" />
   <!-- Fader knob on Ch7 -->
-  <rect x="191" y="175" width="12" height="8" rx="1" fill="#b8792a" />
+  <rect x="191" y="175" width="12" height="8" rx="1" fill="#b8792a" data-fader="125,207"/>
   <!-- Solo button - glowing -->
   <circle cx="197" cy="230" r="8" fill="#b8792a" opacity="0.8" />
   <circle cx="197" cy="230" r="12" fill="none" stroke="#b8792a" stroke-width="0.5" opacity="0.3" />
@@ -44,25 +44,25 @@
 
   <!-- Model 12 faders -->
   <rect x="560" y="130" width="12" height="70" rx="2" fill="none" stroke="#4a7a9a" stroke-width="1" opacity="0.6" />
-  <rect x="563" y="165" width="6" height="6" rx="1" fill="#4a7a9a" opacity="0.6" />
+  <rect x="563" y="165" width="6" height="6" rx="1" fill="#4a7a9a" opacity="0.6" data-fader="130,194"/>
   <rect x="580" y="130" width="12" height="70" rx="2" fill="none" stroke="#4a7a9a" stroke-width="1" opacity="0.6" />
-  <rect x="583" y="155" width="6" height="6" rx="1" fill="#4a7a9a" opacity="0.6" />
+  <rect x="583" y="155" width="6" height="6" rx="1" fill="#4a7a9a" opacity="0.6" data-fader="130,194"/>
   <rect x="600" y="130" width="12" height="70" rx="2" fill="none" stroke="#4a7a9a" stroke-width="1" opacity="0.6" />
-  <rect x="603" y="170" width="6" height="6" rx="1" fill="#4a7a9a" opacity="0.6" />
+  <rect x="603" y="170" width="6" height="6" rx="1" fill="#4a7a9a" opacity="0.6" data-fader="130,194"/>
   <rect x="620" y="130" width="12" height="70" rx="2" fill="none" stroke="#4a7a9a" stroke-width="1" opacity="0.6" />
-  <rect x="623" y="150" width="6" height="6" rx="1" fill="#4a7a9a" opacity="0.6" />
+  <rect x="623" y="150" width="6" height="6" rx="1" fill="#4a7a9a" opacity="0.6" data-fader="130,194"/>
   <rect x="640" y="130" width="12" height="70" rx="2" fill="none" stroke="#4a7a9a" stroke-width="1" opacity="0.6" />
-  <rect x="643" y="160" width="6" height="6" rx="1" fill="#4a7a9a" opacity="0.6" />
+  <rect x="643" y="160" width="6" height="6" rx="1" fill="#4a7a9a" opacity="0.6" data-fader="130,194"/>
   <rect x="660" y="130" width="12" height="70" rx="2" fill="none" stroke="#4a7a9a" stroke-width="1" opacity="0.6" />
-  <rect x="663" y="145" width="6" height="6" rx="1" fill="#4a7a9a" opacity="0.6" />
+  <rect x="663" y="145" width="6" height="6" rx="1" fill="#4a7a9a" opacity="0.6" data-fader="130,194"/>
   <rect x="680" y="130" width="12" height="70" rx="2" fill="none" stroke="#4a7a9a" stroke-width="1" opacity="0.6" />
-  <rect x="683" y="158" width="6" height="6" rx="1" fill="#4a7a9a" opacity="0.6" />
+  <rect x="683" y="158" width="6" height="6" rx="1" fill="#4a7a9a" opacity="0.6" data-fader="130,194"/>
   <rect x="700" y="130" width="12" height="70" rx="2" fill="none" stroke="#4a7a9a" stroke-width="1" opacity="0.6" />
-  <rect x="703" y="162" width="6" height="6" rx="1" fill="#4a7a9a" opacity="0.6" />
+  <rect x="703" y="162" width="6" height="6" rx="1" fill="#4a7a9a" opacity="0.6" data-fader="130,194"/>
 
   <!-- Master fader on Model 12 -->
   <rect x="710" y="220" width="16" height="80" rx="2" fill="none" stroke="#4a7a9a" stroke-width="1.5" opacity="0.8" />
-  <rect x="712" y="260" width="12" height="8" rx="1" fill="#4a7a9a" opacity="0.7" />
+  <rect x="712" y="260" width="12" height="8" rx="1" fill="#4a7a9a" opacity="0.7" data-fader="220,292"/>
   <text x="718" y="312" font-family="monospace" font-size="7" fill="#4a7a9a" text-anchor="middle" opacity="0.6">MST</text>
 
   <!-- Stereo mix output label -->

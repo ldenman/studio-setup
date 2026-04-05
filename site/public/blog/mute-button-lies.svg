@@ -4,7 +4,7 @@
 
   <!-- Fader slot -->
   <rect x="195" y="220" width="30" height="80" rx="2" stroke="#4a4740" stroke-width="1.5" fill="none" opacity="0.5" />
-  <rect x="195" y="250" width="30" height="8" rx="1" fill="#4a4740" />
+  <rect x="195" y="250" width="30" height="8" rx="1" fill="#4a4740" data-fader="220,292" />
 
   <!-- Mute button - lit red -->
   <rect x="192" y="170" width="36" height="20" rx="3" fill="#a85a4a" />
@@ -38,7 +38,7 @@
 
   <!-- Fader slot 2 -->
   <rect x="555" y="220" width="30" height="80" rx="2" stroke="#4a4740" stroke-width="1.5" fill="none" opacity="0.5" />
-  <rect x="555" y="250" width="30" height="8" rx="1" fill="#4a4740" />
+  <rect x="555" y="250" width="30" height="8" rx="1" fill="#4a4740" data-fader="220,292" />
 
   <!-- Main off indicator (not mute) -->
   <rect x="552" y="170" width="36" height="20" rx="3" fill="none" stroke="#5a8a4a" stroke-width="1.5" />

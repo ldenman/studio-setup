@@ -2,12 +2,14 @@
 import Base from '../layouts/Base.astro';
 ---
 
-<Base title="Outboard Gear" active="front-panels">
+<Base title="Gear" active="gear">
   <section class="page-header">
-    <span class="chapter-label">02 — Outboard</span>
+    <span class="chapter-label">02 — Gear</span>
     <h1>The Chain</h1>
-    <p>Neve preamps. 1176 compression. Real outboard, real routing. The front end of every vocal and guitar recorded here.</p>
+    <p>The outboard rack, the digital mixer, the patchbay, and every piece of hardware that shapes the sound. Permanently wired, always ready.</p>
   </section>
+
+  <div class="vu-bar" style="background: var(--amber)"></div>
 
   <div class="gear-grid">
 
@@ -206,18 +208,20 @@ import Base from '../layouts/Base.astro';
     color: var(--text);
     margin: 0 0 14px;
     line-height: 1.15;
+    text-transform: none;
+    letter-spacing: normal;
   }
 
   .gear-info p {
     font-size: 15px;
-    color: var(--text-dim);
+    color: var(--text);
     margin: 0 0 18px;
     line-height: 1.7;
   }
 
   .gear-spec {
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: 12px;
     color: var(--amber);
     line-height: 1.9;
   }

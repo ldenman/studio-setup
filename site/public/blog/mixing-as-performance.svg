@@ -10,13 +10,13 @@
   <rect x="700" y="60" width="8" height="280" rx="4" fill="#4a4740" opacity="0.3" />
 
   <!-- Fader caps at different positions (a mix in progress) -->
-  <rect x="92" y="155" width="24" height="12" rx="2" fill="#b8792a" />
-  <rect x="192" y="195" width="24" height="12" rx="2" fill="#b8792a" />
-  <rect x="292" y="220" width="24" height="12" rx="2" fill="#b8792a" />
-  <rect x="392" y="245" width="24" height="12" rx="2" fill="#b8792a" />
-  <rect x="492" y="185" width="24" height="12" rx="2" fill="#b8792a" />
-  <rect x="592" y="210" width="24" height="12" rx="2" fill="#b8792a" />
-  <rect x="692" y="230" width="24" height="12" rx="2" fill="#b8792a" />
+  <rect x="92" y="155" width="24" height="12" rx="2" fill="#b8792a" data-fader="60,328" />
+  <rect x="192" y="195" width="24" height="12" rx="2" fill="#b8792a" data-fader="60,328" />
+  <rect x="292" y="220" width="24" height="12" rx="2" fill="#b8792a" data-fader="60,328" />
+  <rect x="392" y="245" width="24" height="12" rx="2" fill="#b8792a" data-fader="60,328" />
+  <rect x="492" y="185" width="24" height="12" rx="2" fill="#b8792a" data-fader="60,328" />
+  <rect x="592" y="210" width="24" height="12" rx="2" fill="#b8792a" data-fader="60,328" />
+  <rect x="692" y="230" width="24" height="12" rx="2" fill="#b8792a" data-fader="60,328" />
 
   <!-- Fader labels -->
   <text x="104" y="370" font-family="monospace" font-size="10" fill="#4a4740" text-anchor="middle">VOX</text>

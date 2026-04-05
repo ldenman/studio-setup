@@ -1,0 +1,45 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Signal Flow" active="signal-flow">
+  <div class="container">
+
+    <section class="page-header">
+      <span class="chapter-label">01 — Signal Flow</span>
+      <h1>Signal Flow</h1>
+      <p>How sound moves through the studio &mdash; from microphone to recorder, from playback to mix, and every stage in between.</p>
+    </section>
+
+    <div class="vu-bar" style="background: rgba(74,122,154,0.35)"></div>
+
+    <div class="card-grid">
+      <a href="/recording" class="card" style="text-decoration:none">
+        <h3 style="margin-top:0">Recording</h3>
+        <p>The input path. Vocals and guitar through real outboard gear &mdash; Neve-style preamps, 1176 compression, optical leveling &mdash; committed to the take.</p>
+      </a>
+      <a href="/production" class="card" style="text-decoration:none">
+        <h3 style="margin-top:0">Production</h3>
+        <p>Building the arrangement. Logic's session players provide bass, keys, synth, and drums alongside live recordings.</p>
+      </a>
+      <a href="/mixing" class="card" style="text-decoration:none">
+        <h3 style="margin-top:0">Mixing</h3>
+        <p>The output path. Processed stems from the Wing feed the Model 12's faders for hands-on analog mixing and stereo capture.</p>
+      </a>
+      <a href="/routing" class="card" style="text-decoration:none">
+        <h3 style="margin-top:0">Routing</h3>
+        <p>The map. Every channel, bus, matrix, and USB path &mdash; how they connect and why.</p>
+      </a>
+    </div>
+
+    <section>
+      <h2>The Three Promises</h2>
+      <div class="prose">
+        <p><strong>Zero latency.</strong> The musician hears everything in real time. The Wing handles all monitoring. Logic's software monitoring stays off. No plugins in the recording input path.</p>
+        <p><strong>Zero comb filtering.</strong> One signal path per source. No duplicate signals arriving at different times. No parallel send/return loops with round-trip delay.</p>
+        <p><strong>Zero unnecessary noise.</strong> Outboard returns off main when not tracking. Unused FX bypassed. No stale channel assignments. The noise floor is managed, not tolerated.</p>
+      </div>
+    </section>
+
+  </div>
+</Base>

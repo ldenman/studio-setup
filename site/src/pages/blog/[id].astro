@@ -16,26 +16,771 @@ const { Content } = await render(post);
 
 <Base title={post.data.title} active="blog">
   <div class="container">
-    <section class="page-header">
-      <a href="/blog" style="font-size:12px;color:var(--stone);letter-spacing:1px;text-transform:uppercase">&larr; All Posts</a>
-    </section>
 
     <article class="article">
-      <h1>{post.data.title}</h1>
-      <div class="article__meta">
-        {post.data.date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
-        {post.data.tags && (
-          <span style="margin-left:16px">
-            {post.data.tags.map(tag => <a href={`/blog/tag/${tag}`} class="tag" style="margin-left:4px">{tag}</a>)}
-          </span>
+      <div class="article__body prose" id="article-body"
+        data-post-title={post.data.title}
+        data-post-date={post.data.date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+        data-post-tags={post.data.tags ? post.data.tags.join(',') : ''}
+      >
+        {post.data.hero && (
+          <div class="article__hero-wrap" id="hero-wrap" data-hero-src={post.data.hero}>
+          </div>
         )}
-      </div>
-      {post.data.hero && (
-        <img src={post.data.hero} alt="" role="presentation" style="width:100%;max-width:680px;height:auto;border-radius:2px;margin-bottom:32px;border:1px solid var(--linen)" />
-      )}
-      <div class="article__body">
         <Content />
       </div>
     </article>
+
   </div>
+
+  <script>
+    const palettes = [
+      { bg: '#1a1815', stroke: '#b8792a', text: '#b8792a', accent: '#d4a574', label: 'GOLDEN AGE', grain: 0 },
+      { bg: '#161a1e', stroke: '#4a7a9a', text: '#4a7a9a', accent: '#8ab0c8', label: 'WARM AUDIO', grain: 135 },
+      { bg: '#1c1815', stroke: '#a85a4a', text: '#a85a4a', accent: '#c8907a', label: 'EMPIRICAL',  grain: 90 },
+      { bg: '#171916', stroke: '#5a8a4a', text: '#5a8a4a', accent: '#a0b898', label: 'AUDIOSCAPE', grain: 45 },
+      { bg: '#1a1818', stroke: '#8a7a5a', text: '#8a7a5a', accent: '#c0b088', label: 'HERITAGE',   grain: 170 },
+    ];
+
+    function chromeScrew(cx, cy, size, id) {
+      const r = size / 2;
+      return `
+        <circle cx="${cx}" cy="${cy}" r="${r + 1.5}" fill="none" stroke="#999" stroke-width="0.4" opacity="0.3"/>
+        <circle cx="${cx}" cy="${cy}" r="${r}" fill="url(#chrome${id})"/>
+        <ellipse cx="${cx}" cy="${cy}" rx="${r * 0.7}" ry="${r * 0.12}" fill="rgba(0,0,0,0.25)" transform="rotate(35 ${cx} ${cy})"/>
+        <ellipse cx="${cx}" cy="${cy}" rx="${r * 0.7}" ry="${r * 0.12}" fill="rgba(0,0,0,0.2)" transform="rotate(-55 ${cx} ${cy})"/>
+        <circle cx="${cx - r * 0.2}" cy="${cy - r * 0.25}" r="${r * 0.25}" fill="rgba(255,255,255,0.2)"/>
+      `;
+    }
+
+    function ventSlots(x, y, count) {
+      let s = '';
+      for (let i = 0; i < count; i++) {
+        s += `<rect x="${x}" y="${y + i * 5}" width="16" height="2" rx="1" fill="#0e0d0b" stroke="#2a2724" stroke-width="0.3"/>`;
+      }
+      return s;
+    }
+
+    function chromeDefs(id) {
+      return `
+        <radialGradient id="chrome${id}" cx="35%" cy="35%">
+          <stop offset="0%" stop-color="#e8e4de"/>
+          <stop offset="30%" stop-color="#ccc8c0"/>
+          <stop offset="60%" stop-color="#a8a498"/>
+          <stop offset="100%" stop-color="#88847a"/>
+        </radialGradient>
+      `;
+    }
+
+    function buildRackRails(height, screwPositions) {
+      const w = 22;
+      const holeSpacing = 22;
+      const holeCount = Math.floor(height / holeSpacing);
+
+      function rail(side) {
+        const flip = side === 'right';
+
+        // Mounting holes — but skip positions where screws are
+        let holes = '';
+        for (let i = 0; i < holeCount; i++) {
+          const y = 10 + i * holeSpacing;
+          const blocked = screwPositions.some(sy => Math.abs(y - sy) < 14);
+          if (!blocked) {
+            holes += `<rect x="${flip ? 6 : 7}" y="${y}" width="9" height="5" rx="0.8" fill="#1a1815" stroke="#555" stroke-width="0.3"/>`;
+          }
+        }
+
+        // Edge wear
+        let wear = '';
+        const seed = flip ? 17 : 7;
+        for (let i = 0; i < 8; i++) {
+          const wy = (seed * (i + 1) * 37) % (height - 20) + 10;
+          wear += `<line x1="${flip ? w - 3 : 2}" y1="${wy}" x2="${flip ? w - 1 : 4}" y2="${wy + 3 + (i * 3) % 10}" stroke="rgba(0,0,0,0.05)" stroke-width="0.4"/>`;
+        }
+
+        return `<svg class="rack-rail rack-rail--${side}" viewBox="0 0 ${w} ${height}" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="height:${height}px">
+          <defs>
+            <linearGradient id="railMetal${side}" x1="${flip ? 1 : 0}" y1="0" x2="${flip ? 0 : 1}" y2="0">
+              <stop offset="0%" stop-color="#d8d4cc"/>
+              <stop offset="30%" stop-color="#c8c4ba"/>
+              <stop offset="70%" stop-color="#bab5aa"/>
+              <stop offset="100%" stop-color="#b0aaa0"/>
+            </linearGradient>
+          </defs>
+          <!-- Rail body -->
+          <rect x="0" y="0" width="${w}" height="${height}" fill="url(#railMetal${side})"/>
+          <!-- Brushed vertical grain -->
+          ${Array.from({length: Math.floor(height / 2)}, (_, i) =>
+            `<line x1="0" y1="${i * 2}" x2="${w}" y2="${i * 2 + 0.3}" stroke="rgba(0,0,0,0.025)" stroke-width="0.4"/>`
+          ).join('')}
+          <!-- Inner edge shadow -->
+          <rect x="${flip ? 0 : w - 3}" y="0" width="3" height="${height}" fill="rgba(0,0,0,0.04)"/>
+          <!-- Outer edge highlight -->
+          <line x1="${flip ? w - 0.5 : 0.5}" y1="0" x2="${flip ? w - 0.5 : 0.5}" y2="${height}" stroke="rgba(255,255,255,0.5)" stroke-width="0.5"/>
+          <!-- Outer edge dark -->
+          <line x1="${flip ? w : 0}" y1="0" x2="${flip ? w : 0}" y2="${height}" stroke="rgba(0,0,0,0.1)" stroke-width="0.5"/>
+          <!-- Mounting holes -->
+          ${holes}
+          <!-- Wear marks -->
+          ${wear}
+        </svg>`;
+      }
+
+      return rail('left') + rail('right');
+    }
+
+    function buildHeader(title, idx, width) {
+      const p = palettes[idx % palettes.length];
+      const h = 48;
+      const scratches = [];
+      const seed = idx * 7 + 3;
+      for (let i = 0; i < 5; i++) {
+        const sx = (seed * (i + 1) * 31) % (width - 100) + 50;
+        const sy = (seed * (i + 2) * 17) % (h - 14) + 7;
+        const len = 12 + (seed * (i + 1)) % 40;
+        const angle = -2 + (seed * i) % 4;
+        scratches.push(`<line x1="${sx}" y1="${sy}" x2="${sx + len}" y2="${sy + angle}" stroke="rgba(255,255,255,0.04)" stroke-width="0.4"/>`);
+      }
+
+      return `<svg viewBox="0 0 ${width} ${h}" xmlns="http://www.w3.org/2000/svg" class="panel__header" preserveAspectRatio="none" style="width:100%;height:${h}px;display:block;">
+        <defs>
+          ${chromeDefs('hdr' + idx)}
+          <linearGradient id="panelSheen${idx}" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="rgba(255,255,255,0.05)"/>
+            <stop offset="50%" stop-color="rgba(255,255,255,0)"/>
+            <stop offset="100%" stop-color="rgba(0,0,0,0.12)"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Base plate -->
+        <rect x="0" y="0" width="${width}" height="${h}" fill="${p.bg}"/>
+
+        <!-- Brushed grain -->
+        <g opacity="0.5">
+          ${Array.from({length: Math.floor(width / 3)}, (_, i) =>
+            `<line x1="${i * 3}" y1="0" x2="${i * 3 + (p.grain > 90 ? 2 : -2)}" y2="${h}" stroke="rgba(255,255,255,0.015)" stroke-width="0.5"/>`
+          ).join('')}
+        </g>
+
+        <!-- Sheen -->
+        <rect x="0" y="0" width="${width}" height="${h}" fill="url(#panelSheen${idx})"/>
+
+        <!-- Edge bevels -->
+        <line x1="0" y1="0.5" x2="${width}" y2="0.5" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+        <line x1="0" y1="${h - 0.5}" x2="${width}" y2="${h - 0.5}" stroke="rgba(0,0,0,0.35)" stroke-width="1"/>
+
+        <!-- Scratches -->
+        ${scratches.join('')}
+
+        <!-- Chrome screws — positioned over the rack rails -->
+        ${chromeScrew(11, h / 2, 11, 'hdr' + idx)}
+        ${chromeScrew(width - 11, h / 2, 11, 'hdr' + idx)}
+
+        <!-- Manufacturer -->
+        <text x="32" y="16" font-family="'JetBrains Mono', monospace" font-size="7" fill="${p.text}" letter-spacing="1.5" opacity="0.5">${p.label}</text>
+
+        <!-- Title -->
+        <text x="32" y="34" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="600" fill="${p.accent}" letter-spacing="1.2">${title}</text>
+
+        <!-- Vent slots -->
+        ${ventSlots(width - 50, h / 2 - 8, 4)}
+
+        <!-- Side accent -->
+        <rect x="0" y="0" width="2" height="${h}" fill="${p.stroke}" opacity="0.5"/>
+        <rect x="${width - 2}" y="0" width="2" height="${h}" fill="${p.stroke}" opacity="0.3"/>
+      </svg>`;
+    }
+
+    function buildFooter(idx, width) {
+      const p = palettes[idx % palettes.length];
+      const h = 24;
+      return `<svg viewBox="0 0 ${width} ${h}" xmlns="http://www.w3.org/2000/svg" class="panel__footer" preserveAspectRatio="none" style="width:100%;height:${h}px;display:block;">
+        <defs>${chromeDefs('ftr' + idx)}</defs>
+        <rect x="0" y="0" width="${width}" height="${h}" fill="${p.bg}"/>
+        <!-- Brushed grain -->
+        <g opacity="0.4">
+          ${Array.from({length: Math.floor(width / 3)}, (_, i) =>
+            `<line x1="${i * 3}" y1="0" x2="${i * 3 + 1}" y2="${h}" stroke="rgba(255,255,255,0.015)" stroke-width="0.5"/>`
+          ).join('')}
+        </g>
+        <!-- Top highlight -->
+        <line x1="0" y1="0.5" x2="${width}" y2="0.5" stroke="rgba(255,255,255,0.05)" stroke-width="0.5"/>
+        <!-- Bottom shadow -->
+        <line x1="0" y1="${h - 0.5}" x2="${width}" y2="${h - 0.5}" stroke="rgba(0,0,0,0.3)" stroke-width="0.5"/>
+        <!-- Side accents -->
+        <rect x="0" y="0" width="2" height="${h}" fill="${p.stroke}" opacity="0.35"/>
+        <rect x="${width - 2}" y="0" width="2" height="${h}" fill="${p.stroke}" opacity="0.2"/>
+        <!-- Chrome screws -->
+        ${chromeScrew(11, h / 2, 11, 'ftr' + idx)}
+        ${chromeScrew(width - 11, h / 2, 11, 'ftr' + idx)}
+      </svg>`;
+    }
+
+    function buildTitlePanel(title, date, tags, width) {
+      const p = palettes[0]; // amber/Golden Age for the title
+      const h = 80;
+      const tagStr = tags.filter(Boolean);
+      const tagSvgs = tagStr.map((tag, i) => {
+        const tx = 46 + i * 70;
+        return `<rect x="${tx}" y="54" width="60" height="16" rx="2" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
+          <text x="${tx + 30}" y="65" font-family="'JetBrains Mono', monospace" font-size="7" fill="${p.accent}" text-anchor="middle" opacity="0.7">${tag}</text>`;
+      }).join('');
+
+      return `<svg viewBox="0 0 ${width} ${h}" xmlns="http://www.w3.org/2000/svg" class="panel__header" style="width:100%;display:block;">
+        <defs>
+          ${chromeDefs('title')}
+          ${chromeDefs('titleB')}
+          <linearGradient id="titleSheen" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="rgba(255,255,255,0.05)"/>
+            <stop offset="50%" stop-color="rgba(255,255,255,0)"/>
+            <stop offset="100%" stop-color="rgba(0,0,0,0.12)"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Base plate -->
+        <rect x="0" y="0" width="${width}" height="${h}" fill="${p.bg}"/>
+
+        <!-- Brushed grain -->
+        <g opacity="0.5">
+          ${Array.from({length: Math.floor(width / 3)}, (_, i) =>
+            `<line x1="${i * 3}" y1="0" x2="${i * 3 - 1}" y2="${h}" stroke="rgba(255,255,255,0.015)" stroke-width="0.5"/>`
+          ).join('')}
+        </g>
+
+        <!-- Sheen -->
+        <rect x="0" y="0" width="${width}" height="${h}" fill="url(#titleSheen)"/>
+
+        <!-- Edge bevels -->
+        <line x1="0" y1="0.5" x2="${width}" y2="0.5" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+        <line x1="0" y1="${h - 0.5}" x2="${width}" y2="${h - 0.5}" stroke="rgba(0,0,0,0.35)" stroke-width="1"/>
+
+        <!-- Chrome screws -->
+        ${chromeScrew(11, 16, 11, 'title')}
+        ${chromeScrew(width - 11, 16, 11, 'title')}
+        ${chromeScrew(11, h - 16, 11, 'titleB')}
+        ${chromeScrew(width - 11, h - 16, 11, 'titleB')}
+
+        <!-- Back link -->
+        <a href="/blog"><text x="46" y="16" font-family="'JetBrains Mono', monospace" font-size="7" fill="${p.text}" letter-spacing="1" opacity="0.4" style="cursor:pointer">\u2190 ALL POSTS</text></a>
+
+        <!-- Title -->
+        <text x="46" y="38" font-family="'DM Serif Display', serif" font-size="18" fill="#f0ebe0">${title}</text>
+
+        <!-- Date -->
+        <text x="${width - 30}" y="38" font-family="'JetBrains Mono', monospace" font-size="7" fill="${p.text}" text-anchor="end" opacity="0.5">${date}</text>
+
+        <!-- Tags -->
+        ${tagSvgs}
+
+        <!-- Side accent -->
+        <rect x="0" y="0" width="3" height="${h}" fill="${p.stroke}" opacity="0.6"/>
+        <rect x="${width - 1}" y="0" width="1" height="${h}" fill="rgba(255,255,255,0.03)"/>
+
+        <!-- Vent slots -->
+        ${ventSlots(width - 55, 52, 4)}
+      </svg>`;
+    }
+
+    // Breathing — rAF loop on SVG circle r and text opacity
+    const bTargets = [];
+    const cTargets = []; // color shift targets
+    const wiggleTargets = []; // line-to-path wigglers
+
+    function hexToHSL(hex) {
+      hex = hex.replace('#', '');
+      if (hex.length === 3) hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+      const r = parseInt(hex.substring(0,2), 16) / 255;
+      const g = parseInt(hex.substring(2,4), 16) / 255;
+      const b = parseInt(hex.substring(4,6), 16) / 255;
+      const max = Math.max(r, g, b), min = Math.min(r, g, b);
+      let h, s, l = (max + min) / 2;
+      if (max === min) { h = s = 0; }
+      else {
+        const d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        if (max === r) h = ((g - b) / d + (g < b ? 6 : 0)) / 6;
+        else if (max === g) h = ((b - r) / d + 2) / 6;
+        else h = ((r - g) / d + 4) / 6;
+      }
+      return [h * 360, s * 100, l * 100];
+    }
+
+    function hslToStr(h, s, l) {
+      return `hsl(${h.toFixed(1)}, ${s.toFixed(1)}%, ${l.toFixed(1)}%)`;
+    }
+
+    function addColorShift(el, attrName) {
+      const val = el.getAttribute(attrName);
+      if (!val || val === 'none' || val.startsWith('url') || val.startsWith('rgb') || val.startsWith('hsl')) return;
+      if (!val.startsWith('#')) return;
+      if (val.length < 4) return;
+      const [h, s, l] = hexToHSL(val);
+      // Grays get a subtle saturation injection
+      if (s < 3) {
+        cTargets.push({
+          el, attr: attrName, h: h || 30, s: 0, l,
+          hueAmount: 60 + Math.random() * 40,
+          satAmount: 8 + Math.random() * 6,
+          speed: 0.12 + Math.random() * 0.12,
+          offset: Math.random() * Math.PI * 2
+        });
+        return;
+      }
+      cTargets.push({
+        el, attr: attrName, h, s, l,
+        hueAmount: 45 + Math.random() * 30, // ±45-75 degrees
+        speed: 0.06 + Math.random() * 0.06,
+        offset: Math.random() * Math.PI * 2
+      });
+    }
+
+    function addBreathe(svgEl) {
+      if (!svgEl) return;
+      const speed = () => 0.25 + Math.random() * 0.25;
+      const phase = () => Math.random() * Math.PI * 2;
+      const all = Array.from(svgEl.querySelectorAll('*'));
+
+      for (let i = 0; i < all.length; i++) {
+        const el = all[i];
+        const tag = el.tagName.toLowerCase();
+
+        // Skip defs, gradients, stops, filters
+        if (['defs', 'lineargradient', 'radialgradient', 'stop', 'filter', 'svg', 'g', 'animate'].includes(tag)) continue;
+
+        // Color shift on fill and stroke
+        addColorShift(el, 'fill');
+        addColorShift(el, 'stroke');
+
+        // Breathe = grow/shrink from center uniformly
+        const s = speed();
+        const p = phase();
+        const breathe = tag === 'rect' ? 0.02 : 0.08;
+
+        if (tag === 'circle') {
+          const r = parseFloat(el.getAttribute('r'));
+          if (!isNaN(r)) bTargets.push({ el, attr: 'r', base: r, amount: r * breathe, speed: s, offset: p });
+        }
+        else if (tag === 'ellipse') {
+          const rx = parseFloat(el.getAttribute('rx'));
+          const ry = parseFloat(el.getAttribute('ry'));
+          if (!isNaN(rx)) bTargets.push({ el, attr: 'rx', base: rx, amount: rx * breathe, speed: s, offset: p });
+          if (!isNaN(ry)) bTargets.push({ el, attr: 'ry', base: ry, amount: ry * breathe, speed: s, offset: p });
+        }
+        else if (tag === 'rect') {
+          const w = parseFloat(el.getAttribute('width'));
+          const h = parseFloat(el.getAttribute('height'));
+          if (w >= 800 && h >= 400) continue;
+          const x = parseFloat(el.getAttribute('x'));
+          const y = parseFloat(el.getAttribute('y'));
+          const fill = el.getAttribute('fill') || '';
+
+          // Tagged fader knobs — slide within their track range
+          const faderRange = el.getAttribute('data-fader');
+          if (faderRange) {
+            const [fMin, fMax] = faderRange.split(',').map(Number);
+            const mid = (fMin + fMax) / 2;
+            const range = (fMax - fMin) / 2;
+            bTargets.push({ el, attr: 'y', base: mid, amount: range * 0.8, speed: 0.15 + Math.random() * 0.12, offset: p });
+            continue;
+          }
+
+          // Check if rect wraps text — look for any text element inside its bounds
+          const rx = x || 0, ry = y || 0;
+          const allTexts = svgEl.getElementsByTagName('text');
+          let wrapsText = false;
+          for (let ti = 0; ti < allTexts.length; ti++) {
+            const tx = parseFloat(allTexts[ti].getAttribute('x') || '0');
+            const ty = parseFloat(allTexts[ti].getAttribute('y') || '0');
+            if (tx >= rx && tx <= rx + w && ty >= ry && ty <= ry + h) {
+              wrapsText = true;
+              break;
+            }
+          }
+
+          if (w > 10 && h > 10) {
+            // Replace rect with a wiggling path border
+            const stroke = el.getAttribute('stroke');
+            const strokeW = el.getAttribute('stroke-width') || '1';
+            const fill = el.getAttribute('fill') || 'none';
+            const op = el.getAttribute('opacity');
+            const rx2 = parseFloat(el.getAttribute('rx') || '0');
+
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            if (stroke) path.setAttribute('stroke', stroke);
+            path.setAttribute('stroke-width', strokeW);
+            path.setAttribute('fill', fill);
+            if (op) path.setAttribute('opacity', op);
+            el.parentNode.replaceChild(path, el);
+
+            const segsPerUnit = 1/10;
+            const topSegs = Math.max(4, Math.floor(w * segsPerUnit));
+            const sideSegs = Math.max(4, Math.floor(h * segsPerUnit));
+
+            wiggleTargets.push({
+              path: path,
+              rectX: x || 0, rectY: y || 0, rectW: w, rectH: h,
+              topSegs: topSegs, sideSegs: sideSegs,
+              speed: 0.3 + Math.random() * 0.3,
+              amplitude: 1.2 + Math.random() * 0.6,
+              phase: Math.random() * Math.PI * 2,
+              waveFreq: 1 + Math.random() * 0.8,
+              isRect: true
+            });
+
+            addColorShift(path, 'stroke');
+            addColorShift(path, 'fill');
+          }
+        }
+        else if (tag === 'line') {
+          const x1 = parseFloat(el.getAttribute('x1'));
+          const y1 = parseFloat(el.getAttribute('y1'));
+          const x2 = parseFloat(el.getAttribute('x2'));
+          const y2 = parseFloat(el.getAttribute('y2'));
+          const stroke = el.getAttribute('stroke');
+          const sw = el.getAttribute('stroke-width') || '1';
+          const op = el.getAttribute('opacity');
+          const dash = el.getAttribute('stroke-dasharray');
+          const cap = el.getAttribute('stroke-linecap');
+
+          const dx = x2 - x1, dy = y2 - y1;
+          const len = Math.sqrt(dx * dx + dy * dy);
+          if (len < 5) continue; // skip tiny lines
+
+          // Replace line with a path
+          const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          path.setAttribute('stroke', stroke);
+          path.setAttribute('stroke-width', sw);
+          path.setAttribute('fill', 'none');
+          if (op) path.setAttribute('opacity', op);
+          if (dash) path.setAttribute('stroke-dasharray', dash);
+          if (cap) path.setAttribute('stroke-linecap', cap);
+          el.parentNode.replaceChild(path, el);
+
+          const nx = -dy / len, ny = dx / len;
+          const segments = Math.max(8, Math.floor(len / 12));
+
+          wiggleTargets.push({
+            path: path,
+            x1: x1, y1: y1, dx: dx, dy: dy,
+            nx: nx, ny: ny,
+            segments: segments,
+            speed: 1.5 + Math.random() * 1.5,
+            amplitude: 0.8 + Math.random() * 0.7,
+            phase: Math.random() * Math.PI * 2,
+            waveFreq: 3 + Math.random() * 2
+          });
+
+          // Also color shift the new path
+          addColorShift(path, 'stroke');
+        }
+        else if (tag === 'path') {
+          const sw = parseFloat(el.getAttribute('stroke-width') || '0');
+          if (sw > 0) bTargets.push({ el, attr: 'stroke-width', base: sw, amount: Math.max(1, sw * 0.6), speed: s, offset: p });
+          const op = parseFloat(el.getAttribute('opacity') || '1');
+          bTargets.push({ el, attr: 'opacity', base: op, amount: op * 0.35, speed: s * 0.7, offset: p });
+
+          // Wiggle path control points
+          const d = el.getAttribute('d') || '';
+          if (d && sw > 0) {
+            // Parse all numbers from the path
+            const nums = d.match(/-?\d+\.?\d*/g);
+            if (nums && nums.length >= 4) {
+              wiggleTargets.push({
+                path: el,
+                baseD: d,
+                nums: nums.map(Number),
+                speed: 0.5 + Math.random() * 0.5,
+                amplitude: 10 + Math.random() * 8,
+                phase: Math.random() * Math.PI * 2,
+                isPath: true
+              });
+            }
+          }
+        }
+        else if (tag === 'text') {
+          continue;
+        }
+        else if (tag === 'polygon') {
+          const op = parseFloat(el.getAttribute('opacity') || '1');
+          bTargets.push({ el, attr: 'opacity', base: op, amount: op * breathe * 2, speed: s, offset: p });
+        }
+      }
+    }
+
+    // Inline the hero SVG and add breathing
+    const heroWrap = document.getElementById('hero-wrap');
+    if (heroWrap) {
+      const heroSrc = heroWrap.dataset.heroSrc;
+      if (heroSrc && heroSrc.endsWith('.svg')) {
+        fetch(heroSrc)
+          .then(r => r.text())
+          .then(svgText => {
+            // Inject the raw SVG
+            heroWrap.innerHTML = svgText;
+            const inlinedSvg = heroWrap.querySelector('svg');
+            if (inlinedSvg) {
+              inlinedSvg.style.width = '100%';
+              inlinedSvg.style.height = '320px';
+              inlinedSvg.style.display = 'block';
+              inlinedSvg.setAttribute('preserveAspectRatio', 'none');
+
+              // Breathe its elements
+              addBreathe(inlinedSvg);
+
+              // Start the loop now
+              if (bTargets.length > 0) {
+                console.log('BREATHE: animating', bTargets.length, 'hero SVG elements');
+                function tick(time) {
+                  const t = time / 1000;
+                  for (let i = 0; i < bTargets.length; i++) {
+                    const b = bTargets[i];
+                    let val;
+                    if (b.flow) {
+                      // Continuous flow — always moves forward
+                      val = -(t * b.speed * b.amount) % b.amount;
+                    } else {
+                      val = b.base + Math.sin(t * b.speed + b.offset) * b.amount;
+                    }
+                    b.el.setAttribute(b.attr, String(Math.max(0.1, val)));
+                  }
+                  for (let i = 0; i < cTargets.length; i++) {
+                    const c = cTargets[i];
+                    const hue = c.h + Math.sin(t * c.speed + c.offset) * c.hueAmount;
+                    const sat = c.s + (c.satAmount ? Math.sin(t * c.speed * 0.7 + c.offset) * c.satAmount : 0);
+                    c.el.setAttribute(c.attr, hslToStr(hue, Math.max(0, sat), c.l));
+                  }
+                  for (let i = 0; i < wiggleTargets.length; i++) {
+                    const w = wiggleTargets[i];
+                    const amp = Math.sin(t * 0.5 + w.phase) * w.amplitude;
+
+                    if (w.isRect) {
+                      // Wiggle 4 edges + breathe size from center
+                      const breatheAmt = Math.sin(t * 0.15 + w.phase) * 0.12;
+                      const dw = w.rectW * breatheAmt;
+                      const dh = w.rectH * breatheAmt;
+                      const rx = w.rectX - dw / 2;
+                      const ry = w.rectY - dh / 2;
+                      const rw = w.rectW + dw;
+                      const rh = w.rectH + dh;
+                      let d = 'M ' + rx + ' ' + ry;
+                      // Top edge (left to right) — wiggle Y
+                      for (let s = 1; s <= w.topSegs; s++) {
+                        const f = s / w.topSegs;
+                        const wx = rx + rw * f;
+                        const wy = ry + Math.sin(f * w.waveFreq * Math.PI + t * w.speed) * amp;
+                        d += ' L ' + wx.toFixed(1) + ' ' + wy.toFixed(1);
+                      }
+                      // Right edge (top to bottom) — wiggle X
+                      for (let s = 1; s <= w.sideSegs; s++) {
+                        const f = s / w.sideSegs;
+                        const wx = rx + rw + Math.sin(f * w.waveFreq * Math.PI + t * w.speed + 1) * amp;
+                        const wy = ry + rh * f;
+                        d += ' L ' + wx.toFixed(1) + ' ' + wy.toFixed(1);
+                      }
+                      // Bottom edge (right to left) — wiggle Y
+                      for (let s = 1; s <= w.topSegs; s++) {
+                        const f = s / w.topSegs;
+                        const wx = rx + rw * (1 - f);
+                        const wy = ry + rh + Math.sin(f * w.waveFreq * Math.PI + t * w.speed + 2) * amp;
+                        d += ' L ' + wx.toFixed(1) + ' ' + wy.toFixed(1);
+                      }
+                      // Left edge (bottom to top) — wiggle X
+                      for (let s = 1; s <= w.sideSegs; s++) {
+                        const f = s / w.sideSegs;
+                        const wx = rx + Math.sin(f * w.waveFreq * Math.PI + t * w.speed + 3) * amp;
+                        const wy = ry + rh * (1 - f);
+                        d += ' L ' + wx.toFixed(1) + ' ' + wy.toFixed(1);
+                      }
+                      d += ' Z';
+                      w.path.setAttribute('d', d);
+                    } else if (w.isPath) {
+                      // Path control point wiggle
+                      const amp = Math.sin(t * 0.3 + w.phase) * w.amplitude;
+                      let newD = w.baseD;
+                      let ni = 0;
+                      newD = newD.replace(/-?\d+\.?\d*/g, function(match) {
+                        const orig = w.nums[ni];
+                        const wiggle = Math.sin(t * w.speed + ni * 0.7 + w.phase) * amp;
+                        ni++;
+                        return (orig + wiggle).toFixed(1);
+                      });
+                      w.path.setAttribute('d', newD);
+                    } else {
+                      // Line wiggle
+                      let d = 'M ' + w.x1 + ' ' + w.y1;
+                      for (let s = 1; s <= w.segments; s++) {
+                        const frac = s / w.segments;
+                        const bx = w.x1 + w.dx * frac;
+                        const by = w.y1 + w.dy * frac;
+                        const wave = Math.sin(frac * w.waveFreq * Math.PI + t * w.speed) * amp;
+                        d += ' L ' + (bx + w.nx * wave).toFixed(1) + ' ' + (by + w.ny * wave).toFixed(1);
+                      }
+                      w.path.setAttribute('d', d);
+                    }
+                  }
+                  requestAnimationFrame(tick);
+                }
+                requestAnimationFrame(tick);
+              }
+            }
+          });
+      } else if (heroSrc) {
+        // Non-SVG hero — just use an img tag
+        heroWrap.innerHTML = `<img src="${heroSrc}" alt="" role="presentation" class="article__hero" style="width:100%;height:auto;display:block;" />`;
+      }
+    }
+
+    // Build panels
+    const body = document.getElementById('article-body');
+    if (body) {
+      const children = [...body.children];
+      const sections = [];
+      let current = null;
+      const introElements = [];
+
+      for (const el of children) {
+        if (el.id === 'hero-wrap') continue;
+        if (el.tagName === 'H2') {
+          current = { title: el.textContent || '', elements: [], ref: el };
+          sections.push(current);
+        } else if (current) {
+          current.elements.push(el);
+        } else {
+          introElements.push(el);
+        }
+      }
+
+      if (sections.length > 0) {
+        // Add racked class for padding
+        body.classList.add('racked');
+
+        // Save hero wrap before clearing
+        const savedHero = body.querySelector('#hero-wrap');
+        if (savedHero) savedHero.remove();
+
+        // Clear everything
+        while (body.firstChild) body.removeChild(body.firstChild);
+
+        // Title panel — screwed into the rack using buildHeader
+        const postTitle = body.dataset.postTitle || '';
+        const postDate = body.dataset.postDate || '';
+        const postTags = (body.dataset.postTags || '').split(',').filter(Boolean);
+        const titlePanel = document.createElement('section');
+        titlePanel.className = 'panel';
+
+        const tp = palettes[0];
+        const tw = 800;
+        const th = 72;
+        const tagSvgs = postTags.map((tag, i) => {
+          const tx = 46 + i * 90;
+          return `<a href="/blog/tag/${tag}" style="cursor:pointer">
+            <rect x="${tx}" y="48" width="80" height="18" rx="2" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
+            <text x="${tx + 40}" y="60" font-family="'JetBrains Mono', monospace" font-size="9" fill="${tp.accent}" text-anchor="middle" opacity="0.7">${tag}</text>
+          </a>`;
+        }).join('');
+
+        const titleDiv = document.createElement('div');
+        titleDiv.innerHTML = `<svg viewBox="0 0 ${tw} ${th}" xmlns="http://www.w3.org/2000/svg" class="panel__header" preserveAspectRatio="none" style="width:100%;height:${th}px;display:block;">
+          <defs>
+            ${chromeDefs('title')}
+            <linearGradient id="titleSheen" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="rgba(255,255,255,0.05)"/>
+              <stop offset="50%" stop-color="rgba(255,255,255,0)"/>
+              <stop offset="100%" stop-color="rgba(0,0,0,0.12)"/>
+            </linearGradient>
+          </defs>
+          <rect x="0" y="0" width="${tw}" height="${th}" fill="${tp.bg}"/>
+          <g opacity="0.5">${Array.from({length: Math.floor(tw / 3)}, (_, i) =>
+            `<line x1="${i * 3}" y1="0" x2="${i * 3 - 1}" y2="${th}" stroke="rgba(255,255,255,0.015)" stroke-width="0.5"/>`
+          ).join('')}</g>
+          <rect x="0" y="0" width="${tw}" height="${th}" fill="url(#titleSheen)"/>
+          <line x1="0" y1="0.5" x2="${tw}" y2="0.5" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+          <line x1="0" y1="${th - 0.5}" x2="${tw}" y2="${th - 0.5}" stroke="rgba(0,0,0,0.35)" stroke-width="1"/>
+          ${chromeScrew(11, th / 2, 11, 'title')}
+          ${chromeScrew(tw - 11, th / 2, 11, 'title')}
+          <a href="/blog"><text x="46" y="16" font-family="'JetBrains Mono', monospace" font-size="7" fill="${tp.text}" letter-spacing="1" opacity="0.4" style="cursor:pointer">\u2190 ALL POSTS</text></a>
+          <text x="46" y="36" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="600" fill="${tp.accent}" letter-spacing="1">${postTitle.toUpperCase()}</text>
+          <text x="${tw - 30}" y="36" font-family="'JetBrains Mono', monospace" font-size="7" fill="${tp.text}" text-anchor="end" opacity="0.5">${postDate.toUpperCase()}</text>
+          ${tagSvgs}
+          <rect x="0" y="0" width="3" height="${th}" fill="${tp.stroke}" opacity="0.6"/>
+          ${ventSlots(tw - 55, th / 2 - 8, 4)}
+        </svg>`;
+        titlePanel.appendChild(titleDiv.firstElementChild);
+
+        body.appendChild(titlePanel);
+
+        // Re-insert hero below title
+        if (savedHero) {
+          body.appendChild(savedHero);
+        }
+
+        // Intro panel (content before first h2)
+        if (introElements.length > 0) {
+          const introPanel = document.createElement('section');
+          introPanel.className = 'panel';
+
+          const introHdr = document.createElement('div');
+          introHdr.innerHTML = buildHeader('OVERVIEW', sections.length, 800);
+          const iHdr = introHdr.firstElementChild;
+          introPanel.appendChild(iHdr);
+
+          const introContent = document.createElement('div');
+          introContent.className = 'panel__content';
+          introElements.forEach(el => introContent.appendChild(el.cloneNode(true)));
+          introPanel.appendChild(introContent);
+
+          const introFtr = document.createElement('div');
+          introFtr.innerHTML = buildFooter(sections.length, 800);
+          const iFtr = introFtr.firstElementChild;
+          introPanel.appendChild(iFtr);
+
+          body.appendChild(introPanel);
+        }
+
+        sections.forEach((sec, idx) => {
+          const panel = document.createElement('section');
+          panel.className = 'panel';
+
+          const headerDiv = document.createElement('div');
+          headerDiv.innerHTML = buildHeader(sec.title.toUpperCase(), idx, 800);
+          const hSvg = headerDiv.firstElementChild;
+          panel.appendChild(hSvg);
+
+          const content = document.createElement('div');
+          content.className = 'panel__content';
+          sec.elements.forEach(el => content.appendChild(el.cloneNode(true)));
+          panel.appendChild(content);
+
+          const footerDiv = document.createElement('div');
+          footerDiv.innerHTML = buildFooter(idx, 800);
+          const fSvg = footerDiv.firstElementChild;
+          panel.appendChild(fSvg);
+
+          body.appendChild(panel);
+        });
+
+        // Rack rails — after layout, collect screw Y positions
+        requestAnimationFrame(() => {
+          const totalHeight = body.scrollHeight;
+          const bodyRect = body.getBoundingClientRect();
+          const screwPositions = [];
+
+          // Collect screw Y positions from headers and footers
+          body.querySelectorAll('.panel__header, .panel__footer').forEach(el => {
+            const rect = el.getBoundingClientRect();
+            const y = rect.top - bodyRect.top + rect.height / 2;
+            screwPositions.push(y);
+          });
+
+          const railsDiv = document.createElement('div');
+          railsDiv.innerHTML = buildRackRails(totalHeight, screwPositions);
+          while (railsDiv.firstChild) {
+            body.appendChild(railsDiv.firstChild);
+          }
+
+        });
+      }
+    }
+
+  </script>
 </Base>

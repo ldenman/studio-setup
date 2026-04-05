@@ -1,0 +1,32 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Sessions" active="sessions">
+  <div class="container">
+
+    <section class="page-header">
+      <span class="chapter-label">03 — Sessions</span>
+      <h1>Sessions</h1>
+      <p>The working songbook, the full walkthrough, and the tools that keep everything running.</p>
+    </section>
+
+    <div class="vu-bar" style="background: var(--session-green)"></div>
+
+    <div class="card-grid">
+      <a href="/songs" class="card" style="text-decoration:none">
+        <h3 style="margin-top:0">Songs</h3>
+        <p>The working song list &mdash; keys, chord shapes, and session notes for everything on the stand.</p>
+      </a>
+      <a href="/how-it-works" class="card" style="text-decoration:none">
+        <h3 style="margin-top:0">How It Works</h3>
+        <p>From microphone to finished mix &mdash; the complete guide to every piece of gear and every step of the process.</p>
+      </a>
+      <a href="/tools" class="card" style="text-decoration:none">
+        <h3 style="margin-top:0">Tools</h3>
+        <p>The software that controls the studio &mdash; wingctl, MCP tools, OSC scripts, and automation.</p>
+      </a>
+    </div>
+
+  </div>
+</Base>

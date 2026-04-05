@@ -12,7 +12,7 @@
     <!-- Fader slot -->
     <rect x="22" y="80" width="16" height="180" rx="2" fill="#2a2825"/>
     <!-- Fader knob -->
-    <rect x="18" y="140" width="24" height="12" rx="2" fill="#f4f3ee"/>
+    <rect x="18" y="140" width="24" height="12" rx="2" fill="#f4f3ee" data-fader="80,248"/>
     <!-- Meter -->
     <rect x="46" y="80" width="6" height="180" rx="1" fill="#2a2825"/>
     <rect x="46" y="120" width="6" height="140" rx="1" fill="#5a8a4a" opacity="0.8"/>
@@ -26,7 +26,7 @@
       <rect x="0" y="0" width="60" height="320" rx="4" fill="#4a4740"/>
       <text x="30" y="24" fill="#f4f3ee" font-family="monospace" font-size="11" text-anchor="middle">CH 1</text>
       <rect x="22" y="80" width="16" height="180" rx="2" fill="#2a2825"/>
-      <rect x="18" y="200" width="24" height="12" rx="2" fill="#f4f3ee" opacity="0.4"/>
+      <rect x="18" y="200" width="24" height="12" rx="2" fill="#f4f3ee" opacity="0.4" data-fader="80,248"/>
       <rect x="46" y="80" width="6" height="180" rx="1" fill="#2a2825"/>
       <text x="30" y="290" fill="#f4f3ee" font-family="monospace" font-size="9" text-anchor="middle">Vocal</text>
     </g>
@@ -34,7 +34,7 @@
       <rect x="0" y="0" width="60" height="320" rx="4" fill="#4a4740"/>
       <text x="30" y="24" fill="#f4f3ee" font-family="monospace" font-size="11" text-anchor="middle">CH 2</text>
       <rect x="22" y="80" width="16" height="180" rx="2" fill="#2a2825"/>
-      <rect x="18" y="190" width="24" height="12" rx="2" fill="#f4f3ee" opacity="0.4"/>
+      <rect x="18" y="190" width="24" height="12" rx="2" fill="#f4f3ee" opacity="0.4" data-fader="80,248"/>
       <rect x="46" y="80" width="6" height="180" rx="1" fill="#2a2825"/>
       <text x="30" y="290" fill="#f4f3ee" font-family="monospace" font-size="9" text-anchor="middle">Guitar</text>
     </g>
@@ -42,7 +42,7 @@
       <rect x="0" y="0" width="60" height="320" rx="4" fill="#4a4740"/>
       <text x="30" y="24" fill="#f4f3ee" font-family="monospace" font-size="11" text-anchor="middle">CH 17</text>
       <rect x="22" y="80" width="16" height="180" rx="2" fill="#2a2825"/>
-      <rect x="18" y="170" width="24" height="12" rx="2" fill="#f4f3ee" opacity="0.4"/>
+      <rect x="18" y="170" width="24" height="12" rx="2" fill="#f4f3ee" opacity="0.4" data-fader="80,248"/>
       <rect x="46" y="80" width="6" height="180" rx="1" fill="#2a2825"/>
       <text x="30" y="290" fill="#f4f3ee" font-family="monospace" font-size="9" text-anchor="middle">Vox Proc</text>
     </g>
@@ -57,7 +57,7 @@
     <text x="30" y="24" fill="#a85a4a" font-family="monospace" font-size="11" text-anchor="middle">BUS 2</text>
     <text x="30" y="42" fill="#a85a4a" font-family="monospace" font-size="8" text-anchor="middle">ON MAIN</text>
     <rect x="22" y="80" width="16" height="180" rx="2" fill="#2a2825"/>
-    <rect x="18" y="150" width="24" height="12" rx="2" fill="#f4f3ee"/>
+    <rect x="18" y="150" width="24" height="12" rx="2" fill="#f4f3ee" data-fader="80,248"/>
     <rect x="46" y="80" width="6" height="180" rx="1" fill="#2a2825"/>
     <rect x="46" y="140" width="6" height="120" rx="1" fill="#a85a4a" opacity="0.7"/>
     <text x="30" y="290" fill="#f4f3ee" font-family="monospace" font-size="9" text-anchor="middle">Outboard</text>
@@ -68,7 +68,7 @@
     <text x="30" y="24" fill="#a85a4a" font-family="monospace" font-size="11" text-anchor="middle">BUS 5</text>
     <text x="30" y="42" fill="#a85a4a" font-family="monospace" font-size="8" text-anchor="middle">ON MAIN</text>
     <rect x="22" y="80" width="16" height="180" rx="2" fill="#2a2825"/>
-    <rect x="18" y="160" width="24" height="12" rx="2" fill="#f4f3ee"/>
+    <rect x="18" y="160" width="24" height="12" rx="2" fill="#f4f3ee" data-fader="80,248"/>
     <rect x="46" y="80" width="6" height="180" rx="1" fill="#2a2825"/>
     <rect x="46" y="150" width="6" height="110" rx="1" fill="#a85a4a" opacity="0.7"/>
     <text x="30" y="290" fill="#f4f3ee" font-family="monospace" font-size="9" text-anchor="middle">Elec Amp</text>
@@ -79,7 +79,7 @@
     <text x="30" y="24" fill="#a85a4a" font-family="monospace" font-size="11" text-anchor="middle">BUS 6</text>
     <text x="30" y="42" fill="#a85a4a" font-family="monospace" font-size="8" text-anchor="middle">ON MAIN</text>
     <rect x="22" y="80" width="16" height="180" rx="2" fill="#2a2825"/>
-    <rect x="18" y="155" width="24" height="12" rx="2" fill="#f4f3ee"/>
+    <rect x="18" y="155" width="24" height="12" rx="2" fill="#f4f3ee" data-fader="80,248"/>
     <rect x="46" y="80" width="6" height="180" rx="1" fill="#2a2825"/>
     <rect x="46" y="145" width="6" height="115" rx="1" fill="#a85a4a" opacity="0.7"/>
     <text x="30" y="290" fill="#f4f3ee" font-family="monospace" font-size="9" text-anchor="middle">Acou Amp</text>
@@ -90,7 +90,7 @@
     <text x="30" y="24" fill="#a85a4a" font-family="monospace" font-size="11" text-anchor="middle">BUS 3</text>
     <text x="30" y="42" fill="#a85a4a" font-family="monospace" font-size="8" text-anchor="middle">ON MAIN</text>
     <rect x="22" y="80" width="16" height="180" rx="2" fill="#2a2825"/>
-    <rect x="18" y="165" width="24" height="12" rx="2" fill="#f4f3ee"/>
+    <rect x="18" y="165" width="24" height="12" rx="2" fill="#f4f3ee" data-fader="80,248"/>
     <rect x="46" y="80" width="6" height="180" rx="1" fill="#2a2825"/>
     <rect x="46" y="155" width="6" height="105" rx="1" fill="#a85a4a" opacity="0.7"/>
     <text x="30" y="290" fill="#f4f3ee" font-family="monospace" font-size="9" text-anchor="middle">Reverb</text>

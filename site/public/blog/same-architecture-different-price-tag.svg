@@ -31,27 +31,27 @@
   <rect x="477" y="120" width="8" height="120" rx="1" fill="#4a7a9a" opacity="0.2" />
 
   <!-- Fader knobs on channel strips -->
-  <rect x="286" y="195" width="6" height="10" rx="1" fill="#b8792a" opacity="0.5" />
-  <rect x="298" y="185" width="6" height="10" rx="1" fill="#b8792a" opacity="0.5" />
-  <rect x="310" y="190" width="6" height="10" rx="1" fill="#b8792a" opacity="0.5" />
-  <rect x="322" y="200" width="6" height="10" rx="1" fill="#b8792a" opacity="0.5" />
-  <rect x="334" y="180" width="6" height="10" rx="1" fill="#b8792a" opacity="0.5" />
-  <rect x="346" y="192" width="6" height="10" rx="1" fill="#b8792a" opacity="0.5" />
-  <rect x="358" y="188" width="6" height="10" rx="1" fill="#b8792a" opacity="0.5" />
-  <rect x="370" y="196" width="6" height="10" rx="1" fill="#b8792a" opacity="0.5" />
+  <rect x="286" y="195" width="6" height="10" rx="1" fill="#b8792a" opacity="0.5" data-fader="120,230"/>
+  <rect x="298" y="185" width="6" height="10" rx="1" fill="#b8792a" opacity="0.5" data-fader="120,230"/>
+  <rect x="310" y="190" width="6" height="10" rx="1" fill="#b8792a" opacity="0.5" data-fader="120,230"/>
+  <rect x="322" y="200" width="6" height="10" rx="1" fill="#b8792a" opacity="0.5" data-fader="120,230"/>
+  <rect x="334" y="180" width="6" height="10" rx="1" fill="#b8792a" opacity="0.5" data-fader="120,230"/>
+  <rect x="346" y="192" width="6" height="10" rx="1" fill="#b8792a" opacity="0.5" data-fader="120,230"/>
+  <rect x="358" y="188" width="6" height="10" rx="1" fill="#b8792a" opacity="0.5" data-fader="120,230"/>
+  <rect x="370" y="196" width="6" height="10" rx="1" fill="#b8792a" opacity="0.5" data-fader="120,230"/>
 
-  <rect x="394" y="188" width="6" height="10" rx="1" fill="#4a7a9a" opacity="0.5" />
-  <rect x="406" y="195" width="6" height="10" rx="1" fill="#4a7a9a" opacity="0.5" />
-  <rect x="418" y="182" width="6" height="10" rx="1" fill="#4a7a9a" opacity="0.5" />
-  <rect x="430" y="192" width="6" height="10" rx="1" fill="#4a7a9a" opacity="0.5" />
-  <rect x="442" y="200" width="6" height="10" rx="1" fill="#4a7a9a" opacity="0.5" />
-  <rect x="454" y="186" width="6" height="10" rx="1" fill="#4a7a9a" opacity="0.5" />
-  <rect x="466" y="194" width="6" height="10" rx="1" fill="#4a7a9a" opacity="0.5" />
-  <rect x="478" y="190" width="6" height="10" rx="1" fill="#4a7a9a" opacity="0.5" />
+  <rect x="394" y="188" width="6" height="10" rx="1" fill="#4a7a9a" opacity="0.5" data-fader="120,230"/>
+  <rect x="406" y="195" width="6" height="10" rx="1" fill="#4a7a9a" opacity="0.5" data-fader="120,230"/>
+  <rect x="418" y="182" width="6" height="10" rx="1" fill="#4a7a9a" opacity="0.5" data-fader="120,230"/>
+  <rect x="430" y="192" width="6" height="10" rx="1" fill="#4a7a9a" opacity="0.5" data-fader="120,230"/>
+  <rect x="442" y="200" width="6" height="10" rx="1" fill="#4a7a9a" opacity="0.5" data-fader="120,230"/>
+  <rect x="454" y="186" width="6" height="10" rx="1" fill="#4a7a9a" opacity="0.5" data-fader="120,230"/>
+  <rect x="466" y="194" width="6" height="10" rx="1" fill="#4a7a9a" opacity="0.5" data-fader="120,230"/>
+  <rect x="478" y="190" width="6" height="10" rx="1" fill="#4a7a9a" opacity="0.5" data-fader="120,230"/>
 
   <!-- Master section -->
   <rect x="497" y="130" width="20" height="100" rx="2" fill="none" stroke="#b8792a" stroke-width="1" opacity="0.3" />
-  <rect x="501" y="170" width="12" height="16" rx="2" fill="#b8792a" opacity="0.4" />
+  <rect x="501" y="170" width="12" height="16" rx="2" fill="#b8792a" opacity="0.4" data-fader="130,214"/>
 
   <!-- Console label -->
   <text x="400" y="275" font-family="monospace" font-size="10" fill="#b8792a" text-anchor="middle" opacity="0.6">console</text>

@@ -1,5 +1,7 @@
 ---
 import '../styles/global.css';
+import { getCollection } from 'astro:content';
+
 interface Props {
   title: string;
   description?: string;
@@ -7,23 +9,27 @@ interface Props {
 }
 const { title, description = "Lake's Studio", active = '' } = Astro.props;
 
+const recentPosts = (await getCollection('blog'))
+  .filter(p => !p.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 5);
+
 const signalColor = (() => {
-  if (['recording', 'production', 'mixing', 'routing'].includes(active)) return 'blue';
-  if (['front-panels', 'rack', 'ha73', 'wa76', 'distressor', 'opto', 'sound-design'].includes(active)) return 'amber';
-  if (['songs', 'how-it-works', 'tools'].includes(active)) return 'green';
+  if (['signal-flow', 'recording', 'production', 'mixing', 'routing'].includes(active)) return 'blue';
+  if (['gear', 'rack', 'ha73', 'wa76', 'distressor', 'opto', 'sound-design'].includes(active)) return 'amber';
+  if (['sessions', 'songs', 'how-it-works', 'tools'].includes(active)) return 'green';
   if (active === 'blog') return 'red';
   return 'default';
 })();
 
 const sections = [
-  { num: '01', label: 'Signal Flow', items: [
+  { num: '01', label: 'Signal Flow', href: '/signal-flow', items: [
     { num: '1.1', label: 'Recording',    href: '/recording',    id: 'recording' },
     { num: '1.2', label: 'Production',   href: '/production',   id: 'production' },
     { num: '1.3', label: 'Mixing',       href: '/mixing',       id: 'mixing' },
     { num: '1.4', label: 'Routing',      href: '/routing',      id: 'routing' },
   ]},
-  { num: '02', label: 'Gear', href: '/front-panels', items: [
-    { num: '',    label: 'The Chain',        href: '/front-panels', id: 'front-panels' },
+  { num: '02', label: 'Gear', href: '/gear', items: [
     { num: '2.1', label: 'HA73-EQX2',       href: '/ha73',         id: 'ha73' },
     { num: '2.2', label: 'WA76-D2',         href: '/wa76',         id: 'wa76' },
     { num: '2.3', label: 'Distressor',      href: '/distressor',   id: 'distressor' },
@@ -31,13 +37,10 @@ const sections = [
     { num: '2.5', label: 'Rack Room',       href: '/rack',         id: 'rack' },
     { num: '2.6', label: 'Sound Design',    href: '/sound-design', id: 'sound-design' },
   ]},
-  { num: '03', label: 'Sessions', items: [
+  { num: '03', label: 'Sessions', href: '/sessions', items: [
     { num: '3.1', label: 'Songs',        href: '/songs',        id: 'songs' },
     { num: '3.2', label: 'How It Works', href: '/how-it-works', id: 'how-it-works' },
     { num: '3.3', label: 'Tools',        href: '/tools',        id: 'tools' },
-  ]},
-  { num: '04', label: 'Blog', items: [
-    { num: '',    label: 'Session Notes', href: '/blog',         id: 'blog' },
   ]},
 ];
 ---
@@ -89,6 +92,29 @@ const sections = [
             </ul>
           </div>
         ))}
+
+        <div class="sidebar__section">
+          <div class="sidebar__section-label">
+            <span class="sidebar__section-num">04</span>
+            <a href="/blog" class="sidebar__section-text">Blog</a>
+          </div>
+          <ul class="sidebar__items">
+            {recentPosts.map(post => (
+              <li class:list={['sidebar__item', { active: active === 'blog' && title === post.data.title }]}>
+                <a href={`/blog/${post.id}`}>
+                  <span class="num"></span>
+                  <span class="label">{post.data.title}</span>
+                </a>
+              </li>
+            ))}
+            <li class="sidebar__item sidebar__item--more">
+              <a href="/blog">
+                <span class="num"></span>
+                <span class="label">All posts &rarr;</span>
+              </a>
+            </li>
+          </ul>
+        </div>
       </nav>
 
       <div class="sidebar__footer">
@@ -119,6 +145,8 @@ const sections = [
       sidebar?.classList.remove('open');
       overlay?.classList.remove('open');
     });
+
+    // ── SVG breathing ──
   </script>
 </body>
 </html>

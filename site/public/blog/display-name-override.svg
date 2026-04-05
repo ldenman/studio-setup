@@ -10,7 +10,7 @@
 
   <!-- Channel fader -->
   <rect x="115" y="130" width="30" height="160" rx="4" fill="#2a2825" stroke="#4a4740" stroke-width="1"/>
-  <rect x="110" y="200" width="40" height="12" rx="2" fill="#f4f3ee" opacity="0.6"/>
+  <rect x="110" y="200" width="40" height="12" rx="2" fill="#f4f3ee" opacity="0.6" data-fader="130,278"/>
 
   <!-- Channel label -->
   <text x="130" y="320" text-anchor="middle" fill="#f4f3ee" font-family="monospace" font-size="11" opacity="0.5">/ch/5/name</text>

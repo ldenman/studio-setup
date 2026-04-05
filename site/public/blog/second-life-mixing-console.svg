@@ -94,19 +94,19 @@
 
   <!-- Faders -->
   <rect x="571" y="180" width="8" height="55" rx="2" fill="#eae8e0" stroke="#4a4740" stroke-width="0.8" />
-  <rect x="573" y="200" width="4" height="10" rx="1" fill="#b8792a" />
+  <rect x="573" y="200" width="4" height="10" rx="1" fill="#b8792a" data-fader="180,225" />
   <rect x="596" y="180" width="8" height="55" rx="2" fill="#eae8e0" stroke="#4a4740" stroke-width="0.8" />
-  <rect x="598" y="195" width="4" height="10" rx="1" fill="#b8792a" />
+  <rect x="598" y="195" width="4" height="10" rx="1" fill="#b8792a" data-fader="180,225" />
   <rect x="621" y="180" width="8" height="55" rx="2" fill="#eae8e0" stroke="#4a4740" stroke-width="0.8" />
-  <rect x="623" y="210" width="4" height="10" rx="1" fill="#b8792a" />
+  <rect x="623" y="210" width="4" height="10" rx="1" fill="#b8792a" data-fader="180,225" />
   <rect x="646" y="180" width="8" height="55" rx="2" fill="#eae8e0" stroke="#4a4740" stroke-width="0.8" />
-  <rect x="648" y="205" width="4" height="10" rx="1" fill="#b8792a" />
+  <rect x="648" y="205" width="4" height="10" rx="1" fill="#b8792a" data-fader="180,225" />
   <rect x="671" y="180" width="8" height="55" rx="2" fill="#eae8e0" stroke="#4a4740" stroke-width="0.8" />
-  <rect x="673" y="190" width="4" height="10" rx="1" fill="#b8792a" />
+  <rect x="673" y="190" width="4" height="10" rx="1" fill="#b8792a" data-fader="180,225" />
   <rect x="701" y="180" width="8" height="55" rx="2" fill="#eae8e0" stroke="#4a4740" stroke-width="0.8" />
-  <rect x="703" y="198" width="4" height="10" rx="1" fill="#b8792a" />
+  <rect x="703" y="198" width="4" height="10" rx="1" fill="#b8792a" data-fader="180,225" />
   <rect x="731" y="180" width="8" height="55" rx="2" fill="#eae8e0" stroke="#4a4740" stroke-width="0.8" />
-  <rect x="733" y="203" width="4" height="10" rx="1" fill="#b8792a" />
+  <rect x="733" y="203" width="4" height="10" rx="1" fill="#b8792a" data-fader="180,225" />
 
   <!-- Master / stereo capture indicator -->
   <line x1="748" y1="118" x2="748" y2="257" stroke="#4a4740" stroke-width="0.8" stroke-dasharray="3,3" />
