@@ -208,9 +208,31 @@ const sections = [
           } else if (tag === 'rect') {
             const w = parseFloat(el.getAttribute('width')), h = parseFloat(el.getAttribute('height'));
             if (w >= 800 && h >= 200) continue;
-            if (w <= 10 || h <= 10) continue;
+            if (w <= 1 || h <= 1) continue;
+
+            // Tagged fader knobs
+            const faderRange = el.getAttribute('data-fader');
+            if (faderRange) {
+              const [fMin, fMax] = faderRange.split(',').map(Number);
+              const mid = (fMin + fMax) / 2;
+              const range = (fMax - fMin) / 2;
+              bTargets.push({ el, attr: 'y', base: mid, amount: range * 0.8, speed: 0.15 + Math.random() * 0.1, offset: p });
+              continue;
+            }
+
             const x = parseFloat(el.getAttribute('x'));
             const y = parseFloat(el.getAttribute('y'));
+
+            // Small rects (waveform bars etc) — just pulse height, no replacement
+            if (w <= 10 || h <= 10) {
+              if (h > w) {
+                bTargets.push({ el, attr: 'height', base: h, amount: h * 0.3, speed: s, offset: p });
+              } else {
+                bTargets.push({ el, attr: 'width', base: w, amount: w * 0.3, speed: s, offset: p });
+              }
+              continue;
+            }
+
             const stroke = el.getAttribute('stroke');
             const strokeW = el.getAttribute('stroke-width') || '1';
             const fill = el.getAttribute('fill') || 'none';
