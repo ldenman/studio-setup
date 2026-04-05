@@ -10,9 +10,9 @@ Picked the simplest song I could think of to break in the studio. Bob Dylan's *K
 
 ## Two Guitar Tones
 
-**Rhythm** got a Fender clean amp sim — bright, open, neck pickup with the tone rolled back. The kind of warm Strat sound where all the grit comes from the outboard chain downstream, not the amp. The Neve-style preamp adds body, the 1176 catches the pick attack, and the Distressor adds just enough compression to hold it together.
+**Rhythm** got the DELUXE amp sim — bright, open, neck pickup with the tone rolled back. The kind of warm Strat sound where all the grit comes from the outboard chain downstream, not the amp. The Neve-style preamp adds body, the 1176 catches the pick attack, and the Distressor adds just enough compression to hold it together.
 
-**Lead** went darker. A Mesa-style sim with the gain pulled way down — more of a thick, singing sustain than the usual high-gain snarl. The outboard chain adds its own character on top, so the amp sim doesn't need to do much.
+**Lead** went darker. The ANGEL sim with the gain pulled way down — more of a thick, singing sustain than the usual high-gain snarl. The outboard chain adds its own character on top, so the amp sim doesn't need to do much.
 
 Switching between the two tones is instant. The outboard chain stays the same either way; only the amp sim changes. One bus for rhythm, another for lead. Mute one, unmute the other.
 

@@ -47,40 +47,14 @@ All channels currently use local inputs (`LCL`), so the correct path is `/io/in/
 
 ### Channel Names
 
-These match the Wing Rack channel assignments in RECORDING-CONFIG.md:
-
-| Channel | OSC Path              | Name           |
-| ------- | --------------------- | -------------- |
-| 1       | /io/in/LCL/1/name     | Guitar Dry     |
-| 2       | /io/in/LCL/2/name     | Guitar Proc    |
-| 3       | /io/in/LCL/3/name     | Vocal Dry      |
-| 4       | /io/in/LCL/4/name     | Vocal Proc     |
-| 5       | /io/in/LCL/5/name     |                |
-| 6       | /io/in/LCL/6/name     |                |
-| 7       | /io/in/LCL/7/name     |                |
-| 8       | /io/in/LCL/8/name     |                |
-| 9       | /io/in/LCL/9/name     | Bass           |
-| 10      | /io/in/LCL/10/name    | Keyboard       |
-| 11      | /io/in/LCL/11/name    | Synth/Piano L  |
-| 12      | /io/in/LCL/12/name    | Synth/Piano R  |
-| 13      | /io/in/LCL/13/name    | Drums L        |
-| 14      | /io/in/LCL/14/name    | Drums R        |
-| 15      | /io/in/LCL/15/name    |                |
-| 16      | /io/in/LCL/16/name    |                |
+See `studio.edn` :channels for the current channel name assignments. Names are set on input sources via `/io/in/LCL/N/name` (or `/io/in/USR/N/name` for USR-sourced channels). The script `scripts/set-channel-names.sh` pushes all names to the Wing.
 
 ### Sending Names via CLI
 
 Requires `liblo` (`brew install liblo`):
 
 ```sh
-oscsend 192.168.2.2 2223 /io/in/LCL/1/name s "Guitar Dry"
-oscsend 192.168.2.2 2223 /io/in/LCL/2/name s "Guitar Proc"
-oscsend 192.168.2.2 2223 /io/in/LCL/3/name s "Vocal Dry"
-oscsend 192.168.2.2 2223 /io/in/LCL/4/name s "Vocal Proc"
-oscsend 192.168.2.2 2223 /io/in/LCL/9/name s "Bass"
-oscsend 192.168.2.2 2223 /io/in/LCL/10/name s "Keyboard"
-oscsend 192.168.2.2 2223 /io/in/LCL/11/name s "Synth/Piano L"
-oscsend 192.168.2.2 2223 /io/in/LCL/12/name s "Synth/Piano R"
-oscsend 192.168.2.2 2223 /io/in/LCL/13/name s "Drums L"
-oscsend 192.168.2.2 2223 /io/in/LCL/14/name s "Drums R"
+# Example — see scripts/set-channel-names.sh for the full set
+oscsend 192.168.2.2 2223 /io/in/LCL/1/name s "Vocal Dry"
+oscsend 192.168.2.2 2223 /io/in/LCL/1/col i 2
 ```

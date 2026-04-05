@@ -152,7 +152,7 @@ import Base from '../layouts/Base.astro';
       // Outputs row (bottom half)
       { id:'w-o1',  xPct:0.05, yOff:100, chain:'vocal',   label:'OUT 1', note:'Bus 1 Vocal Send → P1',              type:'xlr', io:'out' },
       { id:'w-o2',  xPct:0.10, yOff:100, chain:'guitar',  label:'OUT 2', note:'Bus 2 Guitar Send → P5',             type:'xlr', io:'out' },
-      { id:'w-o3',  xPct:0.15, yOff:100, chain:'tape',    label:'OUT 3', note:'USR/3 Tape Return → P9 → M12 Ch 6',  type:'xlr', io:'out' },
+      { id:'w-o3',  xPct:0.15, yOff:100, chain:'tape',    label:'OUT 3', note:'Bus 8 Guitar Rec → P9 → M12 Line In',  type:'xlr', io:'out' },
       { id:'w-o4',  xPct:0.20, yOff:100, chain:'none',    label:'OUT 4', note:'Bus 4R Mic Send → P10',              type:'xlr', io:'out' },
       { id:'w-o5',  xPct:0.25, yOff:100, chain:'none',    label:'OUT 5', note:'Open',                               type:'xlr', io:'out' },
       { id:'w-o6',  xPct:0.30, yOff:100, chain:'none',    label:'OUT 6', note:'Open',                               type:'xlr', io:'out' },
@@ -246,7 +246,7 @@ import Base from '../layouts/Base.astro';
     );
     // Tape
     cables.push(
-      {from:'m-aux', to:'w-i3', chain:'tape',   label:'Model 12 AUX 1 Out → Wing LCL 3 (TRS→XLR cable)'},
+      {from:'m-aux', to:'w-i3', chain:'tape',   label:'Model 12 AUX 1 Out → Wing LCL 3 (→ Ch33 Tape Send, TRS→XLR cable)'},
       {from:'w-o3',  to:'p9t',  chain:'tape',   label:'Wing Out 3 (USR/3) → Patchbay P9 top'},
       {from:'p9b',   to:'m-ch6',chain:'tape',   label:'P9 bottom → Model 12 Ch 6 line in'},
     );

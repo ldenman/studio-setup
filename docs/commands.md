@@ -184,7 +184,7 @@ The key challenge: both paths must receive the **same clean source** and be **le
 - "is anything muted?" → query mute state on all channels, report which are muted
 - "check levels" → query fader positions on all active channels
 - "what FX are loaded?" → query `/fx/N/mdl` on all slots, report what's active
-- "verify the board" → compare current Wing state against expected config from RECORDING-CONFIG.md
+- "verify the board" → compare current Wing state against expected config from `studio.edn`
 
 ## Session Management
 - "reset the board" → run `scripts/set-channel-names.sh` and restore all defaults (names, colors, faders, EQ flat, FX off)

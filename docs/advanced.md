@@ -102,13 +102,7 @@ Example — set USB/3 to stereo for Ch13:
 /io/in/USB/3/mode s "ST"
 ```
 
-Current stereo sources on single channels:
-- Ch6 (Gtr Ac Mics): LCL/3+4 (mode=ST)
-- Ch9 (Bass): USB/9-10
-- Ch10 (Keyboard): USB/11-12
-- Ch11 (Synth/Piano): USB/13-14
-- Ch12 (Drums): USB/15-16
-- Ch13 (Tape Playback): USB/3-4 (mode=ST)
+See `studio.edn` :stereo-pairs for current stereo source assignments.
 
 Commands:
 - "link drums" → ensure ch13 panned hard left, ch14 hard right, faders matched
@@ -124,7 +118,7 @@ Reassign the Wing's analog and digital outputs for different workflows.
 
 - "route bus 3 to analog out 3" → `/io/out/LCL/3/grp s "BUS"`, `/io/out/LCL/3/in i 5`
 - "stem export mode" → reassign USB outputs so each bus goes to its own stereo pair for multitrack export
-- "restore default routing" → reset outputs to match connections.csv
+- "restore default routing" → reset outputs to match `studio.edn` :wing-io
 - "what's going to output 1?" → query `/io/out/LCL/1/grp` and `/io/out/LCL/1/in`
 
 Default output assignments:
@@ -179,7 +173,7 @@ The Wing has a built-in talkback system via `/cfg/talk/...`:
 - "I'm not hearing guitar" → check ch1/ch2 mute states, fader levels, input source assignment (`/ch/N/in/conn/grp`), bus routing, main assign (`/ch/N/main/1/on`), insert state. Report what's wrong.
 - "there's a buzz" → likely a ground loop or cable issue. Check polarity flip as a quick test: `/ch/N/in/set/inv i 1`. Guide through systematic isolation (mute channels one by one).
 - "the outboard sounds weird" → query ch1 and ch2 fader levels, check if bus 1 send is active and at proper level, verify ch2 input source is still LCL/2, check insert state, check processing order
-- "something changed" → run verify against RECORDING-CONFIG.md, diff current state against last backup. Use node discovery (`/ch/N`) to inspect full channel state.
+- "something changed" → run verify against `studio.edn`, diff current state against last backup. Use node discovery (`/ch/N`) to inspect full channel state.
 - "phase issues" → flip polarity on one channel of a pair, listen for improvement. Try adding small delays to align. Use all-pass filter (`/ch/N/flt/mdl s "AP1"`) for phase rotation at specific frequencies.
 - "vocals are thin" → could be phase cancellation between ch3 (dry) and ch4 (processed) if both are going to main. Check polarity, check delay alignment, or mute one.
 - "what model is loaded?" → query `/ch/N/eq/mdl`, `/ch/N/dyn/mdl`, `/ch/N/gate/mdl`, `/ch/N/flt/mdl` to see what plugins are on each section

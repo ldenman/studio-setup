@@ -11,7 +11,7 @@ Full studio reset. Run once after power-on or when things get out of whack.
 - Assign input sources (ensure ch 1-8 = LCL 1-8, ch 9-16 = LCL 9-16)
 - Configure bus assignments (DRY channels to buses for analog outs)
 - Reset all EQ, gate, and dynamics to flat/off
-- Confirm Wing Rack state matches connections.csv
+- Confirm Wing Rack state matches `studio.edn`
 
 ### new-song.sh [song-name] [bpm]
 Create a fresh starting point for a new song.
@@ -123,7 +123,7 @@ Dump the full Wing Rack state to a file.
 
 ### verify-state.sh
 Compare current Wing state against expected config.
-- Read connections.csv and RECORDING-CONFIG.md
+- Read `studio.edn`
 - Query each channel name, color, input source, and bus assignment
 - Report any differences
 - Exit with error code if anything is out of spec
@@ -135,7 +135,7 @@ Compare two backup files to see what changed between sessions.
 
 ### logic-template-sync.sh
 Keep Logic Pro template in sync with Wing Rack config.
-- Read channel assignments from connections.csv
+- Read channel assignments from `studio.edn`
 - Generate a Logic Pro project template with matching track names and colors
 - Ensures DAW and mixer always agree
 

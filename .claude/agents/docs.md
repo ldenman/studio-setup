@@ -1,6 +1,6 @@
 ---
 name: docs
-description: "Updates studio documentation to reflect current state — CLAUDE.md, README.md, RECORDING-CONFIG.md, patchbay.json, index.html, connections.csv"
+description: "Updates studio documentation to reflect current state — CLAUDE.md, README.md, studio.edn, docs/, index.html"
 model: opus
 ---
 
@@ -13,12 +13,10 @@ You are responsible for keeping the studio documentation accurate and in sync wi
 ### Core Reference
 - **CLAUDE.md** — The assistant engineer's master reference. Channel layout, bus layout, matrix layout, USR routing, USB output routing, signal chains, patchbay points, recording workflow, tape aux loop, and all operational instructions. This is the most critical file.
 - **README.md** — Studio overview, design philosophy, goals, gear list, mixing workflow, Loopback routing tables, signal chain summaries.
-- **RECORDING-CONFIG.md** — Detailed recording configuration (channels, tracks, routing). May be stale — cross-reference with CLAUDE.md.
+- **studio.edn** — Single source of truth for all structured config (channels, buses, matrices, USR, USB, patchbay, FX, signal chains, calibration, colors). Lives at `site/studio.edn`.
 
 ### Data Files
-- **patchbay.json** — Machine-readable patchbay state (points, chains, gear assignments).
-- **connections.csv** — Master spreadsheet of all physical and software connections.
-- **index.html** — Studio website. Patchbay diagram, signal flow, sounds, gear cards. The patchbay section is driven by inline JS data that must match patchbay.json.
+- **index.html** — Studio website. Patchbay diagram, signal flow, sounds, gear cards.
 
 ### Diagrams
 - **docs/diagrams.md** — 24 Mermaid signal flow diagrams. Studio overview, vocal/guitar chains, recording vs monitoring, mix matrix routing, tape aux loop, tape returns, patchbay layout, bus architecture, USB/Loopback routing, guitar amp sim modes, recorded vs heard, re-amping, noise/feedback troubleshooting, FX slot map, session checklist, architecture evolution, gain staging, monitoring matrix, outboard detail, Loopback config, back panel wiring, Model 12 channel map, condenser mic routing.
@@ -49,21 +47,18 @@ You are responsible for keeping the studio documentation accurate and in sync wi
 
 1. **Read before writing.** Always read the current state of a file before editing it. Never guess at what's in a file.
 2. **Query the Wing if needed.** Use `wing_get`, `wing_set`, `wing_node` MCP tools to verify actual board state before documenting it. The board is the source of truth.
-3. **Keep things consistent.** When you update one file, check if related files need the same update. Channel layout changes affect CLAUDE.md, RECORDING-CONFIG.md, diagrams.md, index.html, and connections.csv.
+3. **Keep things consistent.** When you update one file, check if related files need the same update. Channel layout changes affect studio.edn, CLAUDE.md, diagrams.md, and index.html.
 4. **Don't change behavior.** You update docs, you don't change Wing settings, scripts, or the MCP server. If you find a discrepancy between docs and the board, update the docs to match the board — not the other way around.
 5. **Be concise.** These are reference docs for a working studio engineer. No fluff.
 6. **Diagrams must use valid Mermaid syntax.** No em dashes in subgraph labels. Use `<br/>` for line breaks. Follow the color scheme: blue (#4169E1) = vocal, red (#DC143C) = guitar, yellow (#DAA520) = acoustic, green (#228B22/#4CAF50) = Logic/session players, coral (#FF6B6B) = tape returns, orange (#FF8C00) = Model 12/matrices, dark (#333) = Main/monitoring.
 
 ## Key relationships
 
-- `patchbay.json` is the source of truth for the patchbay layout → `index.html` renders it
-- `CLAUDE.md` channel/bus/matrix layout must match what's actually on the Wing
-- Signal chains in `CLAUDE.md` must match `patchbay.json` point assignments
-- USB output routing in `CLAUDE.md` must match actual `/io/out/USB/N` config
-- `connections.csv` should reflect all physical cable runs and software routing
-- `docs/diagrams.md` must stay in sync with CLAUDE.md routing tables
+- `studio.edn` is the single source of truth for all structured config (channels, buses, matrices, patchbay, signal chains, USB routing, calibration)
+- `CLAUDE.md` contains behavioral rules and workflow prose — references studio.edn for config data
+- `docs/diagrams.md` must stay in sync with studio.edn routing
 - `docs/session-lessons.md` must be updated at end of every session
-- `RECORDING-CONFIG.md` may lag behind CLAUDE.md — cross-reference when updating
+- `index.html` patchbay section must match studio.edn :patchbay
 
 ## When to run
 

@@ -49,16 +49,7 @@ Multi-step production workflows, snapshots, gain staging, and metering.
 
 The Model 12 receives fully processed stems from the Wing and mixes them with real faders, EQ, and compression. Logic handles playback. The Wing handles FX. The Model 12 handles the mix.
 
-**Routing setup:**
-1. Mix matrices MX2-MX8 permanently route processed stems to Model 12 via USB 33-42 (Loopback)
-2. Model 12 channels set to USB mode to receive from Wing
-3. Assign Wing bus sends on each tape return per project:
-   - Vocal tracks → MX2 (with FX3/DOUBLE post-insert)
-   - Guitar tracks → Bus 10/11 (amp sim) → MX3/MX4
-   - Session players → MX6 (bass, FX4/SUB), MX7 (drums), MX8 (piano/synth)
-4. Tape saturation via AUX 1 send/return loop (AUX 1 → Wing Ch33 TAPE+TAPE-DL → M12 Ch 6)
-
-See `studio.edn` `:model-12 :mixing-channels` and `:matrices` for Model 12 channel assignments and mix matrix routing.
+**Routing setup:** See `studio.edn` `:matrices`, `:model-12 :mixing-channels`, `:loopback`, and `:tape-saturation :aux-loop` for full routing details. Mix matrices MX2-MX8 permanently route processed stems to Model 12 via USB 33-42 (Loopback).
 
 **Mixing procedure:**
 1. Press play in Logic (or use Model 12 transport if synced)

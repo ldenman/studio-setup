@@ -3,7 +3,7 @@
 What I can help with during a session, how the MCP server enables it, and what's outside my reach.
 
 ## Before You Play
-- **Board reset and setup** — reset the Wing to a known state, set channel names/colors, verify routing matches RECORDING-CONFIG.md
+- **Board reset and setup** — reset the Wing to a known state, set channel names/colors, verify routing matches `studio.edn`
 - **Load a starting template** — "set up for tracking" or "set up for mixing" to get the board ready for the task at hand
 - **Tune the room** — set up monitor routing, cue mixes, talkback, headphone feeds before anyone plugs in
 - **BPM and sync** — set tempo, calculate delay times, push sync to all time-based FX

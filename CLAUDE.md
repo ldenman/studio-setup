@@ -26,98 +26,44 @@ See `studio.edn` for complete channel layout, bus layout, matrix layout, USR rou
 
 ## Recording Workflow
 
-Logic Pro is the primary multi-track recorder. Songs are built up layer by layer:
+Logic Pro is the primary multi-track recorder. Songs are built up layer by layer — first pass records through outboard, overdubs play back from Logic with per-track FX, mixing sends processed stems to the Model 12 via matrices. See `studio.edn` for all channel/bus/matrix/USB routing details.
 
-1. **First pass**: Record vocals and/or guitar through the outboard chain. Logic captures clean outboard signal (gate + EQ/compression + de-esser) via USB. Unlimited tracks, non-destructive editing, full undo, take comping.
-2. **Overdubs**: Previous takes play back from Logic through Ch25-32 (tape returns) with per-track FX (reverb, amp sims via bus sends). Record new takes simultaneously — live inputs and playback use independent signal paths.
-3. **Mixing**: Logic plays back all tracks. The Wing adds FX and sends processed stems to the Model 12 via matrices (MX2-MX8) for hands-on analog mixing. Model 12 captures stereo mixdown on tracks 11/12.
-
-**What the musician hears during tracking (headphones):**
-- Ch25-32 (Tape Returns): individual track playback from Logic with per-track FX (reverb, amp sims as needed). Outboard is already baked in.
-- Ch9-12 (Bass, Keys, Synth, Drums): Logic session players heard directly on the Wing
-- Ch17/Ch18 (Vocal/Guitar Processed): live performance through the outboard chain
-- All summed to Main 1 → headphones. **Speakers must be muted during tracking with open mics** (`/mtx/1/mute i 1`) to prevent acoustic feedback.
-
-**No mode switching needed.** Tape returns (Ch25-32) and live inputs (Ch1/Ch2 → outboard → Ch17/Ch18) use completely independent signal paths. Everything runs simultaneously — previous takes play back with FX while new ones record through outboard. No muting, no snapshots, no scripts.
-
-**No feedback loop (by default):** Recording outputs (USB 1-6) go to Logic, not Model 12. Tape return channels are on Main 1 for monitoring but never re-enter the recording path. USB 3 (re-amp) must be OFF when not in use.
-
-The Wing handles:
-- Preamp gain for live instruments (Ch1 vocal, Ch2 guitar, Ch6 condensers)
-- Outboard chains for live performance (Ch1/Ch2 → Ch17/Ch18) — independent of tape returns
-- Guitar amp sim modes via Bus 5 (Electric) and Bus 6 (Acoustic) before outboard
-- Per-track FX on tape returns (reverb, amp sims as needed via bus sends)
-- Mixing Logic's session players directly (Ch9-12 on Main 1; not recorded to Model 12)
-- Summing everything to Main 1 for headphone monitoring
+**Key principles:**
+- **No mode switching needed.** Tape returns and live inputs use completely independent signal paths. Everything runs simultaneously.
+- **No feedback loop (by default).** Recording outputs go to Logic, not Model 12. Tape returns monitor on Main 1 but never re-enter the recording path. USB 3 (re-amp) must be OFF when not in use.
+- **Speakers must be muted during tracking with open mics** (`/mtx/1/mute i 1`) to prevent acoustic feedback.
 
 Logic handles tape saturation via IK Multimedia T-RackS Tape Machine plugin on every playback track. Per-track tape settings, zero latency, zero phase issues.
 
-The Model 12 receives processed stems from the Wing during mixing and captures its stereo mixdown on tracks 11/12.
-
 ### Reference Track A/B
 
-Ch8 (Reference) receives a commercial mix from Logic on USB 27-28 for A/B comparison against your rough mix. Level-matched using `wingctl meter all`.
+Ch8 receives a commercial reference mix for A/B comparison. Level-matched using `wingctl meter all`. See `studio.edn` :channels 8 for routing. Mute Ch8 to hear your mix, unmute to compare, solo to isolate.
 
-**Setup:**
-1. Import the reference track into Logic on a dedicated stereo output routed to USB 27-28
-2. Ch8 receives USB/27-28 in stereo, assigned to Main 1
-3. Ch8 is NOT routed to any matrix — it stays out of the Model 12 mixdown
-4. Level-match: play both your mix and the reference, adjust Ch8 fader until `wingctl meter all` shows matched levels on Main 1
-
-**A/B workflow:**
-- **Mute Ch8** = hear only your mix
-- **Unmute Ch8** = hear the reference stacked on top for comparison
-- **Solo Ch8** = hear only the reference in isolation
-- Compare: vocal level, guitar tone, low-end balance, stereo width, overall loudness
-
-**Current reference:** Bob Dylan — Knockin' on Heaven's Door (original). Sparse singer-songwriter arrangement — good baseline for vocal/guitar balance.
+**Current reference:** Bob Dylan — Knockin' on Heaven's Door (original).
 
 ### Re-amping / Re-processing Tracks
 
-To process a previously recorded dry track through the Wing's amp sims and outboard chain:
+See `studio.edn` :signal-chains :reamp for the full signal path and :usr 8 for USR/8 setup.
 
-1. **Solo the track on the Model 12** — mute all other tracks so only the dry recording plays back
-2. **Model 12 playback** → Ch13 (Tape Playback) on the Wing
-3. **Route Ch13 to an amp sim bus**: `/ch/13/send/5/on i 1`, `/ch/13/send/5/lvl f 0.0`, `/ch/13/send/5/mode s "PRE"` (Bus 5 = Electric amp sim)
-4. **Signal path**: Ch13 → Bus 5 (amp sim) → Bus 2 → Out 2 → outboard (HA73 B → WA76 B → Distressor) → Ch18 (processed return)
-5. **Record the processed signal back**: USR/8 taps Ch18 → USB 3 → Loopback → Model 12 (any free track in USB mode)
-6. **Unmute Ch18** to monitor the processed signal during the pass
-7. **Adjust levels**: Ch13 send level controls what hits the amp sim, outboard input gain may need adjusting. Target under -12dB on the Model 12's recording meter.
+**Procedure:** Solo the dry track on Model 12, route through amp sim bus and outboard, record processed signal via USR/8 → USB 3 → Loopback → Model 12.
 
-**USR/8 setup** (re-amp output):
-- `/io/in/USR/8/user/grp s "CH"`, `/io/in/USR/8/user/in i 18`, `/io/in/USR/8/user/tap s "PRE"`, `/io/in/USR/8/user/lr s "L+R"`
-- `/io/out/USB/3/grp s "USR"`, `/io/out/USB/3/in i 8`
-
-**After re-amping**: disable Ch13's send to Bus 5 (`/ch/13/send/5/on i 0`), mute Ch18, turn off USB 3 (`/io/out/USB/3/grp s "OFF"`) — the outboard noise floor leaks through USB 3 even when Ch18 is muted. Restore Model 12 track mutes.
+**After re-amping**: disable the amp sim send, mute Ch18, turn off USB 3 (`/io/out/USB/3/grp s "OFF"`) — outboard noise floor leaks through USB 3 even when Ch18 is muted.
 
 ## Transport Sync (Model 12 → Logic)
 
-The Model 12 is the **master**. It sends MTC (MIDI Timecode) and MIDI clock to Logic Pro via USB MIDI. Logic slaves to the Model 12's transport — press play on the Model 12 and Logic follows.
+The Model 12 is the **master** (MTC + MIDI clock). Logic slaves to it. See `studio.edn` :transport for Logic sync settings.
 
-**Why this matters:** The Model 12 is the tape machine. It controls when recording starts and stops. Logic just provides the session players (bass, keys, synth, drums) as a backing track. The Model 12 owns the timeline.
-
-**Critical Logic setting:** File → Project Settings → Synchronization → General → **"Bar Position 1 1 1 1 plays at SMPTE"** must be set to **`00:00:00:00.00`**. The default is `01:00:00:00` (1-hour offset, an old SMPTE convention). The Model 12 sends MTC starting at `00:00:00:00`, so if Logic has the 1-hour offset, it calculates the incoming timecode as negative bars (e.g., bar -9) because it thinks bar 1 hasn't happened yet. Setting it to `00:00:00:00.00` aligns them.
-
-**Other Logic sync settings (File → Project Settings → Synchronization → MIDI tab):**
-- Listen to MMC input: ON
-- Clock Start at position: 1 1 1 1
-- Sync button in transport: Auto Sync In enabled
-
-**If Logic jumps to negative bars when Model 12 starts:** Check the SMPTE offset — it's almost certainly drifted from `00:00:00:00.00`.
+**Critical Logic setting:** "Bar Position 1 1 1 1 plays at SMPTE" must be `00:00:00:00.00` (not the default `01:00:00:00`). If Logic jumps to negative bars, check this offset.
 
 ## Guitar Monitoring Modes
 
-Ch2 sends to two amp sim buses. Mute/unmute to switch:
-- **Electric**: Ch2 → Bus 5 (FX1 DELUXE for rhythm; for lead, route through Bus 11/FX12 ANGEL) → Bus 2 → outboard → Ch18
-- **Acoustic DI**: Ch2 → Bus 6 (FX11 RACKAMP clean/bright) → Bus 2 → outboard → Ch18
-- **Acoustic Mics**: Ch6 (LCL/3+4 stereo condensers) → Bus 6 (RACKAMP) → Bus 2 → outboard → Ch18
-- **Acoustic DI direct** (no outboard): Ch5 via USR/5, clean, assigned to main
+Four modes — switch by muting/unmuting amp sim buses. See `studio.edn` :signal-chains for full paths and :buses 5/6 for amp sim config.
+- **Electric**: Bus 5 (DELUXE rhythm / ANGEL lead) → outboard → Ch18
+- **Acoustic DI**: Bus 6 (RACKAMP) → outboard → Ch18
+- **Acoustic Mics**: Ch6 → Bus 6 → outboard → Ch18
+- **Acoustic DI direct**: Ch5 via USR/5, clean, no outboard
 
-**Guitar recording modes:**
-- **With amp sim:** Bus 5 or 6 unmuted, Ch2→Bus 2 send OFF.
-- **Clean DI (no amp sim):** Bus 5+6 muted, Ch2→Bus 2 send ON.
-
-See `studio.edn` :signal-chains for full signal path details and :channels/:buses for routing config.
+**Recording:** With amp sim = Bus 5/6 unmuted, Ch2→Bus 2 send OFF. Clean DI = Bus 5+6 muted, Ch2→Bus 2 send ON.
 
 ## How to Talk to the Wing
 
@@ -275,6 +221,27 @@ tools/wingctl info
 - When something needs verifying, query the Wing and confirm before reporting
 - Always use `/io/in/LCL/N/...` for names and colors, `/ch/N/...` for everything else
 - Keep responses short. You're in a session — don't waste time talking when you could be doing.
+
+## !IMPORTANT! — NO LIES Policy
+
+**All website content must be factually accurate. No exceptions.**
+
+Every blog post, page, and piece of copy must pass through the `no-lies` agent before publishing. This is mandatory — not optional, not "when convenient." Every time.
+
+**Workflow:**
+1. Content is written (by blog, copy, or any other agent)
+2. **Before committing**, spawn the `no-lies` agent to audit the content
+3. Fix every finding rated CRITICAL or HIGH
+4. MEDIUM findings: fix or flag for Lake's review
+5. Only then commit and deploy
+
+**The `no-lies` agent:**
+- Lives at `.claude/agents/no-lies.md`
+- Reads `studio.edn` as source of truth
+- Tracks all findings in `docs/content-audit.md` (the permanent ledger)
+- Must be run on: new blog posts, page edits, any content change
+
+**If you skip the lie detector, you are violating a direct instruction.**
 
 ## !IMPORTANT! — Listen and Execute
 
